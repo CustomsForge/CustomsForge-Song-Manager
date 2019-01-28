@@ -364,7 +364,12 @@ namespace CustomsForgeSongManager.LocalTools
                 if (!String.IsNullOrEmpty(dlDirPath))
                 {
                     Globals.Log("Repairing CDLC files from: " + dlDirPath + " ...");
-                    srcFilePaths = Directory.EnumerateFiles(dlDirPath, "*.psarc").ToList();
+                    srcFilePaths = Directory.EnumerateFiles(dlDirPath, "*.psarc", SearchOption.TopDirectoryOnly)
+                        .Where(fi => !fi.ToLower().Contains(Constants.RS1COMP) && // ignore compatibility packs
+                        !fi.ToLower().Contains(Constants.SONGPACK) && // ignore songpacks
+                        !fi.ToLower().Contains(Constants.ABVSONGPACK) && // ignore _sp_
+                        !fi.ToLower().Contains("inlay")) // ignore inlays
+                        .ToList();
                 }
                 else
                     Globals.Log("<ERROR> 'Downloads' folder path is not set properly ...");

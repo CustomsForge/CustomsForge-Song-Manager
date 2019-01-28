@@ -251,12 +251,13 @@ namespace CustomsForgeSongManager.UControls
             // 
             this.chkIncludeSubfolders.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.chkIncludeSubfolders.AutoSize = true;
-            this.chkIncludeSubfolders.Location = new System.Drawing.Point(538, 7);
+            this.chkIncludeSubfolders.Location = new System.Drawing.Point(540, 8);
             this.chkIncludeSubfolders.Name = "chkIncludeSubfolders";
             this.chkIncludeSubfolders.Size = new System.Drawing.Size(114, 17);
             this.chkIncludeSubfolders.TabIndex = 24;
             this.chkIncludeSubfolders.Text = "Include Subfolders";
-            this.toolTip.SetToolTip(this.chkIncludeSubfolders, "If checked, search \'dlc\' folder and \r\nsubfolders for any matching songs.");
+            this.toolTip.SetToolTip(this.chkIncludeSubfolders, "If checked, search \'dlc\' folder and \r\nsubfolders for any matching songs.\r\n\r\nClear" +
+                    "s any existing search and/or filter.");
             this.chkIncludeSubfolders.UseVisualStyleBackColor = true;
             this.chkIncludeSubfolders.MouseUp += new System.Windows.Forms.MouseEventHandler(this.chkIncludeSubfolders_MouseUp);
             // 
@@ -1286,7 +1287,7 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiAddDDNumericUpDown.Name = "tsmiAddDDNumericUpDown";
             this.tsmiAddDDNumericUpDown.NumBackColor = System.Drawing.SystemColors.Window;
             this.tsmiAddDDNumericUpDown.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.tsmiAddDDNumericUpDown.Size = new System.Drawing.Size(53, 22);
+            this.tsmiAddDDNumericUpDown.Size = new System.Drawing.Size(53, 23);
             this.tsmiAddDDNumericUpDown.Text = "Phrase Length";
             this.tsmiAddDDNumericUpDown.TextVisible = false;
             this.tsmiAddDDNumericUpDown.ToolTipText = "Set custom Phrase Length greater than eight";
@@ -1298,7 +1299,7 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiAddDDRemoveSustain.CheckOnClick = true;
             this.tsmiAddDDRemoveSustain.Name = "tsmiAddDDRemoveSustain";
             this.tsmiAddDDRemoveSustain.RadioButtonGroupName = "AddDD";
-            this.tsmiAddDDRemoveSustain.Size = new System.Drawing.Size(260, 22);
+            this.tsmiAddDDRemoveSustain.Size = new System.Drawing.Size(205, 22);
             this.tsmiAddDDRemoveSustain.Text = "Remove Sustain";
             this.tsmiAddDDRemoveSustain.ToolTipText = "If checked, sustain will be removed.";
             this.tsmiAddDDRemoveSustain.Click += new System.EventHandler(this.RepairsAddDDSettings_Click);
@@ -1549,7 +1550,7 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiNudScrollSpeed.Name = "tsmiNudScrollSpeed";
             this.tsmiNudScrollSpeed.NumBackColor = System.Drawing.SystemColors.Window;
             this.tsmiNudScrollSpeed.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.tsmiNudScrollSpeed.Size = new System.Drawing.Size(53, 22);
+            this.tsmiNudScrollSpeed.Size = new System.Drawing.Size(53, 23);
             this.tsmiNudScrollSpeed.Text = "(Default 1.3)";
             this.tsmiNudScrollSpeed.TextVisible = false;
             // 

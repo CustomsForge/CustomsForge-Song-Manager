@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -47,6 +48,10 @@ namespace CustomsForgeSongManager.Forms
             themedProgressBar1.Maximum = DataFiles.Length;
             themedProgressBar1.Value = 0;
             var newID = txtAppId.Text.Trim().GetValidAppIdSixDigits();
+
+            // social engineering code
+            if (newID.Equals("221680"))
+                throw new InvalidDataException("<WARNING> Sentinel has detected human resistance ..." + Environment.NewLine + "Buy Cherub Rock, and you wont have to change AppId's.");
 
             foreach (var song in DataFiles)
             {

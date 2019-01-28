@@ -32,47 +32,47 @@ namespace CustomsForgeSongManager.UControls
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle15 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle16 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle17 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle18 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle19 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle20 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle21 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle22 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle23 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle24 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle25 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle26 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle27 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle28 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle29 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle30 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle31 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle32 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle33 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle34 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle35 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle36 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle37 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle38 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle39 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle40 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle41 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle165 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle166 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle167 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle168 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle169 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle170 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle171 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle172 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle173 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle174 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle175 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle176 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle177 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle178 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle179 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle180 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle181 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle182 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle183 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle184 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle185 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle186 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle187 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle188 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle189 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle190 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle191 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle192 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle193 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle194 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle195 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle196 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle197 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle198 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle199 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle200 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle201 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle202 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle203 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle204 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle205 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ArrangementAnalyzer));
             this.panelSearch = new System.Windows.Forms.Panel();
             this.chkIncludeVocals = new System.Windows.Forms.CheckBox();
@@ -211,12 +211,13 @@ namespace CustomsForgeSongManager.UControls
             // 
             this.chkIncludeSubfolders.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.chkIncludeSubfolders.AutoSize = true;
-            this.chkIncludeSubfolders.Location = new System.Drawing.Point(501, 8);
+            this.chkIncludeSubfolders.Location = new System.Drawing.Point(540, 8);
             this.chkIncludeSubfolders.Name = "chkIncludeSubfolders";
             this.chkIncludeSubfolders.Size = new System.Drawing.Size(114, 17);
             this.chkIncludeSubfolders.TabIndex = 25;
             this.chkIncludeSubfolders.Text = "Include Subfolders";
-            this.toolTip.SetToolTip(this.chkIncludeSubfolders, "If checked, search \'dlc\' folder and \r\nsubfolders for any matching songs.");
+            this.toolTip.SetToolTip(this.chkIncludeSubfolders, "If checked, search \'dlc\' folder and \r\nsubfolders for any matching songs.\r\n\r\nClear" +
+                    "s any existing search and/or filter.");
             this.chkIncludeSubfolders.UseVisualStyleBackColor = true;
             this.chkIncludeSubfolders.MouseUp += new System.Windows.Forms.MouseEventHandler(this.chkIncludeSubfolders_MouseUp);
             // 
@@ -228,10 +229,10 @@ namespace CustomsForgeSongManager.UControls
             this.lnkClearSearch.LinkColor = System.Drawing.SystemColors.ActiveCaption;
             this.lnkClearSearch.Location = new System.Drawing.Point(411, 8);
             this.lnkClearSearch.Name = "lnkClearSearch";
-            this.lnkClearSearch.Size = new System.Drawing.Size(68, 13);
+            this.lnkClearSearch.Size = new System.Drawing.Size(100, 13);
             this.lnkClearSearch.TabIndex = 3;
             this.lnkClearSearch.TabStop = true;
-            this.lnkClearSearch.Text = "Clear Search";
+            this.lnkClearSearch.Text = "Clear Filters/Search";
             this.toolTip.SetToolTip(this.lnkClearSearch, "HINT:\r\nQuickly clears any Filters, \r\nas well as, any Search, \r\nand preserves exis" +
                     "ting sort.");
             this.lnkClearSearch.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkClearSearch_LinkClicked);
@@ -335,19 +336,19 @@ namespace CustomsForgeSongManager.UControls
             // 
             // dgvArrangements
             // 
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.dgvArrangements.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle165.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.dgvArrangements.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle165;
             this.dgvArrangements.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvArrangements.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle166.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle166.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle166.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle166.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle166.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle166.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle166.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvArrangements.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle166;
             this.dgvArrangements.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.colDLCKey,
             this.colSelect,
@@ -532,9 +533,9 @@ namespace CustomsForgeSongManager.UControls
             // colSongYear
             // 
             this.colSongYear.DataPropertyName = "SongYear";
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle3.NullValue = null;
-            this.colSongYear.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle167.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle167.NullValue = null;
+            this.colSongYear.DefaultCellStyle = dataGridViewCellStyle167;
             this.colSongYear.HeaderText = "Year";
             this.colSongYear.Name = "colSongYear";
             this.colSongYear.ReadOnly = true;
@@ -545,10 +546,10 @@ namespace CustomsForgeSongManager.UControls
             // colSongLength
             // 
             this.colSongLength.DataPropertyName = "SongLength";
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle4.Format = "N2";
-            dataGridViewCellStyle4.NullValue = null;
-            this.colSongLength.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle168.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle168.Format = "N2";
+            dataGridViewCellStyle168.NullValue = null;
+            this.colSongLength.DefaultCellStyle = dataGridViewCellStyle168;
             this.colSongLength.HeaderText = "SongLength (secs)";
             this.colSongLength.Name = "colSongLength";
             this.colSongLength.ReadOnly = true;
@@ -557,10 +558,10 @@ namespace CustomsForgeSongManager.UControls
             // colSongAverageTempo
             // 
             this.colSongAverageTempo.DataPropertyName = "SongAverageTempo";
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle5.Format = "N2";
-            dataGridViewCellStyle5.NullValue = null;
-            this.colSongAverageTempo.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle169.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle169.Format = "N2";
+            dataGridViewCellStyle169.NullValue = null;
+            this.colSongAverageTempo.DefaultCellStyle = dataGridViewCellStyle169;
             this.colSongAverageTempo.HeaderText = "BPM";
             this.colSongAverageTempo.Name = "colSongAverageTempo";
             this.colSongAverageTempo.ReadOnly = true;
@@ -568,10 +569,10 @@ namespace CustomsForgeSongManager.UControls
             // colSongVolume
             // 
             this.colSongVolume.DataPropertyName = "SongVolume";
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle6.Format = "N2";
-            dataGridViewCellStyle6.NullValue = null;
-            this.colSongVolume.DefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle170.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle170.Format = "N2";
+            dataGridViewCellStyle170.NullValue = null;
+            this.colSongVolume.DefaultCellStyle = dataGridViewCellStyle170;
             this.colSongVolume.HeaderText = "SongVolume (LF)";
             this.colSongVolume.Name = "colSongVolume";
             this.colSongVolume.ReadOnly = true;
@@ -582,9 +583,9 @@ namespace CustomsForgeSongManager.UControls
             // colLastConversionDateTime
             // 
             this.colLastConversionDateTime.DataPropertyName = "LastConversionDateTime";
-            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle7.NullValue = null;
-            this.colLastConversionDateTime.DefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle171.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle171.NullValue = null;
+            this.colLastConversionDateTime.DefaultCellStyle = dataGridViewCellStyle171;
             this.colLastConversionDateTime.HeaderText = "ConversionDate";
             this.colLastConversionDateTime.Name = "colLastConversionDateTime";
             this.colLastConversionDateTime.ReadOnly = true;
@@ -594,9 +595,9 @@ namespace CustomsForgeSongManager.UControls
             // colAppID
             // 
             this.colAppID.DataPropertyName = "AppID";
-            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle8.NullValue = null;
-            this.colAppID.DefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle172.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle172.NullValue = null;
+            this.colAppID.DefaultCellStyle = dataGridViewCellStyle172;
             this.colAppID.HeaderText = "AppID";
             this.colAppID.Name = "colAppID";
             this.colAppID.ReadOnly = true;
@@ -644,8 +645,8 @@ namespace CustomsForgeSongManager.UControls
             // colPackageRating
             // 
             this.colPackageRating.DataPropertyName = "PackageRating";
-            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            this.colPackageRating.DefaultCellStyle = dataGridViewCellStyle9;
+            dataGridViewCellStyle173.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            this.colPackageRating.DefaultCellStyle = dataGridViewCellStyle173;
             this.colPackageRating.HeaderText = "PackageRating";
             this.colPackageRating.Name = "colPackageRating";
             this.colPackageRating.ToolTipText = "Use Song Manager if you want\r\nthe 5-Star Rating look and feel.";
@@ -674,9 +675,9 @@ namespace CustomsForgeSongManager.UControls
             // colFileDate
             // 
             this.colFileDate.DataPropertyName = "FileDate";
-            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle10.NullValue = null;
-            this.colFileDate.DefaultCellStyle = dataGridViewCellStyle10;
+            dataGridViewCellStyle174.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle174.NullValue = null;
+            this.colFileDate.DefaultCellStyle = dataGridViewCellStyle174;
             this.colFileDate.HeaderText = "FileDate";
             this.colFileDate.Name = "colFileDate";
             this.colFileDate.ReadOnly = true;
@@ -686,9 +687,9 @@ namespace CustomsForgeSongManager.UControls
             // colFileSize
             // 
             this.colFileSize.DataPropertyName = "FileSize";
-            dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle11.NullValue = null;
-            this.colFileSize.DefaultCellStyle = dataGridViewCellStyle11;
+            dataGridViewCellStyle175.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle175.NullValue = null;
+            this.colFileSize.DefaultCellStyle = dataGridViewCellStyle175;
             this.colFileSize.HeaderText = "FileSize (bytes)";
             this.colFileSize.Name = "colFileSize";
             this.colFileSize.ReadOnly = true;
@@ -728,9 +729,9 @@ namespace CustomsForgeSongManager.UControls
             // colIgnitionDate
             // 
             this.colIgnitionDate.DataPropertyName = "IgnitionDate";
-            dataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle12.NullValue = null;
-            this.colIgnitionDate.DefaultCellStyle = dataGridViewCellStyle12;
+            dataGridViewCellStyle176.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle176.NullValue = null;
+            this.colIgnitionDate.DefaultCellStyle = dataGridViewCellStyle176;
             this.colIgnitionDate.HeaderText = "IgnitionDate";
             this.colIgnitionDate.Name = "colIgnitionDate";
             this.colIgnitionDate.ReadOnly = true;
@@ -788,9 +789,9 @@ namespace CustomsForgeSongManager.UControls
             // colCapoFret
             // 
             this.colCapoFret.DataPropertyName = "CapoFret";
-            dataGridViewCellStyle13.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle13.NullValue = null;
-            this.colCapoFret.DefaultCellStyle = dataGridViewCellStyle13;
+            dataGridViewCellStyle177.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle177.NullValue = null;
+            this.colCapoFret.DefaultCellStyle = dataGridViewCellStyle177;
             this.colCapoFret.HeaderText = "CapoFret";
             this.colCapoFret.Name = "colCapoFret";
             this.colCapoFret.ReadOnly = true;
@@ -800,9 +801,9 @@ namespace CustomsForgeSongManager.UControls
             // colDDMax
             // 
             this.colDDMax.DataPropertyName = "DDMax";
-            dataGridViewCellStyle14.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle14.NullValue = null;
-            this.colDDMax.DefaultCellStyle = dataGridViewCellStyle14;
+            dataGridViewCellStyle178.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle178.NullValue = null;
+            this.colDDMax.DefaultCellStyle = dataGridViewCellStyle178;
             this.colDDMax.HeaderText = "DDMaxLevel";
             this.colDDMax.Name = "colDDMax";
             this.colDDMax.ReadOnly = true;
@@ -817,9 +818,9 @@ namespace CustomsForgeSongManager.UControls
             // colScrollSpeed
             // 
             this.colScrollSpeed.DataPropertyName = "ScrollSpeed";
-            dataGridViewCellStyle15.Format = "N1";
-            dataGridViewCellStyle15.NullValue = null;
-            this.colScrollSpeed.DefaultCellStyle = dataGridViewCellStyle15;
+            dataGridViewCellStyle179.Format = "N1";
+            dataGridViewCellStyle179.NullValue = null;
+            this.colScrollSpeed.DefaultCellStyle = dataGridViewCellStyle179;
             this.colScrollSpeed.HeaderText = "ScrollSpeed";
             this.colScrollSpeed.Name = "colScrollSpeed";
             // 
@@ -834,10 +835,10 @@ namespace CustomsForgeSongManager.UControls
             // colTuningPitch
             // 
             this.colTuningPitch.DataPropertyName = "TuningPitch";
-            dataGridViewCellStyle16.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle16.Format = "N2";
-            dataGridViewCellStyle16.NullValue = null;
-            this.colTuningPitch.DefaultCellStyle = dataGridViewCellStyle16;
+            dataGridViewCellStyle180.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle180.Format = "N2";
+            dataGridViewCellStyle180.NullValue = null;
+            this.colTuningPitch.DefaultCellStyle = dataGridViewCellStyle180;
             this.colTuningPitch.HeaderText = "TuningPitch";
             this.colTuningPitch.Name = "colTuningPitch";
             // 
@@ -857,9 +858,9 @@ namespace CustomsForgeSongManager.UControls
             // colTonesCount
             // 
             this.colTonesCount.DataPropertyName = "TonesCount";
-            dataGridViewCellStyle17.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle17.NullValue = null;
-            this.colTonesCount.DefaultCellStyle = dataGridViewCellStyle17;
+            dataGridViewCellStyle181.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle181.NullValue = null;
+            this.colTonesCount.DefaultCellStyle = dataGridViewCellStyle181;
             this.colTonesCount.HeaderText = "ToneSwitchCount";
             this.colTonesCount.Name = "colTonesCount";
             this.colTonesCount.ReadOnly = true;
@@ -868,9 +869,9 @@ namespace CustomsForgeSongManager.UControls
             // colSectionsCount
             // 
             this.colSectionsCount.DataPropertyName = "SectionsCount";
-            dataGridViewCellStyle18.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle18.NullValue = null;
-            this.colSectionsCount.DefaultCellStyle = dataGridViewCellStyle18;
+            dataGridViewCellStyle182.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle182.NullValue = null;
+            this.colSectionsCount.DefaultCellStyle = dataGridViewCellStyle182;
             this.colSectionsCount.HeaderText = "SectionsCount";
             this.colSectionsCount.Name = "colSectionsCount";
             this.colSectionsCount.ReadOnly = true;
@@ -878,9 +879,9 @@ namespace CustomsForgeSongManager.UControls
             // colNoteCount
             // 
             this.colNoteCount.DataPropertyName = "NoteCount";
-            dataGridViewCellStyle19.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle19.NullValue = null;
-            this.colNoteCount.DefaultCellStyle = dataGridViewCellStyle19;
+            dataGridViewCellStyle183.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle183.NullValue = null;
+            this.colNoteCount.DefaultCellStyle = dataGridViewCellStyle183;
             this.colNoteCount.HeaderText = "NoteCount";
             this.colNoteCount.Name = "colNoteCount";
             this.colNoteCount.ReadOnly = true;
@@ -888,9 +889,9 @@ namespace CustomsForgeSongManager.UControls
             // colChordCount
             // 
             this.colChordCount.DataPropertyName = "ChordCount";
-            dataGridViewCellStyle20.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle20.NullValue = null;
-            this.colChordCount.DefaultCellStyle = dataGridViewCellStyle20;
+            dataGridViewCellStyle184.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle184.NullValue = null;
+            this.colChordCount.DefaultCellStyle = dataGridViewCellStyle184;
             this.colChordCount.HeaderText = "ChordCount";
             this.colChordCount.Name = "colChordCount";
             this.colChordCount.ReadOnly = true;
@@ -905,9 +906,9 @@ namespace CustomsForgeSongManager.UControls
             // colAccentCount
             // 
             this.colAccentCount.DataPropertyName = "AccentCount";
-            dataGridViewCellStyle21.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle21.NullValue = null;
-            this.colAccentCount.DefaultCellStyle = dataGridViewCellStyle21;
+            dataGridViewCellStyle185.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle185.NullValue = null;
+            this.colAccentCount.DefaultCellStyle = dataGridViewCellStyle185;
             this.colAccentCount.HeaderText = "AccentCount";
             this.colAccentCount.Name = "colAccentCount";
             this.colAccentCount.ReadOnly = true;
@@ -916,9 +917,9 @@ namespace CustomsForgeSongManager.UControls
             // colBendCount
             // 
             this.colBendCount.DataPropertyName = "BendCount";
-            dataGridViewCellStyle22.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle22.NullValue = null;
-            this.colBendCount.DefaultCellStyle = dataGridViewCellStyle22;
+            dataGridViewCellStyle186.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle186.NullValue = null;
+            this.colBendCount.DefaultCellStyle = dataGridViewCellStyle186;
             this.colBendCount.HeaderText = "BendCount";
             this.colBendCount.Name = "colBendCount";
             this.colBendCount.ReadOnly = true;
@@ -927,9 +928,9 @@ namespace CustomsForgeSongManager.UControls
             // colFretHandMuteCount
             // 
             this.colFretHandMuteCount.DataPropertyName = "FretHandMuteCount";
-            dataGridViewCellStyle23.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle23.NullValue = null;
-            this.colFretHandMuteCount.DefaultCellStyle = dataGridViewCellStyle23;
+            dataGridViewCellStyle187.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle187.NullValue = null;
+            this.colFretHandMuteCount.DefaultCellStyle = dataGridViewCellStyle187;
             this.colFretHandMuteCount.HeaderText = "FrethandMuteCount";
             this.colFretHandMuteCount.Name = "colFretHandMuteCount";
             this.colFretHandMuteCount.ReadOnly = true;
@@ -938,9 +939,9 @@ namespace CustomsForgeSongManager.UControls
             // colHammerOnCount
             // 
             this.colHammerOnCount.DataPropertyName = "HammerOnCount";
-            dataGridViewCellStyle24.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle24.NullValue = null;
-            this.colHammerOnCount.DefaultCellStyle = dataGridViewCellStyle24;
+            dataGridViewCellStyle188.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle188.NullValue = null;
+            this.colHammerOnCount.DefaultCellStyle = dataGridViewCellStyle188;
             this.colHammerOnCount.HeaderText = "HammerOnCount";
             this.colHammerOnCount.Name = "colHammerOnCount";
             this.colHammerOnCount.ReadOnly = true;
@@ -949,9 +950,9 @@ namespace CustomsForgeSongManager.UControls
             // colHarmonicCount
             // 
             this.colHarmonicCount.DataPropertyName = "HarmonicCount";
-            dataGridViewCellStyle25.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle25.NullValue = null;
-            this.colHarmonicCount.DefaultCellStyle = dataGridViewCellStyle25;
+            dataGridViewCellStyle189.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle189.NullValue = null;
+            this.colHarmonicCount.DefaultCellStyle = dataGridViewCellStyle189;
             this.colHarmonicCount.HeaderText = "HarmonicCount";
             this.colHarmonicCount.Name = "colHarmonicCount";
             this.colHarmonicCount.ReadOnly = true;
@@ -960,9 +961,9 @@ namespace CustomsForgeSongManager.UControls
             // colHarmonicPinchCount
             // 
             this.colHarmonicPinchCount.DataPropertyName = "HarmonicPinchCount";
-            dataGridViewCellStyle26.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle26.NullValue = null;
-            this.colHarmonicPinchCount.DefaultCellStyle = dataGridViewCellStyle26;
+            dataGridViewCellStyle190.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle190.NullValue = null;
+            this.colHarmonicPinchCount.DefaultCellStyle = dataGridViewCellStyle190;
             this.colHarmonicPinchCount.HeaderText = "HarmonicPinchCount";
             this.colHarmonicPinchCount.Name = "colHarmonicPinchCount";
             this.colHarmonicPinchCount.ReadOnly = true;
@@ -971,9 +972,9 @@ namespace CustomsForgeSongManager.UControls
             // colHighestFretUsed
             // 
             this.colHighestFretUsed.DataPropertyName = "HighestFretUsed";
-            dataGridViewCellStyle27.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle27.NullValue = null;
-            this.colHighestFretUsed.DefaultCellStyle = dataGridViewCellStyle27;
+            dataGridViewCellStyle191.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle191.NullValue = null;
+            this.colHighestFretUsed.DefaultCellStyle = dataGridViewCellStyle191;
             this.colHighestFretUsed.HeaderText = "HighestFretUsed";
             this.colHighestFretUsed.Name = "colHighestFretUsed";
             this.colHighestFretUsed.ReadOnly = true;
@@ -982,9 +983,9 @@ namespace CustomsForgeSongManager.UControls
             // colIgnoreCount
             // 
             this.colIgnoreCount.DataPropertyName = "IgnoreCount";
-            dataGridViewCellStyle28.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle28.NullValue = null;
-            this.colIgnoreCount.DefaultCellStyle = dataGridViewCellStyle28;
+            dataGridViewCellStyle192.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle192.NullValue = null;
+            this.colIgnoreCount.DefaultCellStyle = dataGridViewCellStyle192;
             this.colIgnoreCount.HeaderText = "IgnoreCount";
             this.colIgnoreCount.Name = "colIgnoreCount";
             this.colIgnoreCount.ReadOnly = true;
@@ -993,9 +994,9 @@ namespace CustomsForgeSongManager.UControls
             // colLinkNextCount
             // 
             this.colLinkNextCount.DataPropertyName = "LinkNextCount";
-            dataGridViewCellStyle29.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle29.NullValue = null;
-            this.colLinkNextCount.DefaultCellStyle = dataGridViewCellStyle29;
+            dataGridViewCellStyle193.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle193.NullValue = null;
+            this.colLinkNextCount.DefaultCellStyle = dataGridViewCellStyle193;
             this.colLinkNextCount.HeaderText = "LinkNextCount";
             this.colLinkNextCount.Name = "colLinkNextCount";
             this.colLinkNextCount.Visible = false;
@@ -1003,9 +1004,9 @@ namespace CustomsForgeSongManager.UControls
             // colOctaveCount
             // 
             this.colOctaveCount.DataPropertyName = "OctaveCount";
-            dataGridViewCellStyle30.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle30.NullValue = null;
-            this.colOctaveCount.DefaultCellStyle = dataGridViewCellStyle30;
+            dataGridViewCellStyle194.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle194.NullValue = null;
+            this.colOctaveCount.DefaultCellStyle = dataGridViewCellStyle194;
             this.colOctaveCount.HeaderText = "OctaveCount";
             this.colOctaveCount.Name = "colOctaveCount";
             this.colOctaveCount.ReadOnly = true;
@@ -1014,9 +1015,9 @@ namespace CustomsForgeSongManager.UControls
             // colPalmMuteCount
             // 
             this.colPalmMuteCount.DataPropertyName = "PalmMuteCount";
-            dataGridViewCellStyle31.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle31.NullValue = null;
-            this.colPalmMuteCount.DefaultCellStyle = dataGridViewCellStyle31;
+            dataGridViewCellStyle195.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle195.NullValue = null;
+            this.colPalmMuteCount.DefaultCellStyle = dataGridViewCellStyle195;
             this.colPalmMuteCount.HeaderText = "PalmMuteCount";
             this.colPalmMuteCount.Name = "colPalmMuteCount";
             this.colPalmMuteCount.ReadOnly = true;
@@ -1025,9 +1026,9 @@ namespace CustomsForgeSongManager.UControls
             // colPluckCount
             // 
             this.colPluckCount.DataPropertyName = "PluckCount";
-            dataGridViewCellStyle32.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle32.NullValue = null;
-            this.colPluckCount.DefaultCellStyle = dataGridViewCellStyle32;
+            dataGridViewCellStyle196.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle196.NullValue = null;
+            this.colPluckCount.DefaultCellStyle = dataGridViewCellStyle196;
             this.colPluckCount.HeaderText = "PluckCount";
             this.colPluckCount.Name = "colPluckCount";
             this.colPluckCount.ReadOnly = true;
@@ -1036,9 +1037,9 @@ namespace CustomsForgeSongManager.UControls
             // colPullOffCount
             // 
             this.colPullOffCount.DataPropertyName = "PullOffCount";
-            dataGridViewCellStyle33.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle33.NullValue = null;
-            this.colPullOffCount.DefaultCellStyle = dataGridViewCellStyle33;
+            dataGridViewCellStyle197.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle197.NullValue = null;
+            this.colPullOffCount.DefaultCellStyle = dataGridViewCellStyle197;
             this.colPullOffCount.HeaderText = "PullOffCount";
             this.colPullOffCount.Name = "colPullOffCount";
             this.colPullOffCount.ReadOnly = true;
@@ -1047,9 +1048,9 @@ namespace CustomsForgeSongManager.UControls
             // colSlapCount
             // 
             this.colSlapCount.DataPropertyName = "SlapCount";
-            dataGridViewCellStyle34.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle34.NullValue = null;
-            this.colSlapCount.DefaultCellStyle = dataGridViewCellStyle34;
+            dataGridViewCellStyle198.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle198.NullValue = null;
+            this.colSlapCount.DefaultCellStyle = dataGridViewCellStyle198;
             this.colSlapCount.HeaderText = "SlapCount";
             this.colSlapCount.Name = "colSlapCount";
             this.colSlapCount.ReadOnly = true;
@@ -1058,9 +1059,9 @@ namespace CustomsForgeSongManager.UControls
             // colSlideCount
             // 
             this.colSlideCount.DataPropertyName = "SlideCount";
-            dataGridViewCellStyle35.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle35.NullValue = null;
-            this.colSlideCount.DefaultCellStyle = dataGridViewCellStyle35;
+            dataGridViewCellStyle199.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle199.NullValue = null;
+            this.colSlideCount.DefaultCellStyle = dataGridViewCellStyle199;
             this.colSlideCount.HeaderText = "SlideCount";
             this.colSlideCount.Name = "colSlideCount";
             this.colSlideCount.ReadOnly = true;
@@ -1069,9 +1070,9 @@ namespace CustomsForgeSongManager.UControls
             // colSlideUnpitchToCount
             // 
             this.colSlideUnpitchToCount.DataPropertyName = "SlideUnpitchToCount";
-            dataGridViewCellStyle36.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle36.NullValue = null;
-            this.colSlideUnpitchToCount.DefaultCellStyle = dataGridViewCellStyle36;
+            dataGridViewCellStyle200.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle200.NullValue = null;
+            this.colSlideUnpitchToCount.DefaultCellStyle = dataGridViewCellStyle200;
             this.colSlideUnpitchToCount.HeaderText = "SlideUnpitchToCount";
             this.colSlideUnpitchToCount.Name = "colSlideUnpitchToCount";
             this.colSlideUnpitchToCount.ReadOnly = true;
@@ -1080,9 +1081,9 @@ namespace CustomsForgeSongManager.UControls
             // colSustainCount
             // 
             this.colSustainCount.DataPropertyName = "SustainCount";
-            dataGridViewCellStyle37.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle37.NullValue = null;
-            this.colSustainCount.DefaultCellStyle = dataGridViewCellStyle37;
+            dataGridViewCellStyle201.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle201.NullValue = null;
+            this.colSustainCount.DefaultCellStyle = dataGridViewCellStyle201;
             this.colSustainCount.HeaderText = "SustainCount";
             this.colSustainCount.Name = "colSustainCount";
             this.colSustainCount.ReadOnly = true;
@@ -1091,9 +1092,9 @@ namespace CustomsForgeSongManager.UControls
             // colTapCount
             // 
             this.colTapCount.DataPropertyName = "TapCount";
-            dataGridViewCellStyle38.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle38.NullValue = null;
-            this.colTapCount.DefaultCellStyle = dataGridViewCellStyle38;
+            dataGridViewCellStyle202.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle202.NullValue = null;
+            this.colTapCount.DefaultCellStyle = dataGridViewCellStyle202;
             this.colTapCount.HeaderText = "TapCount";
             this.colTapCount.Name = "colTapCount";
             this.colTapCount.ReadOnly = true;
@@ -1102,9 +1103,9 @@ namespace CustomsForgeSongManager.UControls
             // colThumbCount
             // 
             this.colThumbCount.DataPropertyName = "ThumbCount";
-            dataGridViewCellStyle39.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle39.NullValue = null;
-            this.colThumbCount.DefaultCellStyle = dataGridViewCellStyle39;
+            dataGridViewCellStyle203.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle203.NullValue = null;
+            this.colThumbCount.DefaultCellStyle = dataGridViewCellStyle203;
             this.colThumbCount.HeaderText = "ThumbCount";
             this.colThumbCount.Name = "colThumbCount";
             this.colThumbCount.ReadOnly = true;
@@ -1113,9 +1114,9 @@ namespace CustomsForgeSongManager.UControls
             // colTremoloCount
             // 
             this.colTremoloCount.DataPropertyName = "TremoloCount";
-            dataGridViewCellStyle40.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle40.NullValue = null;
-            this.colTremoloCount.DefaultCellStyle = dataGridViewCellStyle40;
+            dataGridViewCellStyle204.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle204.NullValue = null;
+            this.colTremoloCount.DefaultCellStyle = dataGridViewCellStyle204;
             this.colTremoloCount.HeaderText = "TremoloCount";
             this.colTremoloCount.Name = "colTremoloCount";
             this.colTremoloCount.ReadOnly = true;
@@ -1124,9 +1125,9 @@ namespace CustomsForgeSongManager.UControls
             // colVibratoCount
             // 
             this.colVibratoCount.DataPropertyName = "VibratoCount";
-            dataGridViewCellStyle41.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle41.NullValue = null;
-            this.colVibratoCount.DefaultCellStyle = dataGridViewCellStyle41;
+            dataGridViewCellStyle205.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle205.NullValue = null;
+            this.colVibratoCount.DefaultCellStyle = dataGridViewCellStyle205;
             this.colVibratoCount.HeaderText = "VibratoCount";
             this.colVibratoCount.Name = "colVibratoCount";
             this.colVibratoCount.ReadOnly = true;

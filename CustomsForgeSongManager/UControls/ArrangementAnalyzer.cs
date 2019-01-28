@@ -95,15 +95,22 @@ namespace CustomsForgeSongManager.UControls
             if (!isCueSearch)
                 IncludeSubfolders(); // search killer
 
-            try
-            {
-                // must come after the data is bound
-                if (!String.IsNullOrEmpty(AppSettings.Instance.FilterString))
-                    DataGridViewAutoFilterColumnHeaderCell.SetFilter(dgvArrangements, AppSettings.Instance.FilterString);
-            }
-            catch { /* DO NOTHING */}
+            // commented out - SongManager, and ArrangementAnalyzer filters are not interchangeable
+            //try
+            //{
+            //    // must come after the data is bound
+            //    if (!String.IsNullOrEmpty(AppSettings.Instance.FilterString))
+            //        DataGridViewAutoFilterColumnHeaderCell.SetFilter(dgvArrangements, AppSettings.Instance.FilterString);
+            //}
+            //catch { /* DO NOTHING */}
 
             dgvArrangements.AllowUserToAddRows = false; // corrects initial Song Count
+            if (dgvArrangements.Rows.Count == 0)
+            {
+                IncludeSubfolders(); // search killer
+                Globals.Log(" - CFSM cleared a saved search/filter that returns no songs ...");
+            }
+            
             Globals.TsLabel_MainMsg.Text = string.Format("Rocksmith Arrangements Count: {0}", dgvArrangements.Rows.Count);
             Globals.TsLabel_MainMsg.Visible = true;
             Globals.TsLabel_DisabledCounter.Visible = false;
@@ -147,6 +154,7 @@ namespace CustomsForgeSongManager.UControls
             // search killer
             cueSearch.Text = String.Empty;
             AppSettings.Instance.SearchString = String.Empty;
+            AppSettings.Instance.FilterString = String.Empty;
 
             if (!chkIncludeSubfolders.Checked)
             {
@@ -774,7 +782,8 @@ namespace CustomsForgeSongManager.UControls
                 RemoveFilter();
 
             // save filter - future use
-            AppSettings.Instance.FilterString = DataGridViewAutoFilterColumnHeaderCell.GetFilterString(dgvArrangements);
+            // SongManager, and ArrangementAnalyzer are not interchangeable
+            // AppSettings.Instance.FilterString = DataGridViewAutoFilterColumnHeaderCell.GetFilterString(dgvArrangements);
         }
 
         private void dgvArrangements_KeyDown(object sender, KeyEventArgs e)

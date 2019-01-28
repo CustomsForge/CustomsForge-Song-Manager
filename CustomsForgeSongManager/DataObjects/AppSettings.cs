@@ -368,6 +368,7 @@ namespace CustomsForgeSongManager.DataObjects
             Instance.CleanOnClosing = false;
             Instance.ShowLogWindow = Constants.DebugMode;
             Instance.RepairOptions = new RepairOptions();
+            Instance.IsDonor = false;
             Instance.ProtectODLC = true;
             Instance.IncludeSubfolders = true;
             Instance.IncludeVocals = false;

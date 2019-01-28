@@ -14,6 +14,10 @@ until you can confirm it is safe by working directly with your AV provider.
 
 CFSM Release Notes
 
+1.5.1.7
+- fix restore filtering bug (SongManager, and ArrangementAnalyzer filters are not interchangeable)
+- Repair option and other functional improvements
+
 1.5.1.6
 - improved Repairs message logging
 - save and restore the user search and/or filter from SongManager or ArrangementAnalyzer
