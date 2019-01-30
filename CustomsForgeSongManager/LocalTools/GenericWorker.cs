@@ -6,6 +6,11 @@ using System.Windows.Forms;
 using CustomsForgeSongManager.DataObjects;
 using GenTools;
 using CustomsForgeSongManager.Properties;
+using System.Threading.Tasks;
+using System.Collections.Generic;
+using System.Threading;
+using System.Drawing;
+using CustomControls;
 
 //
 // Reusable generic background worker class
@@ -114,7 +119,62 @@ namespace CustomsForgeSongManager.LocalTools
         private void WorkerRepairSongs(object sender, DoWorkEventArgs e)
         {
             if (!bWorker.CancellationPending)
-                RepairTools.RepairSongs(WorkParm1, WorkParm2);
+            {
+                var coreTester = false;
+                var coreCount = SysExtensions.GetCoreCount();
+                if (coreCount == null || coreCount == 0)
+                    coreCount = 1;
+
+                // optimize tasks for multicore processors
+                if (coreCount > 1)
+                {
+                    var diaMsg = ".NET Framework reports that you have a (" + coreCount + ") core processor ..." + Environment.NewLine +
+                                 "Would you like to try running the CFSM repair options using" + Environment.NewLine +
+                                 "the new multicore support feature?" + Environment.NewLine + Environment.NewLine +
+                                 "Repairs can be made using the old method if you answer 'No'" + Environment.NewLine +
+                                 "Please let the developers know how the featue worked for you.";
+
+                    if (DialogResult.Yes == BetterDialog2.ShowDialog(diaMsg, "Multicore Processor Beta Test ...", null, "Yes", "No", Bitmap.FromHicon(SystemIcons.Hand.Handle), "ReadMe", 0, 150))
+                        coreTester = true;
+                }
+
+                if (coreTester)
+                {
+                    List<Task> tasks = new List<Task>();
+                    RepairOptions repairOptions = WorkParm2;
+                    List<SongData> songsList = WorkParm1;
+                    var songsSubLists = GenExtensions.SplitList(songsList, coreCount);
+
+                    for (int i = 0; i < coreCount; i++)
+                    {
+                        tasks.Add(Task.Factory.StartNew(() =>
+                            {
+                                var result = RepairTools.RepairSongs(songsSubLists[i], repairOptions).ToString();
+                                if (!String.IsNullOrEmpty(result))
+                                    Globals.Log("<ERROR> " + result);
+                            }));
+                    }
+
+                    Thread.Sleep(100);
+                    Task.WaitAll(tasks.ToArray());
+
+                    // alt wait method for testing
+                    //var timeDelay = coreCount * 100;
+                    //for (int i = 0; i < coreCount; i++)
+                    //{
+                    //    while (!tasks[i].IsCompleted)
+                    //    {
+                    //        Application.DoEvents();
+                    //        Thread.Sleep(timeDelay);
+                    //    }
+                    //}
+
+                    foreach (var task in tasks)
+                        task.Dispose();
+                }
+                else // single core processor
+                    RepairTools.RepairSongs(WorkParm1, WorkParm2);
+            }
         }
 
         private void WorkerPitchShiftSongs(object sender, DoWorkEventArgs e)

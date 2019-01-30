@@ -1002,11 +1002,15 @@ namespace CustomsForgeSongManager.UControls
             // enables/disables repair options depending on button selection
             var clickedItem = (ToolStripEnhancedMenuItem)sender;
             var clickedItemGroup = clickedItem.RadioButtonGroupName;
+            var repairString = String.Empty;
             var items = tsmiRepairs.DropDownItems;
-
-            foreach (var item in items.OfType<ToolStripEnhancedMenuItem>().Where(item => item.RadioButtonGroupName == clickedItemGroup))
+            foreach (var item in items.OfType<ToolStripEnhancedMenuItem>())
             {
-                if (item.CheckMarkDisplayStyle == CheckMarkDisplayStyle.CheckBox)
+                if (item.Checked)
+                    repairString += item.Name.Replace("tsmi", " ");
+
+                if (item.RadioButtonGroupName == clickedItemGroup && 
+                    item.CheckMarkDisplayStyle == CheckMarkDisplayStyle.CheckBox)
                 {
                     if (!clickedItem.Checked)
                     {
@@ -1018,18 +1022,17 @@ namespace CustomsForgeSongManager.UControls
                 }
             }
 
-            tsmiRepairsRun.BackColor = SystemColors.Control;
-            tsmiRepairsRun.ToolTipText = "Select repair options first";
-
-            foreach (var item in items.OfType<ToolStripEnhancedMenuItem>())
+            repairString = repairString.Replace("DLFolderProcess", "").Replace("DLFolderMonitor", "").Trim();
+            if (String.IsNullOrEmpty(repairString))
             {
-                if (item.CheckMarkDisplayStyle == CheckMarkDisplayStyle.RadioButton && item.Checked)
-                {
-                    tsmiRepairsRun.Enabled = true;
-                    tsmiRepairsRun.BackColor = Color.LimeGreen;
-                    tsmiRepairsRun.ToolTipText = "Press to start repair";
-                    break;
-                }
+                tsmiRepairsRun.BackColor = Color.LightSteelBlue;
+                tsmiRepairsRun.ToolTipText = "Select repair options first";
+            }
+            else
+            {
+                tsmiRepairsRun.Enabled = true;
+                tsmiRepairsRun.BackColor = Color.LimeGreen;
+                tsmiRepairsRun.ToolTipText = "Press to start repair";
             }
         }
 
@@ -1971,7 +1974,7 @@ namespace CustomsForgeSongManager.UControls
             }
 
             repairString = repairString.Replace("DLFolderProcess", "").Replace("DLFolderMonitor", "").Trim();
-        
+
             if (String.IsNullOrEmpty(repairString) && tsmiDLFolderMonitor.Checked)
             {
                 var diaMsg = "Please select the repair options to be used" + Environment.NewLine +
@@ -2324,7 +2327,7 @@ namespace CustomsForgeSongManager.UControls
                 return;
             }
 
-            var selection = DgvExtensions.GetObjectsFromRows<SongData>(dgvSongsMaster);     
+            var selection = DgvExtensions.GetObjectsFromRows<SongData>(dgvSongsMaster);
             if (!selection.Any() && !tsmiDLFolderProcess.Checked)
             {
                 var diaMsg = "Please select some CDLC to repair using the 'Select' column." + Environment.NewLine;
@@ -2379,6 +2382,8 @@ namespace CustomsForgeSongManager.UControls
 
             tsmiRepairs.HideDropDown();
             DoWork(Constants.GWORKER_REPAIR, selection, SetRepairOptions());
+            Globals.ReloadArrangements = true;
+            Globals.ReloadSetlistManager = true;
             UpdateToolStrip();
             this.Refresh();
         }
@@ -2444,7 +2449,6 @@ namespace CustomsForgeSongManager.UControls
 
             Globals.Log("Song Manager GUI Deactivated ...");
         }
-
 
     }
 }

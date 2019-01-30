@@ -183,7 +183,7 @@ namespace CustomsForgeSongManager.LocalTools
                     {
                         try
                         {
-                            var versOnlineRSTK = ToolkitVersionOnline.Load();
+                            var versOnlineRSTK = ToolkitVersionOnline.GetVersionInfo();
                             VersOnline = versOnlineRSTK.Revision; // returns github commit (4 bytes)
                             break;
                         }

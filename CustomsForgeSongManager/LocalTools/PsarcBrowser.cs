@@ -259,7 +259,7 @@ namespace CustomsForgeSongManager.LocalTools
                         arr.TuningPitch = Convert.ToDouble(attributes.CentOffset).Cents2Frequency();
                         arr.DDMax = attributes.MaxPhraseDifficulty;
                         // ScrollSpeed as defined by toolkit
-                        arr.ScrollSpeed = attributes.DynamicVisualDensity.Last(); 
+                        arr.ScrollSpeed = attributes.DynamicVisualDensity.Last();
 
                         if (!String.IsNullOrEmpty(attributes.Tone_Base))
                         {
@@ -373,7 +373,6 @@ namespace CustomsForgeSongManager.LocalTools
 
                                 float currentBPM = 0;
                                 float oldBPM = 0;
-
 
                                 while (nextIdx < beatCount)
                                 {
@@ -517,8 +516,9 @@ namespace CustomsForgeSongManager.LocalTools
                             if (arrName.ToLower().Equals("bass"))
                                 arr.BassPick = bassPick;
 
-                            arr.Represent = arrProperties.Represent;
-                            arr.BonusArr = arrProperties.BonusArr;
+                            // using XML arrangement represent to avoid JSON represent bug found in old toolkit versions                  
+                            arr.Represent = attributes.ArrangementProperties.Represent;
+                            arr.BonusArr = attributes.ArrangementProperties.BonusArr;
 
                             // TODO: maybe extract all AP (not sure how useful data is though) 
 

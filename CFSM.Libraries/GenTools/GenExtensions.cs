@@ -709,7 +709,7 @@ namespace GenTools
             catch (IOException e)
             {
                 var errMsg = "Could not move the file " + fileFrom + "  Error Code: " + e.Message;
-                BetterDialog.ShowDialog(SplitString(errMsg, 50),MESSAGEBOX_CAPTION, MessageBoxButtons.OK, Bitmap.FromHicon(SystemIcons.Warning.Handle), "Warning ...", 150, 150);
+                BetterDialog.ShowDialog(SplitString(errMsg, 50), MESSAGEBOX_CAPTION, MessageBoxButtons.OK, Bitmap.FromHicon(SystemIcons.Warning.Handle), "Warning ...", 150, 150);
                 return false;
             }
         }
@@ -891,6 +891,29 @@ namespace GenTools
                 process.BeginOutputReadLine();
 
             return output;
+        }
+
+        /// <summary>
+        /// Splits a big list into a specified number of smaller sublists,
+        /// only a single list is returned when 'parts' equals 1 
+        /// </summary>
+        /// <typeparam name="T">list object type</typeparam>
+        /// <param name="list">the big list</param>
+        /// <param name="parts">number of sublists desired</param>
+        /// <returns></returns>
+        public static List<List<T>> SplitList<T>(this List<T> list, int parts)
+        {
+            List<List<T>> result = new List<List<T>>();
+            if (parts > 1)
+            {
+                result = list.Select((item, index) => new { index, item })
+                            .GroupBy(x => (x.index + 1) / (list.Count() / parts) + 1)
+                            .Select(x => x.Select(y => y.item).ToList()).ToList();
+            }
+            else
+                result.Add(list);
+
+            return result;
         }
 
         /// <summary>

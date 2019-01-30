@@ -19,7 +19,9 @@ using System.Threading;
 using System.Diagnostics;
 using System.Threading.Tasks;
 
+//
 // DO NOT USE RESHAPER SORT ON THIS METHOD IT RUINS REPAIR OPTIONS OBJECT ORDER
+//
 namespace CustomsForgeSongManager.LocalTools
 {
     public class RepairTools
@@ -129,7 +131,7 @@ namespace CustomsForgeSongManager.LocalTools
 
             try
             {
-                // SNG's must be regenerated
+                // XML, JSON and SNG's must be regenerated
                 // ArrangementIDs are stored in multiple place and all need to be updated
                 // therefore we are going to unpack, apply repair, and repack
                 Globals.Log(" - Extracting CDLC artifacts");
@@ -147,15 +149,15 @@ namespace CustomsForgeSongManager.LocalTools
                 using (var psarcOld = new PsarcPackager())
                     packageData = psarcOld.ReadPackage(srcFilePath, options.IgnoreMultitone, options.FixLowBass);
 
-                // TODO: selectively remove arrangements here before remastering
-                if (options.RepairMaxFive)
+                // selectively remove arrangements before remastering
+                if (options.RepairMaxFive) 
                     packageData = MaxFiveArrangements(packageData);
 
                 var playableArrCount = packageData.Arrangements.Count(arr => arr.ArrangementType == ArrangementType.Guitar || arr.ArrangementType == ArrangementType.Bass);
                 if (playableArrCount > 5)
                     throw new CustomException("Maximum playable arrangement limit exceeded");
 
-                // Update arrangement song info, i.e. always Remaster the CDLC (default)
+                // update arrangement song info, i.e. always Remaster the CDLC (default)
                 foreach (Arrangement arr in packageData.Arrangements)
                 {
                     if (!options.PreserveStats)
@@ -260,7 +262,7 @@ namespace CustomsForgeSongManager.LocalTools
 
                 try
                 {
-                    // regenerates the SNG with the repair and repackages               
+                    // regenerates repaired XML, JSON, and SNG files and repackages               
                     using (var psarcNew = new PsarcPackager(true))
                         psarcNew.WritePackage(srcFilePath, packageData);
                 }
