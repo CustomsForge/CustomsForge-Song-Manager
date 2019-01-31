@@ -14,9 +14,12 @@ until you can confirm it is safe by working directly with your AV provider.
 
 CFSM Release Notes
 
+1.5.1.9
+- added test code for multicore processor support in SongManager and ArrangementAnalyzer Rescans
+
 1.5.1.8
 - fix arrangement represent toolkit bug that would occasionally be seen after CFSM repairs
-- added multicore processor support to improve repair efficiency
+- added test code for multicore processor support in SongManager Repairs
 - updated RockmsithToolkitLib
 
 1.5.1.7

@@ -121,6 +121,7 @@ namespace CustomsForgeSongManager.LocalTools
             if (!bWorker.CancellationPending)
             {
                 var coreTester = false;
+                // coreTester = true; // for debugging
                 var coreCount = SysExtensions.GetCoreCount();
                 if (coreCount == null || coreCount == 0)
                     coreCount = 1;
@@ -132,7 +133,7 @@ namespace CustomsForgeSongManager.LocalTools
                                  "Would you like to try running the CFSM repair options using" + Environment.NewLine +
                                  "the new multicore support feature?" + Environment.NewLine + Environment.NewLine +
                                  "Repairs can be made using the old method if you answer 'No'" + Environment.NewLine +
-                                 "Please let the developers know how the featue worked for you.";
+                                 "Please send your feedback and 'debug.log' file to Cozy1.";
 
                     if (DialogResult.Yes == BetterDialog2.ShowDialog(diaMsg, "Multicore Processor Beta Test ...", null, "Yes", "No", Bitmap.FromHicon(SystemIcons.Hand.Handle), "ReadMe", 0, 150))
                         coreTester = true;
@@ -147,12 +148,25 @@ namespace CustomsForgeSongManager.LocalTools
 
                     for (int i = 0; i < coreCount; i++)
                     {
+                        Globals.Log("Starting repairs as multi-thread task in core (" + i + ") ...");
                         tasks.Add(Task.Factory.StartNew(() =>
-                            {
-                                var result = RepairTools.RepairSongs(songsSubLists[i], repairOptions).ToString();
-                                if (!String.IsNullOrEmpty(result))
-                                    Globals.Log("<ERROR> " + result);
-                            }));
+                        {
+                            var result = RepairTools.RepairSongs(songsSubLists[i], repairOptions).ToString();
+                            if (!String.IsNullOrEmpty(result))
+                                Globals.Log("<ERROR> " + result);
+                        }));
+
+                        try
+                        {
+                            var cpuCounter = new PerformanceCounter("Processor", "% Processor Time", "_Total"); // , "MyComputer"
+                            cpuCounter.NextValue();
+                            Thread.Sleep(1000);
+                            Globals.Log("CPU utilization core (" + i + "): " + (int)cpuCounter.NextValue() + "% ...");
+                        }
+                        catch
+                        {
+                            Globals.Log("<WARNING> CPU usage for core (" + i + ") is not available ...");
+                        }
                     }
 
                     Thread.Sleep(100);

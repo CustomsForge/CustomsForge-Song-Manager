@@ -231,12 +231,16 @@ namespace CustomsForgeSongManager.DataObjects
 
         public static void ResetToolStripGlobals()
         {
-            TsProgressBar_Main.Value = 0;
-            TsLabel_MainMsg.Visible = false;
-            TsLabel_StatusMsg.Visible = false;
-            TsLabel_Cancel.Visible = false;
-            TsLabel_Cancel.Text = "Cancel";
-            TsLabel_DisabledCounter.Visible = false;
+            try
+            {
+                TsProgressBar_Main.Value = 0;
+                TsLabel_MainMsg.Visible = false;
+                TsLabel_StatusMsg.Visible = false;
+                TsLabel_Cancel.Visible = false;
+                TsLabel_Cancel.Text = "Cancel";
+                TsLabel_DisabledCounter.Visible = false;
+            }
+            catch {/* DO NOTHING */}
         }
 
         public static void ClearLog()

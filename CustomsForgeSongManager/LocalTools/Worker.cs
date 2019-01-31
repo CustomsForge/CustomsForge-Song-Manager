@@ -11,6 +11,11 @@ using GenTools;
 using RocksmithToolkitLib;
 using RocksmithToolkitLib.XmlRepository;
 using CustomsForgeSongManager.Properties;
+using System.Collections;
+using System.Threading.Tasks;
+using System.Threading;
+using CustomControls;
+using System.Drawing;
 
 //
 // Reusable background worker class for parsing songs
@@ -110,6 +115,26 @@ namespace CustomsForgeSongManager.LocalTools
 
         private void ParseSongs(object sender, DoWorkEventArgs e)
         {
+            List<string> songPathsList = new List<string>();
+            var coreTester = false;
+            // coreTester = true; // for debugging
+            var coreCount = SysExtensions.GetCoreCount();
+            if (coreCount == null || coreCount == 0)
+                coreCount = 1;
+
+            // optimize tasks for multicore processors
+            if (Globals.MasterCollection.ToList().Count == 0 && coreCount > 1)
+            {
+                var diaMsg = ".NET Framework reports that you have a (" + coreCount + ") core processor ..." + Environment.NewLine +
+                             "Would you like to try running the CFSM song rescan using" + Environment.NewLine +
+                             "the new multicore support feature?" + Environment.NewLine + Environment.NewLine +
+                             "Rescans can be made using the old method if you answer 'No'" + Environment.NewLine +
+                             "Please send your feedback and 'debug.log' file to Cozy1.";
+
+                if (DialogResult.Yes == BetterDialog2.ShowDialog(diaMsg, "Multicore Processor Beta Test ...", null, "Yes", "No", Bitmap.FromHicon(SystemIcons.Hand.Handle), "ReadMe", 0, 150))
+                    coreTester = true;
+            }
+
             Globals.IsScanning = true;
             List<string> filesList = FilesList(Constants.Rs2DlcFolder, AppSettings.Instance.IncludeRS1CompSongs, AppSettings.Instance.IncludeRS2BaseSongs, AppSettings.Instance.IncludeCustomPacks);
             // remove inlays
@@ -177,8 +202,48 @@ namespace CustomsForgeSongManager.LocalTools
                         bwSongCollection.Remove(sInfo);
                 }
 
+                // TODO: add multi thread processing support
                 if (canScan)
-                    ParsePSARC(file);
+                {
+                    if (coreTester)
+                        songPathsList.Add(file);
+                    else
+                        ParsePSARC(file);
+                }
+            }
+
+            if (coreTester && songPathsList.Count > 0)
+            {
+                List<Task> tasks = new List<Task>();
+                var songsSubLists = GenExtensions.SplitList(songPathsList, coreCount);
+
+                for (int i = 0; i < coreCount; i++)
+                {
+                    Globals.Log("Starting rescan as multi-thread task in core (" + i + ") ...");
+                    tasks.Add(Task.Factory.StartNew(() =>
+                    {
+                        foreach (var song in songsSubLists[i])
+                            ParsePSARC(song);
+                    }));
+
+                    try
+                    {
+                        var cpuCounter = new PerformanceCounter("Processor", "% Processor Time", "_Total"); // , "MyComputer"
+                        cpuCounter.NextValue();
+                        Thread.Sleep(1000);
+                        Globals.Log("CPU utilization core (" + i + "): " + (int)cpuCounter.NextValue() + "% ...");
+                    }
+                    catch
+                    {
+                        Globals.Log("<WARNING> CPU usage for core (" + i + ") is not available ...");
+                    }
+                }
+
+                Thread.Sleep(100);
+                Task.WaitAll(tasks.ToArray());
+
+                foreach (var task in tasks)
+                    task.Dispose();
             }
 
             // cleanup and sort
