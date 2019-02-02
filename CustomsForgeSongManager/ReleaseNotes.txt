@@ -14,6 +14,11 @@ until you can confirm it is safe by working directly with your AV provider.
 
 CFSM Release Notes
 
+1.5.2.0
+- testing an alternate method of multi threading
+- cleanup duplicate multi threading log entries
+- fixed Settings that would sometimes reset
+
 1.5.1.9
 - added test code for multicore processor support in SongManager and ArrangementAnalyzer Rescans
 

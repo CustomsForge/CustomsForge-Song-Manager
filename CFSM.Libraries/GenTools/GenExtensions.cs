@@ -906,9 +906,28 @@ namespace GenTools
             List<List<T>> result = new List<List<T>>();
             if (parts > 1)
             {
-                result = list.Select((item, index) => new { index, item })
-                            .GroupBy(x => (x.index + 1) / (list.Count() / parts) + 1)
-                            .Select(x => x.Select(y => y.item).ToList()).ToList();
+                var rangeSize = list.Count / parts;
+                var firstRangeSize = rangeSize + list.Count % parts;
+                var startNdx = 0;
+                var endNdx = firstRangeSize;
+
+                for (int i = 0; i < parts; i++)
+                {
+                    List<T> innerResult = new List<T>();
+                    int j = 0;
+
+                    for (j = startNdx; j < endNdx; j++)
+                        innerResult.Add(list[j]);
+
+                    result.Add(innerResult);
+                    startNdx = j;
+                    endNdx = startNdx + rangeSize;
+                }
+
+                // linq method works but changes order of lists
+                //result = list.Select((item, index) => new { index, item })
+                //    .GroupBy(x => x.index % parts)
+                //    .Select(x => x.Select(y => y.item).ToList()).ToList();
             }
             else
                 result.Add(list);

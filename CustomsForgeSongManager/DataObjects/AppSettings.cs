@@ -355,7 +355,7 @@ namespace CustomsForgeSongManager.DataObjects
         public void RestoreDefaults()
         {
             RAExtensions.ManagerGridSettings = new RADataGridViewSettings();
-            Instance.EnableQuarantine = false; // false because users like using corrupt CDLC
+            Instance.EnableQuarantine = false; // false because users like using corrupt CDLC ... ICBIBT
             Instance.LogFilePath = Constants.LogFilePath;
             Instance.IncludeRS1CompSongs = false; // false for fewer new user issues
             Instance.IncludeRS2BaseSongs = false;

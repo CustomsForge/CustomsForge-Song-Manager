@@ -17,7 +17,7 @@ namespace CustomsForgeSongManager.UControls
         {
             InitializeComponent();
             // save AppSettings.Instance
-            Leave += Settings_Leave; 
+            Leave += Settings_Leave;
         }
 
         public void LoadSettingsFromFile(DataGridView dgvCurrent = null, bool verbose = false)
@@ -137,7 +137,7 @@ namespace CustomsForgeSongManager.UControls
                 Globals.Log("Path.GetDirectoryName(Application.ExecutablePath) = " + Path.GetDirectoryName(Application.ExecutablePath));
                 Globals.Log("Constants.ApplicationFolder = " + Constants.ApplicationFolder);
                 Globals.Log("Found 'Application Support' folder: " + Constants.Rs2DlcFolder.Contains("Application Support"));
-         
+
                 return false;
             }
 

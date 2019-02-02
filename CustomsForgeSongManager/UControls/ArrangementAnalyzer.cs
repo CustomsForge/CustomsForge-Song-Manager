@@ -50,7 +50,7 @@ namespace CustomsForgeSongManager.UControls
             // Hide main dgvArrangements until load completes
             dgvArrangements.Visible = false;
             LoadArrangements();
-            PopulateDataGridView();
+            InitializeArrangements();
 
             // bind datasource to grid
             // IncludeSubfolders(); // search killer
@@ -322,7 +322,7 @@ namespace CustomsForgeSongManager.UControls
             dgvArrangements.DataSource = bs;
         }
 
-        private void PopulateDataGridView()
+        private void InitializeArrangements()
         {
             // respect processing order
             DgvExtensions.DoubleBuffered(dgvArrangements);

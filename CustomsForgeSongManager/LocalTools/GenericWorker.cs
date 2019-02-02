@@ -23,7 +23,7 @@ namespace CustomsForgeSongManager.LocalTools
     internal sealed class GenericWorker : IDisposable
     {
         private AbortableBackgroundWorker bWorker;
-        private Stopwatch counterStopwatch = new Stopwatch();
+        private Stopwatch counterStopwatch;
         private Control workOrder;
 
         public string WorkDescription = String.Empty;
@@ -49,6 +49,7 @@ namespace CustomsForgeSongManager.LocalTools
                 bWorker = backgroundWorker;
 
             bWorker.SetDefaults();
+            counterStopwatch = new Stopwatch();
             counterStopwatch.Restart();
 
             if (WorkDescription.Equals(Constants.GWORKER_REPAIR))
@@ -121,7 +122,6 @@ namespace CustomsForgeSongManager.LocalTools
             if (!bWorker.CancellationPending)
             {
                 var coreTester = false;
-                // coreTester = true; // for debugging
                 var coreCount = SysExtensions.GetCoreCount();
                 if (coreCount == null || coreCount == 0)
                     coreCount = 1;
@@ -139,16 +139,20 @@ namespace CustomsForgeSongManager.LocalTools
                         coreTester = true;
                 }
 
+                // dumby data for debugging
+                coreTester = true;
+                coreCount = 2;
+
                 if (coreTester)
                 {
                     List<Task> tasks = new List<Task>();
                     RepairOptions repairOptions = WorkParm2;
                     List<SongData> songsList = WorkParm1;
                     var songsSubLists = GenExtensions.SplitList(songsList, coreCount);
-
+     
                     for (int i = 0; i < coreCount; i++)
                     {
-                        Globals.Log("Starting repairs as multi-thread task in core (" + i + ") ...");
+                        Globals.Log("Starting multi-thread task in core (" + i + ") ...");
                         tasks.Add(Task.Factory.StartNew(() =>
                         {
                             var result = RepairTools.RepairSongs(songsSubLists[i], repairOptions).ToString();
@@ -161,7 +165,7 @@ namespace CustomsForgeSongManager.LocalTools
                             var cpuCounter = new PerformanceCounter("Processor", "% Processor Time", "_Total"); // , "MyComputer"
                             cpuCounter.NextValue();
                             Thread.Sleep(1000);
-                            Globals.Log("CPU utilization core (" + i + "): " + (int)cpuCounter.NextValue() + "% ...");
+                            Globals.Log("CPU usage for core (" + i + "): " + (int)cpuCounter.NextValue() + "% ...");
                         }
                         catch
                         {
@@ -187,7 +191,10 @@ namespace CustomsForgeSongManager.LocalTools
                         task.Dispose();
                 }
                 else // single core processor
+                {
+                    Globals.Log("Using legacy single thread method ...");
                     RepairTools.RepairSongs(WorkParm1, WorkParm2);
+                }
             }
         }
 

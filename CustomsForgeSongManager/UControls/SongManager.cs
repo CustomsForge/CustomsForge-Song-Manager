@@ -42,7 +42,7 @@ namespace CustomsForgeSongManager.UControls
         private bool allSelected = false;
         private AbortableBackgroundWorker bWorker;
         private bool bindingCompleted = false;
-        private Stopwatch counterStopwatch = new Stopwatch();
+        private Stopwatch counterStopwatch;
         private bool dgvPainted = false;
         private int firstIndex = 0;
         private bool ignoreCheckStateChanged = false;
@@ -163,11 +163,11 @@ namespace CustomsForgeSongManager.UControls
             // Hide main dgvSongsMaster until load completes
             dgvSongsMaster.Visible = false;
 
+            InitializeSongsMaster(); // reloads settings
+           
             //Load Song Collection from file
             if (!LoadSongCollectionFromFile())
                 return;
-
-            PopulateDataGridView();
 
             // bind datasource to grid            
             //IncludeSubfolders(); // this kills search
@@ -244,9 +244,9 @@ namespace CustomsForgeSongManager.UControls
             ro.RemoveBonus = tsmiRemoveBonus.Checked;
             ro.RemoveMetronome = tsmiRemoveMetronome.Checked;
             ro.IgnoreStopLimit = tsmiIgnoreStopLimit.Checked;
+            ro.RemoveSections = tsmiRemoveSections.Checked;
             ro.AdjustScrollSpeed = tsmiAdjustScrollSpeed.Checked;
             ro.ScrollSpeed = tsmiNudScrollSpeed.DecimalValue;
-            ro.RemoveSections = tsmiRemoveSections.Checked;
             ro.FixLowBass = tsmiFixLowBass.Checked;
             ro.DLFolderProcess = tsmiDLFolderProcess.Checked;
             ro.DLFolderMonitor = tsmiDLFolderMonitor.Checked;
@@ -559,10 +559,8 @@ namespace CustomsForgeSongManager.UControls
 
                     BetterDialog2.ShowDialog(diaMsg, hdrMsg, null, null, "Ok", Bitmap.FromHicon(SystemIcons.Information.Handle), "ReadMe", 0, 150);
                     Globals.DgvCurrent = dgvSongsMaster;
-                    Globals.RescanSongManager = true; // force initial scan
-                    var macMode = AppSettings.Instance.MacMode; // must save macMode
-                    AppSettings.Instance.RestoreDefaults();
-                    AppSettings.Instance.MacMode = macMode; // must restore macMode
+                    Globals.RescanSongManager = true; // force full initial scan
+
                     // selects Settings tabmenu even if tab order is changed
                     var tabIndex = Globals.MainForm.tcMain.TabPages.IndexOf(Globals.MainForm.tpSettings);
                     Globals.MainForm.tcMain.SelectedIndex = tabIndex;
@@ -607,7 +605,7 @@ namespace CustomsForgeSongManager.UControls
             return true;
         }
 
-        private void PopulateDataGridView()
+        private void InitializeSongsMaster()
         {
             // respect processing order
             DgvExtensions.DoubleBuffered(dgvSongsMaster);
@@ -1009,7 +1007,7 @@ namespace CustomsForgeSongManager.UControls
                 if (item.Checked)
                     repairString += item.Name.Replace("tsmi", " ");
 
-                if (item.RadioButtonGroupName == clickedItemGroup && 
+                if (item.RadioButtonGroupName == clickedItemGroup &&
                     item.CheckMarkDisplayStyle == CheckMarkDisplayStyle.CheckBox)
                 {
                     if (!clickedItem.Checked)
@@ -1107,7 +1105,7 @@ namespace CustomsForgeSongManager.UControls
                 if (tsmiModsMyCDLC.Checked)
                     LoadFilteredBindingList(songList.Where(x => x.PackageAuthor == charterName).ToList());
                 else
-                    PopulateDataGridView();
+                    InitializeSongsMaster();
             }
             else
             {
@@ -1130,6 +1128,7 @@ namespace CustomsForgeSongManager.UControls
             }
 
             //Thread.Sleep(3000);
+            counterStopwatch = new Stopwatch();
             counterStopwatch.Restart();
 
             GenExtensions.InvokeIfRequired(dgvSongsMaster, delegate
@@ -2207,7 +2206,7 @@ namespace CustomsForgeSongManager.UControls
                 if (tsmiModsMyCDLC.Checked)
                     LoadFilteredBindingList(songList.Where(x => x.PackageAuthor == charterName).ToList());
                 else
-                    PopulateDataGridView();
+                    InitializeSongsMaster();
             }
             else
             {

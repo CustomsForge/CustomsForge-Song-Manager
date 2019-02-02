@@ -343,7 +343,7 @@ namespace CustomsForgeSongManager.LocalTools
 
             // make sure 'dlc' folder is clean
             FileTools.CleanDlcFolder();
-            Globals.Log("Applying selected repairs to CDLC ...");
+            Globals.Log("Applying selected repair options ...");
             var srcFilePaths = new List<string>();
 
             if (options.UsingOrgFiles)
@@ -583,7 +583,7 @@ namespace CustomsForgeSongManager.LocalTools
 
                 try
                 {
-                    // using threading to eliminate inconsistent hard crashes and errors
+                    // using threading here to eliminate inconsistent hard crashes and errors
                     Task task = Task.Factory.StartNew(() =>
                         {
                             var result = RepairTools.RepairSongs(new List<SongData>(), AppSettings.Instance.RepairOptions).ToString();

@@ -26,7 +26,7 @@ namespace CustomsForgeSongManager.LocalTools
     internal sealed class Worker : IDisposable
     {
         private AbortableBackgroundWorker bWorker;
-        private Stopwatch counterStopwatch = new Stopwatch();
+        private Stopwatch counterStopwatch;
         public List<SongData> bwSongCollection = new List<SongData>();
         private Control workOrder;
 
@@ -115,26 +115,6 @@ namespace CustomsForgeSongManager.LocalTools
 
         private void ParseSongs(object sender, DoWorkEventArgs e)
         {
-            List<string> songPathsList = new List<string>();
-            var coreTester = false;
-            // coreTester = true; // for debugging
-            var coreCount = SysExtensions.GetCoreCount();
-            if (coreCount == null || coreCount == 0)
-                coreCount = 1;
-
-            // optimize tasks for multicore processors
-            if (Globals.MasterCollection.ToList().Count == 0 && coreCount > 1)
-            {
-                var diaMsg = ".NET Framework reports that you have a (" + coreCount + ") core processor ..." + Environment.NewLine +
-                             "Would you like to try running the CFSM song rescan using" + Environment.NewLine +
-                             "the new multicore support feature?" + Environment.NewLine + Environment.NewLine +
-                             "Rescans can be made using the old method if you answer 'No'" + Environment.NewLine +
-                             "Please send your feedback and 'debug.log' file to Cozy1.";
-
-                if (DialogResult.Yes == BetterDialog2.ShowDialog(diaMsg, "Multicore Processor Beta Test ...", null, "Yes", "No", Bitmap.FromHicon(SystemIcons.Hand.Handle), "ReadMe", 0, 150))
-                    coreTester = true;
-            }
-
             Globals.IsScanning = true;
             List<string> filesList = FilesList(Constants.Rs2DlcFolder, AppSettings.Instance.IncludeRS1CompSongs, AppSettings.Instance.IncludeRS2BaseSongs, AppSettings.Instance.IncludeCustomPacks);
             // remove inlays
@@ -149,6 +129,31 @@ namespace CustomsForgeSongManager.LocalTools
             if (filesList.Count == 0)
                 return;
 
+            List<string> songPathsList = new List<string>();
+            var showLegacyMsg = true;
+            var coreTester = false;
+            var coreCount = SysExtensions.GetCoreCount();
+            if (coreCount == null || coreCount == 0)
+                coreCount = 1;
+
+            // optimize tasks for multicore processors
+            if (Globals.MasterCollection.ToList().Count == 0 && coreCount > 1)
+            {
+                var diaMsg = ".NET Framework reports that you have a (" + coreCount + ") core processor ..." + Environment.NewLine +
+                             "Would you like to try running the CFSM song rescan using" + Environment.NewLine +
+                             "the new multicore support feature?" + Environment.NewLine + Environment.NewLine +
+                             "Rescan can be done using the old method if you answer 'No'" + Environment.NewLine +
+                             "Please send your feedback and 'debug.log' file to Cozy1.";
+
+                if (DialogResult.Yes == BetterDialog2.ShowDialog(diaMsg, "Multicore Processor Beta Test ...", null, "Yes", "No", Bitmap.FromHicon(SystemIcons.Hand.Handle), "ReadMe", 0, 150))
+                    coreTester = true;
+            }
+
+            // dumby data for debugging
+            //coreTester = true;
+            //coreCount = 2;
+
+            counterStopwatch = new Stopwatch();
             counterStopwatch.Restart();
             int songCounter = 0;
             int oldCount = bwSongCollection.Count();
@@ -202,13 +207,20 @@ namespace CustomsForgeSongManager.LocalTools
                         bwSongCollection.Remove(sInfo);
                 }
 
-                // TODO: add multi thread processing support
                 if (canScan)
                 {
                     if (coreTester)
                         songPathsList.Add(file);
                     else
-                        ParsePSARC(file);
+                    {
+                        if (showLegacyMsg) // do one time
+                        {
+                            Globals.Log("Using legacy single thread method ...");
+                            showLegacyMsg = false;
+                        }
+
+                        ParsePsarcFile(file);
+                    }
                 }
             }
 
@@ -219,11 +231,11 @@ namespace CustomsForgeSongManager.LocalTools
 
                 for (int i = 0; i < coreCount; i++)
                 {
-                    Globals.Log("Starting rescan as multi-thread task in core (" + i + ") ...");
+                    Globals.Log("Starting multi-thread task in core (" + i + ") ...");
                     tasks.Add(Task.Factory.StartNew(() =>
                     {
-                        foreach (var song in songsSubLists[i])
-                            ParsePSARC(song);
+                        ParsePsarcFiles(songsSubLists[i]);
+
                     }));
 
                     try
@@ -231,7 +243,7 @@ namespace CustomsForgeSongManager.LocalTools
                         var cpuCounter = new PerformanceCounter("Processor", "% Processor Time", "_Total"); // , "MyComputer"
                         cpuCounter.NextValue();
                         Thread.Sleep(1000);
-                        Globals.Log("CPU utilization core (" + i + "): " + (int)cpuCounter.NextValue() + "% ...");
+                        Globals.Log("CPU usage for core (" + i + "): " + (int)cpuCounter.NextValue() + "% ...");
                     }
                     catch
                     {
@@ -284,7 +296,15 @@ namespace CustomsForgeSongManager.LocalTools
             counterStopwatch.Stop();
         }
 
-        private void ParsePSARC(string filePath)
+        private void ParsePsarcFiles(List<string> filePaths)
+        {
+            foreach (var filePath in filePaths)
+            {
+                ParsePsarcFile(filePath);
+            }
+        }
+
+        private void ParsePsarcFile(string filePath)
         {
             // 2x speed hack ... preload the TuningDefinition and fix for tuning 'Other' issue           
             if (Globals.TuningXml == null || Globals.TuningXml.Count == 0)
