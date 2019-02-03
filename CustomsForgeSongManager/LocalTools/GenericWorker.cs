@@ -140,52 +140,48 @@ namespace CustomsForgeSongManager.LocalTools
                 }
 
                 // dumby data for debugging
-                coreTester = true;
-                coreCount = 2;
+                //coreTester = true;
+                //coreCount = 2;
 
                 if (coreTester)
                 {
-                    List<Task> tasks = new List<Task>();
-                    RepairOptions repairOptions = WorkParm2;
+                    Task[] tasks = new Task[coreCount];
                     List<SongData> songsList = WorkParm1;
+                    RepairOptions repairOptions = WorkParm2;
                     var songsSubLists = GenExtensions.SplitList(songsList, coreCount);
-     
-                    for (int i = 0; i < coreCount; i++)
+
+                    for (int ndx = 0; ndx < coreCount; ndx++)
                     {
-                        Globals.Log("Starting multi-thread task in core (" + i + ") ...");
-                        tasks.Add(Task.Factory.StartNew(() =>
+                        int ndxLocal = ndx; // prevent data not available error
+                        RepairOptions repairOptionsLocal = repairOptions;
+                        Globals.Log("Starting multi-thread task in core (" + ndxLocal + ") ...");
+
+                        tasks[ndx] = Task.Factory.StartNew(() =>
                         {
-                            var result = RepairTools.RepairSongs(songsSubLists[i], repairOptions).ToString();
-                            if (!String.IsNullOrEmpty(result))
-                                Globals.Log("<ERROR> " + result);
-                        }));
+                            // cross threading protection
+                            GenExtensions.InvokeIfRequired(workOrder, delegate
+                            {
+                                var result = RepairTools.RepairSongs(songsSubLists[ndxLocal], repairOptionsLocal).ToString();
+                                if (!String.IsNullOrEmpty(result))
+                                    Globals.Log("<ERROR> " + result);
+                            });
+                        });
 
                         try
                         {
                             var cpuCounter = new PerformanceCounter("Processor", "% Processor Time", "_Total"); // , "MyComputer"
                             cpuCounter.NextValue();
                             Thread.Sleep(1000);
-                            Globals.Log("CPU usage for core (" + i + "): " + (int)cpuCounter.NextValue() + "% ...");
+                            Globals.Log("CPU usage for core (" + ndxLocal + "): " + (int)cpuCounter.NextValue() + "% ...");
                         }
                         catch
                         {
-                            Globals.Log("<WARNING> CPU usage for core (" + i + ") is not available ...");
+                            Globals.Log("<WARNING> CPU usage for core (" + ndxLocal + ") is not available ...");
                         }
                     }
 
                     Thread.Sleep(100);
-                    Task.WaitAll(tasks.ToArray());
-
-                    // alt wait method for testing
-                    //var timeDelay = coreCount * 100;
-                    //for (int i = 0; i < coreCount; i++)
-                    //{
-                    //    while (!tasks[i].IsCompleted)
-                    //    {
-                    //        Application.DoEvents();
-                    //        Thread.Sleep(timeDelay);
-                    //    }
-                    //}
+                    Task.WaitAll(tasks);
 
                     foreach (var task in tasks)
                         task.Dispose();

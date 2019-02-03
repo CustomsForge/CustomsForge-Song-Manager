@@ -58,6 +58,10 @@ namespace CustomsForgeSongManager.UITheme
 
             // must come after AutoResizeColumns
             // always visible on restart in case user changed
+
+            if (dgvTheme.Columns["colShowDetail"] != null)
+                dgvTheme.Columns["colShowDetail"].Width = 20; // prevent resizing the plus/minus column
+
             if (dgvTheme.Columns["colSelect"] != null)
             {
                 dgvTheme.Columns["colSelect"].ReadOnly = false; // is overridden by EditProgrammatically

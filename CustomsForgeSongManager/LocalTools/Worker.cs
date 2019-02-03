@@ -226,33 +226,37 @@ namespace CustomsForgeSongManager.LocalTools
 
             if (coreTester && songPathsList.Count > 0)
             {
-                List<Task> tasks = new List<Task>();
+                Task[] tasks = new Task[coreCount];
                 var songsSubLists = GenExtensions.SplitList(songPathsList, coreCount);
 
-                for (int i = 0; i < coreCount; i++)
+                for (int ndx = 0; ndx < coreCount; ndx++)
                 {
-                    Globals.Log("Starting multi-thread task in core (" + i + ") ...");
-                    tasks.Add(Task.Factory.StartNew(() =>
+                    int ndxLocal = ndx; // prevent data not available error
+                    Globals.Log("Starting multi-thread task in core (" + ndxLocal + ") ...");
+                    tasks[ndx] = Task.Factory.StartNew(() =>
                     {
-                        ParsePsarcFiles(songsSubLists[i]);
-
-                    }));
+                        // cross threading protection
+                        GenExtensions.InvokeIfRequired(workOrder, delegate
+                        {
+                            ParsePsarcFiles(songsSubLists[ndxLocal]);
+                        });
+                    });
 
                     try
                     {
                         var cpuCounter = new PerformanceCounter("Processor", "% Processor Time", "_Total"); // , "MyComputer"
                         cpuCounter.NextValue();
                         Thread.Sleep(1000);
-                        Globals.Log("CPU usage for core (" + i + "): " + (int)cpuCounter.NextValue() + "% ...");
+                        Globals.Log("CPU usage for core (" + ndxLocal + "): " + (int)cpuCounter.NextValue() + "% ...");
                     }
                     catch
                     {
-                        Globals.Log("<WARNING> CPU usage for core (" + i + ") is not available ...");
+                        Globals.Log("<WARNING> CPU usage for core (" + ndxLocal + ") is not available ...");
                     }
                 }
 
                 Thread.Sleep(100);
-                Task.WaitAll(tasks.ToArray());
+                Task.WaitAll(tasks);
 
                 foreach (var task in tasks)
                     task.Dispose();
