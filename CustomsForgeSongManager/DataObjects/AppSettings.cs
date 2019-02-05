@@ -45,6 +45,7 @@ namespace CustomsForgeSongManager.DataObjects
         private bool _protectODLC;
         private bool _includeVocals;
         private bool _isDonor;
+        private int _multiThread = -1; // tristate int, 1 use multi, 0 use single, -1 not set
         private DateTime _lastODLCCheckDate;
         private RepairOptions _repairOptions;
 
@@ -269,6 +270,12 @@ namespace CustomsForgeSongManager.DataObjects
             set { SetPropertyField("IsDonor", ref _isDonor, value); }
         }
 
+        public int MultiThread
+        {
+            get { return _multiThread; }
+            set { SetPropertyField("MultiThread", ref _multiThread, value); }
+        }
+
         [XmlArray("CustomSettings")] // provides proper xml serialization
         [XmlArrayItem("CustomSetting")] // provides proper xml serialization
         public List<CustomSetting> CustomSettings { get; set; }
@@ -331,8 +338,9 @@ namespace CustomsForgeSongManager.DataObjects
             }
             else
             {
-                Globals.Log("<WARNING> Did not find file: " + Path.GetFileName(Constants.GridSettingsPath));
-                RAExtensions.ManagerGridSettings = null; // reset
+                Globals.Settings.SaveSettingsToFile(Globals.DgvCurrent);
+                //Globals.Log("<WARNING> Did not find file: " + Path.GetFileName(Constants.GridSettingsPath));
+                //RAExtensions.ManagerGridSettings = null; // reset
             }
         }
 
@@ -369,6 +377,7 @@ namespace CustomsForgeSongManager.DataObjects
             Instance.ShowLogWindow = Constants.DebugMode;
             Instance.RepairOptions = new RepairOptions();
             Instance.IsDonor = false;
+            Instance.MultiThread = -1; // tristate not set
             Instance.ProtectODLC = true;
             Instance.IncludeSubfolders = true;
             Instance.IncludeVocals = false;

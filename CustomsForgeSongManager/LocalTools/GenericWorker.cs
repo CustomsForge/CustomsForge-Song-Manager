@@ -121,29 +121,30 @@ namespace CustomsForgeSongManager.LocalTools
         {
             if (!bWorker.CancellationPending)
             {
-                var coreTester = false;
                 var coreCount = SysExtensions.GetCoreCount();
                 if (coreCount == null || coreCount == 0)
                     coreCount = 1;
 
                 // optimize tasks for multicore processors
-                if (coreCount > 1)
+                if (coreCount > 1 && AppSettings.Instance.MultiThread == -1)
                 {
                     var diaMsg = ".NET Framework reports that you have a (" + coreCount + ") core processor ..." + Environment.NewLine +
                                  "Would you like to try running the CFSM repair options using" + Environment.NewLine +
                                  "the new multicore support feature?" + Environment.NewLine + Environment.NewLine +
                                  "Repairs can be made using the old method if you answer 'No'" + Environment.NewLine +
-                                 "Please send your feedback and 'debug.log' file to Cozy1.";
+                                 "Please send your feedback and 'debug.log' file to Cozy1." + Environment.NewLine + Environment.NewLine +
+                                 "Threading seletion can be reset in 'Settings' tab menu";
 
                     if (DialogResult.Yes == BetterDialog2.ShowDialog(diaMsg, "Multicore Processor Beta Test ...", null, "Yes", "No", Bitmap.FromHicon(SystemIcons.Hand.Handle), "ReadMe", 0, 150))
-                        coreTester = true;
+                        AppSettings.Instance.MultiThread = 1;
+                    else
+                        AppSettings.Instance.MultiThread = 0;
+
+                    Globals.Settings.SaveSettingsToFile(Globals.DgvCurrent);
                 }
 
-                // dumby data for debugging
-                //coreTester = true;
-                //coreCount = 2;
 
-                if (coreTester)
+                if (AppSettings.Instance.MultiThread == 1)
                 {
                     Task[] tasks = new Task[coreCount];
                     List<SongData> songsList = WorkParm1;

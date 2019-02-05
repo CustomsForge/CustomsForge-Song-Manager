@@ -387,5 +387,14 @@ namespace CustomsForgeSongManager.UControls
             AppSettings.Instance.CharterName = txtCharterName.Text;
         }
 
+        private void btnResetThreading_Click(object sender, EventArgs e)
+        {
+            AppSettings.Instance.MultiThread = -1;
+            Globals.Log("CFSM multi threading usage was reset ...");
+
+        }
+
+ 
+ 
     }
 }

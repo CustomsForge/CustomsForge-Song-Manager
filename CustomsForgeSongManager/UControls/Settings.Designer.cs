@@ -60,6 +60,7 @@ namespace CustomsForgeSongManager.UControls
             this.chkIncludeArrangementData = new System.Windows.Forms.CheckBox();
             this.chkIncludeRS1CompSongs = new System.Windows.Forms.CheckBox();
             this.chkIncludeRS2BaseSongs = new System.Windows.Forms.CheckBox();
+            this.btnResetThreading = new System.Windows.Forms.Button();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.tlpSettings_Wrapper.SuspendLayout();
             this.panel5.SuspendLayout();
@@ -75,10 +76,8 @@ namespace CustomsForgeSongManager.UControls
             this.tlpSettings_Wrapper.Controls.Add(this.cueRsDir, 2, 0);
             this.tlpSettings_Wrapper.Controls.Add(this.lblSettingsRSDir, 0, 0);
             this.tlpSettings_Wrapper.Controls.Add(this.rbCleanOnClosing, 0, 13);
-            this.tlpSettings_Wrapper.Controls.Add(this.btnSettingsSave, 1, 16);
-            this.tlpSettings_Wrapper.Controls.Add(this.btnSettingsLoad, 0, 16);
-            this.tlpSettings_Wrapper.Controls.Add(this.btnEmptyLogs, 0, 15);
-            this.tlpSettings_Wrapper.Controls.Add(this.btnResetDownloads, 1, 15);
+            this.tlpSettings_Wrapper.Controls.Add(this.btnSettingsLoad, 0, 17);
+            this.tlpSettings_Wrapper.Controls.Add(this.btnResetDownloads, 1, 16);
             this.tlpSettings_Wrapper.Controls.Add(this.chkIncludeCustomPacks, 0, 4);
             this.tlpSettings_Wrapper.Controls.Add(this.txtCharterName, 0, 11);
             this.tlpSettings_Wrapper.Controls.Add(this.chkMacMode, 0, 10);
@@ -89,10 +88,13 @@ namespace CustomsForgeSongManager.UControls
             this.tlpSettings_Wrapper.Controls.Add(this.chkIncludeArrangementData, 0, 5);
             this.tlpSettings_Wrapper.Controls.Add(this.chkIncludeRS1CompSongs, 0, 3);
             this.tlpSettings_Wrapper.Controls.Add(this.chkIncludeRS2BaseSongs, 0, 2);
+            this.tlpSettings_Wrapper.Controls.Add(this.btnResetThreading, 1, 15);
+            this.tlpSettings_Wrapper.Controls.Add(this.btnEmptyLogs, 1, 17);
+            this.tlpSettings_Wrapper.Controls.Add(this.btnSettingsSave, 0, 16);
             this.tlpSettings_Wrapper.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tlpSettings_Wrapper.Location = new System.Drawing.Point(0, 0);
             this.tlpSettings_Wrapper.Name = "tlpSettings_Wrapper";
-            this.tlpSettings_Wrapper.RowCount = 18;
+            this.tlpSettings_Wrapper.RowCount = 19;
             this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
             this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
             this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
@@ -108,8 +110,9 @@ namespace CustomsForgeSongManager.UControls
             this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 8F));
             this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
             this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 45F));
-            this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 45F));
+            this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 32F));
+            this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 32F));
+            this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 32F));
             this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 14F));
             this.tlpSettings_Wrapper.Size = new System.Drawing.Size(866, 490);
             this.tlpSettings_Wrapper.TabIndex = 1;
@@ -122,7 +125,7 @@ namespace CustomsForgeSongManager.UControls
             this.panel5.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel5.Location = new System.Drawing.Point(347, 28);
             this.panel5.Name = "panel5";
-            this.tlpSettings_Wrapper.SetRowSpan(this.panel5, 17);
+            this.tlpSettings_Wrapper.SetRowSpan(this.panel5, 18);
             this.panel5.Size = new System.Drawing.Size(516, 459);
             this.panel5.TabIndex = 4;
             // 
@@ -240,14 +243,14 @@ namespace CustomsForgeSongManager.UControls
             // 
             // btnSettingsSave
             // 
-            this.btnSettingsSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnSettingsSave.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.btnSettingsSave.BackColor = System.Drawing.SystemColors.Control;
             this.btnSettingsSave.Image = global::CustomsForgeSongManager.Properties.Resources.save;
             this.btnSettingsSave.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnSettingsSave.Location = new System.Drawing.Point(192, 444);
+            this.btnSettingsSave.Location = new System.Drawing.Point(35, 416);
             this.btnSettingsSave.Name = "btnSettingsSave";
             this.btnSettingsSave.Padding = new System.Windows.Forms.Padding(3, 0, 3, 0);
-            this.btnSettingsSave.Size = new System.Drawing.Size(118, 29);
+            this.btnSettingsSave.Size = new System.Drawing.Size(118, 25);
             this.btnSettingsSave.TabIndex = 0;
             this.btnSettingsSave.Text = "Save Settings  ";
             this.btnSettingsSave.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -259,10 +262,10 @@ namespace CustomsForgeSongManager.UControls
             this.btnSettingsLoad.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.btnSettingsLoad.Image = global::CustomsForgeSongManager.Properties.Resources.load;
             this.btnSettingsLoad.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnSettingsLoad.Location = new System.Drawing.Point(35, 444);
+            this.btnSettingsLoad.Location = new System.Drawing.Point(35, 448);
             this.btnSettingsLoad.Name = "btnSettingsLoad";
             this.btnSettingsLoad.Padding = new System.Windows.Forms.Padding(3, 0, 3, 0);
-            this.btnSettingsLoad.Size = new System.Drawing.Size(118, 29);
+            this.btnSettingsLoad.Size = new System.Drawing.Size(118, 25);
             this.btnSettingsLoad.TabIndex = 0;
             this.btnSettingsLoad.Text = "Load Settings  ";
             this.btnSettingsLoad.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -271,13 +274,13 @@ namespace CustomsForgeSongManager.UControls
             // 
             // btnEmptyLogs
             // 
-            this.btnEmptyLogs.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.btnEmptyLogs.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnEmptyLogs.Image = global::CustomsForgeSongManager.Properties.Resources.delete;
             this.btnEmptyLogs.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnEmptyLogs.Location = new System.Drawing.Point(35, 399);
+            this.btnEmptyLogs.Location = new System.Drawing.Point(192, 448);
             this.btnEmptyLogs.Name = "btnEmptyLogs";
             this.btnEmptyLogs.Padding = new System.Windows.Forms.Padding(3, 0, 3, 0);
-            this.btnEmptyLogs.Size = new System.Drawing.Size(118, 29);
+            this.btnEmptyLogs.Size = new System.Drawing.Size(118, 25);
             this.btnEmptyLogs.TabIndex = 11;
             this.btnEmptyLogs.Text = "Empty Log Files";
             this.btnEmptyLogs.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -290,15 +293,15 @@ namespace CustomsForgeSongManager.UControls
             this.btnResetDownloads.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnResetDownloads.Image = global::CustomsForgeSongManager.Properties.Resources.clear;
             this.btnResetDownloads.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnResetDownloads.Location = new System.Drawing.Point(192, 399);
+            this.btnResetDownloads.Location = new System.Drawing.Point(192, 416);
             this.btnResetDownloads.Name = "btnResetDownloads";
             this.btnResetDownloads.Padding = new System.Windows.Forms.Padding(3, 0, 3, 0);
-            this.btnResetDownloads.Size = new System.Drawing.Size(118, 29);
+            this.btnResetDownloads.Size = new System.Drawing.Size(118, 25);
             this.btnResetDownloads.TabIndex = 13;
             this.btnResetDownloads.Text = "Reset DL Folder";
             this.btnResetDownloads.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.toolTip.SetToolTip(this.btnResetDownloads, "Reset the \'Downloads\' folder path to empty.\r\nYou will be asked later on to specif" +
-                    "y the new path\r\nof the \'Downloads\' folder when it is needed.");
+            this.toolTip.SetToolTip(this.btnResetDownloads, "Reset the \'Downloads\' folder path to empty ...\r\nYou will be asked later on to spe" +
+                    "cify the new path\r\nof the \'Downloads\' folder when it is needed.");
             this.btnResetDownloads.UseVisualStyleBackColor = true;
             this.btnResetDownloads.Click += new System.EventHandler(this.btnResetDownloads_Click);
             // 
@@ -476,6 +479,23 @@ namespace CustomsForgeSongManager.UControls
             this.chkIncludeRS2BaseSongs.UseVisualStyleBackColor = true;
             this.chkIncludeRS2BaseSongs.Click += new System.EventHandler(this.chkIncludeRS2BaseSongs_Click);
             // 
+            // btnResetThreading
+            // 
+            this.btnResetThreading.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnResetThreading.Image = global::CustomsForgeSongManager.Properties.Resources.restorewindow;
+            this.btnResetThreading.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnResetThreading.Location = new System.Drawing.Point(192, 384);
+            this.btnResetThreading.Name = "btnResetThreading";
+            this.btnResetThreading.Padding = new System.Windows.Forms.Padding(3, 0, 3, 0);
+            this.btnResetThreading.Size = new System.Drawing.Size(118, 25);
+            this.btnResetThreading.TabIndex = 23;
+            this.btnResetThreading.Text = "Reset Threading";
+            this.btnResetThreading.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.toolTip.SetToolTip(this.btnResetThreading, "Reset threading to false ...\r\nYou will be asked later to specify the \r\ntype of th" +
+                    "reading used if needed.");
+            this.btnResetThreading.UseVisualStyleBackColor = true;
+            this.btnResetThreading.Click += new System.EventHandler(this.btnResetThreading_Click);
+            // 
             // toolTip
             // 
             this.toolTip.AutomaticDelay = 200;
@@ -527,5 +547,6 @@ namespace CustomsForgeSongManager.UControls
         private CheckBox chkMacMode;
         private CheckBox chkEnableQuarantine;
         public CheckBox chkIncludeArrangementData;
+        private Button btnResetThreading;
     }
 }

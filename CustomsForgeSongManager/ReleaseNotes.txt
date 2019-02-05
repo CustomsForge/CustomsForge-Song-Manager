@@ -14,8 +14,16 @@ until you can confirm it is safe by working directly with your AV provider.
 
 CFSM Release Notes
 
+1.5.2.2
+- final multi threading build (thanks to everyone who helped with testing)
+- multi threading selection can be reset any time in 'Setting' tab menu
+  Note: In testing the use of multi threading improved CFSM performance by
+        10-30%, i.e., the total CDLC rescan time was reduced using multi
+        threading.  Also, system Task Manager showed better balanced CPU core
+        usage.  Your individual results may vary.  It is left to you to test.
+
 1.5.2.1
-- testing an alternate array method of multi threading with cross thread protection
+- testing alternate array method of multi threading with cross thread protection
 
 1.5.2.0
 - testing an alternate list method of multi threading

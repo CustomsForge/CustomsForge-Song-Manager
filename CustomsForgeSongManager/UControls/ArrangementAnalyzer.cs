@@ -937,7 +937,7 @@ namespace CustomsForgeSongManager.UControls
             Stopwatch sw = new Stopwatch();
             sw.Restart();
             RefreshDgv(true);
-            Globals.Log("Actual Parsing Time (secs): " + sw.ElapsedMilliseconds / 1000f);
+            Globals.Log("Rescan Parsing Time (secs): " + sw.ElapsedMilliseconds / 1000f);
             sw.Stop();
         }
 
