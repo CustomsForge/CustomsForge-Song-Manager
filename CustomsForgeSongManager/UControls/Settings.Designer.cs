@@ -46,9 +46,7 @@ namespace CustomsForgeSongManager.UControls
             this.cueRsDir = new CustomControls.CueTextBox();
             this.lblSettingsRSDir = new System.Windows.Forms.Label();
             this.rbCleanOnClosing = new System.Windows.Forms.RadioButton();
-            this.btnSettingsSave = new System.Windows.Forms.Button();
             this.btnSettingsLoad = new System.Windows.Forms.Button();
-            this.btnEmptyLogs = new System.Windows.Forms.Button();
             this.btnResetDownloads = new System.Windows.Forms.Button();
             this.chkIncludeCustomPacks = new System.Windows.Forms.CheckBox();
             this.txtCharterName = new CustomControls.CueTextBox();
@@ -61,6 +59,8 @@ namespace CustomsForgeSongManager.UControls
             this.chkIncludeRS1CompSongs = new System.Windows.Forms.CheckBox();
             this.chkIncludeRS2BaseSongs = new System.Windows.Forms.CheckBox();
             this.btnResetThreading = new System.Windows.Forms.Button();
+            this.btnEmptyLogs = new System.Windows.Forms.Button();
+            this.btnSettingsSave = new System.Windows.Forms.Button();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.tlpSettings_Wrapper.SuspendLayout();
             this.panel5.SuspendLayout();
@@ -241,22 +241,6 @@ namespace CustomsForgeSongManager.UControls
             this.rbCleanOnClosing.UseVisualStyleBackColor = true;
             this.rbCleanOnClosing.Click += new System.EventHandler(this.rbCleanOnClosing_Click);
             // 
-            // btnSettingsSave
-            // 
-            this.btnSettingsSave.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.btnSettingsSave.BackColor = System.Drawing.SystemColors.Control;
-            this.btnSettingsSave.Image = global::CustomsForgeSongManager.Properties.Resources.save;
-            this.btnSettingsSave.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnSettingsSave.Location = new System.Drawing.Point(35, 416);
-            this.btnSettingsSave.Name = "btnSettingsSave";
-            this.btnSettingsSave.Padding = new System.Windows.Forms.Padding(3, 0, 3, 0);
-            this.btnSettingsSave.Size = new System.Drawing.Size(118, 25);
-            this.btnSettingsSave.TabIndex = 0;
-            this.btnSettingsSave.Text = "Save Settings  ";
-            this.btnSettingsSave.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnSettingsSave.UseVisualStyleBackColor = true;
-            this.btnSettingsSave.Click += new System.EventHandler(this.btnSettingsSave_Click);
-            // 
             // btnSettingsLoad
             // 
             this.btnSettingsLoad.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
@@ -271,22 +255,6 @@ namespace CustomsForgeSongManager.UControls
             this.btnSettingsLoad.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnSettingsLoad.UseVisualStyleBackColor = true;
             this.btnSettingsLoad.Click += new System.EventHandler(this.btnSettingsLoad_Click);
-            // 
-            // btnEmptyLogs
-            // 
-            this.btnEmptyLogs.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnEmptyLogs.Image = global::CustomsForgeSongManager.Properties.Resources.delete;
-            this.btnEmptyLogs.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnEmptyLogs.Location = new System.Drawing.Point(192, 448);
-            this.btnEmptyLogs.Name = "btnEmptyLogs";
-            this.btnEmptyLogs.Padding = new System.Windows.Forms.Padding(3, 0, 3, 0);
-            this.btnEmptyLogs.Size = new System.Drawing.Size(118, 25);
-            this.btnEmptyLogs.TabIndex = 11;
-            this.btnEmptyLogs.Text = "Empty Log Files";
-            this.btnEmptyLogs.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.toolTip.SetToolTip(this.btnEmptyLogs, "Empty the log files");
-            this.btnEmptyLogs.UseVisualStyleBackColor = true;
-            this.btnEmptyLogs.Click += new System.EventHandler(this.btnEmptyLogs_Click);
             // 
             // btnResetDownloads
             // 
@@ -491,10 +459,42 @@ namespace CustomsForgeSongManager.UControls
             this.btnResetThreading.TabIndex = 23;
             this.btnResetThreading.Text = "Reset Threading";
             this.btnResetThreading.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.toolTip.SetToolTip(this.btnResetThreading, "Reset threading to false ...\r\nYou will be asked later to specify the \r\ntype of th" +
-                    "reading used if needed.");
+            this.toolTip.SetToolTip(this.btnResetThreading, "Reset CFSM threading usage.\r\nYou will be asked later to specify the \r\ntype of thr" +
+                    "eading used if needed.");
             this.btnResetThreading.UseVisualStyleBackColor = true;
             this.btnResetThreading.Click += new System.EventHandler(this.btnResetThreading_Click);
+            // 
+            // btnEmptyLogs
+            // 
+            this.btnEmptyLogs.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnEmptyLogs.Image = global::CustomsForgeSongManager.Properties.Resources.delete;
+            this.btnEmptyLogs.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnEmptyLogs.Location = new System.Drawing.Point(192, 448);
+            this.btnEmptyLogs.Name = "btnEmptyLogs";
+            this.btnEmptyLogs.Padding = new System.Windows.Forms.Padding(3, 0, 3, 0);
+            this.btnEmptyLogs.Size = new System.Drawing.Size(118, 25);
+            this.btnEmptyLogs.TabIndex = 11;
+            this.btnEmptyLogs.Text = "Empty Log Files";
+            this.btnEmptyLogs.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.toolTip.SetToolTip(this.btnEmptyLogs, "Empty the log files");
+            this.btnEmptyLogs.UseVisualStyleBackColor = true;
+            this.btnEmptyLogs.Click += new System.EventHandler(this.btnEmptyLogs_Click);
+            // 
+            // btnSettingsSave
+            // 
+            this.btnSettingsSave.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.btnSettingsSave.BackColor = System.Drawing.SystemColors.Control;
+            this.btnSettingsSave.Image = global::CustomsForgeSongManager.Properties.Resources.save;
+            this.btnSettingsSave.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnSettingsSave.Location = new System.Drawing.Point(35, 416);
+            this.btnSettingsSave.Name = "btnSettingsSave";
+            this.btnSettingsSave.Padding = new System.Windows.Forms.Padding(3, 0, 3, 0);
+            this.btnSettingsSave.Size = new System.Drawing.Size(118, 25);
+            this.btnSettingsSave.TabIndex = 0;
+            this.btnSettingsSave.Text = "Save Settings  ";
+            this.btnSettingsSave.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnSettingsSave.UseVisualStyleBackColor = true;
+            this.btnSettingsSave.Click += new System.EventHandler(this.btnSettingsSave_Click);
             // 
             // toolTip
             // 

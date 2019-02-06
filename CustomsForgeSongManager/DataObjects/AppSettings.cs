@@ -44,7 +44,7 @@ namespace CustomsForgeSongManager.DataObjects
         private bool _includeSubfolders;
         private bool _protectODLC;
         private bool _includeVocals;
-        private bool _isDonor;
+        private bool _oneTime;
         private int _multiThread = -1; // tristate int, 1 use multi, 0 use single, -1 not set
         private DateTime _lastODLCCheckDate;
         private RepairOptions _repairOptions;
@@ -264,10 +264,10 @@ namespace CustomsForgeSongManager.DataObjects
             set { SetPropertyField("IncludeVocals", ref _includeVocals, value); }
         }
 
-        public bool IsDonor
+        public bool OneTime
         {
-            get { return _isDonor; }
-            set { SetPropertyField("IsDonor", ref _isDonor, value); }
+            get { return _oneTime; }
+            set { SetPropertyField("OneTime", ref _oneTime, value); }
         }
 
         public int MultiThread
@@ -376,8 +376,8 @@ namespace CustomsForgeSongManager.DataObjects
             Instance.CleanOnClosing = false;
             Instance.ShowLogWindow = Constants.DebugMode;
             Instance.RepairOptions = new RepairOptions();
-            Instance.IsDonor = false;
-            Instance.MultiThread = -1; // tristate not set
+            Instance.OneTime = false;
+            Instance.MultiThread = -1; // tristate
             Instance.ProtectODLC = true;
             Instance.IncludeSubfolders = true;
             Instance.IncludeVocals = false;

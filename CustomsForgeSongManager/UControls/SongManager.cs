@@ -164,7 +164,7 @@ namespace CustomsForgeSongManager.UControls
             dgvSongsMaster.Visible = false;
 
             InitializeSongsMaster(); // reloads settings
-           
+
             //Load Song Collection from file
             if (!LoadSongCollectionFromFile())
                 return;
@@ -789,6 +789,9 @@ namespace CustomsForgeSongManager.UControls
 
             // this is done here in case user decided to manually delete songs
             List<string> filesList = Worker.FilesList(Constants.Rs2DlcFolder, AppSettings.Instance.IncludeRS1CompSongs, AppSettings.Instance.IncludeRS2BaseSongs, AppSettings.Instance.IncludeCustomPacks);
+            // remove inlays
+            filesList = filesList.Where(fi => !fi.ToLower().Contains("inlay")).ToList();
+
             if (!filesList.Any())
             {
                 var msgText = string.Format("Houston ... We have a problem!{0}There are no Rocksmith 2014 songs in:" + "{0}{1}{0}{0}Please select a valid Rocksmith 2014{0}installation directory when you restart CFSM.  ", Environment.NewLine, Constants.Rs2DlcFolder);
@@ -1063,19 +1066,19 @@ namespace CustomsForgeSongManager.UControls
         private void UserSupport()
         {
             // support request is shown only one time
-            if (!AppSettings.Instance.IsDonor && AppSettings.Instance.RepairOptions.DLFolderMonitor)
+            if (!AppSettings.Instance.OneTime && AppSettings.Instance.RepairOptions.DLFolderMonitor)
             {
                 // message only shown if the users is actively using the feature
-                var diaDonor = "You are using the 'Auto Monitor Downloads Folder'" + Environment.NewLine +
+                var diaMsg = "You are using the 'Auto Monitor Downloads Folder'" + Environment.NewLine +
                                "feature.  Your donation is needed to support this and" + Environment.NewLine +
                                "other user requested special features and updates.";
 
-                if (DialogResult.Yes == BetterDialog2.ShowDialog(diaDonor, "Donate if you can ...", null, "I'm a donor", "I'll donate", Bitmap.FromHicon(SystemIcons.Warning.Handle), "ReadMe", 0, 150))
+                if (DialogResult.Yes == BetterDialog2.ShowDialog(diaMsg, "Donate if you can ...", null, "I'm a donor", "I'll donate", Bitmap.FromHicon(SystemIcons.Warning.Handle), "ReadMe", 0, 150))
                     Globals.Log(" - Thank you for your support ...");
                 else
                     Process.Start("https://goo.gl/iTPfRU");
 
-                AppSettings.Instance.IsDonor = true; // no more nag
+                AppSettings.Instance.OneTime = true; // no nagging
             }
         }
 
@@ -1168,11 +1171,12 @@ namespace CustomsForgeSongManager.UControls
 
         private void RepairsButton_Click(object sender, EventArgs e)
         {
+            // TODO: fix screen flicker
             ToggleRepairMenu(sender);
             tsmiRepairs.ShowDropDown();
             menuStrip.Focus();
         }
-
+ 
         private void Repairs_CheckStateChanged(object sender, EventArgs e)
         {
             // to make a tsmi enhanced RadioButton work like a CheckBox ... 
@@ -1976,8 +1980,8 @@ namespace CustomsForgeSongManager.UControls
 
             if (String.IsNullOrEmpty(repairString) && tsmiDLFolderMonitor.Checked)
             {
-                var diaMsg = "Please select the repair options to be used" + Environment.NewLine +
-                             "while auto monitoring the 'Downloads' folder.";
+                var diaMsg = "First select some repair options to be used, and" + Environment.NewLine +
+                             "then check 'Auto Monitor Downloads Folder'.";
                 BetterDialog2.ShowDialog(diaMsg, "Repair Options ...", null, null, "Ok", Bitmap.FromHicon(SystemIcons.Warning.Handle), "ReadMe", 0, 150);
                 tsmiDLFolderMonitor.Checked = false;
                 return;
