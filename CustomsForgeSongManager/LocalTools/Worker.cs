@@ -26,7 +26,7 @@ namespace CustomsForgeSongManager.LocalTools
     internal sealed class Worker : IDisposable
     {
         private AbortableBackgroundWorker bWorker;
-        private Stopwatch counterStopwatch;
+        private Stopwatch counterStopwatch = new Stopwatch(); // initialized here to prevent null exceptions later
         public List<SongData> bwSongCollection = new List<SongData>();
         private Control workOrder;
 
@@ -88,9 +88,9 @@ namespace CustomsForgeSongManager.LocalTools
                 WorkerProgress(100);
 
                 if (workOrder.Name == "SongManager" || workOrder.Name == "Duplicates" || workOrder.Name == "SetlistManager")
-                    Globals.Log(String.Format("Finished parsing took: {0}", counterStopwatch.Elapsed));
-                else if (workOrder.Name == "Renamer")
-                    Globals.Log(String.Format("Finished renaming took: {0}", counterStopwatch.Elapsed));
+                        Globals.Log(String.Format("Finished parsing took: {0}", counterStopwatch.Elapsed));
+                    else if (workOrder.Name == "Renamer")
+                        Globals.Log(String.Format("Finished renaming took: {0}", counterStopwatch.Elapsed));
 
                 Globals.WorkerFinished = Globals.Tristate.True;
             }

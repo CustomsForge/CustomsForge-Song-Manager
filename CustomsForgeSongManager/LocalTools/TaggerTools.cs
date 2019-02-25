@@ -908,7 +908,7 @@ namespace CustomsForgeSongManager.LocalTools
             template.Add("tempo", Data.SongAverageTempo);
             template.Add("appid", Data.AppID);
             var ts = TimeSpan.FromSeconds(Data.SongLength);
-            template.Add("length", string.Format("{0}:{1}", ts.Minutes, ts.Seconds));
+            template.Add("length", String.Format("{0}:{1}", ts.Minutes, ts.Seconds));
             if (Data.DD > 0)
                 template.Add("dd", "DD");
             else

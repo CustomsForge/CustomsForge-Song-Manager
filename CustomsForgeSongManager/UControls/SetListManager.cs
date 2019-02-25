@@ -107,7 +107,7 @@ namespace CustomsForgeSongManager.UControls
             }
 
             dgvSetlistMaster.AllowUserToAddRows = false; // corrects initial Song Count
-            Globals.TsLabel_MainMsg.Text = string.Format(Properties.Resources.RocksmithSongsCountFormat, dgvSetlistMaster.Rows.Count);
+            Globals.TsLabel_MainMsg.Text = String.Format(Properties.Resources.RocksmithSongsCountFormat, dgvSetlistMaster.Rows.Count);
             Globals.TsLabel_MainMsg.Visible = true;
             Globals.TsLabel_DisabledCounter.Alignment = ToolStripItemAlignment.Right;
             Globals.TsLabel_DisabledCounter.Text = String.Format("Setlist Song Count: {0}", dgvSetlistSongs.Rows.Count);
@@ -166,7 +166,7 @@ namespace CustomsForgeSongManager.UControls
                 }
                 else
                 {
-                    MessageBox.Show(string.Format(Properties.Resources.ASetlistNamedX0AlreadyExists, newSetlistName), MESSAGE_CAPTION, MessageBoxButtons.OK, MessageBoxIcon.Hand);
+                    MessageBox.Show(String.Format(Properties.Resources.ASetlistNamedX0AlreadyExists, newSetlistName), MESSAGE_CAPTION, MessageBoxButtons.OK, MessageBoxIcon.Hand);
                     return null;
                 }
             }
@@ -1095,7 +1095,7 @@ namespace CustomsForgeSongManager.UControls
             var directory = new FileInfo(path);
 
             if (directory.DirectoryName != null)
-                Process.Start("explorer.exe", string.Format("/select,\"{0}\"", directory.FullName));
+                Process.Start("explorer.exe", String.Format("/select,\"{0}\"", directory.FullName));
         }
 
         private void cmsToggle_Click(object sender, EventArgs e)

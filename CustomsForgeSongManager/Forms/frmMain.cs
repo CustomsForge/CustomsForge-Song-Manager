@@ -63,7 +63,8 @@ namespace CustomsForgeSongManager.Forms
         public frmMain(DLogNet.DLogger myLog)
         {
             InitializeComponent();
-
+            this.Visible = false; // hides screen glitches
+            
             // enable/disable ProfileSongLists feature here
             //if (!Constants.DebugMode)
             //    tcMain.TabPages.RemoveByKey("tpProfileSongLists");
@@ -170,6 +171,7 @@ namespace CustomsForgeSongManager.Forms
 
             // load Song Manager Tab
             LoadSongManager();
+            this.Visible = true;
 
             //CustomsForgeSongManagerLib.Extensions.Benchmark(LoadSongManager, 1);
         }

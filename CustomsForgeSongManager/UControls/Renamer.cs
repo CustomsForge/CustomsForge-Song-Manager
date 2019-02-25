@@ -12,6 +12,7 @@ using CustomsForgeSongManager.DataObjects;
 using CustomsForgeSongManager.LocalTools;
 using GenTools;
 using Newtonsoft.Json;
+using System.Threading;
 
 // TODO: localize all messages that are single usage
 namespace CustomsForgeSongManager.UControls
@@ -172,7 +173,7 @@ namespace CustomsForgeSongManager.UControls
                 return;
             }
 
-            Globals.TsLabel_MainMsg.Text = string.Format(Properties.Resources.RocksmithSongsCountFormat, Globals.MasterCollection.Count);
+            Globals.TsLabel_MainMsg.Text = String.Format(Properties.Resources.RocksmithSongsCountFormat, Globals.MasterCollection.Count);
             Globals.TsLabel_MainMsg.Visible = true;
             var selectedDLC = Globals.MasterCollection.Where(song => song.Selected).ToList().Count();
             var tsldcMsg = String.Format("Selected Songs in SongManager Count: {0}", selectedDLC);
@@ -194,7 +195,10 @@ namespace CustomsForgeSongManager.UControls
             {
                 worker.BackgroundScan(this);
                 while (Globals.WorkerFinished == Globals.Tristate.False)
+                {
                     Application.DoEvents();
+                    Thread.Sleep(100);
+                }
             }
 
             ToggleUiControls(true);

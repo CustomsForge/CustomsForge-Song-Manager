@@ -14,8 +14,17 @@ until you can confirm it is safe by working directly with your AV provider.
 
 CFSM Release Notes
 
+1.5.2.4
+- additional tooltip information added to Customizable Scroll Speed
+- fixed stopwatch null exception in Renamer when no songs need renaming
+- added tooltip to Renamer about renaming ODLC
+- fixed filtering bug that caused IndexOutOfRange exception
+- fixed ArrangementAnalyzer Binding and Paint event handlers so
+  filtered data count appears correctly
+- fixed intermittent initial load screen glitch
+
 1.5.2.3
-- cleanup log messages and AppSettings
+- cleanup Log messages and AppSettings
 
 1.5.2.2
 - final multi threading build (thanks to everyone who helped with testing)

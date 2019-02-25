@@ -68,7 +68,7 @@ namespace CustomsForgeSongManager.UControls
             }
 
             dgvSongPacks.AllowUserToAddRows = false; // corrects initial Song Count
-            Globals.TsLabel_MainMsg.Text = string.Format("Song Count: {0}", dgvSongPacks.Rows.Count);
+            Globals.TsLabel_MainMsg.Text = String.Format("Song Count: {0}", dgvSongPacks.Rows.Count);
             Globals.TsLabel_MainMsg.Visible = true;
             var tsldcMsg = String.Format("Disabled CDLC: {0}", DisabledSongColorizerCounter());
             Globals.TsLabel_DisabledCounter.Alignment = ToolStripItemAlignment.Right;

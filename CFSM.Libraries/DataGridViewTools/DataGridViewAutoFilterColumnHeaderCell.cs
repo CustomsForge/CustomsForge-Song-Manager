@@ -769,9 +769,7 @@ namespace DataGridViewTools
             // Continue only if the mouse click was in the content area
             // and not on the scroll bar. 
             if (!dropDownListBox.DisplayRectangle.Contains(e.X, e.Y))
-            {
                 return;
-            }
 
             UpdateFilter();
             HideDropDownList();
@@ -1030,9 +1028,12 @@ namespace DataGridViewTools
         {
             // Continue only if the selection has changed.
             if (dropDownListBox.SelectedItem.ToString().Equals(selectedFilterValue))
-            {
                 return;
-            }
+
+            // reset/remove existing filter first to prevent IndexOutOfRange exceptions
+            var filterStatus = DataGridViewAutoFilterColumnHeaderCell.GetFilterStatus(this.DataGridView);
+            if (!String.IsNullOrEmpty(filterStatus))
+                DataGridViewAutoFilterTextBoxColumn.RemoveFilter(this.DataGridView);
 
             // Store the new selection value. 
             selectedFilterValue = dropDownListBox.SelectedItem.ToString();
@@ -1199,9 +1200,7 @@ namespace DataGridViewTools
         {
             // Continue only if the specified value is valid. 
             if (dataGridView == null)
-            {
                 throw new ArgumentNullException("dataGridView");
-            }
 
             // Cast the data source to a BindingSource.
             BindingSource data = dataGridView.DataSource as BindingSource;
@@ -1209,9 +1208,7 @@ namespace DataGridViewTools
             // Return String.Empty if there is no appropriate data source or
             // there is no filter in effect. 
             if (data == null || String.IsNullOrEmpty(data.Filter) || data.DataSource == null || !data.SupportsFiltering)
-            {
                 return String.Empty;
-            }
 
             // Retrieve the filtered row count. 
             Int32 currentRowCount = data.Count;
@@ -1229,14 +1226,14 @@ namespace DataGridViewTools
                 data.Filter = oldFilter;
                 data.RaiseListChangedEvents = true;
             }
+
             Debug.Assert(currentRowCount <= unfilteredRowCount, "current count is greater than unfiltered count");
 
             // Return String.Empty if the filtered and unfiltered counts
             // are the same, otherwise, return the status string. 
             if (currentRowCount == unfilteredRowCount)
-            {
                 return String.Empty;
-            }
+
             return String.Format("{0} of {1} records found", currentRowCount, unfilteredRowCount);
         }
 

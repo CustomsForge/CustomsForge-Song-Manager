@@ -29,7 +29,7 @@ namespace DLogNet
             if (String.IsNullOrEmpty(Message))
                 return String.Empty;
 
-            return string.Format("[{0:yyyy/MM/dd HH:mm:ss}]: {1}", TimeStamp, Message);
+            return String.Format("[{0:yyyy/MM/dd HH:mm:ss}]: {1}", TimeStamp, Message);
         }
     }
 }

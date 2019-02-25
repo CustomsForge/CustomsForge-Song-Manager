@@ -315,9 +315,9 @@ namespace CustomsForgeSongManager.UControls
             this.chkMacMode.Location = new System.Drawing.Point(3, 281);
             this.chkMacMode.Name = "chkMacMode";
             this.chkMacMode.Padding = new System.Windows.Forms.Padding(9, 0, 0, 0);
-            this.chkMacMode.Size = new System.Drawing.Size(164, 19);
+            this.chkMacMode.Size = new System.Drawing.Size(167, 19);
             this.chkMacMode.TabIndex = 20;
-            this.chkMacMode.Text = "Mac Compatiblity Mode";
+            this.chkMacMode.Text = "Mac Compatibility Mode";
             this.chkMacMode.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.toolTip.SetToolTip(this.chkMacMode, resources.GetString("chkMacMode.ToolTip"));
             this.chkMacMode.UseVisualStyleBackColor = true;

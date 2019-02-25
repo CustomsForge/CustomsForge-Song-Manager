@@ -665,7 +665,7 @@ namespace GenTools
                 throw new InvalidDataException("<ERROR> DirName replaceWith charater is invalid ...");
 
             // remove forward slashes from a directory name, e.g. AC/DC becomes ACDC
-            string invalidRegStr = string.Format(@"([{0}]*\.+$)|([{0}/]+)", Regex.Escape(invalidChars));
+            string invalidRegStr = String.Format(@"([{0}]*\.+$)|([{0}/]+)", Regex.Escape(invalidChars));
 
             return Regex.Replace(dirName, invalidRegStr, replaceWith);
         }
@@ -676,7 +676,7 @@ namespace GenTools
             if (!String.IsNullOrEmpty(replaceWith) && invalidChars.Contains(replaceWith))
                 throw new InvalidDataException("<ERROR> FileName replaceWith charater is invalid ...");
 
-            string invalidRegStr = string.Format(@"([{0}]*\.+$)|([{0}]+)", Regex.Escape(invalidChars));
+            string invalidRegStr = String.Format(@"([{0}]*\.+$)|([{0}]+)", Regex.Escape(invalidChars));
 
             return Regex.Replace(fileName, invalidRegStr, replaceWith);
         }

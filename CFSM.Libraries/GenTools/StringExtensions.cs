@@ -12,7 +12,7 @@ namespace GenTools
     {
         public static string Capitalize(this string input)
         {
-            return string.Format("{0}{1}", input.Substring(0, 1).ToUpper(), input.Substring(1).ToLower());
+            return String.Format("{0}{1}", input.Substring(0, 1).ToUpper(), input.Substring(1).ToLower());
         }
 
         public static string ConvertToAscii(this string input)
@@ -169,7 +169,7 @@ namespace GenTools
                 }
                 cutText = cutText.RightStrip(1);
             }
-            return string.Format("{0}{1}", cutText.Replace("[...]", ""), addSuspensionPoints && hasToBeCut ? "..." : string.Empty);
+            return String.Format("{0}{1}", cutText.Replace("[...]", ""), addSuspensionPoints && hasToBeCut ? "..." : string.Empty);
         }
 
         public static List<string> SplitToList(this string input, params char[] separator)

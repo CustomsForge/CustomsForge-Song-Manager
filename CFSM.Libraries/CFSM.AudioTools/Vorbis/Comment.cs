@@ -61,7 +61,7 @@ namespace CFSM.AudioTools.Vorbis
         public void add_tag(String tag, String contents)
         {
             if (contents == null) contents = String.Empty;
-            add(string.Format("{0}={1}", tag, contents));
+            add(String.Format("{0}={1}", tag, contents));
         }
 
         // This is more or less the same as strncasecmp - but that doesn't exist
@@ -264,7 +264,7 @@ namespace CFSM.AudioTools.Vorbis
             String long_string = "Vendor: " + new String(AE.GetChars(vendor));
 
             for (int i = 0; i < comments; i++)
-                long_string = string.Format("{0}\nComment: {1}", long_string, AE.GetChars(user_comments[i]));
+                long_string = String.Format("{0}\nComment: {1}", long_string, AE.GetChars(user_comments[i]));
 
             long_string = long_string + "\n";
 

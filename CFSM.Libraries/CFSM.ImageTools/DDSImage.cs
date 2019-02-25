@@ -109,7 +109,7 @@ namespace CFSM.ImageTools
                 default:
                     break;
             }
-            throw new Exception(string.Format("0x{0} texture compression not implemented.", header.ddspf.dwFourCC.ToString("X")));
+            throw new Exception(String.Format("0x{0} texture compression not implemented.", header.ddspf.dwFourCC.ToString("X")));
         }
 
         #region DXT1

@@ -80,9 +80,9 @@ namespace CustomsForgeSongManager.SongEditor
         private bool ReplaceImages(PSARC p)
         {
             var x = "gfxassets/album_art/album_{0}_{1}.dds";
-            var large = string.Format(x, this.SongData.Name.ToLower(), 256);
-            var mid = string.Format(x, this.SongData.Name.ToLower(), 128);
-            var small = string.Format(x, this.SongData.Name.ToLower(), 64);
+            var large = String.Format(x, this.SongData.Name.ToLower(), 256);
+            var mid = String.Format(x, this.SongData.Name.ToLower(), 128);
+            var small = String.Format(x, this.SongData.Name.ToLower(), 64);
 
             if (!ReplaceImagesExtracted(p, large, 256, 256))
                 return false;
@@ -136,7 +136,7 @@ namespace CustomsForgeSongManager.SongEditor
                     }
                     catch (Exception ex)
                     {
-                        Globals.Log(string.Format("{0}: {1}", Properties.Resources.ERROR, ex.Message));
+                        Globals.Log(String.Format("{0}: {1}", Properties.Resources.ERROR, ex.Message));
                         return;
                     }
                     Dirty = true;

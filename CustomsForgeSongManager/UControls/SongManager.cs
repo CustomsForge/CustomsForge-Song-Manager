@@ -103,7 +103,7 @@ namespace CustomsForgeSongManager.UControls
                 }
 
                 if (String.IsNullOrEmpty(song.AudioCache))
-                    song.AudioCache = string.Format("{0}_{1}", Guid.NewGuid().ToString().Replace("-", ""), song.FileSize);
+                    song.AudioCache = String.Format("{0}_{1}", Guid.NewGuid().ToString().Replace("-", ""), song.FileSize);
 
                 var audioCacheDir = Constants.AudioCacheFolder;
                 if (!Directory.Exists(audioCacheDir))
@@ -180,9 +180,7 @@ namespace CustomsForgeSongManager.UControls
                 if (colX != null)
                     dgvSongsMaster.Sort(colX, AppSettings.Instance.SortAscending ? ListSortDirection.Ascending : ListSortDirection.Descending);
             }
-
-            // TODO: maybe reapply previous filtering and search
-        }
+       }
 
         public void SaveSongCollectionToFile()
         {
@@ -305,7 +303,7 @@ namespace CustomsForgeSongManager.UControls
                 Globals.Log(" - CFSM cleared a saved search/filter that returns no songs ...");
             }
 
-            Globals.TsLabel_MainMsg.Text = string.Format("Rocksmith Song Count: {0}", dgvSongsMaster.Rows.Count);
+            Globals.TsLabel_MainMsg.Text = String.Format("Rocksmith Song Count: {0}", dgvSongsMaster.Rows.Count);
             Globals.TsLabel_MainMsg.Visible = true;
             numberOfDisabledDLC = songList.Where(song => song.Enabled == "No").ToList().Count();
             numberOfDLCPendingUpdate = 0;
@@ -597,7 +595,7 @@ namespace CustomsForgeSongManager.UControls
                 GenExtensions.DeleteDirectory(Constants.WorkFolder);
                 FileTools.VerifyCfsmFolders();
 
-                MessageBox.Show(string.Format("{0}{1}{1}CFSM will now shut down.", err, Environment.NewLine), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(String.Format("{0}{1}{1}CFSM will now shut down.", err, Environment.NewLine), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Environment.Exit(0);
             }
 
@@ -794,7 +792,7 @@ namespace CustomsForgeSongManager.UControls
 
             if (!filesList.Any())
             {
-                var msgText = string.Format("Houston ... We have a problem!{0}There are no Rocksmith 2014 songs in:" + "{0}{1}{0}{0}Please select a valid Rocksmith 2014{0}installation directory when you restart CFSM.  ", Environment.NewLine, Constants.Rs2DlcFolder);
+                var msgText = String.Format("Houston ... We have a problem!{0}There are no Rocksmith 2014 songs in:" + "{0}{1}{0}{0}Please select a valid Rocksmith 2014{0}installation directory when you restart CFSM.  ", Environment.NewLine, Constants.Rs2DlcFolder);
                 MessageBox.Show(msgText, Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Stop);
 
                 if (Directory.Exists(Constants.WorkFolder))
@@ -981,7 +979,7 @@ namespace CustomsForgeSongManager.UControls
                 }
             }
             else
-                MessageBox.Show(string.Format("Please select (highlight) the song that  {0}you would like information about.", Environment.NewLine), Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show(String.Format("Please select (highlight) the song that  {0}you would like information about.", Environment.NewLine), Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         // use to manipulate data without causing error
@@ -1058,7 +1056,7 @@ namespace CustomsForgeSongManager.UControls
             }
             catch (Exception)
             {
-                MessageBox.Show(string.Format("Please connect to the internet  {0}to use this feature.", Environment.NewLine), Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show(String.Format("Please connect to the internet  {0}to use this feature.", Environment.NewLine), Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Information);
                 Globals.Log("Need to be connected to the internet to use this feature");
             }
         }
@@ -1078,7 +1076,7 @@ namespace CustomsForgeSongManager.UControls
                 else
                     Process.Start("https://goo.gl/iTPfRU");
 
-                AppSettings.Instance.OneTime = true; // no nagging
+                AppSettings.Instance.OneTime = true;
             }
         }
 
@@ -1339,7 +1337,7 @@ namespace CustomsForgeSongManager.UControls
             var path = dgvSongsMaster.SelectedRows[0].Cells["colFilePath"].Value.ToString();
             var directory = new FileInfo(path);
             if (directory.DirectoryName != null)
-                Process.Start("explorer.exe", string.Format("/select,\"{0}\"", directory.FullName));
+                Process.Start("explorer.exe", String.Format("/select,\"{0}\"", directory.FullName));
         }
 
         private void cmsOpenSongPage_Click(object sender, EventArgs e)
@@ -1355,7 +1353,7 @@ namespace CustomsForgeSongManager.UControls
                     if (sd.IgnitionID == null || sd.IgnitionID == "No Results")
                         Globals.Log("<ERROR> Song doesn't exist in Ignition anymore ...");
                     else
-                        Process.Start(string.Format("{0}/{1}", Constants.DefaultDetailsURL, sd.IgnitionID));
+                        Process.Start(String.Format("{0}/{1}", Constants.DefaultDetailsURL, sd.IgnitionID));
                 }
             }
         }
@@ -1766,6 +1764,7 @@ namespace CustomsForgeSongManager.UControls
                 Globals.TsLabel_DisabledCounter.Alignment = ToolStripItemAlignment.Right;
                 Globals.TsLabel_DisabledCounter.Text = filterStatus;
                 Globals.TsLabel_DisabledCounter.Visible = true;
+
                 tsmiModsMyCDLC.Checked = false;
             }
 

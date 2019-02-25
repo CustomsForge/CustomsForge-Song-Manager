@@ -145,7 +145,7 @@ namespace CustomsForgeSongManager.Forms
                     if (!safe2Delete)
                     {
                         // DANGER ZONE
-                        if (MessageBox.Show(string.Format(Properties.Resources.YouAreAboutToPermanentlyDeleteAllSelectedS, Environment.NewLine), Constants.ApplicationName + " ... Warning ... Warning", MessageBoxButtons.YesNo) == DialogResult.No)
+                        if (MessageBox.Show(String.Format(Properties.Resources.YouAreAboutToPermanentlyDeleteAllSelectedS, Environment.NewLine), Constants.ApplicationName + " ... Warning ... Warning", MessageBoxButtons.YesNo) == DialogResult.No)
                             return;
 
                         safe2Delete = true;
@@ -164,7 +164,7 @@ namespace CustomsForgeSongManager.Forms
                         }
                         catch (IOException ex)
                         {
-                            MessageBox.Show(string.Format(Properties.Resources.UnableToDeleteSongX0X1ErrorX2, songPath, Environment.NewLine, ex.Message), Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            MessageBox.Show(String.Format(Properties.Resources.UnableToDeleteSongX0X1ErrorX2, songPath, Environment.NewLine, ex.Message), Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Error);
                         }
                     }
                 }

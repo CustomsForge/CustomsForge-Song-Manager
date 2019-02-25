@@ -411,7 +411,7 @@ namespace DataGridViewTools
 
         private IEnumerable<string> GetSubStrings(string input, string start, string end)
         {
-            Regex r = new Regex(string.Format("{0}(.*?){1}", Regex.Escape(start), Regex.Escape(end)));
+            Regex r = new Regex(String.Format("{0}(.*?){1}", Regex.Escape(start), Regex.Escape(end)));
             MatchCollection matches = r.Matches(input);
             foreach (Match match in matches)
                 yield return match.Groups[1].Value;

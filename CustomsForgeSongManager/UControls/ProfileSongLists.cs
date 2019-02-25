@@ -259,7 +259,7 @@ namespace CustomsForgeSongManager.UControls
             }
 
             dgvSongListMaster.AllowUserToAddRows = false; // corrects initial Song Count
-            Globals.TsLabel_MainMsg.Text = string.Format(Properties.Resources.RocksmithSongsCountFormat, dgvSongListMaster.Rows.Count);
+            Globals.TsLabel_MainMsg.Text = String.Format(Properties.Resources.RocksmithSongsCountFormat, dgvSongListMaster.Rows.Count);
             Globals.TsLabel_MainMsg.Visible = true;
             Globals.TsLabel_DisabledCounter.Alignment = ToolStripItemAlignment.Right;
             Globals.TsLabel_DisabledCounter.Text = String.Format("Song List Song Count: {0}", dgvSongListSongs.Rows.Count);
@@ -874,7 +874,7 @@ namespace CustomsForgeSongManager.UControls
             var directory = new FileInfo(path);
 
             if (directory.DirectoryName != null)
-                Process.Start("explorer.exe", string.Format("/select,\"{0}\"", directory.FullName));
+                Process.Start("explorer.exe", String.Format("/select,\"{0}\"", directory.FullName));
         }
 
         private void cmsToggle_Click(object sender, EventArgs e)

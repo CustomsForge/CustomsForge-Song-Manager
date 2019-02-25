@@ -498,6 +498,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UControls\Settings.resx">
       <DependentUpon>Settings.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UControls\About.resx">
       <DependentUpon>About.cs</DependentUpon>

@@ -447,7 +447,7 @@ namespace CustomsForgeSongManager.UControls
                         }
                         catch (IOException ex)
                         {
-                            MessageBox.Show(string.Format(Properties.Resources.UnableToEnableDisableSongX0InDlcFolderX1Er, Path.GetFileName(originalPath), Environment.NewLine, ex.Message));
+                            MessageBox.Show(String.Format(Properties.Resources.UnableToEnableDisableSongX0InDlcFolderX1Er, Path.GetFileName(originalPath), Environment.NewLine, ex.Message));
                         }
                     }
                 }
@@ -470,7 +470,7 @@ namespace CustomsForgeSongManager.UControls
                 }
             }
             else
-                MessageBox.Show(string.Format("Please select (highlight) the song that  {0}you would like information about.", Environment.NewLine), Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show(String.Format("Please select (highlight) the song that  {0}you would like information about.", Environment.NewLine), Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void TemporaryDisableDatabindEvent(Action action)
@@ -543,7 +543,7 @@ namespace CustomsForgeSongManager.UControls
             var path = dgvDuplicates.SelectedRows[0].Cells["colFilePath"].Value.ToString();
             var directory = new FileInfo(path);
             if (directory.DirectoryName != null)
-                Process.Start("explorer.exe", string.Format("/select,\"{0}\"", directory.FullName));
+                Process.Start("explorer.exe", String.Format("/select,\"{0}\"", directory.FullName));
         }
 
         private void cmsShowSongInfo_Click(object sender, EventArgs e)
@@ -786,7 +786,7 @@ namespace CustomsForgeSongManager.UControls
             var filePath = duplicateList[dgvDuplicates.SelectedRows[0].Index].FilePath;
 
             if (File.Exists(filePath))
-                Process.Start("explorer.exe", string.Format("/select,\"{0}\"", filePath));
+                Process.Start("explorer.exe", String.Format("/select,\"{0}\"", filePath));
         }
 
         private void lnkLblSelectAll_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
