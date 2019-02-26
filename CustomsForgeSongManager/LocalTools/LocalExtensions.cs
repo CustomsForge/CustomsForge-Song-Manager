@@ -63,6 +63,65 @@ namespace CustomsForgeSongManager.LocalTools
             }
         }
 
+        private static List<string> GetCustomSteamappsFolders(string mainSteamPath) //TODO: because it's, for the most part, the same code as for the GetMacPath, test it 
+        {
+            string libRegex = "(^\\t\"[1-9]\").*(\".*\")";
+            var libDirs = new List<string>();
+
+            string steamappsFolder = AppSettings.Instance.MacMode ? mainSteamPath : Path.Combine(mainSteamPath, "steamapps");
+            string libVdf = Path.Combine(steamappsFolder, "libraryfolders.vdf");
+
+            if (!File.Exists(libVdf))
+                return new List<string>();
+
+            var content = File.ReadAllLines(libVdf);
+            foreach (string l in content)
+            {
+                var reg = Regex.Match(l, libRegex);
+                string dir = reg.Groups[2].Value;
+
+                if (dir != string.Empty)
+                {
+                    string ndir = dir.Trim('\"');
+                    libDirs.Add(ndir);
+                }
+            }
+
+            if (libDirs.Count == 0)
+                return new List<string>();
+
+            return libDirs;
+        }
+
+        private static string GetCustomRSFolder(string mainSteamPath)
+        {
+            var customSteamppsFolders = GetCustomSteamappsFolders(mainSteamPath);
+            string finalPath = string.Empty;
+
+            customSteamppsFolders.ForEach(dir =>
+            {
+                string dirPath = Path.Combine(dir, "steamapps", "appmanifest_221680.acf");
+
+                if (File.Exists(dirPath))
+                    finalPath = Path.GetDirectoryName(dirPath);
+            });
+
+            if (!string.IsNullOrEmpty(finalPath))
+                Globals.Log("Found at: " + finalPath);
+            else
+            {
+                Globals.Log("RS path not found.");
+                return string.Empty;
+            }
+
+            string rsFolderPath = Path.Combine(finalPath, "common", "Rocksmith2014");
+
+            if (Directory.Exists(rsFolderPath))
+                return rsFolderPath;
+
+            return String.Empty;
+        }
+
         public static string GetSteamDirectory()
         {
             // for debugging force user to select the RS root
@@ -81,9 +140,16 @@ namespace CustomsForgeSongManager.LocalTools
             const string rsX86Path = @"HKEY_LOCAL_MACHINE\SOFTWARE\Ubisoft\Rocksmith2014";
             const string rsX86Steam = @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Steam App 221680";
 
-            string rs2RootDir = String.Empty;
-            if (!String.IsNullOrEmpty(GetStringValueFromRegistry(steamRegPath, "SteamPath")))
-                rs2RootDir = Path.Combine(rs2RootDir.Replace('/', '\\'), "SteamApps\\common\\Rocksmith2014");
+            string rs2RootDir = GetStringValueFromRegistry(steamRegPath, "SteamPath");
+            if (!String.IsNullOrEmpty(rs2RootDir))
+            {
+                string steamRootPath = rs2RootDir.Replace('/', '\\');
+
+                rs2RootDir = Path.Combine(steamRootPath, "SteamApps\\common\\Rocksmith2014");
+
+                if (!Directory.Exists(rs2RootDir))
+                    rs2RootDir = GetCustomRSFolder(steamRootPath);
+            }
             else if (!String.IsNullOrEmpty(GetStringValueFromRegistry(rsX64Path, "installdir")))
                 rs2RootDir = GetStringValueFromRegistry(rsX64Path, "installdir");
             else if (!String.IsNullOrEmpty(GetStringValueFromRegistry(rsX64Steam, installValueName)))

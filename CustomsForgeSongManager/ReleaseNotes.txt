@@ -13,6 +13,8 @@ until you can confirm it is safe by working directly with your AV provider.
 ========================================================================
 
 CFSM Release Notes
+1.5.2.6
+- improved automatic RS folder path finding
 
 1.5.2.5
 - fixed Audio Player toolstrip repositioning issue
