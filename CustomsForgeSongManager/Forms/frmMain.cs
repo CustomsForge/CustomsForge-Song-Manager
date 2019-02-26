@@ -64,7 +64,7 @@ namespace CustomsForgeSongManager.Forms
         {
             InitializeComponent();
             this.Visible = false; // hides screen glitches
-            
+
             // enable/disable ProfileSongLists feature here
             //if (!Constants.DebugMode)
             //    tcMain.TabPages.RemoveByKey("tpProfileSongLists");
@@ -80,6 +80,7 @@ namespace CustomsForgeSongManager.Forms
             TopToolStripPanel.MaximumSize = new Size(0, 28); // force height and makes tsLable_Tagger positioning work
             tsUtilities.AutoSize = false; // a key to preventing movement
             tsAudioPlayer.AutoSize = false; // a key to preventing movement
+            tsAudioPlayer.Visible = false;
             tsUtilities.Location = new Point(0, 0); // force location
             tsAudioPlayer.Location = new Point(tsUtilities.Width + 40, 0); // force location
 
@@ -93,10 +94,6 @@ namespace CustomsForgeSongManager.Forms
                 notifyIcon_Main.Icon = null;
                 notifyIcon_Main.Dispose();
             };
-
-            // bring CFSM to the front on startup
-            this.WindowState = FormWindowState.Minimized;
-            this.BringToFront();
 
             Globals.MyLog = myLog;
             Globals.Notifier = this.notifyIcon_Main;
@@ -166,12 +163,15 @@ namespace CustomsForgeSongManager.Forms
             else
                 Globals.MyLog.RemoveTargetNotifyIcon(Globals.Notifier);
 
-            tsAudioPlayer.Visible = true;
-            playFunction += new PlayCall(PlaySong);
-
+ 
             // load Song Manager Tab
             LoadSongManager();
+ 
+            // bring CFSM to the front on startup
+            this.BringToFront();
             this.Visible = true;
+            tsAudioPlayer.Visible = true;
+            playFunction += new PlayCall(PlaySong);
 
             //CustomsForgeSongManagerLib.Extensions.Benchmark(LoadSongManager, 1);
         }
@@ -977,6 +977,16 @@ namespace CustomsForgeSongManager.Forms
             return this;
         }
 
+        private void frmMain_ResizeEnd(object sender, EventArgs e)
+        {
+            // resize/reposition toolstrip items
+            tsUtilities.AutoSize = true;
+            tsAudioPlayer.AutoSize = true;
+            tsUtilities.Location = new Point(0, 0); // force location
+            tsAudioPlayer.Location = new Point(tsUtilities.Width + 40, 0); // force location
+            tsUtilities.AutoSize = false; // prevent movement
+            tsAudioPlayer.AutoSize = false; // prevent movement
+        }
 
     }
 }

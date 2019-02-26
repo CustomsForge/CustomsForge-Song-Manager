@@ -159,8 +159,12 @@ namespace CustomsForgeSongManager.SongEditor
                 statusStripMain.Refresh();
                 Cursor.Current = Cursors.Default;
                 Globals.Log("Song information saved ... ");
-                // changed update behaviour ... only update this CDLC
+                // force reload of CDLC
                 Globals.ReloadSongManager = true;
+                Globals.ReloadArrangements = true;
+                Globals.RescanDuplicates = true;
+                Globals.ReloadRenamer = true;
+                Globals.ReloadSetlistManager = true;
                 this.Close(); // need to prevent re-editing error
             }
         }

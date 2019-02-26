@@ -5,7 +5,10 @@
 CustomsForge Song Manager
 ======================
 
+A VS2010, .NET Framework 4.0 project
+
 Latest builds are available to download at: http://cfmanager.com
+
 
 Developers
 ======================

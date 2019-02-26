@@ -261,7 +261,7 @@
             this.label1.ForeColor = System.Drawing.SystemColors.ActiveCaption;
             this.label1.Location = new System.Drawing.Point(303, 36);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(150, 13);
+            this.label1.Size = new System.Drawing.Size(166, 13);
             this.label1.TabIndex = 29;
             this.label1.Text = "In-Game Song List Sortable Fields";
             // 
@@ -404,12 +404,12 @@
             65536});
             this.cmbPreviewVolume.Location = new System.Drawing.Point(306, 188);
             this.cmbPreviewVolume.Maximum = new decimal(new int[] {
-            0,
+            30,
             0,
             0,
             0});
             this.cmbPreviewVolume.Minimum = new decimal(new int[] {
-            100,
+            30,
             0,
             0,
             -2147483648});
@@ -418,7 +418,7 @@
             this.cmbPreviewVolume.TabIndex = 9;
             this.cmbPreviewVolume.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.cmbPreviewVolume.Value = new decimal(new int[] {
-            7,
+            5,
             0,
             0,
             -2147483648});
@@ -434,12 +434,12 @@
             65536});
             this.cmbSongVolume.Location = new System.Drawing.Point(102, 188);
             this.cmbSongVolume.Maximum = new decimal(new int[] {
-            0,
+            30,
             0,
             0,
             0});
             this.cmbSongVolume.Minimum = new decimal(new int[] {
-            100,
+            30,
             0,
             0,
             -2147483648});

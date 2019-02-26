@@ -14,6 +14,13 @@ until you can confirm it is safe by working directly with your AV provider.
 
 CFSM Release Notes
 
+1.5.2.5
+- fixed Audio Player toolstrip repositioning issue
+- fixed Song Editor volume range so that it matches toolkit volume range
+- fixed SongManager and ArrangementAnalyzer search feature
+- Selections made in ArrangementAnalyzer are now transferred to SongManager
+  so that custom tagger templates can be quickly applied to only those CDLC
+
 1.5.2.4
 - additional tooltip information added to Customizable Scroll Speed
 - fixed stopwatch null exception in Renamer when no songs need renaming

@@ -180,7 +180,7 @@ namespace CustomsForgeSongManager.UControls
                 if (colX != null)
                     dgvSongsMaster.Sort(colX, AppSettings.Instance.SortAscending ? ListSortDirection.Ascending : ListSortDirection.Descending);
             }
-       }
+        }
 
         public void SaveSongCollectionToFile()
         {
@@ -297,7 +297,7 @@ namespace CustomsForgeSongManager.UControls
 
 
             dgvSongsMaster.AllowUserToAddRows = false; // corrects initial Song Count
-            if (dgvSongsMaster.Rows.Count == 0)
+            if (dgvSongsMaster.Rows.Count == 0 && !isCueSearch)
             {
                 IncludeSubfolders(); // search killer
                 Globals.Log(" - CFSM cleared a saved search/filter that returns no songs ...");
@@ -758,12 +758,14 @@ namespace CustomsForgeSongManager.UControls
             DgvExtensions.SaveSorting(dgvSongsMaster);
 
             // remove the filter
-            DataGridViewAutoFilterTextBoxColumn.RemoveFilter(dgvSongsMaster);
+            if (dgvSongsMaster.Rows.Count > 0)
+                DataGridViewAutoFilterTextBoxColumn.RemoveFilter(dgvSongsMaster);
+
             ResetDetail();
             UpdateToolStrip();
-
             // reapply sort direction to reselect the filtered song
             DgvExtensions.RestoreSorting(dgvSongsMaster);
+
             Refresh();
         }
 
@@ -869,7 +871,10 @@ namespace CustomsForgeSongManager.UControls
             if (!chkIncludeSubfolders.Checked)
                 results = results.Where(x => Path.GetFileName(Path.GetDirectoryName(x.FilePath)) == "dlc").ToList();
 
-            LoadFilteredBindingList(results);
+            if (results.Any())
+                LoadFilteredBindingList(results);
+            else
+                dgvSongsMaster.Rows.Clear();
         }
 
         private void SelectAllNone()
@@ -916,8 +921,9 @@ namespace CustomsForgeSongManager.UControls
             }
 
             // force reload/rescan
-            Globals.RescanDuplicates = true;
             Globals.ReloadSongManager = true;
+            Globals.ReloadArrangements = true;
+            Globals.RescanDuplicates = true;
             Globals.ReloadRenamer = true;
             Globals.ReloadSetlistManager = true;
             UpdateToolStrip();
@@ -1174,7 +1180,7 @@ namespace CustomsForgeSongManager.UControls
             tsmiRepairs.ShowDropDown();
             menuStrip.Focus();
         }
- 
+
         private void Repairs_CheckStateChanged(object sender, EventArgs e)
         {
             // to make a tsmi enhanced RadioButton work like a CheckBox ... 
@@ -1221,7 +1227,11 @@ namespace CustomsForgeSongManager.UControls
             //    dgvSongsDetail.Invalidate();
             //}
 
-            firstIndex = dgvSongsMaster.FirstDisplayedCell.RowIndex;
+            try
+            {
+                firstIndex = dgvSongsMaster.FirstDisplayedCell.RowIndex;
+            }
+            catch { /* DO NOTHING */}
         }
 
         private void TagStyle_Click(object sender, EventArgs e)
@@ -1871,7 +1881,7 @@ namespace CustomsForgeSongManager.UControls
                 dgvSongsMaster.Refresh();
 
                 // Reselect last selected row after sorting
-                if (!String.IsNullOrEmpty(lastSelectedSongPath))
+                if (!String.IsNullOrEmpty(lastSelectedSongPath) && dgvSongsMaster.Rows.Count > 0)
                 {
                     try
                     {

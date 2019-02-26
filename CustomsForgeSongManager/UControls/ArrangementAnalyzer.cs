@@ -94,7 +94,8 @@ namespace CustomsForgeSongManager.UControls
             if (!isCueSearch)
                 IncludeSubfolders(); // search killer
 
-            // commented out - SongManager, and ArrangementAnalyzer filters are not interchangeable
+            // TODO: FIXME add compatibility for filtering
+            // commented out because SongManager, and ArrangementAnalyzer filters are not interchangeable
             //try
             //{
             //    // must come after the data is bound
@@ -104,7 +105,7 @@ namespace CustomsForgeSongManager.UControls
             //catch { /* DO NOTHING */}
 
             dgvArrangements.AllowUserToAddRows = false; // corrects initial Song Count
-            if (dgvArrangements.Rows.Count == 0)
+            if (dgvArrangements.Rows.Count == 0 && !isCueSearch)
             {
                 IncludeSubfolders(); // search killer
                 Globals.Log(" - CFSM cleared a saved search/filter that returns no songs ...");
@@ -153,7 +154,7 @@ namespace CustomsForgeSongManager.UControls
             // search killer
             cueSearch.Text = String.Empty;
             AppSettings.Instance.SearchString = String.Empty;
-            AppSettings.Instance.FilterString = String.Empty;
+            // AppSettings.Instance.FilterString = String.Empty;
 
             if (!chkIncludeSubfolders.Checked)
             {
@@ -213,6 +214,7 @@ namespace CustomsForgeSongManager.UControls
                     var arr = new ArrangementData
                     {
                         // Song Attributes
+                        Selected = song.Selected,
                         DLCKey = song.DLCKey,
                         Artist = song.Artist,
                         ArtistSort = song.ArtistSort,
@@ -285,7 +287,6 @@ namespace CustomsForgeSongManager.UControls
 
                         // calculated content taken from SongData
                         ChordNamesCounts = songArr.ChordNamesCounts,
-                        Selected = song.Selected,
                         IsOfficialDLC = song.IsODLC,
                         IsRsCompPack = song.IsRsCompPack,
                         IsBassPick = songArr.IsBassPick,
@@ -384,7 +385,9 @@ namespace CustomsForgeSongManager.UControls
             // save current sorting before removing filter
             DgvExtensions.SaveSorting(dgvArrangements);
             // remove the filter
-            DataGridViewAutoFilterTextBoxColumn.RemoveFilter(dgvArrangements);
+            if (dgvArrangements.Rows.Count > 0)
+                DataGridViewAutoFilterTextBoxColumn.RemoveFilter(dgvArrangements);
+
             UpdateToolStrip();
             // reapply sort direction to reselect the filtered song
             DgvExtensions.RestoreSorting(dgvArrangements);
@@ -468,7 +471,10 @@ namespace CustomsForgeSongManager.UControls
                 .Where(x => x.ArtistTitleAlbum.ToLower().Contains(lowerCriteria) ||
                     x.FilePath.ToLower().Contains(lowerCriteria)).ToList();
 
-            LoadFilteredBindingList(results);
+            if (results.Any())
+                LoadFilteredBindingList(results);
+            else
+                dgvArrangements.Rows.Clear();
         }
 
         private void SelectAllNone()
@@ -827,7 +833,7 @@ namespace CustomsForgeSongManager.UControls
                 dgvArrangements.Refresh();
 
                 // Reselect last selected row after sorting
-                if (lastSelectedSongPath != string.Empty)
+                if (!String.IsNullOrEmpty(lastSelectedSongPath) && dgvArrangements.Rows.Count > 0)
                 {
                     int newRowIndex = dgvArrangements.Rows.Cast<DataGridViewRow>().FirstOrDefault(r => r.Cells["colFilePath"].Value.ToString() == lastSelectedSongPath).Index;
                     dgvArrangements.Rows[newRowIndex].Selected = true;
@@ -845,7 +851,7 @@ namespace CustomsForgeSongManager.UControls
             cueSearch.Text = String.Empty;
             cueSearch.Cue = "Search";
             AppSettings.Instance.SearchString = String.Empty;
-            AppSettings.Instance.FilterString = String.Empty;
+            // AppSettings.Instance.FilterString = String.Empty;
             RemoveFilter();
 
             // save current sorting before clearing search
@@ -975,6 +981,20 @@ namespace CustomsForgeSongManager.UControls
         {
             Globals.Settings.SaveSettingsToFile(dgvArrangements);
             Globals.Log("Arrangements GUI Deactivated ...");
+
+            // transfer selections to MasterCollection
+            foreach (DataGridViewRow row in dgvArrangements.Rows)
+            {
+                var sd = DgvExtensions.GetObjectFromRow<ArrangementData>(row);
+                if (sd.Selected)
+                {
+                    foreach (var song in Globals.MasterCollection)
+                    {
+                        if (song.FilePath == sd.FilePath)
+                            song.Selected = true;
+                    }
+                }
+            }
         }
     }
 }

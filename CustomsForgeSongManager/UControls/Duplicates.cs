@@ -768,7 +768,7 @@ namespace CustomsForgeSongManager.UControls
                 dgvDuplicates.Refresh();
 
                 // Reselect last selected row after sorting
-                if (lastSelectedSongPath != string.Empty)
+                if (!String.IsNullOrEmpty(lastSelectedSongPath) && dgvDuplicates.Rows.Count > 0)
                 {
                     int newRowIndex = dgvDuplicates.Rows.Cast<DataGridViewRow>().FirstOrDefault(r => r.Cells["colFilePath"].Value.ToString() == lastSelectedSongPath).Index;
                     dgvDuplicates.Rows[newRowIndex].Selected = true;

@@ -480,6 +480,7 @@ namespace CustomsForgeSongManager.Forms
             // 
             // tsAudioPlayer
             // 
+            this.tsAudioPlayer.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.tsAudioPlayer.Dock = System.Windows.Forms.DockStyle.None;
             this.tsAudioPlayer.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.tsAudioPlayer.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -493,7 +494,7 @@ namespace CustomsForgeSongManager.Forms
             this.tsAudioPlayer.Padding = new System.Windows.Forms.Padding(0);
             this.tsAudioPlayer.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
             this.tsAudioPlayer.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.tsAudioPlayer.Size = new System.Drawing.Size(193, 25);
+            this.tsAudioPlayer.Size = new System.Drawing.Size(224, 25);
             this.tsAudioPlayer.TabIndex = 1;
             // 
             // tsbPlay
@@ -689,6 +690,7 @@ namespace CustomsForgeSongManager.Forms
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmMain_FormClosing);
             this.Load += new System.EventHandler(this.frmMain_Load);
             this.Shown += new System.EventHandler(this.frmMain_Shown);
+            this.ResizeEnd += new System.EventHandler(this.frmMain_ResizeEnd);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.frmMain_KeyDown);
             this.gbLog.ResumeLayout(false);
             this.gbLog.PerformLayout();
