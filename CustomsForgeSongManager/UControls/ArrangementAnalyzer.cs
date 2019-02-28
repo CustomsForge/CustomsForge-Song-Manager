@@ -27,7 +27,7 @@ namespace CustomsForgeSongManager.UControls
     public partial class ArrangementAnalyzer : UserControl, IDataGridViewHolder, INotifyTabChanged
     {
         private bool allSelected = false;
-        // changes made here are not reflected in other grids (its non-binding)
+        // changes are not reflected in other grids (non-binding)
         private List<ArrangementData> arrangementList = new List<ArrangementData>();
         private AbortableBackgroundWorker bWorker;
         private bool bindingCompleted = false;
@@ -61,8 +61,6 @@ namespace CustomsForgeSongManager.UControls
                 if (colX != null)
                     dgvArrangements.Sort(colX, AppSettings.Instance.SortAscending ? ListSortDirection.Ascending : ListSortDirection.Descending);
             }
-
-            // TODO: maybe reapply previous filtering and search
         }
 
         public void UpdateToolStrip(bool isCueSearch = false)
@@ -83,7 +81,7 @@ namespace CustomsForgeSongManager.UControls
                 PopulateArrangementManager();
             }
 
-            // reapply search
+            // apply saved search (filters can not be applied the same way)
             if (!String.IsNullOrEmpty(AppSettings.Instance.SearchString) && !isCueSearch)
             {
                 isCueSearch = true;
@@ -94,27 +92,18 @@ namespace CustomsForgeSongManager.UControls
             if (!isCueSearch)
                 IncludeSubfolders(); // search killer
 
-            // TODO: FIXME add compatibility for filtering
-            // commented out because SongManager, and ArrangementAnalyzer filters are not interchangeable
-            //try
-            //{
-            //    // must come after the data is bound
-            //    if (!String.IsNullOrEmpty(AppSettings.Instance.FilterString))
-            //        DataGridViewAutoFilterColumnHeaderCell.SetFilter(dgvArrangements, AppSettings.Instance.FilterString);
-            //}
-            //catch { /* DO NOTHING */}
-
             dgvArrangements.AllowUserToAddRows = false; // corrects initial Song Count
             if (dgvArrangements.Rows.Count == 0 && !isCueSearch)
             {
                 IncludeSubfolders(); // search killer
-                Globals.Log(" - CFSM cleared a saved search/filter that returns no songs ...");
+                Globals.Log(" - CFSM cleared a saved search that returns no songs ...");
             }
 
             Globals.TsLabel_MainMsg.Text = String.Format("Rocksmith Arrangements Count: {0}", dgvArrangements.Rows.Count);
             Globals.TsLabel_MainMsg.Visible = true;
             Globals.TsLabel_DisabledCounter.Visible = false;
             Globals.TsLabel_StatusMsg.Visible = false;
+
 
             if (!AppSettings.Instance.IncludeArrangementData && !isCueSearch)
             {
@@ -154,8 +143,6 @@ namespace CustomsForgeSongManager.UControls
             // search killer
             cueSearch.Text = String.Empty;
             AppSettings.Instance.SearchString = String.Empty;
-            // AppSettings.Instance.FilterString = String.Empty;
-
             if (!chkIncludeSubfolders.Checked)
             {
                 var results = arrangementList.Where(x => Path.GetFileName(Path.GetDirectoryName(x.FilePath)) == "dlc").ToList();
@@ -208,7 +195,7 @@ namespace CustomsForgeSongManager.UControls
             {
                 foreach (var songArr in song.Arrangements2D)
                 {
-                    if (songArr.Name.Contains("Vocals") && !chkIncludeVocals.Checked)
+                    if (songArr.ArrangementName.Contains("Vocals") && !chkIncludeVocals.Checked)
                         continue;
 
                     var arr = new ArrangementData
@@ -243,7 +230,7 @@ namespace CustomsForgeSongManager.UControls
 
                         // Arrangement Attributes
                         PersistentID = songArr.PersistentID,
-                        Name = songArr.Name,
+                        ArrangementName = songArr.ArrangementName,
                         CapoFret = songArr.CapoFret,
                         DDMax = songArr.DDMax,
                         ScrollSpeed = songArr.ScrollSpeed,
@@ -385,7 +372,8 @@ namespace CustomsForgeSongManager.UControls
             // save current sorting before removing filter
             DgvExtensions.SaveSorting(dgvArrangements);
             // remove the filter
-            if (dgvArrangements.Rows.Count > 0)
+            var filterStatus = DataGridViewAutoFilterColumnHeaderCell.GetFilterStatus(dgvArrangements);
+            if (!String.IsNullOrEmpty(filterStatus))
                 DataGridViewAutoFilterTextBoxColumn.RemoveFilter(dgvArrangements);
 
             UpdateToolStrip();
@@ -569,7 +557,7 @@ namespace CustomsForgeSongManager.UControls
             }
         }
 
-        // LOOK HERE ... if any unusual errors show up
+        // <CRITICAL> LOOK HERE ... if any unusual errors show up
         private void dgvArrangements_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
             if (e.RowIndex == -1)
@@ -583,7 +571,6 @@ namespace CustomsForgeSongManager.UControls
                 return;
 
             ArrangementData arr = dgvArrangements.Rows[e.RowIndex].DataBoundItem as ArrangementData;
-
             if (arr != null)
             {
                 if (arr.IsOfficialDLC)
@@ -742,15 +729,14 @@ namespace CustomsForgeSongManager.UControls
                 Globals.TsLabel_DisabledCounter.Alignment = ToolStripItemAlignment.Right;
                 Globals.TsLabel_DisabledCounter.Text = filterStatus;
                 Globals.TsLabel_DisabledCounter.Visible = true;
+
+                // auto save filter - future use
+                // AppSettings.Instance.ArrangementAnalyzerFilter = DataGridViewAutoFilterColumnHeaderCell.GetFilterString(dgvArrangements);
             }
 
             // filter removed
             if (String.IsNullOrEmpty(filterStatus) && this.dgvArrangements.CurrentCell != null && String.IsNullOrEmpty(cueSearch.Text))
                 RemoveFilter();
-
-            // save filter - future use
-            // SongManager, and ArrangementAnalyzer are not interchangeable
-            // AppSettings.Instance.FilterString = DataGridViewAutoFilterColumnHeaderCell.GetFilterString(dgvArrangements);
         }
 
         private void dgvArrangements_KeyDown(object sender, KeyEventArgs e)
@@ -851,8 +837,8 @@ namespace CustomsForgeSongManager.UControls
             cueSearch.Text = String.Empty;
             cueSearch.Cue = "Search";
             AppSettings.Instance.SearchString = String.Empty;
-            // AppSettings.Instance.FilterString = String.Empty;
             RemoveFilter();
+            Globals.ReloadArrangements = true; // refresh data
 
             // save current sorting before clearing search
             DgvExtensions.SaveSorting(dgvArrangements);
@@ -974,28 +960,54 @@ namespace CustomsForgeSongManager.UControls
         public void TabEnter()
         {
             Globals.DgvCurrent = dgvArrangements;
+            DataGridViewAutoFilterColumnHeaderCell.SavedColumnFilter = AppSettings.Instance.ArrangementAnalyzerFilter;
+            GetGrid().ResetBindings(); // force grid data to rebind/refresh
+            Globals.Log("ArrangementAnalyzerFilter available: " + AppSettings.Instance.ArrangementAnalyzerFilter);
             Globals.Log("Arrangements GUI Activated ...");
         }
 
         public void TabLeave()
         {
-            Globals.Settings.SaveSettingsToFile(dgvArrangements);
-            Globals.Log("Arrangements GUI Deactivated ...");
-
             // transfer selections to MasterCollection
+            // force grid data to rebind/refresh first
+            GetGrid().ResetBindings(); 
             foreach (DataGridViewRow row in dgvArrangements.Rows)
             {
                 var sd = DgvExtensions.GetObjectFromRow<ArrangementData>(row);
-                if (sd.Selected)
+                foreach (var song in Globals.MasterCollection)
                 {
-                    foreach (var song in Globals.MasterCollection)
+                    if (song.FilePath == sd.FilePath)
                     {
-                        if (song.FilePath == sd.FilePath)
-                            song.Selected = true;
+                        song.Selected = sd.Selected;
+                        break; // speedie speedster
                     }
                 }
             }
+
+            // save new filter
+            if (!String.IsNullOrEmpty(DataGridViewAutoFilterColumnHeaderCell.SavedColumnFilter) && DataGridViewAutoFilterColumnHeaderCell.SavedColumnFilter != AppSettings.Instance.ArrangementAnalyzerFilter)
+            {
+                AppSettings.Instance.ArrangementAnalyzerFilter = DataGridViewAutoFilterColumnHeaderCell.SavedColumnFilter;
+                Globals.Log("Saved ArrangementAnalyzerFilter: " + AppSettings.Instance.ArrangementAnalyzerFilter);
+            }
+
+            Globals.Settings.SaveSettingsToFile(dgvArrangements);
+            Globals.ReloadArrangements = true; // reload non-bound data on re-entry to reflect any changes
+            Globals.Log("Arrangements GUI Deactivated ...");
         }
+
+        private void dgvArrangements_DataError(object sender, DataGridViewDataErrorEventArgs e)
+        {
+            // for debugging
+            var d = (DataGridView)sender;
+            var n = d.Name;
+            var c = e.ColumnIndex;
+            var r = e.RowIndex;
+
+            e.Cancel = true;
+
+        }
+
     }
 }
 

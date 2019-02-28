@@ -55,7 +55,7 @@ namespace CustomsForgeSongManager.DataObjects
 
         // Arrangement Attributes
         public string PersistentID { get; set; } // unique ID
-        public string Name { get; set; } // arrangement name
+        public string ArrangementName { get; set; }
         public int? CapoFret { get; set; }
         public int? DDMax { get; set; }
         public float? ScrollSpeed { get; set; } // stored as int in toolkit (x10)

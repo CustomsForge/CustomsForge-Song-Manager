@@ -103,7 +103,7 @@ namespace CustomsForgeSongManager.UControls
                         }
 
                         pidSong.PID = arrangement.PersistentID;
-                        pidSong.PIDArrangement = arrangement.Name;
+                        pidSong.PIDArrangement = arrangement.ArrangementName;
                         pidList.Add(pidSong);
                     }
                 }
@@ -196,7 +196,7 @@ namespace CustomsForgeSongManager.UControls
                 dgvDuplicates.Rows.Clear();
                 dgvDuplicates.DataSource = null;
 
-                if (String.IsNullOrEmpty(AppSettings.Instance.FilterString))
+                if (String.IsNullOrEmpty(AppSettings.Instance.ArrangementAnalyzerFilter))
                 {
                     if (dupPidSelected)
                     {
@@ -304,7 +304,10 @@ namespace CustomsForgeSongManager.UControls
             // save current sorting before removing filter
             DgvExtensions.SaveSorting(dgvDuplicates);
             // remove the filter
-            DataGridViewAutoFilterTextBoxColumn.RemoveFilter(dgvDuplicates);
+            var filterStatus = DataGridViewAutoFilterColumnHeaderCell.GetFilterStatus(dgvDuplicates);
+            if (!String.IsNullOrEmpty(filterStatus))
+                DataGridViewAutoFilterTextBoxColumn.RemoveFilter(dgvDuplicates);
+
             UpdateToolStrip();
             // reapply sort direction to reselect the filtered song
             DgvExtensions.RestoreSorting(dgvDuplicates);
@@ -858,7 +861,7 @@ namespace CustomsForgeSongManager.UControls
             Rescan();
             PopulateDuplicates();
             // reset the global FilterString (switch) to change UpdateToolstrip message 
-            AppSettings.Instance.FilterString = String.Empty;
+            AppSettings.Instance.ArrangementAnalyzerFilter = String.Empty;
             UpdateToolStrip();
         }
 

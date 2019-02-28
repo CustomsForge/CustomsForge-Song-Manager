@@ -530,7 +530,10 @@ namespace CustomsForgeSongManager.UControls
             // save current sorting before removing filter
             DgvExtensions.SaveSorting(dgvSongPacks);
             // remove the filter
-            DataGridViewAutoFilterTextBoxColumn.RemoveFilter(dgvSongPacks);
+            var filterStatus = DataGridViewAutoFilterColumnHeaderCell.GetFilterStatus(dgvSongPacks);
+            if (!String.IsNullOrEmpty(filterStatus))
+                DataGridViewAutoFilterTextBoxColumn.RemoveFilter(dgvSongPacks);
+            
             UpdateToolStrip();
             // reapply sort direction to reselect the filtered song
             DgvExtensions.RestoreSorting(dgvSongPacks);

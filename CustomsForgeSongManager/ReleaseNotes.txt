@@ -13,12 +13,24 @@ until you can confirm it is safe by working directly with your AV provider.
 ========================================================================
 
 CFSM Release Notes
+
+1.5.2.7
+- improved datagrid filtering
+- added option to Save and Load datagrid filters in SongManager and
+  ArrangementAnalyzer (LOOK under the datagrid column header filter icon)
+- added auto save and reload of the user's current data search string
+- Tagger no longer halts when CDLC does not contain album artwork, but 
+  instead writes the file name and error message to the ErrorLog file.
+  Note: the 100% Mastery Bug repair option can be used to automatically 
+  restore toolkit default album artwork
+- updated RockmsithToolkitLib
+
 1.5.2.6
 - improved automatic RS folder path finding
 
 1.5.2.5
-- fixed Audio Player toolstrip repositioning issue
-- fixed Song Editor volume range so that it matches toolkit volume range
+- fixed AudioPlayer toolstrip repositioning issue
+- fixed SongEditor volume range so that it matches toolkit volume range
 - fixed SongManager and ArrangementAnalyzer search feature
 - Selections made in ArrangementAnalyzer are now transferred to SongManager
   so that custom tagger templates can be quickly applied to only those CDLC

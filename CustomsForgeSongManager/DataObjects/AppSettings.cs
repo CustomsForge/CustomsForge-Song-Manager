@@ -38,7 +38,8 @@ namespace CustomsForgeSongManager.DataObjects
         private string _charterName = String.Empty;
         private string _renameTemplate = String.Empty;
         private string _searchString = String.Empty;
-        private string _filterString = String.Empty;
+        private string _songManagerFilter = String.Empty;
+        private string _arrangementAnalyzerFilter = String.Empty;
         private string _sortColumn = "Artist"; // set default sort column (retains selection)
         private bool _sortAscending = true;
         private bool _includeSubfolders;
@@ -226,10 +227,17 @@ namespace CustomsForgeSongManager.DataObjects
         }
 
         [Browsable(false)]
-        public string FilterString
+        public string SongManagerFilter
         {
-            get { return _filterString; }
-            set { SetPropertyField("FilterString", ref _filterString, value); }
+            get { return _songManagerFilter; }
+            set { SetPropertyField("SongManagerFilter", ref _songManagerFilter, value); }
+        }
+
+        [Browsable(false)]
+        public string ArrangementAnalyzerFilter
+        {
+            get { return _arrangementAnalyzerFilter; }
+            set { SetPropertyField("ArrangementAnalyzerFilter", ref _arrangementAnalyzerFilter, value); }
         }
 
         [Browsable(false)]

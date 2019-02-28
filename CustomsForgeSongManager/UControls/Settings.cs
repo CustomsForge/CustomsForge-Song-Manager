@@ -26,7 +26,7 @@ namespace CustomsForgeSongManager.UControls
             {
                 Globals.DgvCurrent = dgvCurrent;
                 AppSettings.Instance.LoadFromFile(Constants.AppSettingsPath, verbose);
-                var debugMe = AppSettings.Instance.IncludeSubfolders;
+                var debugMe = AppSettings.Instance.ArrangementAnalyzerFilter;
 
                 cueRsDir.Text = AppSettings.Instance.RSInstalledDir;
                 chkIncludeRS1CompSongs.Checked = AppSettings.Instance.IncludeRS1CompSongs;

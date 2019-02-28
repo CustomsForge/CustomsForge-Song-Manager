@@ -16,11 +16,15 @@ using RocksmithToolkitLib.DLCPackage;
 using RocksmithToolkitLib.Extensions;
 using System.Diagnostics;
 using CustomsForgeSongManager.Forms;
+using System.Text;
 
 namespace CustomsForgeSongManager.LocalTools
 {
     public class TaggerTools
     {
+        private static StringBuilder sbErrors;
+        private static bool isFirstError;
+
         // set global default theme name (folder) here
         public static string DefaultThemeName
         {
@@ -204,7 +208,7 @@ namespace CustomsForgeSongManager.LocalTools
             var bonusBass = false;
             var DD = song.DD > 0;
 
-            var arrangements = archive.TOC.Where(entry => entry.Name.ToLower().EndsWith(".json")).Select(entry => entry.Name).ToList();    
+            var arrangements = archive.TOC.Where(entry => entry.Name.ToLower().EndsWith(".json")).Select(entry => entry.Name).ToList();
             foreach (string arr in arrangements)
             {
                 if (arr.Contains("lead") && !arr.Contains("lead2"))
@@ -274,7 +278,7 @@ namespace CustomsForgeSongManager.LocalTools
 
             GenExtensions.TempChangeDirectory(ttpath, () =>
             {
-                //Add layers to big album art
+                // Add layers to big album art
                 using (Graphics gra = Graphics.FromImage(bigAlbumArt))
                 {
                     // Image Layers are BottomMost to TopMost Order
@@ -293,7 +297,7 @@ namespace CustomsForgeSongManager.LocalTools
                     // Arrangement Layers
                     if (vocals && images.VocalLayer != null)
                         gra.DrawImage(images.VocalLayer, 0, 0.5f);
-                      if (bass && images.BassLayer != null)
+                    if (bass && images.BassLayer != null)
                         gra.DrawImage(images.BassLayer, 0, 0.5f);
                     if (bonusBass && images.BassBonusLayer != null)
                         gra.DrawImage(images.BassBonusLayer, 0, 0.5f);
@@ -305,7 +309,7 @@ namespace CustomsForgeSongManager.LocalTools
                         gra.DrawImage(images.LeadLayer, 0, 0.5f);
                     if (bonusLead && images.LeadBonusLayer != null)
                         gra.DrawImage(images.LeadBonusLayer, 0, 0.5f);
- 
+
                     // Rating Layers
                     if (rating > 4 && images.Stars5Layer != null)
                         gra.DrawImage(images.Stars5Layer, 0, 0.5f);
@@ -317,7 +321,7 @@ namespace CustomsForgeSongManager.LocalTools
                         gra.DrawImage(images.Stars2Layer, 0, 0.5f);
                     if (rating > 0 && images.Stars1Layer != null)
                         gra.DrawImage(images.Stars1Layer, 0, 0.5f);
-                 
+
                     //Apply the xml theme
                     if (tt != null)
                     {
@@ -385,7 +389,7 @@ namespace CustomsForgeSongManager.LocalTools
                             return;
                         }
 
-                        var albumSmallArtEntry = archive.TOC.FirstOrDefault(entry => entry.Name.EndsWith("64.dds")); //Get album art paths
+                        var albumSmallArtEntry = archive.TOC.FirstOrDefault(entry => entry.Name.EndsWith("64.dds")); // get album art paths
                         var albumMidArtEntry = archive.TOC.FirstOrDefault(entry => entry.Name.EndsWith("128.dds"));
                         var albumBigArtEntry = archive.TOC.FirstOrDefault(entry => entry.Name.EndsWith("256.dds"));
                         albumBigArtEntry.Data.Position = 0;
@@ -434,10 +438,28 @@ namespace CustomsForgeSongManager.LocalTools
                 }
                 catch (Exception ex)
                 {
-                    Globals.Log("<Error>: " + Path.GetFileName(song.FilePath) + " could not be tagged ...");
-                    MessageBox.Show(Path.GetFileName(song.FilePath) + " is corrupt.  " + Environment.NewLine +
-                        "The CDLC contains no album artwork." + Environment.NewLine + ex.Message,
-                        Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    // commented out per user request ... silly users ;>)
+                    // MessageBox.Show(Path.GetFileName(song.FilePath) + " is corrupt.  " + Environment.NewLine +
+                    // "The CDLC contains no album artwork." + Environment.NewLine + ex.Message,
+                    // Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                    if (isFirstError)
+                    {
+                        Globals.Log("<ERROR>: Tagger could not find album artwork ...");
+                        Globals.Log(" - Use the Repairs Mastery 100% Bug option to restore default album artwork ...");
+                        Globals.Log(" - For file and error details, see: " + Constants.RepairsErrorLogPath);
+                        sbErrors.Insert(0, "File Name, Error Message" + Environment.NewLine);
+                        sbErrors.Insert(0, DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss") + Environment.NewLine);
+                        isFirstError = false;
+                    }
+
+                    sbErrors.AppendLine(String.Format("{0}, Tagger could not find album artwork", Path.GetFileName(song.FilePath)));
+
+                    using (TextWriter tw = new StreamWriter(Constants.RepairsErrorLogPath, true))
+                    {
+                        tw.WriteLine(sbErrors);
+                        tw.Close();
+                    }
                 }
             }
         }
@@ -508,6 +530,10 @@ namespace CustomsForgeSongManager.LocalTools
         {
             if (!selectedSongs.Any())
                 return;
+
+            // reset error tracker
+            isFirstError = true;
+            sbErrors = new StringBuilder();
 
             if (!isUnTag)
                 Globals.Log("Tagging selected CDLC files ...");
@@ -1414,7 +1440,7 @@ namespace CustomsForgeSongManager.LocalTools
         public Bitmap Stars5Layer { get; private set; }
 
         public BitmapHolder(string tagsFolderFullPath)
-        {         
+        {
             ClearImages();
 
             // Background Layers

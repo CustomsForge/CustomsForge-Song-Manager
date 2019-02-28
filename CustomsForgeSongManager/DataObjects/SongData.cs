@@ -56,7 +56,7 @@ namespace CustomsForgeSongManager.DataObjects
     {
         // version 0 - 9: recyclable version number
         // incrementing version forces songInfo.xml and appSettings.xml to reset/update to defaults
-        public const string SongDataVersion = "8"; // devs change only when needed to force user update
+        public const string SongDataVersion = "9"; // devs change only when needed to force user update
 
         // Unique Song Key
         public string DLCKey { get; set; }
@@ -167,7 +167,7 @@ namespace CustomsForgeSongManager.DataObjects
             get
             {
                 string result = string.Empty;
-                foreach (string arrangement in Arrangements2D.Select(x => x.Name.ToLower()).ToArray())
+                foreach (string arrangement in Arrangements2D.Select(x => x.ArrangementName.ToLower()).ToArray())
                 {
                     // create BLRV short acronym
                     if (arrangement.ToLower().Contains("bass") && !result.Contains("B"))
@@ -206,7 +206,7 @@ namespace CustomsForgeSongManager.DataObjects
 
         // preserves 1D display methods
         [XmlIgnore]
-        public string Arrangements1D { get { return String.Join(", ", Arrangements2D.Select(o => o.Name)).TrimEnd(" ,".ToCharArray()); } }
+        public string Arrangements1D { get { return String.Join(", ", Arrangements2D.Select(o => o.ArrangementName)).TrimEnd(" ,".ToCharArray()); } }
         [XmlIgnore]
         public string Tunings1D { get { return String.Join(", ", Arrangements2D.Select(o => o.Tuning)).TrimEnd(" ,".ToCharArray()); } }
         [XmlIgnore]
@@ -247,7 +247,7 @@ namespace CustomsForgeSongManager.DataObjects
     {
         // Arrangement Attributes
         public string PersistentID { get; set; } // unique ID
-        public string Name { get; set; } // arrangement name
+        public string ArrangementName { get; set; }
         public int? CapoFret { get; set; }
         public int? DDMax { get; set; }
         public float? ScrollSpeed { get; set; } // stored as int in toolkit (x10)

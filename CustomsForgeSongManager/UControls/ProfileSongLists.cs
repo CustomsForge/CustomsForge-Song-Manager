@@ -523,7 +523,9 @@ namespace CustomsForgeSongManager.UControls
         private void RemoveFilter()
         {
             Globals.Settings.SaveSettingsToFile(dgvSongListMaster);
-            DataGridViewAutoFilterTextBoxColumn.RemoveFilter(dgvSongListMaster);
+            var filterStatus = DataGridViewAutoFilterColumnHeaderCell.GetFilterStatus(dgvSongListMaster);
+            if (!String.IsNullOrEmpty(filterStatus))
+                DataGridViewAutoFilterTextBoxColumn.RemoveFilter(dgvSongListMaster);
 
             // reset alternating row color
             foreach (DataGridViewRow row in dgvSongListMaster.Rows)

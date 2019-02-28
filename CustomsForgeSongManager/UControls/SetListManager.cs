@@ -88,7 +88,7 @@ namespace CustomsForgeSongManager.UControls
         {
             chkIncludeSubfolders.Checked = AppSettings.Instance.IncludeSubfolders;
             chkProtectODLC.Checked = AppSettings.Instance.ProtectODLC;
-            
+
             if (Globals.RescanSetlistManager)
             {
                 Globals.RescanSetlistManager = false;
@@ -369,7 +369,9 @@ namespace CustomsForgeSongManager.UControls
         private void RemoveFilter()
         {
             Globals.Settings.SaveSettingsToFile(dgvSetlistMaster);
-            DataGridViewAutoFilterTextBoxColumn.RemoveFilter(dgvSetlistMaster);
+            var filterStatus = DataGridViewAutoFilterColumnHeaderCell.GetFilterStatus(dgvSetlistMaster);
+            if (!String.IsNullOrEmpty(filterStatus))
+                DataGridViewAutoFilterTextBoxColumn.RemoveFilter(dgvSetlistMaster);
 
             // reset alternating row color
             foreach (DataGridViewRow row in dgvSetlistMaster.Rows)

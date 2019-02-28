@@ -73,6 +73,7 @@ namespace CustomsForgeSongManager.UControls
             InitializeRepairMenu();
             tsmiRepairs.HideDropDown();
             UserSupport();
+            TabEnter();
             // developer sandbox
             tsmiDevDebugUse.Visible = GenExtensions.IsInDesignMode ? true : false;
         }
@@ -273,7 +274,7 @@ namespace CustomsForgeSongManager.UControls
                 PopulateSongManager();
             }
 
-            // reapply search and/or filter
+            // apply saved search (filters can not be applied the same way)
             if (!String.IsNullOrEmpty(AppSettings.Instance.SearchString) && !isCueSearch)
             {
                 isCueSearch = true;
@@ -287,20 +288,11 @@ namespace CustomsForgeSongManager.UControls
                 ProtectODLC();
             }
 
-            try
-            {
-                // must come after the data is bound
-                if (!String.IsNullOrEmpty(AppSettings.Instance.FilterString))
-                    DataGridViewAutoFilterColumnHeaderCell.SetFilter(dgvSongsMaster, AppSettings.Instance.FilterString);
-            }
-            catch { /* DO NOTHING */}
-
-
             dgvSongsMaster.AllowUserToAddRows = false; // corrects initial Song Count
             if (dgvSongsMaster.Rows.Count == 0 && !isCueSearch)
             {
                 IncludeSubfolders(); // search killer
-                Globals.Log(" - CFSM cleared a saved search/filter that returns no songs ...");
+                Globals.Log(" - CFSM cleared a saved search that returns no songs ...");
             }
 
             Globals.TsLabel_MainMsg.Text = String.Format("Rocksmith Song Count: {0}", dgvSongsMaster.Rows.Count);
@@ -451,8 +443,6 @@ namespace CustomsForgeSongManager.UControls
             // search killer
             cueSearch.Text = String.Empty;
             AppSettings.Instance.SearchString = String.Empty;
-            AppSettings.Instance.FilterString = String.Empty;
-
             songList = Globals.MasterCollection.ToList();
 
             if (!chkIncludeSubfolders.Checked)
@@ -758,7 +748,8 @@ namespace CustomsForgeSongManager.UControls
             DgvExtensions.SaveSorting(dgvSongsMaster);
 
             // remove the filter
-            if (dgvSongsMaster.Rows.Count > 0)
+            var filterStatus = DataGridViewAutoFilterColumnHeaderCell.GetFilterStatus(dgvSongsMaster);
+            if (!String.IsNullOrEmpty(filterStatus))
                 DataGridViewAutoFilterTextBoxColumn.RemoveFilter(dgvSongsMaster);
 
             ResetDetail();
@@ -1541,7 +1532,7 @@ namespace CustomsForgeSongManager.UControls
                 ShowSongInfo();
         }
 
-        // LOOK HERE ... if any unusual errors show up
+        // <CRITICAL> LOOK HERE ... if any unusual errors show up, e.g., Index exceptions
         private void dgvSongsMaster_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
             if (e.RowIndex == -1)
@@ -1776,14 +1767,14 @@ namespace CustomsForgeSongManager.UControls
                 Globals.TsLabel_DisabledCounter.Visible = true;
 
                 tsmiModsMyCDLC.Checked = false;
+
+                // auto save filter - future use
+                //AppSettings.Instance.SongManagerFilter = DataGridViewAutoFilterColumnHeaderCell.GetFilterString(dgvSongsMaster);
             }
 
             // filter removed
             if (String.IsNullOrEmpty(filterStatus) && this.dgvSongsMaster.CurrentCell != null && String.IsNullOrEmpty(cueSearch.Text))
                 RemoveFilter();
-
-            // save filter - future use
-            AppSettings.Instance.FilterString = DataGridViewAutoFilterColumnHeaderCell.GetFilterString(dgvSongsMaster);
         }
 
         private void dgvSongsMaster_KeyDown(object sender, KeyEventArgs e)
@@ -1907,7 +1898,6 @@ namespace CustomsForgeSongManager.UControls
             cueSearch.Text = String.Empty;
             cueSearch.Cue = "Search";
             AppSettings.Instance.SearchString = String.Empty;
-            AppSettings.Instance.FilterString = String.Empty;
             RemoveFilter();
 
             // save current sorting before clearing search
@@ -2027,11 +2017,11 @@ namespace CustomsForgeSongManager.UControls
 
             var stopHere = songList;
             var stopHere2 = Globals.MasterCollection;
-            var stopHere3 = AppSettings.Instance.FilterString;
+            var stopHere3 = AppSettings.Instance.ArrangementAnalyzerFilter;
 
-            if (!String.IsNullOrEmpty(AppSettings.Instance.FilterString))
+            if (!String.IsNullOrEmpty(AppSettings.Instance.ArrangementAnalyzerFilter))
             {
-                DataGridViewAutoFilterColumnHeaderCell.SetFilter(dgvSongsMaster, AppSettings.Instance.FilterString);
+                DataGridViewAutoFilterColumnHeaderCell.SetFilter(dgvSongsMaster, AppSettings.Instance.ArrangementAnalyzerFilter);
             }
             return;
 
@@ -2347,7 +2337,7 @@ namespace CustomsForgeSongManager.UControls
                 return;
             }
 
-            // DO NOT repair tagged CDLC - artifact data will be lost
+            // CRITICAL DO NOT repair tagged CDLC - artifact data will be lost forever
             if (selection.Any(sd => sd.Tagged == SongTaggerStatus.True))
             {
                 var diaMsg = "Tagged CDLC may not be repaired ..." + Environment.NewLine +
@@ -2448,19 +2438,43 @@ namespace CustomsForgeSongManager.UControls
         public void TabEnter()
         {
             Globals.DgvCurrent = dgvSongsMaster;
+            DataGridViewAutoFilterColumnHeaderCell.SavedColumnFilter = AppSettings.Instance.SongManagerFilter;
+            GetGrid().ResetBindings(); // force grid data to rebind/refresh
+            Globals.Log("SongManagerFilter available: " + AppSettings.Instance.SongManagerFilter);          
             Globals.Log("Song Manager GUI Activated ...");
         }
 
         public void TabLeave()
         {
+            GetGrid().ResetBindings(); // force grid data to rebind/refresh
             SetRepairOptions(); // saves current repair options
             Globals.Settings.SaveSettingsToFile(dgvSongsMaster);
+
+            // save new filter
+            if (!String.IsNullOrEmpty(DataGridViewAutoFilterColumnHeaderCell.SavedColumnFilter) && DataGridViewAutoFilterColumnHeaderCell.SavedColumnFilter != AppSettings.Instance.SongManagerFilter)
+            {
+                AppSettings.Instance.SongManagerFilter = DataGridViewAutoFilterColumnHeaderCell.SavedColumnFilter;
+                Globals.Log("Saved SongManagerFilter: " + AppSettings.Instance.SongManagerFilter);
+            }
 
             if (Globals.PackageRatingNeedsUpdate && !Globals.UpdateInProgress)
                 PackageDataTools.UpdatePackageRating();
 
             Globals.Log("Song Manager GUI Deactivated ...");
         }
+
+        private void dgvSongsMaster_DataError(object sender, DataGridViewDataErrorEventArgs e)
+        {
+            // for debugging
+            var d = (DataGridView)sender;
+            var n = d.Name;
+            var c = e.ColumnIndex;
+            var r = e.RowIndex;
+
+            e.Cancel = true;
+        }
+
+
 
     }
 }

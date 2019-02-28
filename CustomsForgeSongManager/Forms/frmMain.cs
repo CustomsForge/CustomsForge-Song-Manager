@@ -75,13 +75,13 @@ namespace CustomsForgeSongManager.Forms
             //this will initialize classes that need to be initialized right away.
             TypeExtensions.InitializeClasses(new string[] { "UTILS_INIT", "CFSM_INIT" }, new Type[] { }, new object[] { });
 
-            // prevent toolstrip from growing/changing at runtime
+            // important prevent toolstrip from growing/changing at runtime
             // toolstrip may appear changed in design mode (this is a known VS bug)
             TopToolStripPanel.MaximumSize = new Size(0, 28); // force height and makes tsLable_Tagger positioning work
             tsUtilities.AutoSize = false; // a key to preventing movement
+            tsUtilities.Location = new Point(0, 0); // force location
             tsAudioPlayer.AutoSize = false; // a key to preventing movement
             tsAudioPlayer.Visible = false;
-            tsUtilities.Location = new Point(0, 0); // force location
             tsAudioPlayer.Location = new Point(tsUtilities.Width + 40, 0); // force location
 
             SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.UserPaint | ControlStyles.DoubleBuffer, true);
@@ -163,10 +163,10 @@ namespace CustomsForgeSongManager.Forms
             else
                 Globals.MyLog.RemoveTargetNotifyIcon(Globals.Notifier);
 
- 
+
             // load Song Manager Tab
             LoadSongManager();
- 
+
             // bring CFSM to the front on startup
             this.BringToFront();
             this.Visible = true;
@@ -255,8 +255,12 @@ namespace CustomsForgeSongManager.Forms
             }
             else
             {
-                Globals.SongManager.SetRepairOptions();
-                Globals.Settings.SaveSettingsToFile(Globals.DgvCurrent);
+                if (Globals.DgvCurrent.Name == "dgvSongsMaster")
+                    Globals.SongManager.TabLeave();
+                else if (Globals.DgvCurrent.Name == "dgvArrangements")
+                    Globals.ArrangementAnalyzer.TabLeave();
+                else
+                    Globals.Settings.SaveSettingsToFile(Globals.DgvCurrent);
 
                 // do not SaveSongCollectionToFile when changing compatibility mode
                 if (File.Exists(Constants.SongsInfoPath))
@@ -319,9 +323,8 @@ namespace CustomsForgeSongManager.Forms
             else
                 tsAudioPlayer.Visible = true;
 
-            if (currentControl != null)
-                if (currentControl is INotifyTabChanged)
-                    (currentControl as INotifyTabChanged).TabLeave();
+            if (currentControl != null && currentControl is INotifyTabChanged)
+                (currentControl as INotifyTabChanged).TabLeave();
 
             switch (tcMain.SelectedTab.Text)
             {
@@ -403,9 +406,8 @@ namespace CustomsForgeSongManager.Forms
                     break;
             }
 
-            if (currentControl != null)
-                if (currentControl is INotifyTabChanged)
-                    (currentControl as INotifyTabChanged).TabEnter();
+            if (currentControl != null && currentControl is INotifyTabChanged)
+                (currentControl as INotifyTabChanged).TabEnter();
         }
 
         private void tsBtnUserProfiles_MouseUp(object sender, MouseEventArgs e)

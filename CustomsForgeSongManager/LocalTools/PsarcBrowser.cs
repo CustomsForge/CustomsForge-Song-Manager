@@ -530,7 +530,7 @@ namespace CustomsForgeSongManager.LocalTools
 
                     // add a smidge of Arrangement Attributes for vocals too
                     arr.PersistentID = attributes.PersistentID;
-                    arr.Name = arrName;
+                    arr.ArrangementName = arrName;
 
                     arrangements.Add(arr);
                 }
