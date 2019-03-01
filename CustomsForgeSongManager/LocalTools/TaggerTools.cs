@@ -531,7 +531,7 @@ namespace CustomsForgeSongManager.LocalTools
             if (!selectedSongs.Any())
                 return;
 
-            // reset error tracker
+            // initialize error tracker
             isFirstError = true;
             sbErrors = new StringBuilder();
 

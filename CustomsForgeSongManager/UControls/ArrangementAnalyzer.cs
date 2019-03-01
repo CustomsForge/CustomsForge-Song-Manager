@@ -969,7 +969,7 @@ namespace CustomsForgeSongManager.UControls
         public void TabLeave()
         {
             // transfer selections to MasterCollection
-            // force grid data to rebind/refresh first
+            // force grid data to rebind/refresh
             GetGrid().ResetBindings(); 
             foreach (DataGridViewRow row in dgvArrangements.Rows)
             {

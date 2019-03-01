@@ -1999,7 +1999,7 @@ namespace CustomsForgeSongManager.UControls
 
         private void tsmiDevsDebugUse_Click(object sender, EventArgs e)
         {
-            // developer sandbox area
+            // developer sandbox debugging area
             Process[] processes = Process.GetProcesses();
             foreach (var process in processes)
             {

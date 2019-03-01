@@ -44,8 +44,7 @@ namespace CustomsForgeSongManager.UControls
             Globals.TsLabel_StatusMsg.Click += lnkShowAll_Click;
             ErrorStyle = new DataGridViewCellStyle() { Font = new Font("Arial", 8, FontStyle.Italic), ForeColor = ErrorStyleForeColor, BackColor = ErrorStyleBackColor };
 
-            // always include subfolders when checking for duplicates
-            chkIncludeSubfolders.Hide();
+            // for safety subfolders are always included when checking for duplicates
             chkIncludeSubfolders.Visible = false;
 
             // test for duplicate DLCKey
@@ -110,7 +109,8 @@ namespace CustomsForgeSongManager.UControls
 
                 duplicateList = pidList.GroupBy(x => x.PID).Where(group => group.Count() > 1).SelectMany(group => group).ToList();
 
-                if (!chkIncludeSubfolders.Checked)
+                // for safety subfolders are always included when checking for duplicates
+                if (chkIncludeSubfolders.Visible && !chkIncludeSubfolders.Checked)
                     duplicateList = duplicateList.Where(x => Path.GetFileName(Path.GetDirectoryName(x.FilePath)) == "dlc").GroupBy(x => x.PID).Where(group => group.Count() > 1).SelectMany(group => group).ToList();
 
                 distinctPIDS = duplicateList.Select(x => x.PID).Distinct().ToList();
@@ -123,10 +123,9 @@ namespace CustomsForgeSongManager.UControls
                 var dupATA = Globals.MasterCollection.GroupBy(x => x.ArtistTitleAlbum).Where(group => group.Count() > 1).SelectMany(group => group);
                 duplicateList = dupATA.Union(dupDlcKey).ToList();
 
-                // always include subfolders when checking for duplicates
-                if (chkIncludeSubfolders.Visible)
-                    if (!chkIncludeSubfolders.Checked)
-                        duplicateList = duplicateList.Where(x => Path.GetFileName(Path.GetDirectoryName(x.FilePath)) == "dlc").ToList();
+                // for safety subfolders are always included when checking for duplicates
+                if (chkIncludeSubfolders.Visible && !chkIncludeSubfolders.Checked)
+                    duplicateList = duplicateList.Where(x => Path.GetFileName(Path.GetDirectoryName(x.FilePath)) == "dlc").ToList();
 
                 if (keyEnabled)
                 {
@@ -174,9 +173,8 @@ namespace CustomsForgeSongManager.UControls
         {
             chkIncludeSubfolders.Checked = AppSettings.Instance.IncludeSubfolders;
 
-            if (Globals.RescanDuplicates) // || !String.IsNullOrEmpty(AppSettings.Instance.FilterString))
+            if (Globals.RescanDuplicates)
             {
-                // AppSettings.Instance.FilterString = String.Empty;
                 Globals.RescanDuplicates = false;
                 Rescan();
                 PopulateDuplicates(dupPidSelected);
@@ -186,9 +184,9 @@ namespace CustomsForgeSongManager.UControls
                 Globals.ReloadDuplicates = false;
                 PopulateDuplicates(dupPidSelected);
             }
-            else
+            // for safety subfolders are always included when checking for duplicates
+            else if (chkIncludeSubfolders.Visible && chkIncludeSubfolders.Checked)
                 IncludeSubfolders();
-
 
             if (!duplicateList.Any())
             {
@@ -196,24 +194,15 @@ namespace CustomsForgeSongManager.UControls
                 dgvDuplicates.Rows.Clear();
                 dgvDuplicates.DataSource = null;
 
-                if (String.IsNullOrEmpty(AppSettings.Instance.ArrangementAnalyzerFilter))
+                if (dupPidSelected)
                 {
-                    if (dupPidSelected)
-                    {
-                        Globals.Log("Good news, no duplicate PID found ...");
-                        txtNoDuplicates.Text = "\r\nGood News ...\r\nNo Duplicate PID Found";
-                    }
-                    else
-                    {
-                        Globals.Log("Good news, no duplicate DLCKey and/or duplicate ArtistTitleAlbum found ...");
-                        txtNoDuplicates.Text = "\r\nGood News ...\r\nNo Duplicate DLCKey and/or\r\n Duplicate ArtistTitleAlbum Found";
-                    }
+                    Globals.Log("Good news, no duplicate PID found ...");
+                    txtNoDuplicates.Text = "\r\nGood News ...\r\nNo Duplicate PID Found";
                 }
                 else
                 {
-                    Globals.Log("No duplicates found in filtered song data ...");
-                    Globals.Log("<WARNING> Use 'Rescan', 'Show All Duplicates' to remove filter ...");
-                    txtNoDuplicates.Text = "No duplicates were found in\r\nthe filtered song data set.\r\nPlease confirm this by using\r\n'Rescan', 'Show All Duplicates' ...";
+                    Globals.Log("Good news, no duplicate DLCKey and/or duplicate ArtistTitleAlbum found ...");
+                    txtNoDuplicates.Text = "\r\nGood News ...\r\nNo Duplicate DLCKey and/or\r\n Duplicate ArtistTitleAlbum Found";
                 }
 
                 txtNoDuplicates.Visible = true;
@@ -860,8 +849,6 @@ namespace CustomsForgeSongManager.UControls
             keyEnabled = false;
             Rescan();
             PopulateDuplicates();
-            // reset the global FilterString (switch) to change UpdateToolstrip message 
-            AppSettings.Instance.ArrangementAnalyzerFilter = String.Empty;
             UpdateToolStrip();
         }
 
