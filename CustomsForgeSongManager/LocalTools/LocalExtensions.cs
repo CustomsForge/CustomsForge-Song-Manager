@@ -6,6 +6,7 @@ using CustomsForgeSongManager.DataObjects;
 using Microsoft.Win32;
 using GenTools;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.RegularExpressions;
 
 namespace CustomsForgeSongManager.LocalTools
@@ -97,6 +98,8 @@ namespace CustomsForgeSongManager.LocalTools
         {
             var customSteamppsFolders = GetCustomSteamappsFolders(mainSteamPath);
             string finalPath = string.Empty;
+            string rsFolderPath = string.Empty;
+            bool found = false;
 
             customSteamppsFolders.ForEach(dir =>
             {
@@ -104,22 +107,50 @@ namespace CustomsForgeSongManager.LocalTools
 
                 if (File.Exists(dirPath))
                     finalPath = Path.GetDirectoryName(dirPath);
+
+                 rsFolderPath = Path.Combine(finalPath, "common", "Rocksmith2014");
+
+                 if (rsFolderPath.IsRSFolder())
+                 {
+                     found = true;
+                     finalPath = rsFolderPath;
+                 }
             });
 
-            if (!string.IsNullOrEmpty(finalPath))
+            if (found)
+            {
                 Globals.Log("Found at: " + finalPath);
+                return finalPath;
+            }
             else
             {
                 Globals.Log("RS path not found.");
                 return string.Empty;
             }
 
-            string rsFolderPath = Path.Combine(finalPath, "common", "Rocksmith2014");
-
-            if (Directory.Exists(rsFolderPath))
-                return rsFolderPath;
-
             return String.Empty;
+        }
+
+        public static bool IsDirectoryEmpty(string path)
+        {
+            return !Directory.EnumerateFileSystemEntries(path).Any();
+        }
+
+        private static bool IsRSFolder(this string folderPath)
+        {
+            if (!Directory.Exists(folderPath))
+                return false;
+
+            string dlcFolderPath = Path.Combine(folderPath, "dlc");
+            string cachePsarcPath = Path.Combine(folderPath, "cache.psarc");
+
+            if (IsDirectoryEmpty(dlcFolderPath))
+                return false;
+
+            if (!File.Exists(cachePsarcPath))
+                return false;
+
+            return true;
         }
 
         public static string GetSteamDirectory()
@@ -145,7 +176,7 @@ namespace CustomsForgeSongManager.LocalTools
 
             string rs2RootDir = Path.Combine(steamRootPath, "SteamApps\\common\\Rocksmith2014");
 
-            if (!Directory.Exists(rs2RootDir))
+            if (!Directory.Exists(rs2RootDir) || !rs2RootDir.IsRSFolder())
                 rs2RootDir = GetCustomRSFolder(steamRootPath);
 
             if (!String.IsNullOrEmpty(rs2RootDir))
