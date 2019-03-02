@@ -140,24 +140,25 @@ namespace CustomsForgeSongManager.LocalTools
             const string rsX86Path = @"HKEY_LOCAL_MACHINE\SOFTWARE\Ubisoft\Rocksmith2014";
             const string rsX86Steam = @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Steam App 221680";
 
-            string rs2RootDir = GetStringValueFromRegistry(steamRegPath, "SteamPath");
+
+            string steamRootPath = GetStringValueFromRegistry(steamRegPath, "SteamPath").Replace('/', '\\');
+
+            string rs2RootDir = Path.Combine(steamRootPath, "SteamApps\\common\\Rocksmith2014");
+
+            if (!Directory.Exists(rs2RootDir))
+                rs2RootDir = GetCustomRSFolder(steamRootPath);
+
             if (!String.IsNullOrEmpty(rs2RootDir))
             {
-                string steamRootPath = rs2RootDir.Replace('/', '\\');
-
-                rs2RootDir = Path.Combine(steamRootPath, "SteamApps\\common\\Rocksmith2014");
-
-                if (!Directory.Exists(rs2RootDir))
-                    rs2RootDir = GetCustomRSFolder(steamRootPath);
+                if (!String.IsNullOrEmpty(GetStringValueFromRegistry(rsX64Path, "installdir")))
+                    rs2RootDir = GetStringValueFromRegistry(rsX64Path, "installdir");
+                else if (!String.IsNullOrEmpty(GetStringValueFromRegistry(rsX64Steam, installValueName)))
+                    rs2RootDir = GetStringValueFromRegistry(rsX64Steam, installValueName);
+                else if (!String.IsNullOrEmpty(GetStringValueFromRegistry(rsX86Path, installValueName)))
+                    rs2RootDir = GetStringValueFromRegistry(rsX86Path, installValueName);
+                else if (!String.IsNullOrEmpty(GetStringValueFromRegistry(rsX86Steam, installValueName)))
+                    rs2RootDir = GetStringValueFromRegistry(rsX86Steam, installValueName);
             }
-            else if (!String.IsNullOrEmpty(GetStringValueFromRegistry(rsX64Path, "installdir")))
-                rs2RootDir = GetStringValueFromRegistry(rsX64Path, "installdir");
-            else if (!String.IsNullOrEmpty(GetStringValueFromRegistry(rsX64Steam, installValueName)))
-                rs2RootDir = GetStringValueFromRegistry(rsX64Steam, installValueName);
-            else if (!String.IsNullOrEmpty(GetStringValueFromRegistry(rsX86Path, installValueName)))
-                rs2RootDir = GetStringValueFromRegistry(rsX86Path, installValueName);
-            else if (!String.IsNullOrEmpty(GetStringValueFromRegistry(rsX86Steam, installValueName)))
-                rs2RootDir = GetStringValueFromRegistry(rsX86Steam, installValueName);
 
             if (String.IsNullOrEmpty(rs2RootDir))
                 Globals.Log("Steam RS2014 Installation Directory not found in Registry ...");
