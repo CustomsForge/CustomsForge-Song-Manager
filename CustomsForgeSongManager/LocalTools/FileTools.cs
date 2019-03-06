@@ -48,8 +48,8 @@ namespace CustomsForgeSongManager.LocalTools
 
                 if (srcDelete)
                 {
-                    GenExtensions.DeleteDirectory(srcFolder);
-                    GenExtensions.MakeDir(srcFolder);
+                    GeneralExtensions.DeleteDirectory(srcFolder);
+                    GeneralExtensions.MakeDir(srcFolder);
                 }
             }
             catch (IOException ex)
@@ -116,8 +116,8 @@ namespace CustomsForgeSongManager.LocalTools
                     var artistName = songInfo.Artist;
                     var titleName = songInfo.Title;
                     // validate file and directory names
-                    var destFileName = GenExtensions.MakeValidFileName(String.Format("{0}_{1}_v{2}{3}", artistName, titleName, version, Constants.EnabledExtension));
-                    var destDir = GenExtensions.MakeValidDirName(Path.Combine(dlcDir, artistName));
+                    var destFileName = GeneralExtensions.MakeValidFileName(String.Format("{0}_{1}_v{2}{3}", artistName, titleName, version, Constants.EnabledExtension));
+                    var destDir = GeneralExtensions.MakeValidDirName(Path.Combine(dlcDir, artistName));
                     destFilePath = Path.Combine(destDir, destFileName);
 
                     // create new artist name folder for song files
@@ -134,7 +134,7 @@ namespace CustomsForgeSongManager.LocalTools
                         var song = Globals.MasterCollection.FirstOrDefault(s => s.FilePath == srcFilePath);
                         int index = Globals.MasterCollection.IndexOf(song);
                         Globals.MasterCollection[index].FilePath = destFilePath;
-                        GenExtensions.MoveFile(srcFilePath, destFilePath, false);
+                        GeneralExtensions.MoveFile(srcFilePath, destFilePath, false);
                     }
                     else
                         skipped++;
@@ -196,7 +196,7 @@ namespace CustomsForgeSongManager.LocalTools
                 {
                     if (!File.Exists(destFilePath))
                     {
-                        GenExtensions.CopyFile(extFilePath, destFilePath, true, false);
+                        GeneralExtensions.CopyFile(extFilePath, destFilePath, true, false);
                         Globals.Log("Moved file to: " + Path.GetFileName(destFilePath));
                     }
                     else
@@ -206,7 +206,7 @@ namespace CustomsForgeSongManager.LocalTools
                     }
 
                     // this could throw an error if file is "Read-Only" or does not exist
-                    GenExtensions.DeleteFile(extFilePath);
+                    GeneralExtensions.DeleteFile(extFilePath);
                 }
                 catch (IOException ex)
                 {
@@ -247,7 +247,7 @@ namespace CustomsForgeSongManager.LocalTools
 
                 if (!File.Exists(destFilePath))
                 {
-                    GenExtensions.CopyFile(srcFilePath, destFilePath, false);
+                    GeneralExtensions.CopyFile(srcFilePath, destFilePath, false);
                     Globals.Log(" - Successfully created backup ..."); // a good thing
                 }
                 else
@@ -295,7 +295,7 @@ namespace CustomsForgeSongManager.LocalTools
                     }
                     else if (!File.Exists(destFilePath))
                     {
-                        GenExtensions.CopyFile(srcFilePath, destFilePath, false);
+                        GeneralExtensions.CopyFile(srcFilePath, destFilePath, false);
                         Globals.Log(" - Successfully processed file"); // a good thing
                     }
                     else
@@ -353,7 +353,7 @@ namespace CustomsForgeSongManager.LocalTools
 
                 try
                 {
-                    GenExtensions.DeleteFile(srcFilePath);
+                    GeneralExtensions.DeleteFile(srcFilePath);
 
                     if (verbose)
                         Globals.Log(" - Successfully deleted file"); // a good thing
@@ -390,7 +390,7 @@ namespace CustomsForgeSongManager.LocalTools
                     destFilePath = Path.Combine(Path.GetDirectoryName(remasteredFilePath), srcFileName);
 
                 // copy but don't delete [.org]
-                if (GenExtensions.CopyFile(srcFilePath, destFilePath, true, false))
+                if (GeneralExtensions.CopyFile(srcFilePath, destFilePath, true, false))
                     Globals.Log(" - Successfully restored file: " + Path.GetFileName(srcFilePath));
                 else
                 {
@@ -485,7 +485,7 @@ namespace CustomsForgeSongManager.LocalTools
                         dlcFilePath = Path.Combine(Path.GetDirectoryName(remasteredFilePath), dlcFileName);
 
                     // copy but don't delete bakExt
-                    GenExtensions.CopyFile(bakFilePath, dlcFilePath, true, false);
+                    GeneralExtensions.CopyFile(bakFilePath, dlcFilePath, true, false);
                     Globals.Log("Successfully Restored: " + Path.GetFileName(dlcFilePath));
                 }
                 catch (IOException ex)
@@ -553,15 +553,15 @@ namespace CustomsForgeSongManager.LocalTools
             {
                 // use 'My Documents/CFSM' to avoid future OS Permission and AV issues
                 // validate/create CFSM subfolders            
-                GenExtensions.MakeDir(Constants.TempWorkFolder);
-                GenExtensions.MakeDir(Constants.BackupsFolder);
-                GenExtensions.MakeDir(Constants.DuplicatesFolder);
-                GenExtensions.MakeDir(Constants.RemasteredArcFolder);
-                GenExtensions.MakeDir(Constants.RemasteredOrgFolder);
-                GenExtensions.MakeDir(Constants.RemasteredMaxFolder);
-                GenExtensions.MakeDir(Constants.RemasteredCorFolder);
-                GenExtensions.MakeDir(Constants.QuarantineFolder);
-                GenExtensions.MakeDir(Constants.SongPacksFolder);
+                GeneralExtensions.MakeDir(Constants.TempWorkFolder);
+                GeneralExtensions.MakeDir(Constants.BackupsFolder);
+                GeneralExtensions.MakeDir(Constants.DuplicatesFolder);
+                GeneralExtensions.MakeDir(Constants.RemasteredArcFolder);
+                GeneralExtensions.MakeDir(Constants.RemasteredOrgFolder);
+                GeneralExtensions.MakeDir(Constants.RemasteredMaxFolder);
+                GeneralExtensions.MakeDir(Constants.RemasteredCorFolder);
+                GeneralExtensions.MakeDir(Constants.QuarantineFolder);
+                GeneralExtensions.MakeDir(Constants.SongPacksFolder);
 
                 // make sure we have write access to Rocksmith2014 folders
                 var rsDir = AppSettings.Instance.RSInstalledDir;
@@ -580,23 +580,23 @@ namespace CustomsForgeSongManager.LocalTools
                 if (Directory.Exists(Constants.Rs2CfsmFolder))
                 {
                     // leave these important orginal files in RS root (file attribute flags are unchanged)
-                    GenExtensions.CopyDir(Path.Combine(Constants.Rs2CfsmFolder, "songpacks", "originals"), Constants.Rs2OriginalsFolder);
+                    GeneralExtensions.CopyDir(Path.Combine(Constants.Rs2CfsmFolder, "songpacks", "originals"), Constants.Rs2OriginalsFolder);
                     //             
-                    GenExtensions.CopyDir(Path.Combine(Constants.Rs2CfsmFolder, "archives"), Constants.RemasteredArcFolder);
-                    GenExtensions.CopyDir(Path.Combine(Constants.Rs2CfsmFolder, "backups"), Constants.BackupsFolder);
-                    GenExtensions.CopyDir(Path.Combine(Constants.Rs2CfsmFolder, "duplicates"), Constants.DuplicatesFolder);
-                    GenExtensions.CopyDir(Path.Combine(Constants.Rs2CfsmFolder, "remastered"), Constants.RemasteredFolder);
-                    GenExtensions.CopyDir(Path.Combine(Constants.Rs2CfsmFolder, "songpacks"), Constants.SongPacksFolder, false);
+                    GeneralExtensions.CopyDir(Path.Combine(Constants.Rs2CfsmFolder, "archives"), Constants.RemasteredArcFolder);
+                    GeneralExtensions.CopyDir(Path.Combine(Constants.Rs2CfsmFolder, "backups"), Constants.BackupsFolder);
+                    GeneralExtensions.CopyDir(Path.Combine(Constants.Rs2CfsmFolder, "duplicates"), Constants.DuplicatesFolder);
+                    GeneralExtensions.CopyDir(Path.Combine(Constants.Rs2CfsmFolder, "remastered"), Constants.RemasteredFolder);
+                    GeneralExtensions.CopyDir(Path.Combine(Constants.Rs2CfsmFolder, "songpacks"), Constants.SongPacksFolder, false);
 
                     // make sure we have write access to all files in 'cfsm' folder
                     ZipUtilities.RemoveReadOnlyAttribute(Constants.Rs2CfsmFolder);
-                    GenExtensions.DeleteDirectory(Constants.Rs2CfsmFolder);
+                    GeneralExtensions.DeleteDirectory(Constants.Rs2CfsmFolder);
                 }
 
-                GenExtensions.CopyDir(Path.Combine(AppSettings.Instance.RSInstalledDir, "duplicates"), Constants.DuplicatesFolder);
-                GenExtensions.DeleteDirectory(Path.Combine(AppSettings.Instance.RSInstalledDir, "cdlc_quarantined"));
-                GenExtensions.DeleteDirectory(Path.Combine(AppSettings.Instance.RSInstalledDir, "cdlc_duplicates"));
-                GenExtensions.DeleteDirectory(Path.Combine(AppSettings.Instance.RSInstalledDir, "duplicates"));
+                GeneralExtensions.CopyDir(Path.Combine(AppSettings.Instance.RSInstalledDir, "duplicates"), Constants.DuplicatesFolder);
+                GeneralExtensions.DeleteDirectory(Path.Combine(AppSettings.Instance.RSInstalledDir, "cdlc_quarantined"));
+                GeneralExtensions.DeleteDirectory(Path.Combine(AppSettings.Instance.RSInstalledDir, "cdlc_duplicates"));
+                GeneralExtensions.DeleteDirectory(Path.Combine(AppSettings.Instance.RSInstalledDir, "duplicates"));
             }
             catch (Exception ex)
             {

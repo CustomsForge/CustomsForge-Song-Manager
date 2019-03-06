@@ -53,7 +53,7 @@ namespace CustomsForgeSongManager.Forms
 
                 foreach (OfficialDLCSong officialSong in Globals.OfficialDLCSongList)
                 {
-                    if (GenExtensions.CleanName(song.Artist) == GenExtensions.CleanName(officialSong.Artist) && GenExtensions.CleanName(song.Title) == GenExtensions.CleanName(officialSong.Title))
+                    if (GeneralExtensions.CleanName(song.Artist) == GeneralExtensions.CleanName(officialSong.Artist) && GeneralExtensions.CleanName(song.Title) == GeneralExtensions.CleanName(officialSong.Title))
                     {
                         duplicateList.Add(officialSong);
                         songDataList.Add(song);
@@ -135,8 +135,8 @@ namespace CustomsForgeSongManager.Forms
             for (int ndx = dgv.Rows.Count - 1; ndx >= 0; ndx--)
             {
                 DataGridViewRow row = dgv.Rows[ndx];
-                var     sdList = songDataList.Where(s => GenExtensions.CleanName(s.Artist) == GenExtensions.CleanName(row.Cells[colNdxArtist].Value.ToString())
-                          && GenExtensions.CleanName(s.Title) == GenExtensions.CleanName(row.Cells[colNdxTitle].Value.ToString())).ToList();
+                var     sdList = songDataList.Where(s => GeneralExtensions.CleanName(s.Artist) == GeneralExtensions.CleanName(row.Cells[colNdxArtist].Value.ToString())
+                          && GeneralExtensions.CleanName(s.Title) == GeneralExtensions.CleanName(row.Cells[colNdxTitle].Value.ToString())).ToList();
 
                 if (row.Selected || Convert.ToBoolean(row.Cells[colNdxSelect].Value))
                 {

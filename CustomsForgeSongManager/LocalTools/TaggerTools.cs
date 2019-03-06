@@ -58,9 +58,9 @@ namespace CustomsForgeSongManager.LocalTools
         {
             // start fresh for debugging
             if (Constants.DebugMode)
-                GenExtensions.DeleteDirectory(Constants.TaggerWorkingFolder);
+                GeneralExtensions.DeleteDirectory(Constants.TaggerWorkingFolder);
 
-            if (!Directory.Exists(Constants.TaggerTemplatesFolder) || GenExtensions.IsDirectoryEmpty(Constants.TaggerTemplatesFolder) || !File.Exists(Path.Combine(Constants.TaggerTemplatesFolder, "Default.tagtheme")))
+            if (!Directory.Exists(Constants.TaggerTemplatesFolder) || GeneralExtensions.IsDirectoryEmpty(Constants.TaggerTemplatesFolder) || !File.Exists(Path.Combine(Constants.TaggerTemplatesFolder, "Default.tagtheme")))
                 CreateDefaultFolders();
 
             if (!File.Exists(Path.Combine(Constants.TaggerTemplatesFolder, "User.Default.tagtheme")))
@@ -85,7 +85,7 @@ namespace CustomsForgeSongManager.LocalTools
                 Directory.CreateDirectory(Constants.TaggerWorkingFolder);
 
             // create tagger directories and files
-            GenExtensions.ExtractEmbeddedResources(Constants.TaggerTemplatesFolder, Assembly.GetExecutingAssembly(), "CustomsForgeSongManager.Resources.tags");
+            GeneralExtensions.ExtractEmbeddedResources(Constants.TaggerTemplatesFolder, Assembly.GetExecutingAssembly(), "CustomsForgeSongManager.Resources.tags");
         }
 
         public string ThemeName { get; set; }
@@ -175,7 +175,7 @@ namespace CustomsForgeSongManager.LocalTools
 
         private void ShowTaggerError(string errMsg)
         {
-            GenExtensions.DeleteDirectory(Constants.TaggerWorkingFolder);
+            GeneralExtensions.DeleteDirectory(Constants.TaggerWorkingFolder);
             Populate();
 
             MessageBox.Show(
@@ -246,7 +246,7 @@ namespace CustomsForgeSongManager.LocalTools
                 else
                     archive.InflateEntry(tkEntry);
 
-                ToolkitInfo tkInfo = GeneralExtensions.GetToolkitInfo(new StreamReader(tkEntry.Data));
+                ToolkitInfo tkInfo = GeneralExtension.GetToolkitInfo(new StreamReader(tkEntry.Data));
                 rating = int.Parse(tkInfo.PackageRating == null ? "0" : tkInfo.PackageRating);
             }
 
@@ -276,7 +276,7 @@ namespace CustomsForgeSongManager.LocalTools
             if (tt != null)
                 tt.Data = song;
 
-            GenExtensions.TempChangeDirectory(ttpath, () =>
+            GeneralExtensions.TempChangeDirectory(ttpath, () =>
             {
                 // Add layers to big album art
                 using (Graphics gra = Graphics.FromImage(bigAlbumArt))

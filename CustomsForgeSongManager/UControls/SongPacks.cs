@@ -337,7 +337,7 @@ namespace CustomsForgeSongManager.UControls
             var tkVersionData = PsarcExtensions.ExtractArchiveFile(customPackPsarcPath, "toolkit.version");
             if (tkVersionData != null)
             {
-                ToolkitInfo tkInfo = GeneralExtensions.GetToolkitInfo(new StreamReader(tkVersionData));
+                ToolkitInfo tkInfo = GeneralExtension.GetToolkitInfo(new StreamReader(tkVersionData));
                 version = tkInfo.PackageVersion ?? "Null";
 
                 if (!version.Contains("SongPack"))
@@ -547,7 +547,7 @@ namespace CustomsForgeSongManager.UControls
                     throw new IOException();
 
                 if (!File.Exists(Path.Combine(Constants.CachePcPath, "sltsv1_aggregategraph.nt")))
-                    GenExtensions.ExtractEmbeddedResource(Constants.CachePcPath, Assembly.GetExecutingAssembly(), "CustomsForgeSongManager.Resources", new string[] { "sltsv1_aggregategraph.nt" });
+                    GeneralExtensions.ExtractEmbeddedResource(Constants.CachePcPath, Assembly.GetExecutingAssembly(), "CustomsForgeSongManager.Resources", new string[] { "sltsv1_aggregategraph.nt" });
 
                 ZipUtilities.InjectFile(Constants.ExtractedSongsHsanPath, Constants.Cache7zPath, Constants.SongsHsanInternalPath, OutArchiveFormat.SevenZip, CompressionMode.Append);
                 Packer.Pack(Constants.CachePcPath, Constants.CachePsarcPath);

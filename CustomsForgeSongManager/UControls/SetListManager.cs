@@ -478,7 +478,7 @@ namespace CustomsForgeSongManager.UControls
 
                 if (mode == "copy" || mode == "move")
                 {
-                    GenExtensions.CopyFile(srcPath, destPath, true);
+                    GeneralExtensions.CopyFile(srcPath, destPath, true);
 
                     // add song from dgvDest
                     SongData newSong = new SongData();
@@ -522,7 +522,7 @@ namespace CustomsForgeSongManager.UControls
                         }
                     }
 
-                    GenExtensions.DeleteFile(srcPath);
+                    GeneralExtensions.DeleteFile(srcPath);
                 }
             }
 

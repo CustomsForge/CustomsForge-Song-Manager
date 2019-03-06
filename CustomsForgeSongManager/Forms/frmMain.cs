@@ -63,11 +63,9 @@ namespace CustomsForgeSongManager.Forms
         public frmMain(DLogNet.DLogger myLog)
         {
             InitializeComponent();
-            this.Visible = false; // hides screen glitches
 
-            // enable/disable ProfileSongLists feature here
-            //if (!Constants.DebugMode)
-            //    tcMain.TabPages.RemoveByKey("tpProfileSongLists");
+            // verify application directory structure
+            FileTools.VerifyCfsmFolders();
 
             // create VersionInfo.txt file
             VersionInfo.CreateVersionInfo();
@@ -83,17 +81,10 @@ namespace CustomsForgeSongManager.Forms
             tsAudioPlayer.AutoSize = false; // a key to preventing movement
             tsAudioPlayer.Visible = false;
             tsAudioPlayer.Location = new Point(tsUtilities.Width + 40, 0); // force location
+            tsAudioPlayer.Visible = true;
+            playFunction += new PlayCall(PlaySong);
 
             SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.UserPaint | ControlStyles.DoubleBuffer, true);
-
-            // event handler to maybe get rid of notifier icon on closing
-            this.Closing += (object sender, CancelEventArgs e) =>
-            {
-                Globals.MyLog.RemoveTargetNotifyIcon(Globals.Notifier);
-                notifyIcon_Main.Visible = false;
-                notifyIcon_Main.Icon = null;
-                notifyIcon_Main.Dispose();
-            };
 
             Globals.MyLog = myLog;
             Globals.Notifier = this.notifyIcon_Main;
@@ -107,16 +98,22 @@ namespace CustomsForgeSongManager.Forms
             Globals.MyLog.AddTargetTextBox(tbLog);
             //    Globals.CFMTheme.AddListener(this);
 
+            // event handler to maybe get rid of notifier icon on closing
+            this.Closing += (object sender, CancelEventArgs e) =>
+            {
+                Globals.MyLog.RemoveTargetNotifyIcon(Globals.Notifier);
+                notifyIcon_Main.Visible = false;
+                notifyIcon_Main.Icon = null;
+                notifyIcon_Main.Dispose();
+            };
+
             Globals.OnScanEvent += (s, e) =>
             {
-                GenExtensions.InvokeIfRequired(tcMain, a =>
+                GeneralExtensions.InvokeIfRequired(tcMain, a =>
                 {
                     tcMain.Enabled = !e.IsScanning;
                 });
             };
-
-            // verify application directory structure
-            FileTools.VerifyCfsmFolders();
 
             // initialize show log event handler before loading settings
             AppSettings.Instance.PropertyChanged += (s, e) =>
@@ -127,6 +124,9 @@ namespace CustomsForgeSongManager.Forms
                     tsLabel_ShowHideLog.Text = scMain.Panel2Collapsed ? Properties.Resources.ShowLog : Properties.Resources.HideLog;
                 }
             };
+
+            // load settings
+            Globals.Settings.LoadSettingsFromFile();
 
             // set app title
             var strFormatVersion = "{0} (v{1} - {2})";
@@ -140,38 +140,44 @@ namespace CustomsForgeSongManager.Forms
             strFormatVersion = "{0} (v{1} - {2} BUILD)";
 #endif
 
-
-            // load settings
-            Globals.Settings.LoadSettingsFromFile();
-
             if (Constants.DebugMode)
                 strFormatVersion = "{0} (v{1} - {2} DEBUG)";
 
             Constants.AppTitle = String.Format(strFormatVersion, Constants.ApplicationName, Constants.CustomVersion(), Constants.OnMac ? "MAC" : "PC");
             this.Text = Constants.AppTitle;
+            // bring CFSM to the front on startup
+            this.BringToFront();
             this.WindowState = AppSettings.Instance.FullScreen ? FormWindowState.Maximized : FormWindowState.Normal;
-            this.Show();
+            this.Show(); // triggers Form.Shown event
 
             // log application environment
             Globals.Log("+ " + Constants.AppTitle);
             Globals.Log("+ RocksmithToolkitLib (v" + ToolkitVersion.RSTKLibVersion() + ")");
             Globals.Log("+ Dynamic Difficulty Creator (v" + FileVersionInfo.GetVersionInfo(Path.Combine(ExternalApps.TOOLKIT_ROOT, ExternalApps.APP_DDC)).ProductVersion + ")");
             Globals.Log("+ .NET Framework (v" + SysExtensions.DotNetVersion + ")");
+            Globals.Log("+ System Display DPI Setting (" + GeneralExtension.GetDisplayDpi(this) + ")");
+            Globals.Log("+ System Display Screen Scale Factor (" + GeneralExtension.GetDisplayScalingFactor(this) * 100 + "%)");
+
+            if (AppSettings.Instance.FirstRun)
+            {
+                if (!GeneralExtension.ValidateDisplaySettings(this, this)) // , true, true)) // uncomment for debugging
+                    Globals.Log("+ Adjusted AutoScaleDimensions, AutoScaleMode, and AutoSize ...");
+
+                AppSettings.Instance.FirstRun = false;
+                Globals.Settings.SaveSettingsToFile(Globals.DgvCurrent);
+            }
 
             if (AppSettings.Instance.EnableNotifications)
                 Globals.MyLog.AddTargetNotifyIcon(Globals.Notifier);
             else
                 Globals.MyLog.RemoveTargetNotifyIcon(Globals.Notifier);
 
+            // enable/disable ProfileSongLists feature here
+            //if (!Constants.DebugMode)
+            //    tcMain.TabPages.RemoveByKey("tpProfileSongLists");
 
             // load Song Manager Tab
             LoadSongManager();
-
-            // bring CFSM to the front on startup
-            this.BringToFront();
-            this.Visible = true;
-            tsAudioPlayer.Visible = true;
-            playFunction += new PlayCall(PlaySong);
 
             //CustomsForgeSongManagerLib.Extensions.Benchmark(LoadSongManager, 1);
         }
@@ -242,14 +248,14 @@ namespace CustomsForgeSongManager.Forms
                 // don't use the bulldozer here, instead use the bobcat
                 // 'My Documents/CFSM' may contain some original files
                 Globals.Log("User selected Clean On Closing ...");
-                GenExtensions.DeleteFile(Constants.LogFilePath);
-                GenExtensions.DeleteFile(Constants.SongsInfoPath);
-                GenExtensions.DeleteFile(Constants.AppSettingsPath);
-                GenExtensions.DeleteDirectory(Constants.GridSettingsFolder);
-                GenExtensions.DeleteDirectory(Constants.AudioCacheFolder);
-                GenExtensions.DeleteDirectory(Constants.TaggerWorkingFolder);
-                GenExtensions.DeleteDirectory(Constants.CachePcPath);
-                GenExtensions.DeleteDirectory(Constants.SongPacksFolder);
+                GeneralExtensions.DeleteFile(Constants.LogFilePath);
+                GeneralExtensions.DeleteFile(Constants.SongsInfoPath);
+                GeneralExtensions.DeleteFile(Constants.AppSettingsPath);
+                GeneralExtensions.DeleteDirectory(Constants.GridSettingsFolder);
+                GeneralExtensions.DeleteDirectory(Constants.AudioCacheFolder);
+                GeneralExtensions.DeleteDirectory(Constants.TaggerWorkingFolder);
+                GeneralExtensions.DeleteDirectory(Constants.CachePcPath);
+                GeneralExtensions.DeleteDirectory(Constants.SongPacksFolder);
 
                 AppSettings.Instance.CleanOnClosing = false;
             }
@@ -469,7 +475,7 @@ namespace CustomsForgeSongManager.Forms
         private void frmMain_Load(object sender, EventArgs e) // done after frmMain()
         {
             // be nice to devs don't check for updates
-            if (GenExtensions.IsInDesignMode)
+            if (GeneralExtension.IsInDesignMode)
                 return;
 
             tsBtnUpdate.Visible = false;
@@ -723,7 +729,7 @@ namespace CustomsForgeSongManager.Forms
                         file.Write(sbCSV.ToString());
 
                     Globals.Log(Globals.DgvCurrent.Name + " data saved to:" + path);
-                    GenExtensions.PromptOpen(Path.GetDirectoryName(path), Globals.DgvCurrent.Name + " data saved ...");
+                    GeneralExtensions.PromptOpen(Path.GetDirectoryName(path), Globals.DgvCurrent.Name + " data saved ...");
                 }
                 catch (IOException ex)
                 {
@@ -794,7 +800,7 @@ namespace CustomsForgeSongManager.Forms
                             dS.WriteXml(fs);
 
                         Globals.Log(Globals.DgvCurrent.Name + " data saved to:" + path);
-                        GenExtensions.PromptOpen(Path.GetDirectoryName(path), Globals.DgvCurrent.Name + " data saved ...");
+                        GeneralExtensions.PromptOpen(Path.GetDirectoryName(path), Globals.DgvCurrent.Name + " data saved ...");
                     }
                     catch (IOException ex)
                     {
@@ -855,7 +861,7 @@ namespace CustomsForgeSongManager.Forms
                         fs.Write(serializedJson.ToString());
 
                     Globals.Log(Globals.DgvCurrent.Name + " data saved to:" + path);
-                    GenExtensions.PromptOpen(Path.GetDirectoryName(path), Globals.DgvCurrent.Name + " data saved ...");
+                    GeneralExtensions.PromptOpen(Path.GetDirectoryName(path), Globals.DgvCurrent.Name + " data saved ...");
                 }
                 catch (IOException ex)
                 {
@@ -897,8 +903,9 @@ namespace CustomsForgeSongManager.Forms
 
         private void frmMain_Shown(object sender, EventArgs e)
         {
-            if (!AppSettings.Instance.FullScreen)
+            // if (!AppSettings.Instance.FullScreen)
             {
+                // restore user sreeen settings
                 int width = this.Width;
                 int height = this.Height;
                 int top = this.Location.Y;

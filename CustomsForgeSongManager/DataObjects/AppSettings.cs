@@ -46,6 +46,7 @@ namespace CustomsForgeSongManager.DataObjects
         private bool _protectODLC;
         private bool _includeVocals;
         private bool _oneTime;
+        private bool _firstRun;
         private int _multiThread = -1; // tristate int, 1 use multi, 0 use single, -1 not set
         private DateTime _lastODLCCheckDate;
         private RepairOptions _repairOptions;
@@ -278,6 +279,12 @@ namespace CustomsForgeSongManager.DataObjects
             set { SetPropertyField("OneTime", ref _oneTime, value); }
         }
 
+        public bool FirstRun
+        {
+            get { return _firstRun; }
+            set { SetPropertyField("FirstRun", ref _firstRun, value); }
+        }
+
         public int MultiThread
         {
             get { return _multiThread; }
@@ -385,6 +392,7 @@ namespace CustomsForgeSongManager.DataObjects
             Instance.ShowLogWindow = Constants.DebugMode;
             Instance.RepairOptions = new RepairOptions();
             Instance.OneTime = false;
+            Instance.FirstRun = true;
             Instance.MultiThread = -1; // tristate
             Instance.ProtectODLC = true;
             Instance.IncludeSubfolders = true;
@@ -398,10 +406,8 @@ namespace CustomsForgeSongManager.DataObjects
                 Instance.ValidateD3D = false;
             }
 
-            if (String.IsNullOrEmpty(Instance.RSInstalledDir))
-                Instance.RSInstalledDir = LocalExtensions.GetSteamDirectory();
-
-            // intentionally omitted from RestoreDefaults to prevent resetting user selections
+            // these have been intentionally omitted from RestoreDefaults
+            // Instance.RSInstalledDir = LocalExtensions.GetSteamDirectory();
             // Instance.RSProfileDir = String.Empty;
             // Instance.DownloadsDir = String.Empty; 
         }

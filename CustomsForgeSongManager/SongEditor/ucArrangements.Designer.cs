@@ -30,8 +30,11 @@ namespace CustomsForgeSongManager.SongEditor
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.dgvArrangements = new DataGridViewTools.RADataGridView();
+            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.colName = new System.Windows.Forms.DataGridViewLinkColumn();
             this.colArrangementType = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colRouteMask = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -72,9 +75,20 @@ namespace CustomsForgeSongManager.SongEditor
             this.dgvArrangements.RowHeadersVisible = false;
             this.dgvArrangements.Size = new System.Drawing.Size(736, 354);
             this.dgvArrangements.TabIndex = 0;
+            this.toolTip.SetToolTip(this.dgvArrangements, "<CAUTION> For Expert User Use Only\r\nData revisions have limited or no validation!" +
+                    "");
             this.dgvArrangements.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dgvArrangements_CellBeginEdit);
             this.dgvArrangements.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvArrangements_CellContentClick);
             this.dgvArrangements.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvArrangements_CellEndEdit);
+            this.dgvArrangements.CellValidating += new System.Windows.Forms.DataGridViewCellValidatingEventHandler(this.dgvArrangements_CellValidating);
+            this.dgvArrangements.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.dgvArrangements_DataError);
+            // 
+            // toolTip
+            // 
+            this.toolTip.AutomaticDelay = 100;
+            this.toolTip.AutoPopDelay = 10000;
+            this.toolTip.InitialDelay = 100;
+            this.toolTip.ReshowDelay = 20;
             // 
             // colName
             // 
@@ -104,7 +118,10 @@ namespace CustomsForgeSongManager.SongEditor
             // 
             // colScrollSpeed
             // 
-            this.colScrollSpeed.DataPropertyName = "ScrollSpeed";
+            this.colScrollSpeed.DataPropertyName = "ScrollSpeedTenth";
+            dataGridViewCellStyle2.Format = "N1";
+            dataGridViewCellStyle2.NullValue = null;
+            this.colScrollSpeed.DefaultCellStyle = dataGridViewCellStyle2;
             this.colScrollSpeed.HeaderText = "Scroll Speed";
             this.colScrollSpeed.Name = "colScrollSpeed";
             this.colScrollSpeed.Width = 90;
@@ -115,12 +132,14 @@ namespace CustomsForgeSongManager.SongEditor
             this.colTuning.HeaderText = "Tuning";
             this.colTuning.Name = "colTuning";
             this.colTuning.ReadOnly = true;
+            this.colTuning.Width = 110;
             // 
             // colTuningPitch
             // 
             this.colTuningPitch.DataPropertyName = "TuningPitch";
             this.colTuningPitch.HeaderText = "Tuning Pitch";
             this.colTuningPitch.Name = "colTuningPitch";
+            this.colTuningPitch.Width = 90;
             // 
             // colToneBase
             // 
@@ -144,6 +163,7 @@ namespace CustomsForgeSongManager.SongEditor
         #endregion
 
         private RADataGridView dgvArrangements;
+        private System.Windows.Forms.ToolTip toolTip;
         private System.Windows.Forms.DataGridViewLinkColumn colName;
         private System.Windows.Forms.DataGridViewTextBoxColumn colArrangementType;
         private System.Windows.Forms.DataGridViewTextBoxColumn colRouteMask;

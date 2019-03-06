@@ -16,7 +16,7 @@ using System.ComponentModel;
 
 namespace GenTools
 {
-    public static class GenExtensions
+    public static class GeneralExtensions
     {
         #region Constants
 
@@ -31,27 +31,9 @@ namespace GenTools
 
         #endregion
 
-        public static bool IsInDesignMode
-        {
-            get
-            {
-                var bVshostCheck = Process.GetCurrentProcess().ProcessName.IndexOf("vshost", StringComparison.OrdinalIgnoreCase) > -1 ? true : false;
-                var bModeCheck = LicenseManager.UsageMode == LicenseUsageMode.Designtime ? true : false;
-                var bDevEnvCheck = Application.ExecutablePath.IndexOf("devenv", StringComparison.OrdinalIgnoreCase) > -1 ? true : false;
-                var bDebuggerAttached = Debugger.IsAttached;
-
-                if (bDebuggerAttached || bDevEnvCheck || bModeCheck || bVshostCheck)
-                    return true;
-
-                return false;
-            }
-        }
-
-        #region Class Methods
-
         public static bool AddShortcut(Environment.SpecialFolder destDirectory,
-                                              string exeShortcutLink, string exePath, string destSubDirectory = "",
-                                              string shortcutDescription = "", string exeIconPath = "")
+                                                            string exeShortcutLink, string exePath, string destSubDirectory = "",
+                                                            string shortcutDescription = "", string exeIconPath = "")
         {
             // e.g. "OutlookGoogleCalendarSync.lnk"
             Debug.WriteLine("AddShortcut: directory=" + destDirectory.ToString() + "; subdir=" + destSubDirectory);
@@ -1068,6 +1050,5 @@ namespace GenTools
         private static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int X,
                                                 int Y, int cx, int cy, uint uFlags);
 
-        #endregion
     }
 }

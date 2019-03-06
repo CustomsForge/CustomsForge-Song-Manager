@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.IO;
 using GenTools;
 using CustomsForgeSongManager.DataObjects;
+using RocksmithToolkitLib.Extensions;
 
 namespace CustomsForgeSongManager.LocalTools
 {
@@ -14,7 +15,7 @@ namespace CustomsForgeSongManager.LocalTools
         public static void CreateVersionInfo()
         {
             // return if not IDE Mode
-            if (!GenExtensions.IsInDesignMode)
+            if (!GeneralExtension.IsInDesignMode)
                 return;
 
             const string relNotesFile = "ReleaseNotes.txt";
@@ -30,7 +31,7 @@ namespace CustomsForgeSongManager.LocalTools
             if (!File.Exists(relNotesPath))
                 throw new Exception("<ERROR> Could not find file: " + relNotesPath);
 
-            var txt = GenExtensions.GetFullAppVersion();
+            var txt = GeneralExtensions.GetFullAppVersion();
             Globals.Log("<DEV ONLY> Current CFSM Version: " + txt);
             File.WriteAllText(verInfoPath, txt);
             Globals.Log("<DEV ONLY> CreateVersionInfo was sucessful: " + verInfoPath);

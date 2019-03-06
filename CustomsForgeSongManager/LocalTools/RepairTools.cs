@@ -135,7 +135,7 @@ namespace CustomsForgeSongManager.LocalTools
                 // ArrangementIDs are stored in multiple place and all need to be updated
                 // therefore we are going to unpack, apply repair, and repack
                 Globals.Log(" - Extracting CDLC artifacts");
-                GenExtensions.InvokeIfRequired(Globals.TsProgressBar_Main.GetCurrentParent(), delegate
+                GeneralExtensions.InvokeIfRequired(Globals.TsProgressBar_Main.GetCurrentParent(), delegate
                 {
                     Globals.TsProgressBar_Main.Value = 35;
                 });
@@ -255,7 +255,7 @@ namespace CustomsForgeSongManager.LocalTools
                     Globals.Log(" - Adjusted Scroll Speed: " + options.ScrollSpeed);
 
                 Globals.Log(" - Repackaging Remastered CDLC");
-                GenExtensions.InvokeIfRequired(Globals.TsProgressBar_Main.GetCurrentParent(), delegate
+                GeneralExtensions.InvokeIfRequired(Globals.TsProgressBar_Main.GetCurrentParent(), delegate
                 {
                     Globals.TsProgressBar_Main.Value = 70;
                 });
@@ -452,7 +452,7 @@ namespace CustomsForgeSongManager.LocalTools
                         Directory.CreateDirectory(downloadsFolder);
 
                     var destFilePath = Path.Combine(downloadsFolder, Path.GetFileName(srcFilePath));
-                    GenExtensions.MoveFile(srcFilePath, destFilePath);
+                    GeneralExtensions.MoveFile(srcFilePath, destFilePath);
                     Globals.Log(" - Moved new CDLC to: " + downloadsFolder);
                     Globals.ReloadSongManager = true; // set quick reload flag
 
@@ -468,7 +468,7 @@ namespace CustomsForgeSongManager.LocalTools
                 {
                     // cleanup after every nth record
                     if (processed % 50 == 0)
-                        GenExtensions.CleanLocalTemp();
+                        GeneralExtensions.CleanLocalTemp();
                 }
             }
 
@@ -480,7 +480,7 @@ namespace CustomsForgeSongManager.LocalTools
                 Globals.ReloadSongManager = true;
 
                 if (!Constants.DebugMode)
-                    GenExtensions.CleanLocalTemp();
+                    GeneralExtensions.CleanLocalTemp();
             }
             else
                 Globals.Log("No CDLC were repaired ...");
@@ -599,7 +599,7 @@ namespace CustomsForgeSongManager.LocalTools
                     }
 
                     task.Dispose();
-                    GenExtensions.InvokeIfRequired(Globals.TsProgressBar_Main.GetCurrentParent(), delegate { Globals.SongManager.UpdateToolStrip(); });
+                    GeneralExtensions.InvokeIfRequired(Globals.TsProgressBar_Main.GetCurrentParent(), delegate { Globals.SongManager.UpdateToolStrip(); });
                 }
                 catch {/* DO NOTHING ... process the DL next time around */}
             }

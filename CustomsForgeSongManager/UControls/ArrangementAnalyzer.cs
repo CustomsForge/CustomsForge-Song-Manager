@@ -190,6 +190,7 @@ namespace CustomsForgeSongManager.UControls
             sw = new Stopwatch();
             sw.Restart();
 
+            // FIXME: this seems unnecessary since SongData already contains Arrangement data
             // CONFIRMED ... recursion method is 4-8X faster than reflection method
             foreach (var song in Globals.MasterCollection)
             {
@@ -494,10 +495,10 @@ namespace CustomsForgeSongManager.UControls
 
         private void ToggleUIControls(bool enable)
         {
-            GenExtensions.InvokeIfRequired(cueSearch, delegate { cueSearch.Enabled = enable; });
-            GenExtensions.InvokeIfRequired(menuStrip, delegate { menuStrip.Enabled = enable; });
-            GenExtensions.InvokeIfRequired(lnkLblSelectAll, delegate { lnkLblSelectAll.Enabled = enable; });
-            GenExtensions.InvokeIfRequired(lnkClearSearch, delegate { lnkClearSearch.Enabled = enable; });
+            GeneralExtensions.InvokeIfRequired(cueSearch, delegate { cueSearch.Enabled = enable; });
+            GeneralExtensions.InvokeIfRequired(menuStrip, delegate { menuStrip.Enabled = enable; });
+            GeneralExtensions.InvokeIfRequired(lnkLblSelectAll, delegate { lnkLblSelectAll.Enabled = enable; });
+            GeneralExtensions.InvokeIfRequired(lnkClearSearch, delegate { lnkClearSearch.Enabled = enable; });
         }
 
         private void Arrangements_Resize(object sender, EventArgs e)
@@ -998,14 +999,8 @@ namespace CustomsForgeSongManager.UControls
 
         private void dgvArrangements_DataError(object sender, DataGridViewDataErrorEventArgs e)
         {
-            // for debugging
-            var d = (DataGridView)sender;
-            var n = d.Name;
-            var c = e.ColumnIndex;
-            var r = e.RowIndex;
-
+            Globals.DebugLog(String.Format("<ERROR> (Row: {0}, Col: {1}), {2} ...", e.RowIndex, e.ColumnIndex, e.Exception.Message));
             e.Cancel = true;
-
         }
 
     }

@@ -92,7 +92,7 @@ namespace CustomsForgeSongManager.LocalTools
             if (toolkitVersionFile != null)
             {
                 _archive.InflateEntry(toolkitVersionFile);
-                ToolkitInfo tkInfo = GeneralExtensions.GetToolkitInfo(new StreamReader(toolkitVersionFile.Data));
+                ToolkitInfo tkInfo = GeneralExtension.GetToolkitInfo(new StreamReader(toolkitVersionFile.Data));
                 toolkitVersion = tkInfo.ToolkitVersion ?? "Null";
                 packageAuthor = tkInfo.PackageAuthor ?? "Null";
                 packageVersion = tkInfo.PackageVersion ?? "Null";

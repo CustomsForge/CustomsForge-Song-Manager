@@ -63,18 +63,18 @@ namespace CustomsForgeSongManager.LocalTools
             if (Globals.TsProgressBar_Main != null && value <= 100)
             {
                 // perma fix for periodic cross threading issue with TsProgressBar on initial startups
-                GenExtensions.InvokeIfRequired(Globals.TsProgressBar_Main.GetCurrentParent(), delegate { Globals.TsProgressBar_Main.Value = value; });
+                GeneralExtensions.InvokeIfRequired(Globals.TsProgressBar_Main.GetCurrentParent(), delegate { Globals.TsProgressBar_Main.Value = value; });
 
                 if (workOrder.Name != "Renamer")
                 {
-                    GenExtensions.InvokeIfRequired(Globals.TsLabel_MainMsg.GetCurrentParent(), delegate { Globals.TsLabel_MainMsg.Text = String.Format("Rocksmith Song Count: {0}", bwSongCollection.Count); });
+                    GeneralExtensions.InvokeIfRequired(Globals.TsLabel_MainMsg.GetCurrentParent(), delegate { Globals.TsLabel_MainMsg.Text = String.Format("Rocksmith Song Count: {0}", bwSongCollection.Count); });
                 }
             }
         }
 
         private void WorkerComplete(object sender, RunWorkerCompletedEventArgs e)
         {
-            GenExtensions.InvokeIfRequired(workOrder, delegate { Globals.TsLabel_Cancel.Visible = false; });
+            GeneralExtensions.InvokeIfRequired(workOrder, delegate { Globals.TsLabel_Cancel.Visible = false; });
 
             if (e.Cancelled || Globals.TsLabel_Cancel.Text == "Canceling" || Globals.CancelBackgroundScan)
             {
@@ -227,7 +227,7 @@ namespace CustomsForgeSongManager.LocalTools
             if (AppSettings.Instance.MultiThread == 1 && songPathsList.Count > 0)
             {
                 Task[] tasks = new Task[coreCount];
-                var songsSubLists = GenExtensions.SplitList(songPathsList, coreCount);
+                var songsSubLists = GeneralExtensions.SplitList(songPathsList, coreCount);
 
                 for (int ndx = 0; ndx < coreCount; ndx++)
                 {
@@ -236,7 +236,7 @@ namespace CustomsForgeSongManager.LocalTools
                     tasks[ndx] = Task.Factory.StartNew(() =>
                     {
                         // cross threading protection
-                        GenExtensions.InvokeIfRequired(workOrder, delegate
+                        GeneralExtensions.InvokeIfRequired(workOrder, delegate
                         {
                             ParsePsarcFiles(songsSubLists[ndxLocal]);
                         });
@@ -329,7 +329,7 @@ namespace CustomsForgeSongManager.LocalTools
                                 songData.PackageVersion = fileNameVersion;
                         }
 
-                        GenExtensions.InvokeIfRequired(workOrder, delegate
+                        GeneralExtensions.InvokeIfRequired(workOrder, delegate
                             { bwSongCollection.Add(songData); });
                     }
                 }

@@ -108,26 +108,22 @@ namespace CustomsForgeSongManager.LocalTools
                 if (File.Exists(dirPath))
                     finalPath = Path.GetDirectoryName(dirPath);
 
-                 rsFolderPath = Path.Combine(finalPath, "common", "Rocksmith2014");
+                rsFolderPath = Path.Combine(finalPath, "common", "Rocksmith2014");
 
-                 if (rsFolderPath.IsRSFolder())
-                 {
-                     found = true;
-                     finalPath = rsFolderPath;
-                 }
+                if (rsFolderPath.IsRSFolder())
+                {
+                    found = true;
+                    finalPath = rsFolderPath;
+                }
             });
 
             if (found)
             {
-                Globals.Log("Found at: " + finalPath);
-                return finalPath;
-            }
-            else
-            {
-                Globals.Log("RS path not found.");
-                return string.Empty;
+                Globals.Log("Found Custom RS2014 Installation Directory ...");
+                return rsFolderPath;
             }
 
+            Globals.Log("<WARNING> Custom RS2014 Installation Directory not found ...");
             return String.Empty;
         }
 
@@ -155,48 +151,61 @@ namespace CustomsForgeSongManager.LocalTools
 
         public static string GetSteamDirectory()
         {
-            // for debugging force user to select the RS root
-            // return String.Empty;
-
-            if (AppSettings.Instance.MacMode)
-                return GetMacSteamPath();
-
-            const string installValueName = "InstallLocation";
-            const string steamRegPath = @"HKEY_CURRENT_USER\SOFTWARE\Valve\Steam";
-
-            const string rsX64Path = @"HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Ubisoft\Rocksmith2014";
-            const string rsX64Steam = @"HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall\Steam App 221680";
-
-            // TODO: confirm the following constants for x86 machines
-            const string rsX86Path = @"HKEY_LOCAL_MACHINE\SOFTWARE\Ubisoft\Rocksmith2014";
-            const string rsX86Steam = @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Steam App 221680";
-
-
-            string steamRootPath = GetStringValueFromRegistry(steamRegPath, "SteamPath").Replace('/', '\\');
-
-            string rs2RootDir = Path.Combine(steamRootPath, "SteamApps\\common\\Rocksmith2014");
-
-            if (!Directory.Exists(rs2RootDir) || !rs2RootDir.IsRSFolder())
-                rs2RootDir = GetCustomRSFolder(steamRootPath);
-
-            if (!String.IsNullOrEmpty(rs2RootDir))
+            // must catch any exceptions, such as,
+            // 'Object reference not set to an instance of an object'
+            // which is thrown on machines that do not have the registry value
+            try
             {
-                if (!String.IsNullOrEmpty(GetStringValueFromRegistry(rsX64Path, "installdir")))
-                    rs2RootDir = GetStringValueFromRegistry(rsX64Path, "installdir");
-                else if (!String.IsNullOrEmpty(GetStringValueFromRegistry(rsX64Steam, installValueName)))
-                    rs2RootDir = GetStringValueFromRegistry(rsX64Steam, installValueName);
-                else if (!String.IsNullOrEmpty(GetStringValueFromRegistry(rsX86Path, installValueName)))
-                    rs2RootDir = GetStringValueFromRegistry(rsX86Path, installValueName);
-                else if (!String.IsNullOrEmpty(GetStringValueFromRegistry(rsX86Steam, installValueName)))
-                    rs2RootDir = GetStringValueFromRegistry(rsX86Steam, installValueName);
+                if (AppSettings.Instance.MacMode)
+                    return GetMacSteamPath();
+
+                const string installValueName = "InstallLocation";
+                const string steamRegPath = @"HKEY_CURRENT_USER\SOFTWARE\Valve\Steam";
+
+                const string rsX64Path = @"HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Ubisoft\Rocksmith2014";
+                const string rsX64Steam = @"HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall\Steam App 221680";
+
+                // TODO: confirm the following constants for x86 machines
+                const string rsX86Path = @"HKEY_LOCAL_MACHINE\SOFTWARE\Ubisoft\Rocksmith2014";
+                const string rsX86Steam = @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Steam App 221680";
+
+                var rs2RootDir = String.Empty;
+                var steamRootPath = GetStringValueFromRegistry(steamRegPath, "SteamPath").Replace('/', '\\');
+
+                if (!String.IsNullOrEmpty(steamRootPath))
+                {
+                    rs2RootDir = Path.Combine(steamRootPath, "SteamApps\\common\\Rocksmith2014");
+
+                    if (!Directory.Exists(rs2RootDir) || !rs2RootDir.IsRSFolder())
+                        rs2RootDir = GetCustomRSFolder(steamRootPath);
+                    else if (!String.IsNullOrEmpty(rs2RootDir))
+                    {
+                        if (!String.IsNullOrEmpty(GetStringValueFromRegistry(rsX64Path, "installdir")))
+                            rs2RootDir = GetStringValueFromRegistry(rsX64Path, "installdir");
+                        else if (!String.IsNullOrEmpty(GetStringValueFromRegistry(rsX64Steam, installValueName)))
+                            rs2RootDir = GetStringValueFromRegistry(rsX64Steam, installValueName);
+                        else if (!String.IsNullOrEmpty(GetStringValueFromRegistry(rsX86Path, installValueName)))
+                            rs2RootDir = GetStringValueFromRegistry(rsX86Path, installValueName);
+                        else if (!String.IsNullOrEmpty(GetStringValueFromRegistry(rsX86Steam, installValueName)))
+                            rs2RootDir = GetStringValueFromRegistry(rsX86Steam, installValueName);
+
+                        if (!String.IsNullOrEmpty(rs2RootDir))
+                            Globals.Log("Found Steam RS2014 Installation Directory in Registry ...");
+                    }
+                    else
+                        Globals.Log("<WARNING> Steam RS2014 Installation Directory not found in Registry ...");
+                }
+                else
+                    Globals.Log("<WARNING> Steam root path not found in Registry ... ");
+
+                return rs2RootDir;
+            }
+            catch (Exception ex)
+            {
+                Globals.Log("<Warning> GetStreamDirectory, " + ex.Message);
             }
 
-            if (String.IsNullOrEmpty(rs2RootDir))
-                Globals.Log("Steam RS2014 Installation Directory not found in Registry ...");
-            else
-                Globals.Log("Found Steam RS2014 Installation Directory: " + rs2RootDir);
-
-            return rs2RootDir;
+            return String.Empty;
         }
 
         public static string GetMacSteamPath()
@@ -253,21 +262,17 @@ namespace CustomsForgeSongManager.LocalTools
                 }
             }
 
-            if (found)
-                Globals.Log("Found at: " + finalPath);
-            else
-            {
-                Globals.Log("RS path not found.");
-                return string.Empty;
-            }
-
             string rsFolderPath = Path.Combine(finalPath, "common", "Rocksmith2014");
             //string rsAppPath = Path.Combine(rsFolderPath, "Rocksmith2014.app", "Contents", "MacOS/");
             //string dylib = Path.Combine(rsAppPath, "libRSBypass.dylib");
 
-            if (Directory.Exists(rsFolderPath))
+            if (found && Directory.Exists(rsFolderPath))
+            {
+                Globals.Log("Found Custom RS2014 Installation Directory ...");
                 return rsFolderPath;
+            }
 
+            Globals.Log("<WARNING> Custom RS2014 Installation Directory not found ...");
             return String.Empty;
         }
 

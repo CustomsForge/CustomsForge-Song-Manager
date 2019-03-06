@@ -20,8 +20,8 @@ namespace CustomsForgeSongManager.SongEditor
 
         public string FilePath;
         public DLCPackageData SongData;
-
         public virtual bool Dirty { get; set; }
+        public virtual bool HaltOnError { get; set; }
 
         public virtual void Save()
         {

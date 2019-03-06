@@ -724,7 +724,7 @@ namespace CustomsForgeSongManager.UControls
 
         private void dgvDuplicates_DataError(object sender, DataGridViewDataErrorEventArgs e)
         {
-            Globals.DebugLog(String.Format("{0}, row:{1},col:{2}", e.Exception.Message, e.RowIndex, e.ColumnIndex));
+            Globals.DebugLog(String.Format("<ERROR> (Row: {0}, Col: {1}), {2} ...", e.RowIndex, e.ColumnIndex, e.Exception.Message));
             e.Cancel = true;
         }
 

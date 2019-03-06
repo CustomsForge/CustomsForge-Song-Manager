@@ -15,7 +15,10 @@ until you can confirm it is safe by working directly with your AV provider.
 CFSM Release Notes
 
 1.5.2.9
-- hotfix for auto RS detection
+- added system display setting validation
+- added exception handler to GetSteamDirectory
+- fixed looping issue with Rocksmith 2014 Installation Directory selection
+- added App.config settings to prevent error 'caused the assembly to be sandboxed'
 
 1.5.2.8
 - improved Duplicates finder

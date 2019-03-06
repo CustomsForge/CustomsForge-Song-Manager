@@ -32,7 +32,7 @@ namespace CustomsForgeSongManager.SongEditor
             {
                 if (String.IsNullOrEmpty(songPath))
                     return;
- 
+
                 Globals.Log("Loading song information from: " + Path.GetFileName(songPath));
                 Cursor.Current = Cursors.WaitCursor;
                 Globals.TsProgressBar_Main.Value = 10;
@@ -40,7 +40,7 @@ namespace CustomsForgeSongManager.SongEditor
 
                 InitializeComponent();
                 this.Icon = Properties.Resources.cfsm_48x48;
-                tslExit.Alignment = ToolStripItemAlignment.Right;  
+                tslExit.Alignment = ToolStripItemAlignment.Right;
 
                 var psarc = new PsarcPackage();
                 packageData = psarc.ReadPackage(songPath);
@@ -71,15 +71,18 @@ namespace CustomsForgeSongManager.SongEditor
 
         private void Save(string outputPath)
         {
-            Globals.Log("Saving song information for: " + Path.GetFileName(outputPath));
-            Cursor.Current = Cursors.WaitCursor;
-            tsProgressBar.Value = 30;              
-            tsMsg.Text = "Working ...";
-            statusStripMain.Refresh();
-
             // force validation of user controls
             this.ValidateChildren();
+            // halt on any error
+            if (editorControls.Where(ec => ec.HaltOnError).Any())
+                return;
 
+            Globals.Log("Saving song information for: " + Path.GetFileName(outputPath));
+            Cursor.Current = Cursors.WaitCursor;
+            tsProgressBar.Value = 30;
+            tsMsg.Text = "Working ...";
+            statusStripMain.Refresh();
+             
             try
             {
                 editorControls.ForEach(ec => { if (ec.Dirty) ec.Save(); });
@@ -93,7 +96,10 @@ namespace CustomsForgeSongManager.SongEditor
                 packageData.Arrangements.AddRange(mArr);
                 packageData.DefaultShowlights = true;
 
-                var msg = "The song information has been changed." + Environment.NewLine + "Do you want to update the 'Persistent ID'?" + Environment.NewLine + "Answering 'Yes' will reduce the risk of CDLC" + Environment.NewLine + "in game hanging and song stats will be reset.  ";
+                var msg = "The song information has been changed." + Environment.NewLine +
+                    "Do you want to update the 'Persistent ID'?" + Environment.NewLine +
+                    "Answering 'Yes' will reduce the risk of CDLC" + Environment.NewLine +
+                    "in game hanging and song stats will be reset.  ";
                 //only ask if it's a new filename.
                 bool updateArrangementID = (outputPath != filePath) ? MessageBox.Show(msg, "Song Editor ...", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes : false;
 
@@ -354,7 +360,7 @@ namespace CustomsForgeSongManager.SongEditor
 
         public Arrangement GenMetronomeArr(Arrangement arr)
         {
-            var mArr = GeneralExtensions.Copy<Arrangement>(arr);
+            var mArr = GeneralExtension.Copy<Arrangement>(arr);
             var songXml = Song2014.LoadFromFile(mArr.SongXml.File);
             var newXml = Path.GetTempFileName();
             mArr.SongXml = new RocksmithToolkitLib.DLCPackage.AggregateGraph.SongXML { File = newXml };
