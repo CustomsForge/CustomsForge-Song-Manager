@@ -126,7 +126,7 @@ namespace CustomsForgeSongManager.LocalTools
             var skipped = 0;
             GenericWorker.InitReportProgress();
 
-            GeneralExtensions.InvokeIfRequired(Globals.TsProgressBar_Main.GetCurrentParent(), delegate
+            GenExtensions.InvokeIfRequired(Globals.TsProgressBar_Main.GetCurrentParent(), delegate
             {
                 Globals.TsProgressBar_Main.Style = ProgressBarStyle.Marquee;
                 Globals.TsProgressBar_Main.Value = 40;
@@ -236,7 +236,7 @@ namespace CustomsForgeSongManager.LocalTools
                 }
             }
 
-            GeneralExtensions.InvokeIfRequired(Globals.TsProgressBar_Main.GetCurrentParent(), delegate
+            GenExtensions.InvokeIfRequired(Globals.TsProgressBar_Main.GetCurrentParent(), delegate
             {
                 Globals.TsProgressBar_Main.Style = ProgressBarStyle.Continuous;
                 Globals.TsProgressBar_Main.Value = 100;
@@ -250,7 +250,7 @@ namespace CustomsForgeSongManager.LocalTools
                 Globals.ReloadSongManager = true; // set quick reload flag
 
                 if (!Constants.DebugMode)
-                    GeneralExtensions.CleanLocalTemp();
+                    GenExtensions.CleanLocalTemp();
             }
             else
             {

@@ -14,6 +14,9 @@ until you can confirm it is safe by working directly with your AV provider.
 
 CFSM Release Notes
 
+1.5.3.0
+- App.config hotfix
+
 1.5.2.9
 - added system display setting validation
 - added exception handler to GetSteamDirectory

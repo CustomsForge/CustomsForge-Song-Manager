@@ -109,7 +109,7 @@ namespace CustomsForgeSongManager.Forms
 
             Globals.OnScanEvent += (s, e) =>
             {
-                GeneralExtensions.InvokeIfRequired(tcMain, a =>
+                GenExtensions.InvokeIfRequired(tcMain, a =>
                 {
                     tcMain.Enabled = !e.IsScanning;
                 });
@@ -248,14 +248,14 @@ namespace CustomsForgeSongManager.Forms
                 // don't use the bulldozer here, instead use the bobcat
                 // 'My Documents/CFSM' may contain some original files
                 Globals.Log("User selected Clean On Closing ...");
-                GeneralExtensions.DeleteFile(Constants.LogFilePath);
-                GeneralExtensions.DeleteFile(Constants.SongsInfoPath);
-                GeneralExtensions.DeleteFile(Constants.AppSettingsPath);
-                GeneralExtensions.DeleteDirectory(Constants.GridSettingsFolder);
-                GeneralExtensions.DeleteDirectory(Constants.AudioCacheFolder);
-                GeneralExtensions.DeleteDirectory(Constants.TaggerWorkingFolder);
-                GeneralExtensions.DeleteDirectory(Constants.CachePcPath);
-                GeneralExtensions.DeleteDirectory(Constants.SongPacksFolder);
+                GenExtensions.DeleteFile(Constants.LogFilePath);
+                GenExtensions.DeleteFile(Constants.SongsInfoPath);
+                GenExtensions.DeleteFile(Constants.AppSettingsPath);
+                GenExtensions.DeleteDirectory(Constants.GridSettingsFolder);
+                GenExtensions.DeleteDirectory(Constants.AudioCacheFolder);
+                GenExtensions.DeleteDirectory(Constants.TaggerWorkingFolder);
+                GenExtensions.DeleteDirectory(Constants.CachePcPath);
+                GenExtensions.DeleteDirectory(Constants.SongPacksFolder);
 
                 AppSettings.Instance.CleanOnClosing = false;
             }
@@ -729,7 +729,7 @@ namespace CustomsForgeSongManager.Forms
                         file.Write(sbCSV.ToString());
 
                     Globals.Log(Globals.DgvCurrent.Name + " data saved to:" + path);
-                    GeneralExtensions.PromptOpen(Path.GetDirectoryName(path), Globals.DgvCurrent.Name + " data saved ...");
+                    GenExtensions.PromptOpen(Path.GetDirectoryName(path), Globals.DgvCurrent.Name + " data saved ...");
                 }
                 catch (IOException ex)
                 {
@@ -800,7 +800,7 @@ namespace CustomsForgeSongManager.Forms
                             dS.WriteXml(fs);
 
                         Globals.Log(Globals.DgvCurrent.Name + " data saved to:" + path);
-                        GeneralExtensions.PromptOpen(Path.GetDirectoryName(path), Globals.DgvCurrent.Name + " data saved ...");
+                        GenExtensions.PromptOpen(Path.GetDirectoryName(path), Globals.DgvCurrent.Name + " data saved ...");
                     }
                     catch (IOException ex)
                     {
@@ -861,7 +861,7 @@ namespace CustomsForgeSongManager.Forms
                         fs.Write(serializedJson.ToString());
 
                     Globals.Log(Globals.DgvCurrent.Name + " data saved to:" + path);
-                    GeneralExtensions.PromptOpen(Path.GetDirectoryName(path), Globals.DgvCurrent.Name + " data saved ...");
+                    GenExtensions.PromptOpen(Path.GetDirectoryName(path), Globals.DgvCurrent.Name + " data saved ...");
                 }
                 catch (IOException ex)
                 {

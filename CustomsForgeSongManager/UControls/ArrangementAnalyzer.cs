@@ -495,10 +495,10 @@ namespace CustomsForgeSongManager.UControls
 
         private void ToggleUIControls(bool enable)
         {
-            GeneralExtensions.InvokeIfRequired(cueSearch, delegate { cueSearch.Enabled = enable; });
-            GeneralExtensions.InvokeIfRequired(menuStrip, delegate { menuStrip.Enabled = enable; });
-            GeneralExtensions.InvokeIfRequired(lnkLblSelectAll, delegate { lnkLblSelectAll.Enabled = enable; });
-            GeneralExtensions.InvokeIfRequired(lnkClearSearch, delegate { lnkClearSearch.Enabled = enable; });
+            GenExtensions.InvokeIfRequired(cueSearch, delegate { cueSearch.Enabled = enable; });
+            GenExtensions.InvokeIfRequired(menuStrip, delegate { menuStrip.Enabled = enable; });
+            GenExtensions.InvokeIfRequired(lnkLblSelectAll, delegate { lnkLblSelectAll.Enabled = enable; });
+            GenExtensions.InvokeIfRequired(lnkClearSearch, delegate { lnkClearSearch.Enabled = enable; });
         }
 
         private void Arrangements_Resize(object sender, EventArgs e)

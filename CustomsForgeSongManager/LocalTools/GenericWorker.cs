@@ -76,7 +76,7 @@ namespace CustomsForgeSongManager.LocalTools
             if (Globals.TsProgressBar_Main != null && value <= 100)
             {
                 // perma fix for periodic cross threading issue with TsProgressBar on initial startups
-                GeneralExtensions.InvokeIfRequired(Globals.TsProgressBar_Main.GetCurrentParent(), delegate
+                GenExtensions.InvokeIfRequired(Globals.TsProgressBar_Main.GetCurrentParent(), delegate
                     {
                         Globals.TsProgressBar_Main.Value = value;
                     });
@@ -85,7 +85,7 @@ namespace CustomsForgeSongManager.LocalTools
 
         private void WorkerComplete(object sender, RunWorkerCompletedEventArgs e)
         {
-            GeneralExtensions.InvokeIfRequired(workOrder, delegate { Globals.TsLabel_Cancel.Visible = false; });
+            GenExtensions.InvokeIfRequired(workOrder, delegate { Globals.TsLabel_Cancel.Visible = false; });
 
             if (e.Cancelled || Globals.TsLabel_Cancel.Text == "Canceling" || Globals.CancelBackgroundScan)
             {
@@ -149,7 +149,7 @@ namespace CustomsForgeSongManager.LocalTools
                     Task[] tasks = new Task[coreCount];
                     List<SongData> songsList = WorkParm1;
                     RepairOptions repairOptions = WorkParm2;
-                    var songsSubLists = GeneralExtensions.SplitList(songsList, coreCount);
+                    var songsSubLists = GenExtensions.SplitList(songsList, coreCount);
 
                     for (int ndx = 0; ndx < coreCount; ndx++)
                     {
@@ -160,7 +160,7 @@ namespace CustomsForgeSongManager.LocalTools
                         tasks[ndx] = Task.Factory.StartNew(() =>
                         {
                             // cross threading protection
-                            GeneralExtensions.InvokeIfRequired(workOrder, delegate
+                            GenExtensions.InvokeIfRequired(workOrder, delegate
                             {
                                 var result = RepairTools.RepairSongs(songsSubLists[ndxLocal], repairOptionsLocal).ToString();
                                 if (!String.IsNullOrEmpty(result))
@@ -243,19 +243,19 @@ namespace CustomsForgeSongManager.LocalTools
                 };
 
             if (Globals.TsProgressBar_Main != null && progress <= 100)
-                GeneralExtensions.InvokeIfRequired(Globals.TsProgressBar_Main.GetCurrentParent(), delegate { Globals.TsProgressBar_Main.Value = progress; });
+                GenExtensions.InvokeIfRequired(Globals.TsProgressBar_Main.GetCurrentParent(), delegate { Globals.TsProgressBar_Main.Value = progress; });
 
-            GeneralExtensions.InvokeIfRequired(Globals.TsLabel_MainMsg.GetCurrentParent(), delegate { Globals.TsLabel_MainMsg.Text = String.Format("Files Processed: {0} of {1}", processed, total); });
-            GeneralExtensions.InvokeIfRequired(Globals.TsLabel_StatusMsg.GetCurrentParent(), delegate { Globals.TsLabel_StatusMsg.Text = String.Format("Skipped: {0}  Failed: {1}", skipped, failed); });
+            GenExtensions.InvokeIfRequired(Globals.TsLabel_MainMsg.GetCurrentParent(), delegate { Globals.TsLabel_MainMsg.Text = String.Format("Files Processed: {0} of {1}", processed, total); });
+            GenExtensions.InvokeIfRequired(Globals.TsLabel_StatusMsg.GetCurrentParent(), delegate { Globals.TsLabel_StatusMsg.Text = String.Format("Skipped: {0}  Failed: {1}", skipped, failed); });
         }
 
         public static void InitReportProgress()
         {
-            GeneralExtensions.InvokeIfRequired(Globals.TsLabel_MainMsg.GetCurrentParent(), delegate { Globals.TsLabel_MainMsg.Text = String.Format("Files Processed: {0} of {1}", 0, 0); });
-            GeneralExtensions.InvokeIfRequired(Globals.TsLabel_MainMsg.GetCurrentParent(), delegate { Globals.TsLabel_MainMsg.Visible = true; });
-            GeneralExtensions.InvokeIfRequired(Globals.TsLabel_StatusMsg.GetCurrentParent(), delegate { Globals.TsLabel_StatusMsg.Text = String.Format("Skipped: {0}  Failed: {1}", 0, 0); });
-            GeneralExtensions.InvokeIfRequired(Globals.TsLabel_StatusMsg.GetCurrentParent(), delegate { Globals.TsLabel_StatusMsg.Visible = true; });
-            GeneralExtensions.InvokeIfRequired(Globals.TsProgressBar_Main.GetCurrentParent(), delegate { Globals.TsProgressBar_Main.Value = 0; });
+            GenExtensions.InvokeIfRequired(Globals.TsLabel_MainMsg.GetCurrentParent(), delegate { Globals.TsLabel_MainMsg.Text = String.Format("Files Processed: {0} of {1}", 0, 0); });
+            GenExtensions.InvokeIfRequired(Globals.TsLabel_MainMsg.GetCurrentParent(), delegate { Globals.TsLabel_MainMsg.Visible = true; });
+            GenExtensions.InvokeIfRequired(Globals.TsLabel_StatusMsg.GetCurrentParent(), delegate { Globals.TsLabel_StatusMsg.Text = String.Format("Skipped: {0}  Failed: {1}", 0, 0); });
+            GenExtensions.InvokeIfRequired(Globals.TsLabel_StatusMsg.GetCurrentParent(), delegate { Globals.TsLabel_StatusMsg.Visible = true; });
+            GenExtensions.InvokeIfRequired(Globals.TsProgressBar_Main.GetCurrentParent(), delegate { Globals.TsProgressBar_Main.Value = 0; });
         }
     }
 

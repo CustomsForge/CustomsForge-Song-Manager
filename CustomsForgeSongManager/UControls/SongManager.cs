@@ -310,7 +310,7 @@ namespace CustomsForgeSongManager.UControls
         private void CheckForUpdatesEvent(object o, DoWorkEventArgs args)
         {
             // part of ContextMenuStrip action
-            GeneralExtensions.InvokeIfRequired(dgvSongsMaster, delegate
+            GenExtensions.InvokeIfRequired(dgvSongsMaster, delegate
                 {
                     if (dgvSongsMaster.SelectedRows.Count > 0)
                     {
@@ -527,10 +527,10 @@ namespace CustomsForgeSongManager.UControls
                         // DO NOT use the bulldozer here
                         // 'My Documents/CFSM' may contain some original files
                         ZipUtilities.RemoveReadOnlyAttribute(Constants.WorkFolder);
-                        GeneralExtensions.DeleteFile(Constants.SongsInfoPath);
-                        GeneralExtensions.DeleteFile(Constants.AppSettingsPath);
-                        GeneralExtensions.DeleteDirectory(Constants.GridSettingsFolder);
-                        GeneralExtensions.DeleteDirectory(Constants.TaggerWorkingFolder);
+                        GenExtensions.DeleteFile(Constants.SongsInfoPath);
+                        GenExtensions.DeleteFile(Constants.AppSettingsPath);
+                        GenExtensions.DeleteDirectory(Constants.GridSettingsFolder);
+                        GenExtensions.DeleteDirectory(Constants.TaggerWorkingFolder);
                     }
                     catch (Exception ex)
                     {
@@ -582,7 +582,7 @@ namespace CustomsForgeSongManager.UControls
 
                 // use the bulldozer
                 ZipUtilities.RemoveReadOnlyAttribute(Constants.WorkFolder);
-                GeneralExtensions.DeleteDirectory(Constants.WorkFolder);
+                GenExtensions.DeleteDirectory(Constants.WorkFolder);
                 FileTools.VerifyCfsmFolders();
 
                 MessageBox.Show(String.Format("{0}{1}{1}CFSM will now shut down.", err, Environment.NewLine), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -1034,10 +1034,10 @@ namespace CustomsForgeSongManager.UControls
 
         private void ToggleUIControls(bool enable)
         {
-            GeneralExtensions.InvokeIfRequired(cueSearch, delegate { cueSearch.Enabled = enable; });
-            GeneralExtensions.InvokeIfRequired(menuStrip, delegate { menuStrip.Enabled = enable; });
-            GeneralExtensions.InvokeIfRequired(lnkLblSelectAll, delegate { lnkLblSelectAll.Enabled = enable; });
-            GeneralExtensions.InvokeIfRequired(lnkClearSearch, delegate { lnkClearSearch.Enabled = enable; });
+            GenExtensions.InvokeIfRequired(cueSearch, delegate { cueSearch.Enabled = enable; });
+            GenExtensions.InvokeIfRequired(menuStrip, delegate { menuStrip.Enabled = enable; });
+            GenExtensions.InvokeIfRequired(lnkLblSelectAll, delegate { lnkLblSelectAll.Enabled = enable; });
+            GenExtensions.InvokeIfRequired(lnkClearSearch, delegate { lnkClearSearch.Enabled = enable; });
         }
 
         private void UpdateCharter(DataGridViewRow selectedRow)
@@ -1122,14 +1122,14 @@ namespace CustomsForgeSongManager.UControls
                     bWorker.Abort();
                 }
 
-                GeneralExtensions.InvokeIfRequired(this, delegate { Globals.TsLabel_Cancel.Visible = false; });
+                GenExtensions.InvokeIfRequired(this, delegate { Globals.TsLabel_Cancel.Visible = false; });
             }
 
             //Thread.Sleep(3000);
             counterStopwatch = new Stopwatch();
             counterStopwatch.Restart();
 
-            GeneralExtensions.InvokeIfRequired(dgvSongsMaster, delegate
+            GenExtensions.InvokeIfRequired(dgvSongsMaster, delegate
                 {
                     foreach (DataGridViewRow row in dgvSongsMaster.Rows)
                     {
@@ -1263,7 +1263,7 @@ namespace CustomsForgeSongManager.UControls
         private void cmsCheckForUpdate_Click(object sender, EventArgs e)
         {
             // TODO: need to remove RS1 Compatiblity DLCs from this check
-            GeneralExtensions.InvokeIfRequired(this, delegate { Globals.TsLabel_Cancel.Enabled = true; });
+            GenExtensions.InvokeIfRequired(this, delegate { Globals.TsLabel_Cancel.Enabled = true; });
             bWorker = new AbortableBackgroundWorker();
             bWorker.SetDefaults();
             bWorker.DoWork += CheckAllForUpdates; // check all rows
@@ -1272,7 +1272,7 @@ namespace CustomsForgeSongManager.UControls
             if (!bWorker.IsBusy)
                 bWorker.RunWorkerAsync();
 
-            GeneralExtensions.InvokeIfRequired(this, delegate { Globals.TsLabel_Cancel.Visible = false; });
+            GenExtensions.InvokeIfRequired(this, delegate { Globals.TsLabel_Cancel.Visible = false; });
         }
 
         private void cmsDelete_Click(object sender, EventArgs e)
@@ -1326,7 +1326,7 @@ namespace CustomsForgeSongManager.UControls
         private void cmsGetCharterName_Click(object sender, EventArgs e)
         {
             // TODO: add image for GetCharterName to Context Menu Strip item
-            GeneralExtensions.InvokeIfRequired(dgvSongsMaster, delegate
+            GenExtensions.InvokeIfRequired(dgvSongsMaster, delegate
                 {
                     if (dgvSongsMaster.SelectedRows.Count > 0)
                         UpdateCharter(dgvSongsMaster.SelectedRows[0]);

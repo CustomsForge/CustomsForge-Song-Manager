@@ -73,13 +73,13 @@ namespace CustomsForgeSongManager.UControls
                 for (int i = 0; i < parts.Count() - 1; i++)
                 {
                     // validate each directory name before concatination
-                    dlcDir = Path.Combine(dlcDir, GeneralExtensions.MakeValidDirName(parts[i]));
+                    dlcDir = Path.Combine(dlcDir, GenExtensions.MakeValidDirName(parts[i]));
                 }
 
                 newFileName = parts[parts.Count() - 1];
             }
 
-            newFileName = GeneralExtensions.MakeValidFileName(newFileName);
+            newFileName = GenExtensions.MakeValidFileName(newFileName);
             newFileName = newFileName.Replace("__", "_");
 
             if (chkRemoveSpaces.Checked)

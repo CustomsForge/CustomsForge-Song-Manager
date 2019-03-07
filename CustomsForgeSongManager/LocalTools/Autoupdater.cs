@@ -251,7 +251,7 @@ namespace CustomsForgeSongManager.LocalTools
             // the installer forces the user to close the program before installing
             if (File.Exists(appSetupPath))
             {
-                GeneralExtensions.RunExtExe(appSetupPath, false, arguments: "-appupdate");
+                GenExtensions.RunExtExe(appSetupPath, false, arguments: "-appupdate");
                 return true;
             }
 
@@ -350,7 +350,7 @@ namespace CustomsForgeSongManager.LocalTools
         {
             if (e.Error == null)
             {
-                GeneralExtensions.InvokeIfRequired(Globals.TsProgressBar_Main.GetCurrentParent(), delegate
+                GenExtensions.InvokeIfRequired(Globals.TsProgressBar_Main.GetCurrentParent(), delegate
                     {
                         Globals.TsProgressBar_Main.Value = 100;
                     });
@@ -364,7 +364,7 @@ namespace CustomsForgeSongManager.LocalTools
 
         private static void wcProgressChanged(object sender, DownloadProgressChangedEventArgs e)
         {
-            GeneralExtensions.InvokeIfRequired(Globals.TsProgressBar_Main.GetCurrentParent(), delegate
+            GenExtensions.InvokeIfRequired(Globals.TsProgressBar_Main.GetCurrentParent(), delegate
                 {
                     Globals.TsProgressBar_Main.Value = e.ProgressPercentage;
                 });

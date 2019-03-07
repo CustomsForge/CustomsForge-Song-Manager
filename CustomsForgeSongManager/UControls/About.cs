@@ -26,9 +26,9 @@ namespace CustomsForgeSongManager.UControls
 
         private void ToggleUIControls(bool enable)
         {
-            GeneralExtensions.InvokeIfRequired(lnkDeployRSTK, delegate { lnkDeployRSTK.Enabled = enable; });
-            GeneralExtensions.InvokeIfRequired(lnkDeployEOF, delegate { lnkDeployEOF.Enabled = enable; });
-            GeneralExtensions.InvokeIfRequired(lnkDeployCGT, delegate { lnkDeployCGT.Enabled = enable; });
+            GenExtensions.InvokeIfRequired(lnkDeployRSTK, delegate { lnkDeployRSTK.Enabled = enable; });
+            GenExtensions.InvokeIfRequired(lnkDeployEOF, delegate { lnkDeployEOF.Enabled = enable; });
+            GenExtensions.InvokeIfRequired(lnkDeployCGT, delegate { lnkDeployCGT.Enabled = enable; });
         }
 
         private void btnCFSMSite_Click(object sender, EventArgs e)
@@ -93,7 +93,7 @@ namespace CustomsForgeSongManager.UControls
                         File.Delete(Path.Combine(downloadDir, appArchive));
                         Globals.Log(appAcro + " Archive Unpacked ... SUCCESSFUL");
 
-                        var ret = GeneralExtensions.RunExtExe(Path.Combine(downloadDir, appSetup), false, arguments: @"/SP /VERYSILENT /SUPPRESSMSGBOXES ");
+                        var ret = GenExtensions.RunExtExe(Path.Combine(downloadDir, appSetup), false, arguments: @"/SP /VERYSILENT /SUPPRESSMSGBOXES ");
                         //if (AutoUpdater.UpdateWithInno(Path.Combine(downloadDir, appSetup)))                  
                         if (String.IsNullOrEmpty(ret))
                         {
@@ -192,7 +192,7 @@ namespace CustomsForgeSongManager.UControls
                         var exePath = Path.Combine(downloadDir, subDirs[0].Name, appExe);
                         var iconPath = Path.Combine(downloadDir, subDirs[0].Name, "EOF20.ico");
 
-                        GeneralExtensions.AddShortcut(Environment.SpecialFolder.Programs, exeShortcutLink: "EOF.lnk", exePath: exePath, exeIconPath: iconPath, shortcutDescription: "Editor on Fire", destSubDirectory: "Editor on Fire");
+                        GenExtensions.AddShortcut(Environment.SpecialFolder.Programs, exeShortcutLink: "EOF.lnk", exePath: exePath, exeIconPath: iconPath, shortcutDescription: "Editor on Fire", destSubDirectory: "Editor on Fire");
 
                         Globals.Log(appAcro + " shortcut added to Start Menu, Programs ... SUCCESSFUL");
                     }
@@ -276,7 +276,7 @@ namespace CustomsForgeSongManager.UControls
                             var exePath = Path.Combine(downloadDir, appExe);
                             var iconPath = Path.Combine(downloadDir, "songcreator.ico");
 
-                            GeneralExtensions.AddShortcut(Environment.SpecialFolder.Programs, exeShortcutLink: "RSTK.lnk", exePath: exePath, exeIconPath: iconPath, shortcutDescription: "Rocksmith Custom Song Toolkit", destSubDirectory: "Rocksmith Custom Song Toolkit");
+                            GenExtensions.AddShortcut(Environment.SpecialFolder.Programs, exeShortcutLink: "RSTK.lnk", exePath: exePath, exeIconPath: iconPath, shortcutDescription: "Rocksmith Custom Song Toolkit", destSubDirectory: "Rocksmith Custom Song Toolkit");
 
                             Globals.Log(appAcro + " shortcut added to Start Menu, Programs ... SUCCESSFUL");
                         }

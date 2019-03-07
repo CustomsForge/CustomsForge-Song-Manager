@@ -16,7 +16,7 @@ using System.ComponentModel;
 
 namespace GenTools
 {
-    public static class GeneralExtensions
+    public static class GenExtensions
     {
         #region Constants
 

@@ -31,7 +31,7 @@ namespace CustomsForgeSongManager.LocalTools
             if (!File.Exists(relNotesPath))
                 throw new Exception("<ERROR> Could not find file: " + relNotesPath);
 
-            var txt = GeneralExtensions.GetFullAppVersion();
+            var txt = GenExtensions.GetFullAppVersion();
             Globals.Log("<DEV ONLY> Current CFSM Version: " + txt);
             File.WriteAllText(verInfoPath, txt);
             Globals.Log("<DEV ONLY> CreateVersionInfo was sucessful: " + verInfoPath);
