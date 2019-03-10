@@ -155,53 +155,5 @@ namespace DataGridViewTools
             return dgvCurrent.Rows.Cast<DataGridViewRow>().Count(r => Convert.ToBoolean(r.Cells[colNdxSelected].Value));
         }
 
-
-        private static ListSortDirection _oldSortOrder;
-        private static DataGridViewColumn _oldSortCol;
-
-        //Usage:
-        //GridUtility.SaveSorting(grid);    
-        //grid.DataSource = databaseFetch(); // or whatever
-        //GridUtility.RestoreSorting(grid);
-
-        /// <summary>
-        /// Saves information about sorting column, to be restored later by calling RestoreSorting
-        /// on the same DataGridView
-        /// </summary>
-        /// <param name="grid"></param>
-        public static void SaveSorting(DataGridView grid)
-        {
-            _oldSortCol = null;
-            _oldSortOrder = grid.SortOrder == SortOrder.Ascending ?
-                ListSortDirection.Ascending : ListSortDirection.Descending;
-            _oldSortCol = grid.SortedColumn;
-        }
-
-        /// <summary>
-        /// Restores column sorting and sort glpyh to a DataGridView.
-        ///<para>Call this AFTER calling SaveSorting on the same DataGridView.</para>   
-        /// </summary>
-        /// <param name="grid"></param>
-        /// <param name="toogleSort">If TRUE toggles column sorting from Ascending to Desending and viseversa</param>
-        public static void RestoreSorting(DataGridView grid, bool toggleSort = false)
-        {
-            if (_oldSortCol != null)
-            {
-                if (toggleSort)
-                {
-                    _oldSortOrder = _oldSortOrder == ListSortDirection.Ascending ?
-                        ListSortDirection.Descending : ListSortDirection.Ascending;
-                    DataGridViewColumn newCol = grid.Columns[_oldSortCol.Name];
-                    grid.Sort(newCol, _oldSortOrder);
-                }
-                else
-                {
-                    DataGridViewColumn newCol = grid.Columns[_oldSortCol.Name];
-                    grid.Sort(newCol, _oldSortOrder);
-                }
-            }
-        }
-
-
     }
 }

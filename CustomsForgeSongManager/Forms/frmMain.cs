@@ -21,6 +21,7 @@ using RocksmithToolkitLib;
 using System.Data;
 using System.Threading;
 using RocksmithToolkitLib.Extensions;
+using System.Configuration;
 
 // NOTE: the app is designed for default user screen resolution of 1024x768
 // dev screen resolution should be set to this when designing forms and controls
@@ -150,11 +151,17 @@ namespace CustomsForgeSongManager.Forms
             this.WindowState = AppSettings.Instance.FullScreen ? FormWindowState.Maximized : FormWindowState.Normal;
             this.Show(); // triggers Form.Shown event
 
-            // log application environment
+            // confirm and log App.config was properly loaded at runtime
+            var appConfigStatus = "<ERROR> Load Failed";
+            if (Convert.ToBoolean(ConfigurationSettings.AppSettings["key"]))
+                appConfigStatus = "Load Successful";
+
+            // log application runtime environment
             Globals.Log("+ " + Constants.AppTitle);
             Globals.Log("+ RocksmithToolkitLib (v" + ToolkitVersion.RSTKLibVersion() + ")");
             Globals.Log("+ Dynamic Difficulty Creator (v" + FileVersionInfo.GetVersionInfo(Path.Combine(ExternalApps.TOOLKIT_ROOT, ExternalApps.APP_DDC)).ProductVersion + ")");
             Globals.Log("+ .NET Framework (v" + SysExtensions.DotNetVersion + ")");
+            Globals.Log("+ App.config Status (" + appConfigStatus + ")");
             Globals.Log("+ System Display DPI Setting (" + GeneralExtension.GetDisplayDpi(this) + ")");
             Globals.Log("+ System Display Screen Scale Factor (" + GeneralExtension.GetDisplayScalingFactor(this) * 100 + "%)");
 
@@ -304,9 +311,12 @@ namespace CustomsForgeSongManager.Forms
                     tstripContainer.BottomToolStripPanelVisible = tstripContainer.TopToolStripPanelVisible;
                     e.Handled = true;
                     break;
-                case Keys.F9:
-                    using (ThemeDesigner ts = new ThemeDesigner())
-                        ts.ShowDialog();
+                case Keys.F9: // easter egg - DF ThemeDesigner sandbox
+                    if (Constants.DebugMode)
+                    {
+                        using (ThemeDesigner ts = new ThemeDesigner())
+                            ts.ShowDialog();
+                    }
                     e.Handled = true;
                     break;
             }

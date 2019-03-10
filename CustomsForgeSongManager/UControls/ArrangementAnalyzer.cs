@@ -35,6 +35,7 @@ namespace CustomsForgeSongManager.UControls
         private bool dgvPainted = false;
         private int firstIndex = 0;
         private string lastSelectedSongPath = String.Empty;
+        private DgvStatus statusArrangementAnalyzer = new DgvStatus();
 
         public ArrangementAnalyzer()
         {
@@ -371,7 +372,7 @@ namespace CustomsForgeSongManager.UControls
         private void RemoveFilter()
         {
             // save current sorting before removing filter
-            DgvExtensions.SaveSorting(dgvArrangements);
+            statusArrangementAnalyzer.SaveSorting(dgvArrangements);
             // remove the filter
             var filterStatus = DataGridViewAutoFilterColumnHeaderCell.GetFilterStatus(dgvArrangements);
             if (!String.IsNullOrEmpty(filterStatus))
@@ -379,7 +380,7 @@ namespace CustomsForgeSongManager.UControls
 
             UpdateToolStrip();
             // reapply sort direction to reselect the filtered song
-            DgvExtensions.RestoreSorting(dgvArrangements);
+            statusArrangementAnalyzer.RestoreSorting(dgvArrangements);
             Refresh();
         }
 
@@ -527,7 +528,7 @@ namespace CustomsForgeSongManager.UControls
             Thread.Sleep(50);
 
             // save current sort
-            DgvExtensions.SaveSorting(dgvArrangements);
+            statusArrangementAnalyzer.SaveSorting(dgvArrangements);
 
             if (cueSearch.Text.Length > 0) // && e.KeyCode == Keys.Enter)
                 SearchCDLC(cueSearch.Text);
@@ -535,7 +536,7 @@ namespace CustomsForgeSongManager.UControls
                 LoadFilteredBindingList(arrangementList);
 
             // restore current sort
-            DgvExtensions.RestoreSorting(dgvArrangements);
+            statusArrangementAnalyzer.RestoreSorting(dgvArrangements);
             UpdateToolStrip(true);
         }
 
@@ -842,9 +843,9 @@ namespace CustomsForgeSongManager.UControls
             Globals.ReloadArrangements = true; // refresh data
 
             // save current sorting before clearing search
-            DgvExtensions.SaveSorting(dgvArrangements);
+            statusArrangementAnalyzer.SaveSorting(dgvArrangements);
             UpdateToolStrip();
-            DgvExtensions.RestoreSorting(dgvArrangements);
+            statusArrangementAnalyzer.RestoreSorting(dgvArrangements);
         }
 
         private void lnkLblSelectAll_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -963,15 +964,16 @@ namespace CustomsForgeSongManager.UControls
             Globals.DgvCurrent = dgvArrangements;
             DataGridViewAutoFilterColumnHeaderCell.SavedColumnFilter = AppSettings.Instance.ArrangementAnalyzerFilter;
             GetGrid().ResetBindings(); // force grid data to rebind/refresh
+            statusArrangementAnalyzer.RestoreSorting(Globals.DgvCurrent); // restore sort order
             Globals.Log("ArrangementAnalyzerFilter available: " + AppSettings.Instance.ArrangementAnalyzerFilter);
             Globals.Log("Arrangements GUI Activated ...");
         }
 
         public void TabLeave()
         {
+            statusArrangementAnalyzer.SaveSorting(Globals.DgvCurrent); // save sort order
+            GetGrid().ResetBindings(); // force grid data to rebind/refresh
             // transfer selections to MasterCollection
-            // force grid data to rebind/refresh
-            GetGrid().ResetBindings(); 
             foreach (DataGridViewRow row in dgvArrangements.Rows)
             {
                 var sd = DgvExtensions.GetObjectFromRow<ArrangementData>(row);

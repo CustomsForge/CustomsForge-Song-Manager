@@ -56,7 +56,9 @@ namespace CustomsForgeSongManager.LocalTools
         {
             try
             {
-                return (string)Registry.GetValue(keyName, valueName, "");
+                var retValue = (string)Registry.GetValue(keyName, valueName, "");
+                // perma fix for x64 null quirk  
+                return retValue == null ? String.Empty : retValue;
             }
             catch (Exception)
             {
@@ -151,9 +153,9 @@ namespace CustomsForgeSongManager.LocalTools
 
         public static string GetSteamDirectory()
         {
-            // must catch any exceptions, such as,
+            // must catch exceptions, such as,
             // 'Object reference not set to an instance of an object'
-            // which is thrown on machines that do not have the registry value
+            // which is thrown only on x64 machines that do not have the registry value
             try
             {
                 if (AppSettings.Instance.MacMode)

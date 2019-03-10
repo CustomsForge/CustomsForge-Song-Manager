@@ -68,7 +68,6 @@ namespace CustomsForgeSongManager.LocalTools
         /// <returns></returns>
         public IEnumerable<SongData> GetSongData()
         {
-            Globals.Log(" - Parsing song data from: " + _filePath);
             Stopwatch sw = null;
             sw = new Stopwatch();
             sw.Restart();
@@ -545,7 +544,7 @@ namespace CustomsForgeSongManager.LocalTools
                     if (song.Album == null || song.Album.Contains("Rocksmith") || song.ArtistTitleAlbum.Contains(";;"))
                         continue;
 
-                    Globals.Log(" + Parsed " + _fileName + " for: " + song.ArtistTitleAlbumDate);
+                    Globals.Log(String.Format(" + Parsed Song Pack: {0};{1}", _fileName, song.ArtistTitleAlbumDate));
                 }
 
                 song.Arrangements2D = arrangements;
@@ -553,7 +552,8 @@ namespace CustomsForgeSongManager.LocalTools
             }
 
             sw.Stop();
-            Globals.Log(String.Format(" - {0} parsing took: {1} (msec)", Path.GetFileName(_filePath), sw.ElapsedMilliseconds));
+            // elimanted multiple log messages per users request
+            Globals.Log(String.Format(" - Parsing took {1} (msec): {0}", _filePath, sw.ElapsedMilliseconds));
 
             return songsData;
         }

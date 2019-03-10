@@ -150,7 +150,7 @@ namespace CustomsForgeSongManager.LocalTools
                     packageData = psarcOld.ReadPackage(srcFilePath, options.IgnoreMultitone, options.FixLowBass);
 
                 // selectively remove arrangements before remastering
-                if (options.RepairMaxFive) 
+                if (options.RepairMaxFive)
                     packageData = MaxFiveArrangements(packageData);
 
                 var playableArrCount = packageData.Arrangements.Count(arr => arr.ArrangementType == ArrangementType.Guitar || arr.ArrangementType == ArrangementType.Bass);
@@ -228,7 +228,7 @@ namespace CustomsForgeSongManager.LocalTools
 
                 // add comments to ToolkitInfo to identify Remastered CDLC
                 packageData = packageData.AddPackageComment(Constants.TKI_REMASTER);
-                
+
                 // add comments to ToolkitInfo to identify repairs made by CFSM
                 if (!options.PreserveStats)
                     packageData = packageData.AddPackageComment(Constants.TKI_ARRID);
@@ -238,7 +238,7 @@ namespace CustomsForgeSongManager.LocalTools
 
                 if (options.RepairMaxFive && fixedMax5)
                     packageData = packageData.AddPackageComment(Constants.TKI_MAX5);
-                   
+
                 // add default package version if missing
                 if (String.IsNullOrEmpty(packageData.ToolkitInfo.PackageVersion))
                     packageData.ToolkitInfo.PackageVersion = "1";
@@ -247,7 +247,7 @@ namespace CustomsForgeSongManager.LocalTools
 
                 // validate packageData (important)
                 packageData.Name = packageData.Name.GetValidKey(); // DLC Key                 
-                
+
                 // log repair status
                 Globals.Log(String.Format(" - {0}", options.PreserveStats ? "Preserved Song Stats" : "Reset Song Stats"));
 
@@ -273,7 +273,7 @@ namespace CustomsForgeSongManager.LocalTools
 
                 if (options.UsingOrgFiles)
                     Globals.Log(" - Used [" + Constants.EXT_ORG + "] File");
-                
+
                 if (!ddError)
                     Globals.Log(" - Repair was successful");
                 else
@@ -292,10 +292,9 @@ namespace CustomsForgeSongManager.LocalTools
                     }
                 }
             }
-            catch (CustomException ex)
+            catch (CustomException ex) // (e1)
             {
-                Globals.Log(" - Repair failed ... cex:" + ex.Message);
-                Globals.Log(" - See '" + Path.GetFileName(Constants.RepairsErrorLogPath) + "' file");
+                Globals.Log("<ERROR> (e1) " + ex.Message.Replace("\r\n", ""));
 
                 if (ex.Message.Contains("Maximum"))
                 {
@@ -313,10 +312,9 @@ namespace CustomsForgeSongManager.LocalTools
                     return false;
                 }
             }
-            catch (Exception ex)
+            catch (Exception ex) // (e2)
             {
-                Globals.Log(" - Repair failed ... ex:" + ex.Message);
-                Globals.Log(" - See '" + Path.GetFileName(Constants.RepairsErrorLogPath) + "' file");
+                Globals.Log("<ERROR> (e2) " + ex.Message.Replace("\r\n", ""));
 
                 //  copy (org) to corrupt (cor), delete backup (org), delete original
                 var properExt = Path.GetExtension(srcFilePath);
@@ -423,15 +421,9 @@ namespace CustomsForgeSongManager.LocalTools
                     {
                         var lines = sbErrors.ToString().Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries).ToList();
                         if (lines.Last().ToLower().Contains("maximum"))
-                        {
-                            Globals.Log(String.Format("<ERROR> {0} - CDLC exceeds playable arrangements limit ...", srcFilePath));
-                            Globals.Log(String.Format("File has been moved to: {0}", Constants.RemasteredMaxFolder));
-                        }
+                            Globals.Log(String.Format(" - CDLC exceeds playable arrangements limit ..."));
                         else
-                        {
-                            Globals.Log(String.Format("<ERROR> {0} - CDLC is not repairable ...", srcFilePath));
-                            Globals.Log(String.Format("File has been moved to: {0}", Constants.RemasteredCorFolder));
-                        }
+                            Globals.Log(String.Format(" - CDLC is not repairable ..."));
 
                         failed++;
 
@@ -472,6 +464,20 @@ namespace CustomsForgeSongManager.LocalTools
                 }
             }
 
+            if (!String.IsNullOrEmpty(sbErrors.ToString())) //failed > 0)
+            {
+                // error log can be turned into CSV file
+                sbErrors.Insert(0, "File Path, Error Message" + Environment.NewLine);
+                sbErrors.Insert(0, DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss") + Environment.NewLine);
+                using (TextWriter tw = new StreamWriter(Constants.RepairsErrorLogPath, true))
+                {
+                    tw.WriteLine(sbErrors + Environment.NewLine);
+                    tw.Close();
+                }
+
+                Globals.Log(" - For file and error details, see: " + Constants.RepairsErrorLogPath);
+            }
+
             GenericWorker.ReportProgress(processed, total, skipped, failed);
 
             if (processed > 0)
@@ -484,20 +490,6 @@ namespace CustomsForgeSongManager.LocalTools
             }
             else
                 Globals.Log("No CDLC were repaired ...");
-
-            if (!String.IsNullOrEmpty(sbErrors.ToString())) //failed > 0)
-            {
-                // error log can be turned into CSV file
-                sbErrors.Insert(0, "File Path, Error Message" + Environment.NewLine);
-                sbErrors.Insert(0, DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss") + Environment.NewLine);
-                using (TextWriter tw = new StreamWriter(Constants.RepairsErrorLogPath, true))
-                {
-                    tw.WriteLine(sbErrors + Environment.NewLine);
-                    tw.Close();
-                }
-
-                Globals.Log("Saved error log to: " + Constants.RepairsErrorLogPath + " ...");
-            }
 
             return sbErrors;
         }

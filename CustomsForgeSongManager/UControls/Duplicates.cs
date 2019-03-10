@@ -36,6 +36,7 @@ namespace CustomsForgeSongManager.UControls
         private bool keyEnabled;
         private string lastSelectedSongPath = string.Empty;
         private bool olderVersionsSelected;
+        private DgvStatus statusDuplicates = new DgvStatus();
 
         public Duplicates()
         {
@@ -291,7 +292,7 @@ namespace CustomsForgeSongManager.UControls
         private void RemoveFilter()
         {
             // save current sorting before removing filter
-            DgvExtensions.SaveSorting(dgvDuplicates);
+            statusDuplicates.SaveSorting(dgvDuplicates);
             // remove the filter
             var filterStatus = DataGridViewAutoFilterColumnHeaderCell.GetFilterStatus(dgvDuplicates);
             if (!String.IsNullOrEmpty(filterStatus))
@@ -299,7 +300,7 @@ namespace CustomsForgeSongManager.UControls
 
             UpdateToolStrip();
             // reapply sort direction to reselect the filtered song
-            DgvExtensions.RestoreSorting(dgvDuplicates);
+            statusDuplicates.RestoreSorting(dgvDuplicates);
         }
 
         private void Rescan()
@@ -883,11 +884,15 @@ namespace CustomsForgeSongManager.UControls
         public void TabEnter()
         {
             Globals.DgvCurrent = dgvDuplicates;
+            GetGrid().ResetBindings(); // force grid data to rebind/refresh
+            statusDuplicates.RestoreSorting(Globals.DgvCurrent);
             Globals.Log("Duplicate GUI Activated...");
-        }
+         }
 
         public void TabLeave()
         {
+            statusDuplicates.SaveSorting(Globals.DgvCurrent);
+            GetGrid().ResetBindings(); // force grid data to rebind/refresh
             txtNoDuplicates.Visible = false;
             Globals.Settings.SaveSettingsToFile(dgvDuplicates);
             Globals.Log("Duplicates GUI Deactivated ...");

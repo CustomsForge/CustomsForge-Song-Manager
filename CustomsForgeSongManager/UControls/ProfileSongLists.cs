@@ -48,6 +48,7 @@ namespace CustomsForgeSongManager.UControls
         private BindingList<SongData> songListMaster = new BindingList<SongData>(); // prevents filtering from being inherited
         private List<SongData> songListSongs;
         private List<SongData> songSearch = new List<SongData>();
+        private DgvStatus statusSongListMaster = new DgvStatus();
 
         public ProfileSongLists()
         {
@@ -71,7 +72,7 @@ namespace CustomsForgeSongManager.UControls
             ProtectODLC();
 
             LoadSongListMaster();
-            LoadGameSongLists();
+            LoadGameSongLists(); // check UserProfileLib obfuscation if FatalExecutionEngineError occures
             UpdateToolStrip();
         }
 
@@ -416,8 +417,15 @@ namespace CustomsForgeSongManager.UControls
             bindingCompleted = false;
             dgvPainted = false;
 
-            DgvExtensions.DoubleBuffered(dgvSongListMaster);
-            CFSMTheme.InitializeDgvAppearance(dgvSongListMaster);
+            try
+            {
+                DgvExtensions.DoubleBuffered(dgvSongListMaster);
+                CFSMTheme.InitializeDgvAppearance(dgvSongListMaster);
+            }
+            catch
+            {
+                return false;
+            }
 
             return true;
         }
@@ -1261,9 +1269,9 @@ namespace CustomsForgeSongManager.UControls
             RemoveFilter();
 
             // save current sorting before clearing search
-            DgvExtensions.SaveSorting(dgvSongListMaster);
+            statusSongListMaster.SaveSorting(dgvSongListMaster);
             UpdateToolStrip();
-            DgvExtensions.RestoreSorting(dgvSongListMaster);
+            statusSongListMaster.RestoreSorting(dgvSongListMaster);
         }
 
         private void lnkLoadProfile_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -1290,12 +1298,17 @@ namespace CustomsForgeSongManager.UControls
         public void TabEnter()
         {
             Globals.DgvCurrent = dgvSongListMaster;
+            GetGrid().ResetBindings(); // force grid data to rebind/refresh
+            statusSongListMaster.RestoreSorting(Globals.DgvCurrent);
+            Globals.Log("Profile Song List GUI Activated...");
         }
 
         public void TabLeave()
         {
             UpdateProfileSongLists();
-            Globals.Settings.SaveSettingsToFile(dgvSongListMaster);
+            statusSongListMaster.SaveSorting(Globals.DgvCurrent);
+            GetGrid().ResetBindings(); // force grid data to rebind/refresh
+            Globals.Settings.SaveSettingsToFile(Globals.DgvCurrent);
             Globals.Log("Profile Song Lists GUI Deactivated ...");
         }
 

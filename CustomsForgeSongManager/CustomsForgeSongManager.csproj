@@ -9,6 +9,7 @@
     <AssemblyName>CustomsForgeSongManager</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -21,7 +22,6 @@
     <MapFileExtensions>true</MapFileExtensions>
     <ApplicationRevision>0</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
@@ -45,6 +45,7 @@
     <CodeAnalysisIgnoreBuiltInRuleSets>false</CodeAnalysisIgnoreBuiltInRuleSets>
     <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
     <CodeAnalysisFailOnMissingRules>false</CodeAnalysisFailOnMissingRules>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
     <OutputPath>bin\Release\</OutputPath>
@@ -53,6 +54,7 @@
     <DebugType>none</DebugType>
     <PlatformTarget>x86</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'InnoBeta|x86'">
     <OutputPath>bin\Release\</OutputPath>
@@ -94,14 +96,12 @@
     </AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <PropertyGroup />
-  <PropertyGroup>
-    <ApplicationManifest>app.manifest</ApplicationManifest>
-  </PropertyGroup>
+  <PropertyGroup />
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject />
+    <StartupObject>CustomsForgeSongManager.Program</StartupObject>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'InnoBuild|x86'">
     <OutputPath>bin\Release\</OutputPath>
@@ -110,6 +110,12 @@
     <PlatformTarget>x86</PlatformTarget>
     <CodeAnalysisIgnoreBuiltInRuleSets>false</CodeAnalysisIgnoreBuiltInRuleSets>
     <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+  </PropertyGroup>
+  <PropertyGroup />
+  <PropertyGroup />
+  <PropertyGroup>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Antlr3.Runtime">
@@ -629,14 +635,13 @@
     </Content>
     <None Include="App.config">
       <SubType>Designer</SubType>
-    </None>
-    <None Include="app.manifest">
-      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <EmbeddedResource Include="Resources\HelpDuplicates.rtf" />
     <EmbeddedResource Include="Resources\HelpArrangements.rtf" />
     <EmbeddedResource Include="Resources\HelpSongLists.rtf" />
     <EmbeddedResource Include="Resources\HelpSongListsManual.rtf" />
+    <None Include="app.manifest" />
     <None Include="Resources\logo_black.png" />
   </ItemGroup>
   <ItemGroup>
@@ -808,6 +813,16 @@
     <PostBuildEvent>REM always check for matching quotes
 REM spacing around == and ( is important
 REM upper lower case is important for Directory and File names
+
+if $(ConfigurationName) == Release (
+   del /S /Q "$(TargetDir)*.exe.config"
+   del /S /Q "$(TargetDir)*.pdb"
+   del /S /Q "$(TargetDir)*.vshost.exe"
+   del /S /Q "$(TargetDir)MiscUtil.xml"
+   del /S /Q "$(TargetDir)NLog.xml"
+   del /S /Q "$(TargetDir)Newtonsoft.Json.xml"
+   del /S /Q "$(TargetDir)X360.xml"
+ )
 
 if $(ConfigurationName) ==InnoBuild (
 CD "$(SolutionDir)ThirdParty\CFSM_Setup\"

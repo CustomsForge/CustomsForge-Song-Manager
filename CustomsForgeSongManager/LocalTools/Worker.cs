@@ -138,12 +138,12 @@ namespace CustomsForgeSongManager.LocalTools
             // optimize tasks for multicore processors
             if (Globals.MasterCollection.ToList().Count == 0 && coreCount > 1 && AppSettings.Instance.MultiThread == -1)
             {
-                var diaMsg = ".NET Framework reports that you have a (" + coreCount + ") core processor ..." + Environment.NewLine +
+                var diaMsg = ".NET Framework reports that you have a (" + coreCount + ") core processor ...  " + Environment.NewLine +
                              "Would you like to try running the CFSM song rescan using" + Environment.NewLine +
                              "the new multicore support feature?" + Environment.NewLine + Environment.NewLine +
                              "Rescan can be done using the old method if you answer 'No'" + Environment.NewLine +
                              "Please send your feedback and 'debug.log' file to Cozy1." + Environment.NewLine + Environment.NewLine +
-                             "Threading selection can be reset in 'Settings' tab menu";
+                             "Threading selection can be reset in 'Settings' tab menu.";
 
                 if (DialogResult.Yes == BetterDialog2.ShowDialog(diaMsg, "Multicore Processor Beta Test ...", null, "Yes", "No", Bitmap.FromHicon(SystemIcons.Hand.Handle), "ReadMe", 0, 150))
                     AppSettings.Instance.MultiThread = 1;
@@ -215,7 +215,7 @@ namespace CustomsForgeSongManager.LocalTools
                     {
                         if (showLegacyMsg) // do one time
                         {
-                            Globals.Log("Using legacy single thread method ...");
+                            Globals.Log("Using legacy single thread rescan method ...");
                             showLegacyMsg = false;
                         }
 
@@ -336,13 +336,13 @@ namespace CustomsForgeSongManager.LocalTools
             }
             catch (Exception ex)
             {
-                // move to Quarantine folder
+                // corrupt CDLC move to Quarantine folder
                 if (ex.Message.StartsWith("Error reading JObject"))
-                    Globals.Log(String.Format("<ERROR> {0} - CDLC is corrupt!", filePath));
+                    Globals.Log(String.Format("<ERROR> CDLC is corrupt: {0}", filePath));
                 else if (ex.Message.StartsWith("Object reference not set"))
-                    Globals.Log(String.Format("<ERROR> {0} - CDLC is missing data!", filePath));
+                    Globals.Log(String.Format("<ERROR> CDLC is missing data: {0}", filePath));
                 else
-                    Globals.Log(String.Format("<ERROR> {0} - {1}", filePath, ex.Message));
+                    Globals.Log(String.Format("<ERROR> {1}: {0}", filePath, ex.Message));
 
                 if (AppSettings.Instance.EnableQuarantine)
                 {
@@ -353,7 +353,7 @@ namespace CustomsForgeSongManager.LocalTools
                         Directory.CreateDirectory(Constants.QuarantineFolder);
 
                     File.Move(filePath, corFilePath);
-                    Globals.Log(String.Format("File has been moved to: {0}", Constants.QuarantineFolder));
+                    Globals.Log(String.Format("File was quarantined to: {0}", Constants.QuarantineFolder));
                 }
                 else
                 {

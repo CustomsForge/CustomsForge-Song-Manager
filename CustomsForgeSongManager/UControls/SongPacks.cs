@@ -52,7 +52,8 @@ namespace CustomsForgeSongManager.UControls
         private string customPackPsarcPath;
         private bool dgvPainted = false;
         private string extractedCustomHsanPath;
-        private List<SongPackData> songPackList = new List<SongPackData>(); // prevents filtering from being inherited
+        private List<SongPackData> songPackSongs = new List<SongPackData>(); // prevents filtering from being inherited
+        private DgvStatus statusSongPacks = new DgvStatus();
 
         public SongPacks()
         {
@@ -376,18 +377,18 @@ namespace CustomsForgeSongManager.UControls
 
         private void LoadSongPackList(dynamic enabledSongCollection, dynamic disabledSongCollection)
         {
-            songPackList = new List<SongPackData>();
+            songPackSongs = new List<SongPackData>();
             var filteredDisabled = GetMatchingSongs(disabledSongCollection, cueSearch.Text);
 
             foreach (var song in filteredDisabled)
-                songPackList.Add(AttributesToSongPackData(song, false));
+                songPackSongs.Add(AttributesToSongPackData(song, false));
 
             var filteredEnabled = GetMatchingSongs(enabledSongCollection, cueSearch.Text);
 
             foreach (var song in filteredEnabled)
-                songPackList.Add(AttributesToSongPackData(song));
+                songPackSongs.Add(AttributesToSongPackData(song));
 
-            LoadFilteredBindingList(songPackList);
+            LoadFilteredBindingList(songPackSongs);
         }
 
         private void PopulateDataGridView()
@@ -528,7 +529,7 @@ namespace CustomsForgeSongManager.UControls
         private void RemoveFilter()
         {
             // save current sorting before removing filter
-            DgvExtensions.SaveSorting(dgvSongPacks);
+            statusSongPacks.SaveSorting(dgvSongPacks);
             // remove the filter
             var filterStatus = DataGridViewAutoFilterColumnHeaderCell.GetFilterStatus(dgvSongPacks);
             if (!String.IsNullOrEmpty(filterStatus))
@@ -536,7 +537,7 @@ namespace CustomsForgeSongManager.UControls
             
             UpdateToolStrip();
             // reapply sort direction to reselect the filtered song
-            DgvExtensions.RestoreSorting(dgvSongPacks);
+            statusSongPacks.RestoreSorting(dgvSongPacks);
         }
 
         private void RepackCachePsarc()
@@ -1183,13 +1184,17 @@ namespace CustomsForgeSongManager.UControls
         public void TabEnter()
         {
             Globals.DgvCurrent = dgvSongPacks;
+            GetGrid().ResetBindings(); // force grid data to rebind/refresh
+            statusSongPacks.RestoreSorting(Globals.DgvCurrent);
             Globals.Log("SongPacks GUI Activated ...");
         }
 
         public void TabLeave()
         {
-            if (songPackList.Any())
-                Globals.Settings.SaveSettingsToFile(dgvSongPacks);
+            statusSongPacks.SaveSorting(Globals.DgvCurrent);
+            GetGrid().ResetBindings(); // force grid data to rebind/refresh
+            if (songPackSongs.Any())
+                Globals.Settings.SaveSettingsToFile(Globals.DgvCurrent);
 
             Globals.Log("SongPacks GUI Deactivated ...");
         }

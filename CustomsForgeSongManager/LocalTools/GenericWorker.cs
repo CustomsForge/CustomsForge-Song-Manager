@@ -189,7 +189,7 @@ namespace CustomsForgeSongManager.LocalTools
                 }
                 else // single core processor
                 {
-                    Globals.Log("Using legacy single thread method ...");
+                    Globals.Log("Using legacy single thread rescan method ...");
                     RepairTools.RepairSongs(WorkParm1, WorkParm2);
                 }
             }

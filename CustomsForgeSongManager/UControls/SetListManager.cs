@@ -41,6 +41,7 @@ namespace CustomsForgeSongManager.UControls
         private BindingList<SongData> setlistMaster = new BindingList<SongData>(); // prevents filtering from being inherited
         private List<SongData> setlistSongs;
         private List<SongData> songSearch = new List<SongData>();
+        private DgvStatus statusSetlistMaster = new DgvStatus();
 
         public SetlistManager()
         {
@@ -1391,9 +1392,9 @@ namespace CustomsForgeSongManager.UControls
             RemoveFilter();
 
             // save current sorting before clearing search
-            DgvExtensions.SaveSorting(dgvSetlistMaster);
+            statusSetlistMaster.SaveSorting(dgvSetlistMaster);
             UpdateToolStrip();
-            DgvExtensions.RestoreSorting(dgvSetlistMaster);
+            statusSetlistMaster.RestoreSorting(dgvSetlistMaster);
         }
 
         private void lnkSetlistMgrHelp_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -1414,12 +1415,16 @@ namespace CustomsForgeSongManager.UControls
         public void TabEnter()
         {
             Globals.DgvCurrent = dgvSetlistMaster;
+            GetGrid().ResetBindings(); // force grid data to rebind/refresh
+            statusSetlistMaster.RestoreSorting(Globals.DgvCurrent);
             Globals.Log("Setlist Manager GUI Activated...");
         }
 
         public void TabLeave()
         {
-            Globals.Settings.SaveSettingsToFile(dgvSetlistMaster);
+            statusSetlistMaster.SaveSorting(Globals.DgvCurrent);
+            GetGrid().ResetBindings(); // force grid data to rebind/refresh
+            Globals.Settings.SaveSettingsToFile(Globals.DgvCurrent);
             Globals.Log("Setlist Manager GUI Deactivated ...");
         }
     }

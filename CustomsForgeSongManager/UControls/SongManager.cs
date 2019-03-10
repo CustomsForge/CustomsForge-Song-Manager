@@ -51,6 +51,7 @@ namespace CustomsForgeSongManager.UControls
         private int numberOfDLCPendingUpdate = 0;
         private int numberOfDisabledDLC = 0;
         private List<SongData> songList = new List<SongData>(); // non-binding prevents filtering from being inherited
+        private DgvStatus statusSongsMaster = new DgvStatus();
 
         public SongManager()
         {
@@ -745,7 +746,7 @@ namespace CustomsForgeSongManager.UControls
         private void RemoveFilter()
         {
             // save current sorting before removing filter
-            DgvExtensions.SaveSorting(dgvSongsMaster);
+            statusSongsMaster.SaveSorting(dgvSongsMaster);
 
             // remove the filter
             var filterStatus = DataGridViewAutoFilterColumnHeaderCell.GetFilterStatus(dgvSongsMaster);
@@ -755,7 +756,7 @@ namespace CustomsForgeSongManager.UControls
             ResetDetail();
             UpdateToolStrip();
             // reapply sort direction to reselect the filtered song
-            DgvExtensions.RestoreSorting(dgvSongsMaster);
+            statusSongsMaster.RestoreSorting(dgvSongsMaster);
 
             Refresh();
         }
@@ -1282,7 +1283,7 @@ namespace CustomsForgeSongManager.UControls
 
         private void cmsEdit_Click(object sender, EventArgs e)
         {
-            DgvExtensions.SaveSorting(dgvSongsMaster);
+            statusSongsMaster.SaveSorting(dgvSongsMaster);
             var sd = DgvExtensions.GetObjectFromRow<SongData>(dgvSongsMaster.SelectedRows[0]);
             if (sd.IsODLC || sd.IsRsCompPack || sd.IsSongsPsarc)
                 return;
@@ -1315,7 +1316,7 @@ namespace CustomsForgeSongManager.UControls
             if (Globals.ReloadSongManager)
                 UpdateToolStrip();
 
-            DgvExtensions.RestoreSorting(dgvSongsMaster);
+            statusSongsMaster.RestoreSorting(dgvSongsMaster);
         }
 
         private void cmsEnableDisable_Click(object sender, EventArgs e)
@@ -1394,7 +1395,7 @@ namespace CustomsForgeSongManager.UControls
             Thread.Sleep(50);
 
             // save current sort
-            DgvExtensions.SaveSorting(dgvSongsMaster);
+            statusSongsMaster.SaveSorting(dgvSongsMaster);
             ResetDetail();
 
             if (cueSearch.Text.Length > 0) // && e.KeyCode == Keys.Enter)
@@ -1403,7 +1404,7 @@ namespace CustomsForgeSongManager.UControls
                 LoadFilteredBindingList(songList);
 
             // restore current sort
-            DgvExtensions.RestoreSorting(dgvSongsMaster);
+            statusSongsMaster.RestoreSorting(dgvSongsMaster);
             UpdateToolStrip(true);
         }
 
@@ -1905,9 +1906,9 @@ namespace CustomsForgeSongManager.UControls
             RemoveFilter();
 
             // save current sorting before clearing search
-            DgvExtensions.SaveSorting(dgvSongsMaster);
+            statusSongsMaster.SaveSorting(dgvSongsMaster);
             UpdateToolStrip();
-            DgvExtensions.RestoreSorting(dgvSongsMaster);
+            statusSongsMaster.RestoreSorting(dgvSongsMaster);
         }
 
         private void lnkLblSelectAll_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -2445,12 +2446,14 @@ namespace CustomsForgeSongManager.UControls
             Globals.DgvCurrent = dgvSongsMaster;
             DataGridViewAutoFilterColumnHeaderCell.SavedColumnFilter = AppSettings.Instance.SongManagerFilter;
             GetGrid().ResetBindings(); // force grid data to rebind/refresh
+            statusSongsMaster.RestoreSorting(Globals.DgvCurrent);
             Globals.Log("SongManagerFilter available: " + AppSettings.Instance.SongManagerFilter);
             Globals.Log("Song Manager GUI Activated ...");
         }
 
         public void TabLeave()
         {
+            statusSongsMaster.SaveSorting(Globals.DgvCurrent);
             GetGrid().ResetBindings(); // force grid data to rebind/refresh
             SetRepairOptions(); // saves current repair options
             Globals.Settings.SaveSettingsToFile(dgvSongsMaster);

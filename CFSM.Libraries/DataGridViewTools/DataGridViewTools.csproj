@@ -66,6 +66,7 @@
     <Compile Include="DataGridViewCheckBoxHeaderCell.cs" />
     <Compile Include="DgvConversion.cs" />
     <Compile Include="DgvExtensions.cs" />
+    <Compile Include="DgvStatus.cs" />
     <Compile Include="FilteredBindingList.cs" />
     <Compile Include="frmCustomFilter.cs">
       <SubType>Form</SubType>

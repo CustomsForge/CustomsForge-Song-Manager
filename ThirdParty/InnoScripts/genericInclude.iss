@@ -25,7 +25,7 @@
 #endif
 #ifdef RELEASE
 #define BaseUpdateURL "http://ignition.customsforge.com/cfsm_uploads/release"
-#define OutputDirExe SourcePath +"..\..\ThirdParty\CFSM_Setup_Release\"
+#define OutputDirExe SourcePath + "..\..\ThirdParty\CFSM_Setup_Release\"
 #define AppTitle "CustomsForge Song Manager - Release Version"
 #define LatestVersionDownload BaseUpdateURL + "/CFSMSetupRelease.rar"
 #endif
