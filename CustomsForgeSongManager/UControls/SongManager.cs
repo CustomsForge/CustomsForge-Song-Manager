@@ -747,6 +747,7 @@ namespace CustomsForgeSongManager.UControls
 
         private void RemoveFilter()
         {
+            AppSettings.Instance.SongManagerFilter = String.Empty;
             // save current sorting before removing filter
             statusSongsMaster.SaveSorting(dgvSongsMaster);
 

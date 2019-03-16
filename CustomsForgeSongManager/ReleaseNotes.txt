@@ -14,9 +14,12 @@ until you can confirm it is safe by working directly with your AV provider.
 
 CFSM Release Notes
 
+1.5.3.3
+- fixed Clear Filters/Search (filter) anomaly
+
 1.5.3.2
 - updated InnoSetup v5.6.1 and InnoDownloadPlugin v1.5.1 and build with InnoScriptStudio
-- fixed Clear Filters/Search anomaly
+- fixed Clear Filters/Search (search) anomaly
 
 1.5.3.1
 - improved Log messages

@@ -371,6 +371,7 @@ namespace CustomsForgeSongManager.UControls
 
         private void RemoveFilter()
         {
+            AppSettings.Instance.ArrangementAnalyzerFilter = String.Empty;
             // save current sorting before removing filter
             statusArrangementAnalyzer.SaveSorting(dgvArrangements);
             // remove the filter
