@@ -5,15 +5,11 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 
-// Usage in frmMain comes after InitializeComponent();
-// DLogger.Instance.AddTargetFile(Constants.AppLogPath);
-// DLogger.Instance.AddTargetTextBox(tbLog);            
-// DLogger.Log("Initialed application logger ...");
-
+// Usage: see the ReadMe.txt file
 
 namespace DLogNet
 {
-    public class DLogger
+    public class DLogger : IDisposable
     {
         private List<DLogMessage> logEntries;
         private List<TextBox> targetTextBoxes = new List<TextBox>();
@@ -22,20 +18,17 @@ namespace DLogNet
         private List<ProgressBar> targetProgressBars = new List<ProgressBar>();
         private List<ToolStripProgressBar> targetToolStripProgressBars = new List<ToolStripProgressBar>();
 
-        private static DLogger _instance;
-        public static DLogger Instance
+        public void Log(string message, int progress = -1)
         {
-            get { return _instance ?? (_instance = new DLogger()); }
-            set { _instance = value; }
+#if DEBUG
+            // writes log message to output window when in Debug mode for developers
+            Debug.WriteLine(message);
+#endif
+            Write(message, progress);
         }
 
-        public static void Log(string message)
-        {
-            Instance.Write(message);
-        }
-
-        private static NotifyIcon _notifyIcon;
-        public static NotifyIcon Notifier
+        private NotifyIcon _notifyIcon;
+        public NotifyIcon Notifier
         {
             get { return _notifyIcon ?? (_notifyIcon = new NotifyIcon()); }
             set { _notifyIcon = value; }
@@ -227,6 +220,7 @@ namespace DLogNet
             DLogMessage msg = new DLogMessage(message);
             if (logEntries == null)
                 logEntries = new List<DLogMessage>();
+            
             logEntries.Add(msg);
 
             try
@@ -250,6 +244,7 @@ namespace DLogNet
                                 });
                         }
                     }
+
                     if (targetFiles != null)
                     {
                         foreach (FileInfo targetFile in targetFiles)
@@ -274,6 +269,7 @@ namespace DLogNet
                             }
                         }
                     }
+
                     if (targetNotifyIcons != null)
                     {
                         foreach (NotifyIcon notifyIcon in targetNotifyIcons)
@@ -320,6 +316,16 @@ namespace DLogNet
             }
 
             logEntries = new List<DLogMessage>();
+        }
+
+        public void Dispose()
+        {
+            logEntries = null;
+            targetTextBoxes = null;
+            targetFiles = null;
+            targetNotifyIcons = null;
+            targetProgressBars = null;
+            targetToolStripProgressBars = null;
         }
     }
 }

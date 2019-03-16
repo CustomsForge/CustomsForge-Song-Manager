@@ -846,6 +846,7 @@ namespace CustomsForgeSongManager.UControls
             statusArrangementAnalyzer.SaveSorting(dgvArrangements);
             UpdateToolStrip();
             statusArrangementAnalyzer.RestoreSorting(dgvArrangements);
+            Globals.Settings.SaveSettingsToFile(Globals.DgvCurrent);
         }
 
         private void lnkLblSelectAll_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)

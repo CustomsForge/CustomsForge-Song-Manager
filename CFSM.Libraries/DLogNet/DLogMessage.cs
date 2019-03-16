@@ -23,13 +23,12 @@ namespace DLogNet
         }
 
         // sortable string yyyy/MM/dd
-        // quasi ISO8601 DateTime format
         public string GetFormatted()
         {
             if (String.IsNullOrEmpty(Message))
                 return String.Empty;
 
-            return String.Format("[{0:yyyy/MM/dd HH:mm:ss}]: {1}", TimeStamp, Message);
+            return string.Format("[{0:yyyy/MM/dd HH:mm:ss}]: {1}", TimeStamp, Message);
         }
     }
 }

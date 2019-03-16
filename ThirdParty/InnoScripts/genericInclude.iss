@@ -8,7 +8,14 @@
 #define InstallDir "CustomsForgeSongManager"; // Programs sub folder
 #define InstallerName "CFSMSetup"
 #define BuildPath SourcePath + "..\..\CustomsForgeSongManager\bin\ConfuserEx\"
+
+; define InnoDownloadPlugin constants
 #define DOUPDATE
+#define UNICODE
+; force default build type
+#define BUILD
+// show debug messages for developer use
+; #define SHOWDEBUGMSGS
 
 /////////////////////////////////////////////////////////////////////
 #ifdef BUILD

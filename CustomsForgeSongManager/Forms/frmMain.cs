@@ -155,7 +155,7 @@ namespace CustomsForgeSongManager.Forms
             var appConfigStatus = "<ERROR> Load Failed";
             if (Convert.ToBoolean(ConfigurationSettings.AppSettings["key"]))
                 appConfigStatus = "Load Successful";
-
+       
             // log application runtime environment
             Globals.Log("+ " + Constants.AppTitle);
             Globals.Log("+ RocksmithToolkitLib (v" + ToolkitVersion.RSTKLibVersion() + ")");

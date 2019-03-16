@@ -119,14 +119,14 @@ namespace GenTools
 
         /// <summary>
         /// Copy matching elements from srcObject to destObject using reflection
-        /// <para>Enclose the method with foreach loop to produce object list</para>
+        /// <para>Enclose the method with foreach loop to produce List object</para>
         /// </summary>
         /// <typeparam name="T1">srcObject Type</typeparam>
         /// <typeparam name="T2">destObject Type</typeparam>
         /// <param name="srcObject"></param>
         /// <param name="destObject"></param>
         /// <returns></returns>
-        public static T2 CopyTo<T1, T2>(this T1 srcObject, T2 destObject )
+        public static T2 CopyTo<T1, T2>(this T1 srcObject, T2 destObject)
             where T1 : class
             where T2 : class
         {

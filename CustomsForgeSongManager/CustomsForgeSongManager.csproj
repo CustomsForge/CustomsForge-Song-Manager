@@ -117,6 +117,9 @@
   <PropertyGroup>
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
+  <PropertyGroup>
+    <ProjectConfigFileName>App.config</ProjectConfigFileName>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Antlr3.Runtime">
       <HintPath>..\libs\Antlr3.Runtime.dll</HintPath>
@@ -635,7 +638,6 @@
     </Content>
     <None Include="App.config">
       <SubType>Designer</SubType>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <EmbeddedResource Include="Resources\HelpDuplicates.rtf" />
     <EmbeddedResource Include="Resources\HelpArrangements.rtf" />
@@ -815,7 +817,6 @@ REM spacing around == and ( is important
 REM upper lower case is important for Directory and File names
 
 if $(ConfigurationName) == Release (
-   del /S /Q "$(TargetDir)*.exe.config"
    del /S /Q "$(TargetDir)*.pdb"
    del /S /Q "$(TargetDir)*.vshost.exe"
    del /S /Q "$(TargetDir)MiscUtil.xml"
@@ -846,8 +847,9 @@ COPY /Y "$(TargetDir)VersionInfo.txt" "VersionInfo.txt"
 "D:\Program Files\WinRAR\WinRar.exe" a -r "CFSMSetup.rar" "CFSMSetup.exe" "ReleaseNotes.txt" "VersionInfo.txt"
 )
 
-rem  depricated InnoRelease Post-build Events
 
+REM  depricated InnoRelease Post-build Events
+REM ==========================
 if $(ConfigurationName) ==InnoRelease (
 CD "$(SolutionDir)ThirdParty\CFSM_Setup_Release\"
 DEL /Q *.txt
@@ -870,8 +872,8 @@ COPY /Y "$(TargetDir)VersionInfo.txt" "VersionInfo.txt"
 "D:\Program Files\WinRAR\WinRar.exe" a -r "CFSMSetupRelease.rar" "CFSMSetup.exe" "ReleaseNotes.txt"
 )
 
-rem  depricated InnoBeta Post-build Events
- 
+REM  depricated InnoBeta Post-build Events
+REM ==========================
 if $(ConfigurationName) ==InnoBeta (
 CD "$(SolutionDir)ThirdParty\CFSM_Setup_Beta\"
 DEL /Q *.txt

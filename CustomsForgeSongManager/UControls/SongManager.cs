@@ -29,6 +29,8 @@ using BetterDialog2 = CustomControls.BetterDialog2;
 using System.Threading.Tasks;
 using UserProfileLib;
 
+// TODO: convert SongManager, Duplicates, SetlistManager to use a common bound FilterBindingList<SongData>() dataset.
+// TODO: use binding source filtering to show/hide data
 
 namespace CustomsForgeSongManager.UControls
 {
@@ -1909,6 +1911,7 @@ namespace CustomsForgeSongManager.UControls
             statusSongsMaster.SaveSorting(dgvSongsMaster);
             UpdateToolStrip();
             statusSongsMaster.RestoreSorting(dgvSongsMaster);
+            Globals.Settings.SaveSettingsToFile(Globals.DgvCurrent);
         }
 
         private void lnkLblSelectAll_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -2456,7 +2459,7 @@ namespace CustomsForgeSongManager.UControls
             statusSongsMaster.SaveSorting(Globals.DgvCurrent);
             GetGrid().ResetBindings(); // force grid data to rebind/refresh
             SetRepairOptions(); // saves current repair options
-            Globals.Settings.SaveSettingsToFile(dgvSongsMaster);
+            Globals.Settings.SaveSettingsToFile(Globals.DgvCurrent);
 
             // save new filter
             if (!String.IsNullOrEmpty(DataGridViewAutoFilterColumnHeaderCell.SavedColumnFilter) && DataGridViewAutoFilterColumnHeaderCell.SavedColumnFilter != AppSettings.Instance.SongManagerFilter)
