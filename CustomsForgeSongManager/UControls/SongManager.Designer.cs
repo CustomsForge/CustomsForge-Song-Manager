@@ -1524,8 +1524,8 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiSSSettings.RadioButtonGroupName = "ScrollSpeed";
             this.tsmiSSSettings.Size = new System.Drawing.Size(246, 22);
             this.tsmiSSSettings.Text = "Customizable SS Setting";
-            this.tsmiSSSettings.ToolTipText = "Minimum 0.5 (fewer notes on screen, faster speed)\r\nDefault 1.3 (typical of ODLC)\r\nMaximum 4.5 (" +
-                "more notes on screen, slower speed)";
+            this.tsmiSSSettings.ToolTipText = "Minimum 0.5 (fewer notes on screen, faster speed)\r\nDefault 1.3 (typical of ODLC)\r" +
+                "\nMaximum 4.5 (more notes on screen, slower speed)";
             // 
             // tsmiNudScrollSpeed
             // 

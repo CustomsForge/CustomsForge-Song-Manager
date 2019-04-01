@@ -1923,6 +1923,7 @@ namespace CustomsForgeSongManager.UControls
         private void lnkShowAll_Click(object sender, EventArgs e)
         {
             RemoveFilter();
+            Globals.Settings.SaveSettingsToFile(Globals.DgvCurrent);
         }
 
         private void lnklblToggle_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
