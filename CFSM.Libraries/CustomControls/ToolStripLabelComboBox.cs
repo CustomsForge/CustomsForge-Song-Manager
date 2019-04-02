@@ -5,7 +5,7 @@ using System.Windows.Forms;
 using System.Windows.Forms.Design;
 using System.Diagnostics;
 
-// TODO: FIXME IDE does not display control events in dropdown
+// FIXME: IDE does not display properties or event handlers in the dropdown
 
 namespace CustomControls
 {
@@ -17,8 +17,8 @@ namespace CustomControls
 
         private ToolStripItem _mouseOverItem = null;
         private Point _mouseOverPoint;
-        private const int DEFAULT_TOOLTIP_INTERVAL = 4000;  // aka AutoPopDelay
-        private const int DEFAULT_RESHOW_DELAY = 300;
+        private const int DEFAULT_TOOLTIP_INTERVAL = 3000;  // aka AutoPopDelay
+        private const int DEFAULT_RESHOW_DELAY = 100;
         private const int DEFAULT_INITIAL_DELAY = 100;
         private const bool DEFAULT_SHOW_ALWAYS = false;
         private bool _firstEntry = true;
@@ -178,8 +178,8 @@ namespace CustomControls
                 Debug.WriteLine("AutoPopDelay: " + ToolTipInterval);
             }
 
-            if (_mouseOverItem != newMouseOverItem) // ||
-            // (Math.Abs(_mouseOverPoint.X - mea.X) > SystemInformation.MouseHoverSize.Width || (Math.Abs(_mouseOverPoint.Y - mea.Y) > SystemInformation.MouseHoverSize.Height)))
+            if ((_mouseOverItem != newMouseOverItem) ||
+            (Math.Abs(_mouseOverPoint.X - mea.X) > SystemInformation.MouseHoverSize.Width || (Math.Abs(_mouseOverPoint.Y - mea.Y) > SystemInformation.MouseHoverSize.Height)))
             // TODO: monitor here ... may create tooltip tracks
             {
                 _mouseOverItem = newMouseOverItem;
@@ -192,8 +192,8 @@ namespace CustomControls
                     tt.Active = true;
                     tt.IsBalloon = IsBalloon;
                     // pretty balloon
-                    //Point currentMouseOverPoint = parent.PointToClient(new Point(Control.MousePosition.X, Control.MousePosition.Y + Cursor.Current.HotSpot.Y));
-                    //tt.Show(ToolTipText, parent, currentMouseOverPoint, ToolTipInterval);
+                    // Point currentMouseOverPoint = parent.PointToClient(new Point(Control.MousePosition.X, Control.MousePosition.Y + Cursor.Current.HotSpot.Y));
+                    // tt.Show(ToolTipText, parent, currentMouseOverPoint, ToolTipInterval);
                     tt.SetToolTip(ComboBox, ToolTipText);
                 }
             }
@@ -206,7 +206,7 @@ namespace CustomControls
             ToolStripItem newMouseOverItem = parent.GetItemAt(mea.Location);
             if (newMouseOverItem != null && !String.IsNullOrEmpty(m_ToolTipText))
             {
-                // once clicked does not display again to leave and come back
+                // once clicked do not display again until leave and come back
                 tt.Active = false;
                 tt.Hide(parent);
             }

@@ -968,7 +968,7 @@ namespace CustomsForgeSongManager.UControls
             DataGridViewAutoFilterColumnHeaderCell.SavedColumnFilter = AppSettings.Instance.ArrangementAnalyzerFilter;
             GetGrid().ResetBindings(); // force grid data to rebind/refresh
             statusArrangementAnalyzer.RestoreSorting(Globals.DgvCurrent); // restore sort order
-            Globals.Log("ArrangementAnalyzerFilter available: " + AppSettings.Instance.ArrangementAnalyzerFilter);
+            Globals.Log("ArrangementAnalyzerFilter Available: " + (String.IsNullOrEmpty(AppSettings.Instance.ArrangementAnalyzerFilter) ? "None" : AppSettings.Instance.ArrangementAnalyzerFilter));
             Globals.Log("Arrangements GUI Activated ...");
         }
 
@@ -997,8 +997,8 @@ namespace CustomsForgeSongManager.UControls
                 Globals.Log("Saved ArrangementAnalyzerFilter: " + AppSettings.Instance.ArrangementAnalyzerFilter);
             }
 
-            Globals.Settings.SaveSettingsToFile(dgvArrangements);
             Globals.ReloadArrangements = true; // reload non-bound data on re-entry to reflect any changes
+            Globals.Settings.SaveSettingsToFile(Globals.DgvCurrent);
             Globals.Log("Arrangements GUI Deactivated ...");
         }
 

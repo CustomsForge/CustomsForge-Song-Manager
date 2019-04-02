@@ -2452,7 +2452,7 @@ namespace CustomsForgeSongManager.UControls
             DataGridViewAutoFilterColumnHeaderCell.SavedColumnFilter = AppSettings.Instance.SongManagerFilter;
             GetGrid().ResetBindings(); // force grid data to rebind/refresh
             statusSongsMaster.RestoreSorting(Globals.DgvCurrent);
-            Globals.Log("SongManagerFilter available: " + AppSettings.Instance.SongManagerFilter);
+            Globals.Log("SongManagerFilter Available: " + (String.IsNullOrEmpty(AppSettings.Instance.SongManagerFilter) ? "None" : AppSettings.Instance.SongManagerFilter));
             Globals.Log("Song Manager GUI Activated ...");
         }
 
@@ -2461,7 +2461,6 @@ namespace CustomsForgeSongManager.UControls
             statusSongsMaster.SaveSorting(Globals.DgvCurrent);
             GetGrid().ResetBindings(); // force grid data to rebind/refresh
             SetRepairOptions(); // saves current repair options
-            Globals.Settings.SaveSettingsToFile(Globals.DgvCurrent);
 
             // save new filter
             if (!String.IsNullOrEmpty(DataGridViewAutoFilterColumnHeaderCell.SavedColumnFilter) && DataGridViewAutoFilterColumnHeaderCell.SavedColumnFilter != AppSettings.Instance.SongManagerFilter)
@@ -2473,6 +2472,7 @@ namespace CustomsForgeSongManager.UControls
             if (Globals.PackageRatingNeedsUpdate && !Globals.UpdateInProgress)
                 PackageDataTools.UpdatePackageRating();
 
+            Globals.Settings.SaveSettingsToFile(Globals.DgvCurrent);
             Globals.Log("Song Manager GUI Deactivated ...");
         }
 
