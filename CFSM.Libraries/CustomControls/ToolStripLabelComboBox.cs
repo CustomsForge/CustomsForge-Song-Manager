@@ -195,6 +195,7 @@ namespace CustomControls
                     // Point currentMouseOverPoint = parent.PointToClient(new Point(Control.MousePosition.X, Control.MousePosition.Y + Cursor.Current.HotSpot.Y));
                     // tt.Show(ToolTipText, parent, currentMouseOverPoint, ToolTipInterval);
                     tt.SetToolTip(ComboBox, ToolTipText);
+                    tt.SetToolTip(Label, ToolTipText);
                 }
             }
         }

@@ -298,6 +298,11 @@ namespace CustomsForgeSongManager.UControls
                 Globals.Log(" - CFSM cleared a saved search that returns no songs ...");
             }
 
+            if (!AppSettings.Instance.IncludeArrangementData && !isCueSearch)
+                colSongAverageTempo.ToolTipText = "Use Arrangement Analyzer, Rescan\r\nFull to confirm BPM accuracy";
+            else
+                colSongAverageTempo.ToolTipText = "";
+
             Globals.TsLabel_MainMsg.Text = String.Format("Rocksmith Song Count: {0}", dgvSongsMaster.Rows.Count);
             Globals.TsLabel_MainMsg.Visible = true;
             numberOfDisabledDLC = songList.Where(song => song.Enabled == "No").ToList().Count();

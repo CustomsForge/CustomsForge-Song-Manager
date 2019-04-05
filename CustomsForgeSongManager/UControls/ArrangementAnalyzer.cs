@@ -113,7 +113,10 @@ namespace CustomsForgeSongManager.UControls
                              "to display the complete Arrangement data.";
 
                 BetterDialog2.ShowDialog(diaMsg, "Rescan Full Required", null, null, "Ok", Bitmap.FromHicon(SystemIcons.Warning.Handle), "WARNING", 0, 150);
+                colSongAverageTempo.ToolTipText = "Use Rescan Full to\r\nconfirm BPM accuracy";
             }
+            else
+                colSongAverageTempo.ToolTipText = "";
         }
 
         private void ColumnMenuItemClick(object sender, EventArgs eventArgs)

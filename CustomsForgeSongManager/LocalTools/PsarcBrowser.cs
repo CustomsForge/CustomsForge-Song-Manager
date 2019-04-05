@@ -355,7 +355,6 @@ namespace CustomsForgeSongManager.LocalTools
 
                             pitchedChordSlideCount = maxLevelChords.Count(c => c.LinkNext == 1);
 
-
                             if (songTimeSignatureChangeCount == -1 && eBeats.Count(b => b.Measure != -1) > 1) //no need to rescan for each arrangement, because songs should have same beatmap for all of them
                             {
                                 var secondMeasure = eBeats.Skip(1).FirstOrDefault(b => b.Measure != -1);
@@ -372,6 +371,7 @@ namespace CustomsForgeSongManager.LocalTools
 
                                 float currentBPM = 0;
                                 float oldBPM = 0;
+                                List<float> currentBPMs = new List<float>();
 
                                 while (nextIdx < beatCount)
                                 {
@@ -394,31 +394,33 @@ namespace CustomsForgeSongManager.LocalTools
 
                                     currentBPM = (60 / ((nextMeasure.Time - currentMeasure.Time) / difference));
 
+                                    // using toolkit range for tempo validation
+                                    if (currentBPM > 0 && currentBPM < 999)
+                                    {
+                                        maxBPM = Math.Max(currentBPM, maxBPM);
+                                        minBPM = Math.Min(currentBPM, minBPM);
+                                        currentBPMs.Add(currentBPM);
+                                    }
+
                                     if (currentBPM != oldBPM && Math.Abs(currentBPM - oldBPM) > AppSettings.Instance.BPMThreshold)
                                     {
                                         oldBPM = currentBPM;
                                         bpmChangeCount++;
                                     }
 
-                                    if (currentBPM < 1000)
-                                        maxBPM = Math.Max(currentBPM, maxBPM);
-
-                                    if (currentBPM > 0)
-                                        minBPM = Math.Min(currentBPM, minBPM);
-
                                     currentMeasure = nextMeasure;
                                     nextMeasure = eBeats[nextIdx];
-
-
                                     nextIdx += difference;
                                 }
-
-                                //BPM = 60 / ( (next - current) / beatNum - 1 )  
 
                                 songBPMChangeCount = bpmChangeCount;
                                 songMaxBPM = maxBPM;
                                 songMinBPM = minBPM;
                                 songTimeSignatureChangeCount = timeSignatureChangeCount;
+
+                                // confirm SongAverageTempo is within calculated range, and ODLC is not defaulted (120.0)
+                                if (song.SongAverageTempo < minBPM || song.SongAverageTempo > maxBPM || (song.IsODLC && song.SongAverageTempo == 120.0))
+                                    song.SongAverageTempo = currentBPMs.Average();
                             }
 
                             foreach (var chord in maxLevelChords)
