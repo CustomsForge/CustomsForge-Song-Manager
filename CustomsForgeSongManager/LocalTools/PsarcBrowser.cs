@@ -21,6 +21,7 @@ using Arrangement = CustomsForgeSongManager.DataObjects.Arrangement;
 using System.Threading;
 using GenTools;
 using System.Globalization;
+using System.Windows.Forms;
 
 
 namespace CustomsForgeSongManager.LocalTools
@@ -586,13 +587,13 @@ namespace CustomsForgeSongManager.LocalTools
 
             Globals.Log("Extracting Audio ...");
             Globals.Log("Please wait ...");
-            // TODO: maintain app responsiveness during audio extraction
+            
             // get contents of archive
             using (var archive = new PSARC(true))
             using (var stream = File.OpenRead(archiveName))
             {
                 archive.Read(stream, true);
-                var wems = archive.TOC.Where(entry => entry.Name.StartsWith("audio/windows") && entry.Name.EndsWith(".wem")).ToList();
+                var wems = archive.TOC.Where(entry => entry.Name.StartsWith("audio/") && entry.Name.EndsWith(".wem")).ToList();
 
                 if (wems.Count > 1)
                 {
@@ -607,8 +608,9 @@ namespace CustomsForgeSongManager.LocalTools
                 }
 
                 if (wems.Count > 0)
-                {
+                {                  
                     var top = wems[0];
+                    Application.DoEvents();
                     archive.InflateEntry(top);
                     top.Data.Position = 0;
                     using (var FS = File.Create(audioName))

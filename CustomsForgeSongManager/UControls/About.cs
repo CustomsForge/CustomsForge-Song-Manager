@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -78,11 +79,11 @@ namespace CustomsForgeSongManager.UControls
 
                 // TODO: generate a programatic click to update google stats 
                 Process.Start(new ProcessStartInfo(versInfoUrl)
-                    {
-                        UseShellExecute = false,
-                        CreateNoWindow = true, 
-                        WindowStyle = ProcessWindowStyle.Hidden                        
-                    });
+                {
+                    UseShellExecute = false,
+                    CreateNoWindow = true,
+                    WindowStyle = ProcessWindowStyle.Hidden
+                });
 
                 if (AutoUpdater.DownloadWebApp(downloadUrl, appArchive, downloadDir))
                 {
@@ -211,6 +212,7 @@ namespace CustomsForgeSongManager.UControls
 
         private void lnkDeployRSTK_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
+            // TODO: monitor changes
             ToggleUIControls(false);
             const string updateUrl = Constants.RSToolkitURL;
             const string versInfoUrl = updateUrl + "/builds/latest_test";
@@ -218,7 +220,7 @@ namespace CustomsForgeSongManager.UControls
             const string appAcro = "RSTK";
             const string dlSubDir = appAcro + "_BIN";
             var downloadDir = Path.Combine(Constants.WorkFolder, dlSubDir);
-            var appExePath = Path.Combine(downloadDir, appExe);
+            var appExePath = Path.Combine(downloadDir, "RocksmithToolkit", appExe);
 
             if (AutoUpdater.NeedsUpdate(appExePath, versInfoUrl))
             {
@@ -234,19 +236,21 @@ namespace CustomsForgeSongManager.UControls
                 ZipUtilities.DeleteDirectory(downloadDir);
                 Directory.CreateDirectory(downloadDir);
 
-                Globals.Log("Extracting " + appAcro + " Beta download link ...");
-                var urlLinks = AutoUpdater.ExtractUrlData(updateUrl);
-                // latest_test.zip data for testing
-                // urlLinks.Add(Path.Combine(Constants.RSToolkitURL, "builds", "latest_test.zip"));
+                Globals.Log("Extracting " + appAcro + " Download ...");
+                var urlLinks = new List<string>();
+                // urlLinks = AutoUpdater.ExtractUrlData(updateUrl);
+                // using latest_test.zip (much faster than ExctractUrlData method)
+                urlLinks.Add(Path.Combine(Constants.RSToolkitURL, "builds", "latest_test.zip"));
 
                 if (urlLinks.Any())
                 {
-                    // update beta version number here
-                    var downloadLink = urlLinks.FirstOrDefault(url => url.ToLower().Contains("rstoolkit-2.7.1.0-") && url.ToLower().Contains("-win.zip"));
+                    // TODO: manually update beta version number here
+                   // var downloadLink = urlLinks.FirstOrDefault(url => url.ToLower().Contains("rstoolkit-2.9.2.0-") && url.ToLower().Contains("-win.zip"));
+                    var downloadLink = urlLinks.FirstOrDefault(url => url.ToLower().EndsWith("latest_test.zip"));
 
                     if (downloadLink == null)
                     {
-                        Globals.Log(appAcro + "  Beta download link ... NOT FOUND");
+                        Globals.Log(appAcro + "  Download ... NOT FOUND");
                         ToggleUIControls(true);
                         return;
                     }
@@ -255,12 +259,15 @@ namespace CustomsForgeSongManager.UControls
 
                     if (AutoUpdater.DownloadWebApp(downloadLink, appArchive, downloadDir))
                     {
-                        Globals.Log(appAcro + " download ... SUCCESSFUL");
+                        Globals.Log(appAcro + " Download ... SUCCESSFUL");
 
                         if (ZipUtilities.UnzipDir(Path.Combine(downloadDir, appArchive), downloadDir))
                         {
                             File.Delete(Path.Combine(downloadDir, appArchive));
-                            Globals.Log(appAcro + " archive unpacked ... SUCCESSFUL");
+                            Globals.Log(appAcro + " Archive unpacked ... SUCCESSFUL");
+
+                            // use the toolkit new directory structure
+                            downloadDir = Path.Combine(downloadDir, "RocksmithToolkit");
 
                             if (File.Exists(Path.Combine(Constants.WorkFolder, "RocksmithToolkitLib.TuningDefinition.xml")))
                             {
@@ -270,21 +277,19 @@ namespace CustomsForgeSongManager.UControls
                                 config.Merge(Path.Combine(Path.GetTempPath(), "RocksmithToolkitLib.Config.xml"), Path.Combine(downloadDir, "RocksmithToolkitLib.Config.xml"));
                                 appid.Merge(Path.Combine(Path.GetTempPath(), "RocksmithToolkitLib.SongAppId.xml"), Path.Combine(downloadDir, "RocksmithToolkitLib.SongAppId.xml"));
                                 tuning.Merge(Path.Combine(Path.GetTempPath(), "RocksmithToolkitLib.TuningDefinition.xml"), Path.Combine(downloadDir, "RocksmithToolkitLib.TuningDefinition.xml"));
-                                Globals.Log(appAcro + " configurations restored ...");
+                                Globals.Log(appAcro + " Configurations Restored ...");
                             }
 
                             var exePath = Path.Combine(downloadDir, appExe);
                             var iconPath = Path.Combine(downloadDir, "songcreator.ico");
-
-                            GenExtensions.AddShortcut(Environment.SpecialFolder.Programs, exeShortcutLink: "RSTK.lnk", exePath: exePath, exeIconPath: iconPath, shortcutDescription: "Rocksmith Custom Song Toolkit", destSubDirectory: "Rocksmith Custom Song Toolkit");
-
-                            Globals.Log(appAcro + " shortcut added to Start Menu, Programs ... SUCCESSFUL");
+                            GenExtensions.AddShortcut(Environment.SpecialFolder.Programs, exeShortcutLink: "RocksmithToolkit.lnk", exePath: exePath, exeIconPath: iconPath, shortcutDescription: "Rocksmith Custom Song Toolkit", destSubDirectory: "RocksmithToolkit");
+                            Globals.Log(appAcro + " Shortcut added to Start Menu, Programs ... SUCCESSFUL");
                         }
                         else
-                            Globals.Log(appAcro + " archive unpacked ... FAILED");
+                            Globals.Log(appAcro + " Archive unpacked ... FAILED");
                     }
                     else
-                        Globals.Log(appAcro + " download ... FAILED");
+                        Globals.Log(appAcro + " Download ... FAILED");
                 }
                 else
                     Globals.Log("Link Extraction ... FAILED");

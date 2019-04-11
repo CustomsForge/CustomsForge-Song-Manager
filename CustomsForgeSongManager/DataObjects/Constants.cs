@@ -87,7 +87,7 @@ namespace CustomsForgeSongManager.DataObjects
         {
             get
             {
-                if (OnMac)
+                if (AppSettings.Instance.MacMode)
                     return "_m.psarc";
                 else
                     return "_p.psarc";
@@ -98,7 +98,7 @@ namespace CustomsForgeSongManager.DataObjects
         {
             get
             {
-                if (OnMac)
+                if (AppSettings.Instance.MacMode)
                     return "_m.disabled.psarc";
                 else
                     return "_p.disabled.psarc";

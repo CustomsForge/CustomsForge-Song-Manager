@@ -14,6 +14,12 @@ until you can confirm it is safe by working directly with your AV provider.
 
 CFSM Release Notes
 
+1.5.3.7
+- fixed audio playback in Mac Compatibility Mode
+- fixed Mac Compatibility Mode checkbox to allow toggling for RocksmithTools.dmg
+- updated About download links and installer for toolkit
+- improved ArrangementAnalyzer reload speed
+
 1.5.3.6
 - added SongAverageTempo validation (some ODLC may not have accurate SongAverageTempo)
 

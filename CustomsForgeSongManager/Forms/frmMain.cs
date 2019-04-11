@@ -144,7 +144,7 @@ namespace CustomsForgeSongManager.Forms
             if (Constants.DebugMode)
                 strFormatVersion = "{0} (v{1} - {2} DEBUG)";
 
-            Constants.AppTitle = String.Format(strFormatVersion, Constants.ApplicationName, Constants.CustomVersion(), Constants.OnMac ? "MAC" : "PC");
+            Constants.AppTitle = String.Format(strFormatVersion, Constants.ApplicationName, Constants.CustomVersion(), AppSettings.Instance.MacMode ? "MAC" : "PC");
             this.Text = Constants.AppTitle;
             // bring CFSM to the front on startup
             this.BringToFront();
@@ -155,7 +155,7 @@ namespace CustomsForgeSongManager.Forms
             var appConfigStatus = "<ERROR> Load Failed";
             if (Convert.ToBoolean(ConfigurationSettings.AppSettings["key"]))
                 appConfigStatus = "Load Successful";
-       
+
             // log application runtime environment
             Globals.Log("+ " + Constants.AppTitle);
             Globals.Log("+ RocksmithToolkitLib (v" + ToolkitVersion.RSTKLibVersion() + ")");
@@ -351,12 +351,17 @@ namespace CustomsForgeSongManager.Forms
                     Globals.SongManager.UpdateToolStrip();
                     break;
                 case "Arrangement Analyzer":
-                    this.tpArrangements.Controls.Clear();
-                    this.tpArrangements.Controls.Add(Globals.ArrangementAnalyzer);
-                    Globals.ArrangementAnalyzer.Dock = DockStyle.Fill;
-                    Globals.ArrangementAnalyzer.Location = UCLocation;
-                    Globals.ArrangementAnalyzer.Size = UCSize;
-                    Globals.ArrangementAnalyzer.UpdateToolStrip();
+                    // don't reload grid if already loaded
+                    if (!tpArrangements.Controls.Contains(Globals.ArrangementAnalyzer) || Globals.ReloadArrangements)
+                    {
+                        this.tpArrangements.Controls.Clear();
+                        this.tpArrangements.Controls.Add(Globals.ArrangementAnalyzer);
+                        Globals.ArrangementAnalyzer.Dock = DockStyle.Fill;
+                        Globals.ArrangementAnalyzer.Location = UCLocation;
+                        Globals.ArrangementAnalyzer.Size = UCSize;
+                        Globals.ArrangementAnalyzer.UpdateToolStrip();
+                    }
+
                     currentControl = Globals.ArrangementAnalyzer;
                     break;
                 case "Duplicates":
@@ -506,19 +511,8 @@ namespace CustomsForgeSongManager.Forms
                 }
             }
 
-            if (Constants.OnMac) // checks AppSettings.Instance.MacMode
-            {
-                Globals.Log("<WARNING> Running in Mac Mode ...");
-                Globals.Log("Send the 'debug.log' file to CFSM Developer, Cozy1 for analysis ...");
-                Globals.Log("<WARNING> 'D3DX9_42.dll' file validation is disabled while in Mac Mode ...");
-                Globals.Log("AppSettings.Instance.RSInstalledDir = " + AppSettings.Instance.RSInstalledDir);
-                Globals.Log("Application.ExecutablePath = " + Application.ExecutablePath);
-                Globals.Log("Path.GetDirectoryName(Application.ExecutablePath) = " + Path.GetDirectoryName(Application.ExecutablePath));
-                Globals.Log("Constants.ApplicationFolder = " + Constants.ApplicationFolder);
-                Globals.Log("Found 'Application Support' folder: " + Constants.Rs2DlcFolder.Contains("Application Support"));
-
-                tsBtnUpdate.Visible = true;
-            }
+            //if (Constants.OnMac)
+            //    tsBtnUpdate.Visible = true;
         }
 
         private void UpdateCFSM()
