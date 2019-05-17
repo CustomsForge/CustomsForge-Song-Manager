@@ -91,42 +91,44 @@ namespace CustomsForgeSongManager.UControls
             // auto update the user profile song lists
             string output = String.Empty;
             string result = String.Empty;
+
+            // TODO: testing leave Steam running, only Rocksmith needs to be shutdown
             if (Steam.IsSteamInstallationValid(out output))
             {
-                var steamExePath = output;
-                // shutdown steam if it is running
-                Process[] steamProcess = Process.GetProcessesByName("Steam");
-                if (steamProcess.Length > 0)
-                {
-                    result = " - Running Steam.exe 'shutdown' command ...";
-                    Globals.Log(result);
-                    output = result;
-                    result = Steam.RunSteamExecutable("-shutdown");
-                    Globals.Log(result);
-                    output += Environment.NewLine + result;
+                //    var steamExePath = output;
+                //    // shutdown steam if it is running
+                //    Process[] steamProcess = Process.GetProcessesByName("Steam");
+                //    if (steamProcess.Length > 0)
+                //    {
+                //        result = " - Running Steam.exe 'shutdown' command ...";
+                //        Globals.Log(result);
+                //        output = result;
+                //        result = Steam.RunSteamExecutable("-shutdown");
+                //        Globals.Log(result);
+                //        output += Environment.NewLine + result;
 
-                    // wait for steam shutdown
-                    for (int i = 1; i < 15; i++)
-                    {
-                        Thread.Sleep(1000);
-                        steamProcess = Process.GetProcessesByName("Steam");
-                        if (steamProcess.Length == 0)
-                        {
-                            result = " - Waited " + i + " seconds for Steam.exe to shutdown ...";
-                            Globals.Log(result);
-                            output += Environment.NewLine + result;
-                            break;
-                        }
-                    }
-                }
-                else
-                {
-                    result = " - Steam.exe is not running ...";
-                    Globals.Log(result);
-                    output += Environment.NewLine + result;
-                }
+                //        // wait for steam shutdown
+                //        for (int i = 1; i < 15; i++)
+                //        {
+                //            Thread.Sleep(1000);
+                //            steamProcess = Process.GetProcessesByName("Steam");
+                //            if (steamProcess.Length == 0)
+                //            {
+                //                result = " - Waited " + i + " seconds for Steam.exe to shutdown ...";
+                //                Globals.Log(result);
+                //                output += Environment.NewLine + result;
+                //                break;
+                //            }
+                //        }
+                //    }
+                //    else
+                //    {
+                //        result = " - Steam.exe is not running ...";
+                //        Globals.Log(result);
+                //        output += Environment.NewLine + result;
+                //    }
 
-                if (!output.Contains("<ERROR>") && File.Exists(_prfldbPath))
+                if (!output.Contains("<WARNING>") && !output.Contains("<ERROR>") && File.Exists(_prfldbPath))
                 {
                     if (String.IsNullOrEmpty(_localProfilesPath))
                         _localProfilesPath = Path.Combine(Path.GetDirectoryName(_prfldbPath), "LocalProfiles.json");
@@ -139,6 +141,7 @@ namespace CustomsForgeSongManager.UControls
                     var lines = results.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries).ToList();
                     foreach (var line in lines)
                         Globals.Log(line.TrimEnd());
+
                     output += Environment.NewLine + results;
                 }
                 else
@@ -148,12 +151,13 @@ namespace CustomsForgeSongManager.UControls
                     output += Environment.NewLine + result;
                 }
 
-                if (!output.Contains("<ERROR>") && File.Exists(_localProfilesPath))
+                if (!output.Contains("<WARNING>") && !output.Contains("<ERROR>") && File.Exists(_localProfilesPath))
                 {
-                    // sycronize LocalProfiles.json LastModified with RemoteCache.vdf
+                    // using the _prfldb file for last modified information to syncronize
+                    // LocalProfiles.json LastModified element and update RemoteCache.vdf 
                     result = " - Syncronizing Files ...";
                     Globals.Log(result);
-                    output += Environment.NewLine + UserProfiles.SyncronizeFiles(_localProfilesPath);
+                    output += Environment.NewLine + UserProfiles.SyncronizeFiles(_localProfilesPath, _prfldbPath);
                 }
                 else
                 {
@@ -162,48 +166,49 @@ namespace CustomsForgeSongManager.UControls
                     output += Environment.NewLine + result;
                 }
 
+                // TODO: testing leave Steam running, only Rocksmith needs to be shutdown
                 // restart steam
-                if (!output.Contains("<ERROR>"))
-                {
-                    steamProcess = Process.GetProcessesByName("Steam");
-                    if (steamProcess.Length == 0)
-                    {
-                        result = " - Running Steam.exe 'offline' command ...";
-                        Globals.Log(result);
-                        output += Environment.NewLine + result;
-                        result = Steam.RunSteamExecutable("-offline");
-                        Globals.Log(result);
-                        output += Environment.NewLine + result;
+                //if (!output.Contains("<WARNING>") && !output.Contains("<ERROR>"))
+                //{
+                //    steamProcess = Process.GetProcessesByName("Steam");
+                //    if (steamProcess.Length == 0)
+                //    {
+                //        result = " - Running Steam.exe 'offline' command ...";
+                //        Globals.Log(result);
+                //        output += Environment.NewLine + result;
+                //        result = Steam.RunSteamExecutable("-offline");
+                //        Globals.Log(result);
+                //        output += Environment.NewLine + result;
 
-                        // wait for steam to startup
-                        for (int i = 1; i < 15; i++)
-                        {
-                            Thread.Sleep(1000);
-                            steamProcess = Process.GetProcessesByName("Steam");
-                            if (steamProcess != null && steamProcess[0].Responding)
-                            {
-                                result = " - Waited " + i + " seconds for Steam.exe to startup ...";
-                                Globals.Log(result);
-                                output += Environment.NewLine + result;
-                                break;
-                            }
-                        }
+                //        // wait for steam to startup
+                //        for (int i = 1; i < 15; i++)
+                //        {
+                //            Thread.Sleep(1000);
+                //            steamProcess = Process.GetProcessesByName("Steam");
+                //            if (steamProcess != null && steamProcess[0].Responding)
+                //            {
+                //                result = " - Waited " + i + " seconds for Steam.exe to startup ...";
+                //                Globals.Log(result);
+                //                output += Environment.NewLine + result;
+                //                break;
+                //            }
+                //        }
 
-                        Globals.Log("<README> Select 'START IN OFFLINE MODE' from the 'Steam - Downloads Disabled' dialog popup ...");
-                        Globals.Log("<README> Close ('X') any other Steam dialog popups ...");
-                    }
-                    else
-                    {
-                        result = "<ERROR> Steam.exe was never shutdown properly ...";
-                        Globals.Log(result);
-                        output += Environment.NewLine + result;
-                        result = "<WARNING> The User Profile may get reset by Steam the next time it is played ...";
-                        Globals.Log(result);
-                        output += Environment.NewLine + result;
-                    }
-                }
+                //        Globals.Log("<README> Select 'START IN OFFLINE MODE' from the 'Steam - Downloads Disabled' dialog popup ...");
+                //        Globals.Log("<README> Close ('X') any other Steam dialog popups ...");
+                //    }
+                //    else
+                //    {
+                //        result = "<ERROR> Steam.exe was never shutdown properly ...";
+                //        Globals.Log(result);
+                //        output += Environment.NewLine + result;
+                //        result = "<WARNING> The User Profile may get reset by Steam the next time it is played ...";
+                //        Globals.Log(result);
+                //        output += Environment.NewLine + result;
+                //    }
+                //}
             }
-            else
+            else // CFSM cannot find valid Steam installation
             {
                 var diaMsg = "CFSM did not find a valid Steam installation ..." + Environment.NewLine +
                              "Did you remember to put Steam into offline mode," + Environment.NewLine +

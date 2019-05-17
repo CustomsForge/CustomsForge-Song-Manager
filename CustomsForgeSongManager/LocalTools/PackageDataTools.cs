@@ -51,19 +51,6 @@ namespace CustomsForgeSongManager.LocalTools
             return packageData;
         }
 
-        public static Song2014 ValidateData(this Song2014 songXml, DLCPackageData packageData)
-        {
-            songXml.AlbumYear = packageData.SongInfo.SongYear.ToString().GetValidYear();
-            songXml.ArtistName = packageData.SongInfo.Artist.GetValidAtaSpaceName();
-            songXml.Title = packageData.SongInfo.SongDisplayName.GetValidAtaSpaceName();
-            songXml.AlbumName = packageData.SongInfo.Album.GetValidAtaSpaceName();
-            songXml.ArtistNameSort = packageData.SongInfo.ArtistSort.GetValidSortableName();
-            songXml.SongNameSort = packageData.SongInfo.SongDisplayNameSort.GetValidSortableName();
-            songXml.AlbumNameSort = packageData.SongInfo.AlbumSort.GetValidSortableName();
-            songXml.AverageTempo = Convert.ToSingle(packageData.SongInfo.AverageTempo.ToString().GetValidTempo());
-
-            return songXml;
-        }
         #endregion
 
         #region Tone Fixing
@@ -121,7 +108,6 @@ namespace CustomsForgeSongManager.LocalTools
         }
 
         #endregion
-
 
         #region PackageRating Updater
 

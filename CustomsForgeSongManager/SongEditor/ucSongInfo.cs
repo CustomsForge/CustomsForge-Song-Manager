@@ -23,13 +23,14 @@ namespace CustomsForgeSongManager.SongEditor
 
             cbLowBass.Visible = song.ArrangementsInitials.Contains('B');
 
+            // validate on-load to address old CDLC issues
             txtKey.Text = SongData.Name;
-            txtArtist.Text = SongData.SongInfo.Artist;
-            txtArtistSort.Text = SongData.SongInfo.ArtistSort;
-            txtTitle.Text = SongData.SongInfo.SongDisplayName;
-            txtTitleSort.Text = SongData.SongInfo.SongDisplayNameSort;
-            txtAlbum.Text = SongData.SongInfo.Album;
-            txtAlbumSort.Text = SongData.SongInfo.AlbumSort;
+            txtArtist.Text = SongData.SongInfo.Artist.GetValidAtaSpaceName(); ;
+            txtArtistSort.Text = SongData.SongInfo.ArtistSort.GetValidSortableName(); ;
+            txtTitle.Text = SongData.SongInfo.SongDisplayName.GetValidAtaSpaceName(); ;
+            txtTitleSort.Text = SongData.SongInfo.SongDisplayNameSort.GetValidSortableName(); ;
+            txtAlbum.Text = SongData.SongInfo.Album.GetValidAtaSpaceName(); ;
+            txtAlbumSort.Text = SongData.SongInfo.AlbumSort.GetValidSortableName(); ;
             txtAppId.Text = SongData.AppId;
             txtVersion.Text = SongData.ToolkitInfo.PackageVersion;
             txtYear.Text = SongData.SongInfo.SongYear.ToString();

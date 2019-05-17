@@ -6,6 +6,7 @@ using System.Linq;
 using System.Xml.Linq;
 using CFSM.RSTKLib.PSARC;
 using CustomsForgeSongManager.DataObjects;
+using RocksmithToolkitLib;
 using RocksmithToolkitLib.DLCPackage;
 using RocksmithToolkitLib.Extensions;
 using RocksmithToolkitLib.Sng;
@@ -82,7 +83,7 @@ namespace CustomsForgeSongManager.SongEditor
             tsProgressBar.Value = 30;
             tsMsg.Text = "Working ...";
             statusStripMain.Refresh();
-             
+
             try
             {
                 editorControls.ForEach(ec => { if (ec.Dirty) ec.Save(); });

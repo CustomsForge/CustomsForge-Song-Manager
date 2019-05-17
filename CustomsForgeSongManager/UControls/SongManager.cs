@@ -232,8 +232,8 @@ namespace CustomsForgeSongManager.UControls
             ro.AddDD = tsmiRepairsAddDD.Checked;
             ro.PhraseLength = (int)tsmiAddDDNumericUpDown.DecimalValue;
             ro.RemoveSustain = tsmiAddDDRemoveSustain.Checked;
-            ro.CfgPath = tsmiAddDDCfgPath.Tag == null ? "" : tsmiAddDDCfgPath.Tag.ToString();
-            ro.RampUpPath = tsmiAddDDRampUpPath.Tag == null ? "" : tsmiAddDDRampUpPath.Tag.ToString();
+            ro.CfgPath = String.IsNullOrEmpty(tsmiAddDDCfgPath.Tag.ToString()) ? "" : tsmiAddDDCfgPath.Tag.ToString();
+            ro.RampUpPath = String.IsNullOrEmpty(tsmiAddDDRampUpPath.Tag.ToString()) ? "" : tsmiAddDDRampUpPath.Tag.ToString();
             ro.OverwriteDD = tsmiOverwriteDD.Checked;
             ro.RepairMastery = tsmiRepairsMastery.Checked;
             ro.PreserveStats = tsmiRepairsPreserveStats.Checked;
@@ -436,8 +436,8 @@ namespace CustomsForgeSongManager.UControls
             if (!String.IsNullOrEmpty(tsmiAddDDCfgPath.Tag.ToString()))
                 tsmiAddDDCfgPath.Text = Path.GetFileName(tsmiAddDDCfgPath.Tag.ToString());
 
-            tsmiAddDDCfgPath.Tag = AppSettings.Instance.RepairOptions.RampUpPath;
-            if (!String.IsNullOrEmpty(tsmiAddDDCfgPath.Tag.ToString()))
+            tsmiAddDDRampUpPath.Tag = AppSettings.Instance.RepairOptions.RampUpPath;
+            if (!String.IsNullOrEmpty(tsmiAddDDRampUpPath.Tag.ToString()))
                 tsmiAddDDRampUpPath.Text = Path.GetFileName(tsmiAddDDRampUpPath.Tag.ToString());
 
             ignoreCheckStateChanged = false;
@@ -1291,6 +1291,16 @@ namespace CustomsForgeSongManager.UControls
 
         private void cmsEdit_Click(object sender, EventArgs e)
         {
+            // confirmed method now working on VM Mac Mojave
+            // with changes to PsarcPackage platform detection
+            // if (Constants.OnMac)
+            //{
+            //    var diaMsg = "This feature is not supported in Mac mode" + Environment.NewLine +
+            //                 "Try using the toolkit to make similar changes.";
+            //    BetterDialog2.ShowDialog(diaMsg, "Unsupported Feature ...", null, null, "Ok", Bitmap.FromHicon(SystemIcons.Warning.Handle), "ReadMe", 0, 150);
+            //    return;
+            //}
+
             statusSongsMaster.SaveSorting(dgvSongsMaster);
             var sd = DgvExtensions.GetObjectFromRow<SongData>(dgvSongsMaster.SelectedRows[0]);
             if (sd.IsODLC || sd.IsRsCompPack || sd.IsSongsPsarc)
@@ -1950,10 +1960,16 @@ namespace CustomsForgeSongManager.UControls
                 ofd.InitialDirectory = Path.GetDirectoryName(SettingsDDC.Instance.CfgPath);
 
                 if (ofd.ShowDialog() != DialogResult.OK)
-                    return;
-
-                tsmiAddDDCfgPath.Tag = ofd.FileName;
-                tsmiAddDDCfgPath.Text = Path.GetFileName(ofd.FileName);
+                {
+                    // user clicked 'x' restore defaults
+                    tsmiAddDDCfgPath.Tag = "";
+                    tsmiAddDDCfgPath.Text = "Click to set CFG path";
+                }
+                else
+                {
+                    tsmiAddDDCfgPath.Tag = ofd.FileName;
+                    tsmiAddDDCfgPath.Text = Path.GetFileName(ofd.FileName);
+                }
             }
 
             tsmiRepairs.ShowDropDown();
@@ -1968,10 +1984,16 @@ namespace CustomsForgeSongManager.UControls
                 ofd.Filter = "XML Files (*.xml)|*.xml";
                 ofd.InitialDirectory = Path.GetDirectoryName(SettingsDDC.Instance.RampPath);
                 if (ofd.ShowDialog() != DialogResult.OK)
-                    return;
-
-                tsmiAddDDRampUpPath.Tag = ofd.FileName;
-                tsmiAddDDRampUpPath.Text = Path.GetFileName(ofd.FileName);
+                {
+                    // user clicked 'x' restore defaults
+                    tsmiAddDDRampUpPath.Tag = "";
+                    tsmiAddDDRampUpPath.Text = "Click to set RampUp path";
+                }
+                else
+                {
+                    tsmiAddDDRampUpPath.Tag = ofd.FileName;
+                    tsmiAddDDRampUpPath.Text = Path.GetFileName(ofd.FileName);
+                }
             }
 
             tsmiRepairs.ShowDropDown();
@@ -2016,6 +2038,20 @@ namespace CustomsForgeSongManager.UControls
         {
             // developer sandbox debugging area
 
+            var prfldbPath = RocksmithProfile.SelectProfile();
+            if (prfldbPath == null)
+                return;
+
+            var localProfilesPath = Path.Combine(Path.GetDirectoryName(prfldbPath), "localprofiles.json");
+            var songListsRoot = UserProfiles.ReadSongListsRoot(prfldbPath);
+            Globals.Log(" - User Profile SongListsRoot Loaded ...");
+            songListsRoot.SongLists[0] = new List<string>() { "Cozy1", "Was", "Here!" };
+            UserProfiles.WriteSongListsRoot(songListsRoot, prfldbPath);
+            Globals.Log(" - User Profile SongListsRoot Updated ...");
+            var result = UserProfiles.SyncronizeFiles(localProfilesPath, prfldbPath);
+            Globals.Log(" - User Profile Files Syncronized ...");
+            return;
+
             Process[] processes = Process.GetProcesses();
             foreach (var process in processes)
             {
@@ -2039,18 +2075,6 @@ namespace CustomsForgeSongManager.UControls
             {
                 DataGridViewAutoFilterColumnHeaderCell.SetFilter(dgvSongsMaster, AppSettings.Instance.ArrangementAnalyzerFilter);
             }
-            return;
-
-            var prfldbFile = RocksmithProfile.SelectProfile();
-            var songListsRoot = UserProfiles.ReadSongListsRoot(prfldbFile);
-            Globals.Log(" - User Profile SongListsRoot Loaded ...");
-
-            if (songListsRoot == null) // return;
-                throw new DataException("<ERROR> SongsListsRoot null data exception.");
-
-            songListsRoot.SongLists[0] = new List<string>() { "Cozy1", "Was", "Here!" };
-            UserProfiles.WriteSongListsRoot(songListsRoot, prfldbFile);
-            Globals.Log(" - User Profile SongListsRoot Updated ...");
             return;
 
             PackageDataTools.ShowPackageRatingWarning();
@@ -2207,6 +2231,7 @@ namespace CustomsForgeSongManager.UControls
 
         private void tsmiModsChangeAppId_Click(object sender, EventArgs e)
         {
+            // confirmed method working on Mac
             // TODO: consider using this type of method for other mods and repairs
             var selection = DgvExtensions.GetObjectsFromRows<SongData>(dgvSongsMaster);
             if (!selection.Any())
@@ -2250,6 +2275,7 @@ namespace CustomsForgeSongManager.UControls
 
         private void tsmiModsTagArtwork_Click(object sender, EventArgs e)
         {
+            // confirmed method working on Mac
             // apply rating star updates before tagging
             if (Globals.Tagger.ThemeName.Contains("_stars"))
                 if (Globals.PackageRatingNeedsUpdate && !Globals.UpdateInProgress)
@@ -2330,6 +2356,7 @@ namespace CustomsForgeSongManager.UControls
 
         private void tsmiRepairsRun_Click(object sender, EventArgs e)
         {
+            // confirmed method working on Mac
             if (tsmiDLFolderMonitor.Checked)
             {
                 var diaMsg = "Please uncheck 'Auto Monitor Downloads Folder'" + Environment.NewLine +

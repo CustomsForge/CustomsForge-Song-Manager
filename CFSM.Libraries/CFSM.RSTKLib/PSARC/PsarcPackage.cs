@@ -41,7 +41,8 @@ namespace CFSM.RSTKLib.PSARC
 
         public void WritePackage(string outputPath, DLCPackageData packageData)
         {
-            DLCPackageCreator.Generate(outputPath, packageData, new Platform(GamePlatform.Pc, GameVersion.RS2014));
+            var platform = outputPath.GetPlatform();
+            DLCPackageCreator.Generate(outputPath, packageData, platform);
         }
 
         protected virtual void Dispose(Boolean disposing)

@@ -1000,7 +1000,7 @@ namespace CustomsForgeSongManager.UControls
                 Globals.Log("Saved ArrangementAnalyzerFilter: " + AppSettings.Instance.ArrangementAnalyzerFilter);
             }
 
-            // FIXME: unnecessary speed bump
+            // FIXME: commented out a bad speed bump
             // Globals.ReloadArrangements = true; // reload non-bound data on re-entry to reflect any changes
             Globals.Settings.SaveSettingsToFile(Globals.DgvCurrent);
             Globals.Log("Arrangements GUI Deactivated ...");

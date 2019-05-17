@@ -14,6 +14,13 @@ until you can confirm it is safe by working directly with your AV provider.
 
 CFSM Release Notes
 
+1.5.3.8
+- fixed Mac mode Edit Song Info
+- improvements to Edit Song Information and Repairs
+- fixed Repairs>Customizable DD Settings>saved RampUpPath bug
+- added Repairs>Customizable DD Settings> resettable RampUp and CFG paths
+- simplified ProfileSongLists update method so that Steam instance is unaffected
+
 1.5.3.7
 - fixed audio playback in Mac Compatibility Mode
 - fixed Mac Compatibility Mode checkbox to allow toggling for RocksmithTools.dmg

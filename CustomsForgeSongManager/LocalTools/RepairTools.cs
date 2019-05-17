@@ -176,7 +176,6 @@ namespace CustomsForgeSongManager.LocalTools
 
                     // validate SongInfo
                     var songXml = Song2014.LoadFromFile(arr.SongXml.File);
-                    songXml.AlbumYear = packageData.SongInfo.SongYear.ToString().GetValidYear();
                     songXml.ArtistName = packageData.SongInfo.Artist.GetValidAtaSpaceName();
                     songXml.Title = packageData.SongInfo.SongDisplayName.GetValidAtaSpaceName();
                     songXml.AlbumName = packageData.SongInfo.Album.GetValidAtaSpaceName();
@@ -184,6 +183,17 @@ namespace CustomsForgeSongManager.LocalTools
                     songXml.SongNameSort = packageData.SongInfo.SongDisplayNameSort.GetValidSortableName();
                     songXml.AlbumNameSort = packageData.SongInfo.AlbumSort.GetValidSortableName();
                     songXml.AverageTempo = Convert.ToSingle(packageData.SongInfo.AverageTempo.ToString().GetValidTempo());
+                    songXml.AlbumYear = packageData.SongInfo.SongYear.ToString().GetValidYear();
+
+                    // update packageData with validated SongInfo
+                    packageData.SongInfo.Artist = songXml.ArtistName;
+                    packageData.SongInfo.SongDisplayName = songXml.Title;
+                    packageData.SongInfo.Album = songXml.AlbumName;
+                    packageData.SongInfo.ArtistSort = songXml.ArtistNameSort;
+                    packageData.SongInfo.SongDisplayNameSort = songXml.SongNameSort;
+                    packageData.SongInfo.AlbumSort = songXml.AlbumNameSort;
+                    packageData.SongInfo.AverageTempo = (int)songXml.AverageTempo;
+                    packageData.SongInfo.SongYear = Convert.ToInt32(songXml.AlbumYear);
 
                     // write updated xml arrangement
                     using (var stream = File.Open(arr.SongXml.File, FileMode.Create))
