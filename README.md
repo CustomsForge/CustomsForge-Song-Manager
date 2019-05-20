@@ -5,6 +5,7 @@
 CustomsForge Song Manager
 ======================
 * A VS2010, .NET Framework 4.0 project
+* All development work is done in the develop branch (develop is occasionally merged to master for backup) 
 * Latest builds are available to download at: http://cfmanager.com
 
 Developers
