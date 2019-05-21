@@ -1,6 +1,5 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <ArrayOfConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <!-- general config key count = 17 -->"
   <Config Key="general_configversion" Value="3" />
   <Config Key="general_firstrun" Value="true" />
   <Config Key="general_showrevnote" Value="true" />
@@ -9,37 +8,33 @@
   <Config Key="general_replacerepo" Value="true" />
   <Config Key="general_urllastestrelease" Value="https://www.rscustom.net/builds/latest" />
   <Config Key="general_urllastestbeta" Value="https://www.rscustom.net/builds/latest_test" />
-  <Config Key="general_defaultappid_RS2012" Value="206102"  />
-  <Config Key="general_defaultappid_RS2014" Value="248750"  />
-  <Config Key="general_lockappid" Value="false"  />
+  <Config Key="general_defaultappid_RS2012" Value="206102" />
+  <Config Key="general_defaultappid_RS2014" Value="248750" />
+  <Config Key="general_lockappid" Value="false" />
   <Config Key="general_defaultauthor" Value="Custom Song Creator" />
   <Config Key="general_rs1path" Value="C:\PROGRAM FILES (x86)\Steam\steamapps\common\Rocksmith" />
   <Config Key="general_rs2014path" Value="C:\PROGRAM FILES (x86)\Steam\steamapps\common\Rocksmith2014" />
   <Config Key="general_wwisepath" Value="" />
   <Config Key="general_defaultgameversion" Value="RS2014" />
   <Config Key="general_defaultplatform" Value="Pc" />
-  <!-- creator config key count = 10 -->"
   <Config Key="creator_scrollspeed" Value="1.3" />
   <Config Key="creator_qualityfactor" Value="4.0" />
   <Config Key="creator_structured" Value="true" />
   <Config Key="creator_useacronyms" Value="false" />
   <Config Key="creator_usedefaultauthor" Value="false" />
-  <Config Key="creator_defaultproject" Value="" />
+  <Config Key="creator_defaultproject" Value="D:\Temp\EOF" />
   <Config Key="creator_defaulttone" Value="" />
   <Config Key="creator_fixmultitone" Value="true" />
   <Config Key="creator_fixlowbass" Value="true" />
   <Config Key="creator_autosavetemplate" Value="true" />
-  <!-- converter config key count = 2 -->"
   <Config Key="converter_source" Value="Pc" />
   <Config Key="converter_target" Value="Mac" />
-  <!-- ddc config key count = 5 -->"
   <Config Key="ddc_config" Value="ddc_default" />
   <Config Key="ddc_rampup" Value="ddc_default" />
   <Config Key="ddc_phraselength" Value="8" />
-  <Config Key="ddc_removesustain" Value="false" />  
+  <Config Key="ddc_removesustain" Value="false" />
   <Config Key="ddc_autogen" Value="true" />
-  <!-- inlay 3 items TODO: add these -->"
   <Config Key="cgm_inlayname" Value="Default Inlay" />
   <Config Key="cgm_24frets" Value="false" />
-  <Config Key="cgm_coloredinlay" Value="true" /> 
+  <Config Key="cgm_coloredinlay" Value="true" />
 </ArrayOfConfig>

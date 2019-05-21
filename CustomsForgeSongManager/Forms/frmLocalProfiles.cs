@@ -41,8 +41,7 @@ namespace CustomsForgeSongManager.Forms
             if (!Steam.IsSteamInstallationValid(out output))
             {
                 var diaMsg = "CFSM did not find a valid Steam installation ..." + Environment.NewLine +
-                             "Do you want to try the manual update method?" + Environment.NewLine +
-                             "Did you manually shut down and exit Steam?" + Environment.NewLine + Environment.NewLine +
+                             "Do you want to try the manual update method?" + Environment.NewLine + Environment.NewLine +
                              "Answer 'No' to leave Profile Song Lists.";
 
                 if (DialogResult.Yes != BetterDialog2.ShowDialog(diaMsg, "Manual Update Mode ...", null, "Yes", "No", Bitmap.FromHicon(SystemIcons.Hand.Handle), "Warning", 0, 150))

@@ -87,134 +87,17 @@ namespace CustomsForgeSongManager.UControls
             Globals.PrfldbNeedsUpdate = false;
             Globals.Log("Updating User Profile Song Lists ...");
 
-            // fully tested/working on Cozy's dev machines
             // auto update the user profile song lists
             string output = String.Empty;
             string result = String.Empty;
 
-            // TODO: testing leave Steam running, only Rocksmith needs to be shutdown
-            if (Steam.IsSteamInstallationValid(out output))
-            {
-                //    var steamExePath = output;
-                //    // shutdown steam if it is running
-                //    Process[] steamProcess = Process.GetProcessesByName("Steam");
-                //    if (steamProcess.Length > 0)
-                //    {
-                //        result = " - Running Steam.exe 'shutdown' command ...";
-                //        Globals.Log(result);
-                //        output = result;
-                //        result = Steam.RunSteamExecutable("-shutdown");
-                //        Globals.Log(result);
-                //        output += Environment.NewLine + result;
-
-                //        // wait for steam shutdown
-                //        for (int i = 1; i < 15; i++)
-                //        {
-                //            Thread.Sleep(1000);
-                //            steamProcess = Process.GetProcessesByName("Steam");
-                //            if (steamProcess.Length == 0)
-                //            {
-                //                result = " - Waited " + i + " seconds for Steam.exe to shutdown ...";
-                //                Globals.Log(result);
-                //                output += Environment.NewLine + result;
-                //                break;
-                //            }
-                //        }
-                //    }
-                //    else
-                //    {
-                //        result = " - Steam.exe is not running ...";
-                //        Globals.Log(result);
-                //        output += Environment.NewLine + result;
-                //    }
-
-                if (!output.Contains("<WARNING>") && !output.Contains("<ERROR>") && File.Exists(_prfldbPath))
-                {
-                    if (String.IsNullOrEmpty(_localProfilesPath))
-                        _localProfilesPath = Path.Combine(Path.GetDirectoryName(_prfldbPath), "LocalProfiles.json");
-
-                    // update modified in-game SongLists
-                    result = " - Writing User Profile Song Lists ...";
-                    Globals.Log(result);
-                    output += Environment.NewLine + result;
-                    var results = WriteSongLists();
-                    var lines = results.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries).ToList();
-                    foreach (var line in lines)
-                        Globals.Log(line.TrimEnd());
-
-                    output += Environment.NewLine + results;
-                }
-                else
-                {
-                    result = "<ERROR> Invalid _prfldb path";
-                    Globals.Log(result);
-                    output += Environment.NewLine + result;
-                }
-
-                if (!output.Contains("<WARNING>") && !output.Contains("<ERROR>") && File.Exists(_localProfilesPath))
-                {
-                    // using the _prfldb file for last modified information to syncronize
-                    // LocalProfiles.json LastModified element and update RemoteCache.vdf 
-                    result = " - Syncronizing Files ...";
-                    Globals.Log(result);
-                    output += Environment.NewLine + UserProfiles.SyncronizeFiles(_localProfilesPath, _prfldbPath);
-                }
-                else
-                {
-                    result = "<ERROR> Invalid LocalProfiles path";
-                    Globals.Log(result);
-                    output += Environment.NewLine + result;
-                }
-
-                // TODO: testing leave Steam running, only Rocksmith needs to be shutdown
-                // restart steam
-                //if (!output.Contains("<WARNING>") && !output.Contains("<ERROR>"))
-                //{
-                //    steamProcess = Process.GetProcessesByName("Steam");
-                //    if (steamProcess.Length == 0)
-                //    {
-                //        result = " - Running Steam.exe 'offline' command ...";
-                //        Globals.Log(result);
-                //        output += Environment.NewLine + result;
-                //        result = Steam.RunSteamExecutable("-offline");
-                //        Globals.Log(result);
-                //        output += Environment.NewLine + result;
-
-                //        // wait for steam to startup
-                //        for (int i = 1; i < 15; i++)
-                //        {
-                //            Thread.Sleep(1000);
-                //            steamProcess = Process.GetProcessesByName("Steam");
-                //            if (steamProcess != null && steamProcess[0].Responding)
-                //            {
-                //                result = " - Waited " + i + " seconds for Steam.exe to startup ...";
-                //                Globals.Log(result);
-                //                output += Environment.NewLine + result;
-                //                break;
-                //            }
-                //        }
-
-                //        Globals.Log("<README> Select 'START IN OFFLINE MODE' from the 'Steam - Downloads Disabled' dialog popup ...");
-                //        Globals.Log("<README> Close ('X') any other Steam dialog popups ...");
-                //    }
-                //    else
-                //    {
-                //        result = "<ERROR> Steam.exe was never shutdown properly ...";
-                //        Globals.Log(result);
-                //        output += Environment.NewLine + result;
-                //        result = "<WARNING> The User Profile may get reset by Steam the next time it is played ...";
-                //        Globals.Log(result);
-                //        output += Environment.NewLine + result;
-                //    }
-                //}
-            }
-            else // CFSM cannot find valid Steam installation
+            if (!Steam.IsSteamInstallationValid(out output))
             {
                 var diaMsg = "CFSM did not find a valid Steam installation ..." + Environment.NewLine +
                              "Did you remember to put Steam into offline mode," + Environment.NewLine +
                              "and play Rocksmith while Steam was in offline mode?" + Environment.NewLine +
                              "Did you remember to manually shut down and exit Steam?" + Environment.NewLine + Environment.NewLine +
-                             "Answer 'No' to leave Profile Song Lists and get help.";
+                             "Answer 'No' to leave Profile Song Lists and get some help.  ";
 
                 if (DialogResult.Yes != BetterDialog2.ShowDialog(diaMsg, "Manual Update Mode ...", null, "Yes", "No", Bitmap.FromHicon(SystemIcons.Hand.Handle), "Warning", 0, 150))
                 {
@@ -229,11 +112,44 @@ namespace CustomsForgeSongManager.UControls
                 result = "<WARNING> User Profile Song Lists are in Manual Update Mode ...";
                 Globals.Log(result);
                 output += Environment.NewLine + result;
+            }
+
+            if (File.Exists(_prfldbPath))
+            {
+                if (String.IsNullOrEmpty(_localProfilesPath))
+                    _localProfilesPath = Path.Combine(Path.GetDirectoryName(_prfldbPath), "LocalProfiles.json");
+
+                // update modified in-game SongLists
+                result = " - Writing User Profile Song Lists ...";
+                Globals.Log(result);
+                output += Environment.NewLine + result;
                 var results = WriteSongLists();
                 var lines = results.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries).ToList();
                 foreach (var line in lines)
                     Globals.Log(line.TrimEnd());
+
                 output += Environment.NewLine + results;
+            }
+            else
+            {
+                result = "<ERROR> Invalid _prfldb path";
+                Globals.Log(result);
+                output += Environment.NewLine + result;
+            }
+
+            if (File.Exists(_prfldbPath) && File.Exists(_localProfilesPath))
+            {
+                // using the _prfldb file for last modified information to syncronize
+                // LocalProfiles.json LastModified element and update RemoteCache.vdf 
+                result = " - Syncronizing Files ...";
+                Globals.Log(result);
+                output += Environment.NewLine + UserProfiles.SyncronizeFiles(_localProfilesPath, _prfldbPath);
+            }
+            else
+            {
+                result = "<ERROR> Invalid LocalProfiles path";
+                Globals.Log(result);
+                output += Environment.NewLine + result;
             }
 
             if (output.Contains("<ERROR>"))
@@ -244,6 +160,15 @@ namespace CustomsForgeSongManager.UControls
 
         public void UpdateToolStrip()
         {
+            var rocksmithProcess = Process.GetProcessesByName("Rocksmith2014.exe");
+            if (rocksmithProcess.Length > 0)
+            {
+                var diaMsg = "Rocksmith must be shutdown before making any" + Environment.NewLine +
+                             "changes to your gamesave ProfileSongLists ...  ";
+                BetterDialog2.ShowDialog(diaMsg, "<WARNING> Rocksmith is running ...", null, null, "Ok", Bitmap.FromHicon(SystemIcons.Warning.Handle), "Warning", 0, 0);
+                return;
+            }
+
             chkIncludeSubfolders.Checked = AppSettings.Instance.IncludeSubfolders;
             chkProtectODLC.Checked = AppSettings.Instance.ProtectODLC;
 
@@ -340,7 +265,7 @@ namespace CustomsForgeSongManager.UControls
             Globals.Log("Loading In-Game Song Lists ...");
             Globals.Log(" - " + _prfldbPath);
             // make complete backup of user profile files in case something goes wrong
-            var timestamp = DateTime.Now.ToString("yyyyMM"); // make monthly backups
+            var timestamp = DateTime.Now.ToString("yyyyMMddTHHmmss"); // use ISO8601 format
             var backupFileName = String.Format("ProfileBackup_{0}.zip", timestamp);
             var backupPath = Path.Combine(Constants.ProfileBackupsFolder, backupFileName);
             RocksmithProfile.BackupProfiles(_prfldbPath, backupPath);
@@ -658,9 +583,8 @@ namespace CustomsForgeSongManager.UControls
                     for (int rowIndex = dgvCurrent.Rows.Count - 1; rowIndex >= 0; rowIndex--)
                     {
                         var sd = DgvExtensions.GetObjectFromRow<SongData>(dgvCurrent, rowIndex);
-                        if (sd.FilePath == srcPath)
+                        if (sd.Selected)
                         {
-                            // the bound datagridview also removes the item from songListSongs
                             dgvSongListSongs.Rows.RemoveAt(rowIndex);
                             break;
                         }
@@ -1046,7 +970,9 @@ namespace CustomsForgeSongManager.UControls
                 grid.Rows[e.RowIndex].Selected = true;
                 cmsAdd.Enabled = grid == dgvSongListMaster ? true : false;
                 cmsRemove.Enabled = grid == dgvSongListMaster ? false : true;
-                cmsEnableDisable.Enabled = true;
+                cmsShow.Enabled = grid == dgvSongListMaster ? true : false;
+                cmsEnableDisable.Enabled = grid == dgvSongListMaster ? true : false;
+
                 // known VS bug .. SourceControl returns null ... using tag for work around
                 cmsProfileSongLists.Tag = grid;
                 cmsProfileSongLists.Show(Cursor.Position);
@@ -1057,6 +983,7 @@ namespace CustomsForgeSongManager.UControls
                     cmsRemove.Enabled = false;
                     cmsEnableDisable.Enabled = false;
                 }
+
             }
 
             // programmatic left clicking on colSelect
