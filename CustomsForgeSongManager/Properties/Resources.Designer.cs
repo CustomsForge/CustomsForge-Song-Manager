@@ -650,33 +650,6 @@ namespace CustomsForgeSongManager.Properties {
             }
         }
         
-        /// <summary>
-        ///   Looks up a localized string similar to [
-        ///  {
-        ///    &quot;Title&quot;: &quot;The Sky is Crying&quot;,
-        ///    &quot;Artist&quot;: &quot;Albert King&quot;,
-        ///    &quot;ReleaseDate&quot;: &quot;2013-10-22&quot;,
-        ///    &quot;Pack&quot;: &quot;Single&quot;,
-        ///    &quot;Link&quot;: &quot;http://www.theriffrepeater.com/rocksmith-2014-dlc-1022-pre-order-madness/&quot;
-        ///  },
-        ///  {
-        ///    &quot;Title&quot;: &quot;25 or 6 to 4&quot;,
-        ///    &quot;Artist&quot;: &quot;Chicago&quot;,
-        ///    &quot;ReleaseDate&quot;: &quot;2013-10-22&quot;,
-        ///    &quot;Pack&quot;: &quot;Single&quot;,
-        ///    &quot;Link&quot;: &quot;http://www.theriffrepeater.com/rocksmith-2014-dlc-1022-pre-order-madness/&quot;
-        ///  },
-        ///  {
-        ///    &quot;Title&quot;: &quot;Hate to Say I Told You So&quot;,
-        ///    &quot;Artist&quot;: &quot;The Hives&quot;,
-        ///    &quot;ReleaseDate [rest of string was truncated]&quot;;.
-        /// </summary>
-        internal static string OfficialSongs {
-            get {
-                return ResourceManager.GetString("OfficialSongs", resourceCulture);
-            }
-        }
-        
         internal static System.Drawing.Bitmap onoff {
             get {
                 object obj = ResourceManager.GetObject("onoff", resourceCulture);

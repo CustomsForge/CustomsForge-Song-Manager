@@ -51,7 +51,7 @@ namespace CustomsForgeSongManager.DataObjects
         private static ArrangementAnalyzer _arrangementAnalyzer;
         private static Theme _theme;
         private static TaggerTools _tagger;
-        private static List<OfficialDLCSong> _oDLCSongList;
+        private static List<OfficialSong> _oDLCSongList;
 
         public static Random random = new Random();
 
@@ -113,9 +113,9 @@ namespace CustomsForgeSongManager.DataObjects
             set { _outdatedSongList = value; }
         }
 
-        public static List<OfficialDLCSong> OfficialDLCSongList
+        public static List<OfficialSong> OfficialDLCSongList
         {
-            get { return _oDLCSongList ?? (_oDLCSongList = new List<OfficialDLCSong>()); }
+            get { return _oDLCSongList ?? (_oDLCSongList = new List<OfficialSong>()); }
             set { _oDLCSongList = value; }
         }
 

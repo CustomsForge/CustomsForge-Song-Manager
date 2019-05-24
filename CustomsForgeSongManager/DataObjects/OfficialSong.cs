@@ -2,7 +2,7 @@
 
 namespace CustomsForgeSongManager.DataObjects
 {
-    public class OfficialDLCSong
+    public class OfficialSong
     {
         public string Title { get; set; }
         public string Artist { get; set; }

@@ -28,6 +28,9 @@ using RocksmithToolkitLib.Extensions;
 using BetterDialog2 = CustomControls.BetterDialog2;
 using System.Threading.Tasks;
 using UserProfileLib;
+using System.Resources;
+using System.Reflection;
+using Newtonsoft.Json.Linq;
 
 // TODO: convert SongManager, Duplicates, SetlistManager to use a common bound FilterBindingList<SongData>() dataset.
 // TODO: use binding source filtering to show/hide data
@@ -2036,7 +2039,46 @@ namespace CustomsForgeSongManager.UControls
 
         private void tsmiDevsDebugUse_Click(object sender, EventArgs e)
         {
-            // developer sandbox debugging area
+            // developer sandbox debugging area for testing new methods
+
+            var ignitionDataPath = "D:\\Temp\\IgnitionData.json";
+            // the embedded resources is editable (can be updated) only while in debug mode
+            if (File.Exists(ignitionDataPath) && Constants.DebugMode)
+            {
+                using (StreamReader fsr = new StreamReader(ignitionDataPath))
+                {
+                    string json = fsr.ReadToEnd();
+                    var ignitionData = JsonConvert.DeserializeObject<List<IgnitionData>>(json);
+                    var officialSongs = new List<OfficialSong>();
+                    const string DOWNLOAD_BASE = "http://customsforge.com/process.php?id=";
+
+                    foreach (var data in ignitionData)
+                    {
+                        var officialSong = new OfficialSong();
+                        officialSong.Artist = data.Artist;
+                        officialSong.Title = data.Title;
+                        officialSong.ReleaseDate = data.Updated;
+                        officialSong.Link = DOWNLOAD_BASE + data.CFID.ToString();
+                        officialSong.Pack = "Single";
+
+                        officialSongs.Add(officialSong);
+                    }
+
+                    // write the new OfficialSongs.json file for embedded resources
+                    var workingPath = Environment.CurrentDirectory;
+                    var projectPath = Directory.GetParent(workingPath).Parent.FullName;
+                    var resourcesPath = Path.Combine(projectPath, "Resources", "OfficialSongs.json");
+
+                    using (StreamWriter fsw = new StreamWriter(resourcesPath))
+                    {
+                        JToken serializedJson = JsonConvert.SerializeObject(officialSongs, Newtonsoft.Json.Formatting.Indented, new JsonSerializerSettings { });
+                        fsw.Write(serializedJson.ToString());
+                    }
+
+                    Globals.OfficialDLCSongList = officialSongs;
+                }
+            }
+            return;
 
             var prfldbPath = RocksmithProfile.SelectProfile();
             if (prfldbPath == null)

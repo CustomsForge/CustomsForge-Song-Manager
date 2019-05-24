@@ -14,9 +14,12 @@ until you can confirm it is safe by working directly with your AV provider.
 
 CFSM Release Notes
 
+1.5.4.0
+- updated OfficialSongs.json (used for checking CDLC/ODLC)
+
 1.5.3.9
 - fixed ProfileSongLists contextual menu items
-- ProfileSongList makes a backup of the user profile everytime it is used
+- ProfileSongList makes a backup of the user profile every time
 
 1.5.3.8
 - fixed Mac mode Edit Song Info

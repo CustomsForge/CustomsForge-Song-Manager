@@ -8,6 +8,8 @@ using DataGridViewTools;
 using System.IO;
 using GenTools;
 using Newtonsoft.Json;
+using System.Reflection;
+using Newtonsoft.Json.Linq;
 
 namespace CustomsForgeSongManager.Forms
 {
@@ -29,14 +31,64 @@ namespace CustomsForgeSongManager.Forms
         }
 
         private void PopulateODLCList()
-        {
-            string oDLCJson = Properties.Resources.OfficialSongs;
-            Globals.OfficialDLCSongList = JsonConvert.DeserializeObject<List<OfficialDLCSong>>(oDLCJson);
+        {   
+            // For Devoper Use Only
+            // update the embedded resource OfficialSongs.json
+            // from Ignition ODLC data saved as local IgnitionData.json file
+            var ignitionDataPath = "D:\\Temp\\IgnitionData.json";
+            // the embedded resources is editable (can be updated) only while in debug mode
+            if (File.Exists(ignitionDataPath) && Constants.DebugMode)
+            {
+                using (StreamReader fsr = new StreamReader(ignitionDataPath))
+                {
+                    string json = fsr.ReadToEnd();
+                    var ignitionData = JsonConvert.DeserializeObject<List<IgnitionData>>(json);
+                    var officialSongs = new List<OfficialSong>();
+                    const string DOWNLOAD_BASE = "http://customsforge.com/process.php?id=";
+
+                    foreach (var data in ignitionData)
+                    {
+                        var officialSong = new OfficialSong();
+                        officialSong.Artist = data.Artist;
+                        officialSong.Title = data.Title;
+                        officialSong.ReleaseDate = data.Updated;
+                        officialSong.Link = DOWNLOAD_BASE + data.CFID.ToString();
+                        officialSong.Pack = "Single";
+
+                        officialSongs.Add(officialSong);
+                    }
+
+                    // write the new OfficialSongs.json file for embedded resources
+                    var workingPath = Environment.CurrentDirectory;
+                    var projectPath = Directory.GetParent(workingPath).Parent.FullName;
+                    var resourcesPath = Path.Combine(projectPath, "Resources", "OfficialSongs.json");
+
+                    using (StreamWriter fsw = new StreamWriter(resourcesPath))
+                    {
+                        JToken serializedJson = JsonConvert.SerializeObject(officialSongs, Newtonsoft.Json.Formatting.Indented, new JsonSerializerSettings { });
+                        fsw.Write(serializedJson.ToString());
+                    }
+
+                    Globals.OfficialDLCSongList = officialSongs;
+                    Globals.Log("<DEVELOPER> Updated embedded resource and loaded OfficialSongs.json ...");
+                    Globals.Log("<DEVELOPER> Answer 'Yes to All' to any VS IDE popup question about reloading a file ...");
+                  }
+            }
+            else // not in debug mode so load embedded resource OfficialSongs.json
+            {
+                using (Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("CustomsForgeSongManager.Resources.OfficialSongs.json"))
+                using (StreamReader reader = new StreamReader(stream))
+                {
+                    var odlcSongsJson = reader.ReadToEnd();
+                    Globals.OfficialDLCSongList = JsonConvert.DeserializeObject<List<OfficialSong>>(odlcSongsJson);
+                    Globals.Log(" - Loaded OfficialSongs.json from embedded resource ...");
+                }
+            }
         }
 
-        private Tuple<List<OfficialDLCSong>, List<SongData>> GetDuplicateODLCSongs(bool clean = true)
+        private Tuple<List<OfficialSong>, List<SongData>> GetDuplicateODLCSongs(bool clean = true)
         {
-            List<OfficialDLCSong> duplicateList = new List<OfficialDLCSong>();
+            List<OfficialSong> duplicateList = new List<OfficialSong>();
             List<SongData> songDataList = new List<SongData>();
 
             if (Globals.OfficialDLCSongList.Count == 0)
@@ -51,7 +103,7 @@ namespace CustomsForgeSongManager.Forms
                 if (song.IsODLC)
                     continue;
 
-                foreach (OfficialDLCSong officialSong in Globals.OfficialDLCSongList)
+                foreach (OfficialSong officialSong in Globals.OfficialDLCSongList)
                 {
                     if (GenExtensions.CleanName(song.Artist) == GenExtensions.CleanName(officialSong.Artist) && GenExtensions.CleanName(song.Title) == GenExtensions.CleanName(officialSong.Title))
                     {
@@ -72,20 +124,19 @@ namespace CustomsForgeSongManager.Forms
 
         public bool PopulateLists()
         {
-            Tuple<List<OfficialDLCSong>, List<SongData>> lists = GetDuplicateODLCSongs();
-            List<OfficialDLCSong> duplicateList = lists.Item1;
+            Tuple<List<OfficialSong>, List<SongData>> lists = GetDuplicateODLCSongs();
+            List<OfficialSong> duplicateList = lists.Item1;
 
-            List<OfficialDLCSong> currentODLCList = new List<OfficialDLCSong>();
-            List<OfficialDLCSong> olderODLCList = new List<OfficialDLCSong>();
+            List<OfficialSong> currentODLCList = new List<OfficialSong>();
+            List<OfficialSong> olderODLCList = new List<OfficialSong>();
 
-            if(duplicateList.Count == 0)
+            if (duplicateList.Count == 0)
             {
                 MessageBox.Show(Properties.Resources.NoODLCDuplicatesDetected, "Info", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                // Application.Exit(); // WTF?
                 return false;
             }
 
-            foreach (OfficialDLCSong song in duplicateList)
+            foreach (OfficialSong song in duplicateList)
             {
                 if ((DateTime.Today - song.ReleaseDate).TotalDays < 7)
                     currentODLCList.Add(song);
@@ -93,10 +144,10 @@ namespace CustomsForgeSongManager.Forms
                     olderODLCList.Add(song);
             }
 
-            foreach (OfficialDLCSong duplicate in currentODLCList)
+            foreach (OfficialSong duplicate in currentODLCList)
                 dgvCurrentODLC.Rows.Add(false, duplicate.Title, duplicate.Artist, duplicate.Pack, duplicate.ReleaseDate.ToShortDateString(), duplicate.Link);
 
-            foreach (OfficialDLCSong duplicate in olderODLCList)
+            foreach (OfficialSong duplicate in olderODLCList)
                 dgvOlderODLC.Rows.Add(false, duplicate.Title, duplicate.Artist, duplicate.Pack, duplicate.ReleaseDate.ToShortDateString(), duplicate.Link);
 
             songDataList = lists.Item2;
@@ -135,7 +186,7 @@ namespace CustomsForgeSongManager.Forms
             for (int ndx = dgv.Rows.Count - 1; ndx >= 0; ndx--)
             {
                 DataGridViewRow row = dgv.Rows[ndx];
-                var     sdList = songDataList.Where(s => GenExtensions.CleanName(s.Artist) == GenExtensions.CleanName(row.Cells[colNdxArtist].Value.ToString())
+                var sdList = songDataList.Where(s => GenExtensions.CleanName(s.Artist) == GenExtensions.CleanName(row.Cells[colNdxArtist].Value.ToString())
                           && GenExtensions.CleanName(s.Title) == GenExtensions.CleanName(row.Cells[colNdxTitle].Value.ToString())).ToList();
 
                 if (row.Selected || Convert.ToBoolean(row.Cells[colNdxSelect].Value))

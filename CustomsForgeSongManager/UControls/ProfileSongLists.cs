@@ -542,6 +542,7 @@ namespace CustomsForgeSongManager.UControls
 
             mode = mode.ToLower();
 
+            // TODO: optimize this process
             foreach (var song in selection)
             {
                 var srcPath = song.FilePath;
@@ -583,7 +584,7 @@ namespace CustomsForgeSongManager.UControls
                     for (int rowIndex = dgvCurrent.Rows.Count - 1; rowIndex >= 0; rowIndex--)
                     {
                         var sd = DgvExtensions.GetObjectFromRow<SongData>(dgvCurrent, rowIndex);
-                        if (sd.Selected)
+                        if (sd.Selected) // confirm SongData is selected
                         {
                             dgvSongListSongs.Rows.RemoveAt(rowIndex);
                             break;

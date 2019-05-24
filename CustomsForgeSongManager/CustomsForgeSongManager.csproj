@@ -183,6 +183,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataObjects\ArrangementData.cs" />
+    <Compile Include="DataObjects\IgnitionSong.cs" />
     <Compile Include="DataObjects\OfficialSong.cs" />
     <Compile Include="Forms\frmLocalProfiles.cs">
       <SubType>Form</SubType>
@@ -757,7 +758,7 @@
     <EmbeddedResource Include="Resources\tags\Default.tagtheme" />
     <EmbeddedResource Include="Resources\tags\example1.tagtheme" />
     <EmbeddedResource Include="Resources\sltsv1_aggregategraph.nt" />
-    <None Include="Resources\OfficialSongs.json" />
+    <EmbeddedResource Include="Resources\OfficialSongs.json" />
     <None Include="Resources\update.png" />
     <None Include="Resources\backup.png" />
     <None Include="Resources\disable.png" />

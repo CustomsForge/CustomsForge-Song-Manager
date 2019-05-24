@@ -5,7 +5,10 @@
 CustomsForge Song Manager
 ======================
 * A VS2010, .NET Framework 4.0 project
-* All development work is done in the develop branch (develop is occasionally merged to master for backup) 
+* Newer version of VS may be used, as long as, backward compatability of the project and code is maintained with VS2010 and .NET 4.0
+* Associate Developers should work in their personal sandbox branch and create git pull requests when their code has been tested and is ready to be merged to develop branch
+* The develop branch is the main working branch that contains code for the latest build
+* The master branch is used for backup
 * Latest builds are available to download at: http://ignition.customsforge.com/cfsm
 
 Developers
@@ -13,6 +16,9 @@ Developers
 * Project Overview: Unleashed2k
 * Lead Developer: Cozy1
 * Developer: LovroM8
+* Associate Developer: bwaredapenguin
+* Associate Developer: ZagatoZee
+
 
 Developers (Hiatus or non-active)
 ======================
