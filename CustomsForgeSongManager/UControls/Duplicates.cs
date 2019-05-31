@@ -14,6 +14,9 @@ using CustomsForgeSongManager.UITheme;
 using DataGridViewTools;
 using System.ComponentModel;
 using CustomsForgeSongManager.Properties;
+using GenTools;
+using StringExtensions = RocksmithToolkitLib.Extensions.StringExtensions;
+
 
 // TODO: try loading Globals.MasterCollection to dgvDuplicates and then filter data
 // to find/show duplicates, then delete, then unfilter - thus preserving binding
@@ -45,7 +48,7 @@ namespace CustomsForgeSongManager.UControls
             Globals.TsLabel_StatusMsg.Click += lnkShowAll_Click;
             ErrorStyle = new DataGridViewCellStyle() { Font = new Font("Arial", 8, FontStyle.Italic), ForeColor = ErrorStyleForeColor, BackColor = ErrorStyleBackColor };
 
-            // for safety subfolders are always included when checking for duplicates
+            // NOTE: for safety subfolders are always included when checking for duplicates
             chkIncludeSubfolders.Visible = false;
 
             // test for duplicate DLCKey
@@ -108,20 +111,21 @@ namespace CustomsForgeSongManager.UControls
                     }
                 }
 
-                duplicateList = pidList.GroupBy(x => x.PID).Where(group => group.Count() > 1).SelectMany(group => group).ToList();
+                // use case insensitive PID duplicate detection
+                duplicateList = pidList.GroupBy(x => x.PID.ToUpperInvariant()).Where(group => group.Count() > 1).SelectMany(group => group).ToList();
 
                 // for safety subfolders are always included when checking for duplicates
                 if (chkIncludeSubfolders.Visible && !chkIncludeSubfolders.Checked)
                     duplicateList = duplicateList.Where(x => Path.GetFileName(Path.GetDirectoryName(x.FilePath)) == "dlc").GroupBy(x => x.PID).Where(group => group.Count() > 1).SelectMany(group => group).ToList();
 
-                distinctPIDS = duplicateList.Select(x => x.PID).Distinct().ToList();
+                distinctPIDS = duplicateList.Select(x => x.PID.ToUpperInvariant()).Distinct().ToList();
             }
             else
             {
-                Globals.Log("Showing CDLC with duplicate DLCKey and/or duplicate ArtistTitleAlbum ...");
-
-                var dupDlcKey = Globals.MasterCollection.GroupBy(x => x.DLCKey).Where(g => g.Count() > 1).SelectMany(g => g);
-                var dupATA = Globals.MasterCollection.GroupBy(x => x.ArtistTitleAlbum).Where(group => group.Count() > 1).SelectMany(group => group);
+                Globals.Log("Showing CDLC with either duplicate DLCKey or duplicate ArtistTitleAlbum (case insensitive) ...");
+                // use case insensitive duplicate detection that is mutually exclusive
+                var dupDlcKey = Globals.MasterCollection.GroupBy(x => x.DLCKey.ToUpperInvariant()).Where(g => g.Count() > 1).SelectMany(g => g);
+                var dupATA = Globals.MasterCollection.GroupBy(x => StringExtensions.StripNonAlphaNumeric(x.ArtistTitleAlbum).ToUpperInvariant()).Where(group => group.Count() > 1).SelectMany(group => group);
                 duplicateList = dupATA.Union(dupDlcKey).ToList();
 
                 // for safety subfolders are always included when checking for duplicates

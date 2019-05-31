@@ -634,15 +634,6 @@ namespace CustomsForgeSongManager.Properties {
             }
         }
         
-        /// <summary>
-        ///   Looks up a localized string similar to No CDLC songs released as ODLC detected in your DLC folder..
-        /// </summary>
-        internal static string NoODLCDuplicatesDetected {
-            get {
-                return ResourceManager.GetString("NoODLCDuplicatesDetected", resourceCulture);
-            }
-        }
-        
         internal static System.Drawing.Bitmap notes {
             get {
                 object obj = ResourceManager.GetObject("notes", resourceCulture);

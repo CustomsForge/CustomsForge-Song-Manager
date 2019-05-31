@@ -27,7 +27,6 @@ namespace CustomsForgeSongManager.UControls
     public partial class ArrangementAnalyzer : UserControl, IDataGridViewHolder, INotifyTabChanged
     {
         private bool allSelected = false;
-        // changes are not reflected in other grids (non-binding)
         private List<ArrangementData> arrangementList = new List<ArrangementData>();
         private AbortableBackgroundWorker bWorker;
         private bool bindingCompleted = false;
@@ -979,13 +978,20 @@ namespace CustomsForgeSongManager.UControls
         {
             statusArrangementAnalyzer.SaveSorting(Globals.DgvCurrent); // save sort order
             GetGrid().ResetBindings(); // force grid data to rebind/refresh
-            // transfer selections to MasterCollection
+
+            // KISS - transfer user selections to MasterCollection
+            // Tagger can then apply a compliant custom tag template to the selected songs
+            foreach (var song in Globals.MasterCollection)
+                song.Selected = false;
+
+            // only select songs in MasterCollection that are selected in ArrangementAnalyzer
+            // if user didn't make any selections then the original selections are restored
             foreach (DataGridViewRow row in dgvArrangements.Rows)
             {
                 var sd = DgvExtensions.GetObjectFromRow<ArrangementData>(row);
                 foreach (var song in Globals.MasterCollection)
                 {
-                    if (song.FilePath == sd.FilePath)
+                    if (song.FilePath == sd.FilePath && sd.Selected)
                     {
                         song.Selected = sd.Selected;
                         break; // speedie speedster

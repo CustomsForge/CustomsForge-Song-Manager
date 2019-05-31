@@ -904,7 +904,9 @@ namespace CustomsForgeSongManager.UControls
 
             if (modeDelete)
             {
-                var diaMsg = "You are about to permenantly delete the selected songs." + Environment.NewLine + "This action can not be undone." + Environment.NewLine + Environment.NewLine + "Are you sure you want to continue?";
+                var diaMsg = "You are about to permenantly delete the selected songs." + Environment.NewLine + 
+                    "This action can not be undone." + Environment.NewLine + Environment.NewLine + 
+                    "Are you sure you want to continue?";
                 if (DialogResult.No == BetterDialog2.ShowDialog(diaMsg, "Delete Song(s) ...", null, "Yes", "No", Bitmap.FromHicon(SystemIcons.Warning.Handle), "Warning", 0, 150))
                     return;
             }
@@ -2041,7 +2043,15 @@ namespace CustomsForgeSongManager.UControls
         {
             // developer sandbox debugging area for testing new methods
 
-            var ignitionDataPath = "D:\\Temp\\IgnitionData.json";
+            // For Devoper Use Only
+            // update the embedded resource OfficialSongs.json
+            // from Ignition ODLC data saved as local IgnitionData.json file
+            var workingPath = Environment.CurrentDirectory;
+            var rootDir = Path.GetPathRoot(workingPath);
+            var projectPath = Directory.GetParent(workingPath).Parent.FullName;
+            var resourcesPath = Path.Combine(projectPath, "Resources", "OfficialSongs.json");
+            var ignitionDataPath = Path.Combine(rootDir, "IgnitionData.json");
+           
             // the embedded resources is editable (can be updated) only while in debug mode
             if (File.Exists(ignitionDataPath) && Constants.DebugMode)
             {
@@ -2065,10 +2075,6 @@ namespace CustomsForgeSongManager.UControls
                     }
 
                     // write the new OfficialSongs.json file for embedded resources
-                    var workingPath = Environment.CurrentDirectory;
-                    var projectPath = Directory.GetParent(workingPath).Parent.FullName;
-                    var resourcesPath = Path.Combine(projectPath, "Resources", "OfficialSongs.json");
-
                     using (StreamWriter fsw = new StreamWriter(resourcesPath))
                     {
                         JToken serializedJson = JsonConvert.SerializeObject(officialSongs, Newtonsoft.Json.Formatting.Indented, new JsonSerializerSettings { });
@@ -2076,6 +2082,8 @@ namespace CustomsForgeSongManager.UControls
                     }
 
                     Globals.OfficialDLCSongList = officialSongs;
+                    Globals.Log("<DEVELOPER> Updated embedded resource and loaded OfficialSongs.json ...");
+                    Globals.Log("<DEVELOPER> Answer 'Yes to All' to any VS IDE popup question about reloading a file ...");
                 }
             }
             return;
@@ -2156,13 +2164,16 @@ namespace CustomsForgeSongManager.UControls
 
         private void tsmiFilesCheckODLC_Click(object sender, EventArgs e)
         {
-            using (var ODlcCheckForm = new frmCODLCDuplicates())
+            using (var ODlcCheckForm = new frmCODLCReplacements())
             {
                 // declared for debugging
                 var conflicted = ODlcCheckForm.PopulateLists();
                 if (conflicted)
                     ODlcCheckForm.ShowDialog();
             }
+
+            if (Globals.RescanSongManager)
+                UpdateToolStrip();
         }
 
         private void tsmiFilesCleanDlc_Click(object sender, EventArgs e)
@@ -2522,6 +2533,7 @@ namespace CustomsForgeSongManager.UControls
 
         public void TabEnter()
         {
+            var debugMe = Globals.MasterCollection;
             Globals.DgvCurrent = dgvSongsMaster;
             DataGridViewAutoFilterColumnHeaderCell.SavedColumnFilter = AppSettings.Instance.SongManagerFilter;
             GetGrid().ResetBindings(); // force grid data to rebind/refresh

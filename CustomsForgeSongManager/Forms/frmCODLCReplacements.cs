@@ -10,16 +10,19 @@ using GenTools;
 using Newtonsoft.Json;
 using System.Reflection;
 using Newtonsoft.Json.Linq;
+using StringExtensions = RocksmithToolkitLib.Extensions.StringExtensions;
+using System.Drawing;
+using CustomControls;
 
 namespace CustomsForgeSongManager.Forms
 {
-    public partial class frmCODLCDuplicates : Form
+    public partial class frmCODLCReplacements : Form
     {
         private List<string> links;
         private List<SongData> songDataList;
         private bool allSelectedOlder = false, allSelectedCurrent = false;
 
-        public frmCODLCDuplicates()
+        public frmCODLCReplacements()
         {
             InitializeComponent();
 
@@ -31,63 +34,20 @@ namespace CustomsForgeSongManager.Forms
         }
 
         private void PopulateODLCList()
-        {   
-            // For Devoper Use Only
-            // update the embedded resource OfficialSongs.json
-            // from Ignition ODLC data saved as local IgnitionData.json file
-            var ignitionDataPath = "D:\\Temp\\IgnitionData.json";
-            // the embedded resources is editable (can be updated) only while in debug mode
-            if (File.Exists(ignitionDataPath) && Constants.DebugMode)
+        {
+            // load embedded resource OfficialSongs.json
+            using (Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("CustomsForgeSongManager.Resources.OfficialSongs.json"))
+            using (StreamReader reader = new StreamReader(stream))
             {
-                using (StreamReader fsr = new StreamReader(ignitionDataPath))
-                {
-                    string json = fsr.ReadToEnd();
-                    var ignitionData = JsonConvert.DeserializeObject<List<IgnitionData>>(json);
-                    var officialSongs = new List<OfficialSong>();
-                    const string DOWNLOAD_BASE = "http://customsforge.com/process.php?id=";
-
-                    foreach (var data in ignitionData)
-                    {
-                        var officialSong = new OfficialSong();
-                        officialSong.Artist = data.Artist;
-                        officialSong.Title = data.Title;
-                        officialSong.ReleaseDate = data.Updated;
-                        officialSong.Link = DOWNLOAD_BASE + data.CFID.ToString();
-                        officialSong.Pack = "Single";
-
-                        officialSongs.Add(officialSong);
-                    }
-
-                    // write the new OfficialSongs.json file for embedded resources
-                    var workingPath = Environment.CurrentDirectory;
-                    var projectPath = Directory.GetParent(workingPath).Parent.FullName;
-                    var resourcesPath = Path.Combine(projectPath, "Resources", "OfficialSongs.json");
-
-                    using (StreamWriter fsw = new StreamWriter(resourcesPath))
-                    {
-                        JToken serializedJson = JsonConvert.SerializeObject(officialSongs, Newtonsoft.Json.Formatting.Indented, new JsonSerializerSettings { });
-                        fsw.Write(serializedJson.ToString());
-                    }
-
-                    Globals.OfficialDLCSongList = officialSongs;
-                    Globals.Log("<DEVELOPER> Updated embedded resource and loaded OfficialSongs.json ...");
-                    Globals.Log("<DEVELOPER> Answer 'Yes to All' to any VS IDE popup question about reloading a file ...");
-                  }
-            }
-            else // not in debug mode so load embedded resource OfficialSongs.json
-            {
-                using (Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("CustomsForgeSongManager.Resources.OfficialSongs.json"))
-                using (StreamReader reader = new StreamReader(stream))
-                {
-                    var odlcSongsJson = reader.ReadToEnd();
-                    Globals.OfficialDLCSongList = JsonConvert.DeserializeObject<List<OfficialSong>>(odlcSongsJson);
-                    Globals.Log(" - Loaded OfficialSongs.json from embedded resource ...");
-                }
+                var odlcSongsJson = reader.ReadToEnd();
+                Globals.OfficialDLCSongList = JsonConvert.DeserializeObject<List<OfficialSong>>(odlcSongsJson);
+                Globals.Log(" - Loaded OfficialSongs.json from embedded resource ...");
             }
         }
 
         private Tuple<List<OfficialSong>, List<SongData>> GetDuplicateODLCSongs(bool clean = true)
         {
+            Globals.Log(" - Checking for CDLC/ODLC replacements ...");
             List<OfficialSong> duplicateList = new List<OfficialSong>();
             List<SongData> songDataList = new List<SongData>();
 
@@ -103,13 +63,29 @@ namespace CustomsForgeSongManager.Forms
                 if (song.IsODLC)
                     continue;
 
+                var i = 0;
                 foreach (OfficialSong officialSong in Globals.OfficialDLCSongList)
                 {
-                    if (GenExtensions.CleanName(song.Artist) == GenExtensions.CleanName(officialSong.Artist) && GenExtensions.CleanName(song.Title) == GenExtensions.CleanName(officialSong.Title))
+                    // create some visual disturbance
+                    if (i % 10 == 0) // increment after every nth record
+                        if (Globals.TsProgressBar_Main.Value < Globals.TsProgressBar_Main.Maximum)
+                            Globals.TsProgressBar_Main.Value += 1;
+                        else
+                            Globals.TsProgressBar_Main.Value = 1;
+
+                    // original method
+                    //if (GenExtensions.CleanName(song.Artist) == GenExtensions.CleanName(officialSong.Artist) &&
+                    //    GenExtensions.CleanName(song.Title) == GenExtensions.CleanName(officialSong.Title))
+                    // toolkitlib method may produce better results
+                    if (StringExtensions.StripNonAlphaNumeric(song.Artist).ToUpperInvariant() == StringExtensions.StripNonAlphaNumeric(officialSong.Artist).ToUpperInvariant() &&
+                        StringExtensions.StripNonAlphaNumeric(song.Title).ToUpperInvariant() == StringExtensions.StripNonAlphaNumeric(officialSong.Title).ToUpperInvariant())
                     {
                         duplicateList.Add(officialSong);
                         songDataList.Add(song);
+                        Globals.Log(" - Found CDLC/ODLC replacement for: " + song.FileName);
                     }
+
+                    i++;
                 }
             }
 
@@ -132,7 +108,10 @@ namespace CustomsForgeSongManager.Forms
 
             if (duplicateList.Count == 0)
             {
-                MessageBox.Show(Properties.Resources.NoODLCDuplicatesDetected, "Info", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                Globals.Log(" - No CDLC/ODLC replacements detected ...");
+                var diaMsg = "No CDLC songs that have been released as  " + Environment.NewLine +
+                             "ODLC where detected in the DLC folder.";
+                BetterDialog2.ShowDialog(diaMsg, "Good News ...", null, null, "Ok", Bitmap.FromHicon(SystemIcons.Information.Handle), "Info", 0, 150);
                 return false;
             }
 
@@ -151,6 +130,8 @@ namespace CustomsForgeSongManager.Forms
                 dgvOlderODLC.Rows.Add(false, duplicate.Title, duplicate.Artist, duplicate.Pack, duplicate.ReleaseDate.ToShortDateString(), duplicate.Link);
 
             songDataList = lists.Item2;
+            Globals.Log(String.Format(" - Total CDLC/ODLC replacements detected: ({0}) ...", songDataList.Count));
+
             return true;
         }
 
@@ -196,7 +177,10 @@ namespace CustomsForgeSongManager.Forms
                     if (!safe2Delete)
                     {
                         // DANGER ZONE
-                        if (MessageBox.Show(String.Format(Properties.Resources.YouAreAboutToPermanentlyDeleteAllSelectedS, Environment.NewLine), Constants.ApplicationName + " ... Warning ... Warning", MessageBoxButtons.YesNo) == DialogResult.No)
+                        var diaMsg = "You are about to permenantly delete the selected songs." + Environment.NewLine +
+                            "This action can not be undone." + Environment.NewLine + Environment.NewLine +
+                            "Are you sure you want to continue?";
+                        if (DialogResult.No == BetterDialog2.ShowDialog(diaMsg, "Delete Song(s) ...", null, "Yes", "No", Bitmap.FromHicon(SystemIcons.Warning.Handle), "Warning", 0, 150))
                             return;
 
                         safe2Delete = true;

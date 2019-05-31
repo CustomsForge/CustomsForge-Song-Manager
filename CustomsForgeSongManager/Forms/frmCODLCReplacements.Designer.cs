@@ -1,6 +1,6 @@
 ﻿namespace CustomsForgeSongManager.Forms
 {
-    partial class frmCODLCDuplicates
+    partial class frmCODLCReplacements
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmCODLCDuplicates));
+            this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmCODLCReplacements));
             this.tlpDLCDuplicates = new System.Windows.Forms.TableLayoutPanel();
             this.panel3 = new System.Windows.Forms.Panel();
             this.linkLblSelectAllCurrent = new System.Windows.Forms.LinkLabel();
@@ -70,6 +71,7 @@
             this.dataGridViewTextBoxColumn8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn10 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.tlpDLCDuplicates.SuspendLayout();
             this.panel3.SuspendLayout();
             this.panel4.SuspendLayout();
@@ -83,9 +85,9 @@
             // 
             // tlpDLCDuplicates
             // 
-            this.tlpDLCDuplicates.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tlpDLCDuplicates.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.tlpDLCDuplicates.ColumnCount = 1;
             this.tlpDLCDuplicates.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tlpDLCDuplicates.Controls.Add(this.panel3, 0, 2);
@@ -109,9 +111,9 @@
             // 
             // panel3
             // 
-            this.panel3.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel3.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.panel3.Controls.Add(this.linkLblSelectAllCurrent);
             this.panel3.Controls.Add(this.btnOpenCurrentDLCRRPage);
             this.panel3.Controls.Add(this.btnDeleteCurrentSongs);
@@ -137,13 +139,14 @@
             // 
             // btnOpenCurrentDLCRRPage
             // 
+            this.btnOpenCurrentDLCRRPage.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnOpenCurrentDLCRRPage.Font = new System.Drawing.Font("Trebuchet MS", 8.25F);
-            this.btnOpenCurrentDLCRRPage.Location = new System.Drawing.Point(436, 8);
+            this.btnOpenCurrentDLCRRPage.Location = new System.Drawing.Point(525, 8);
             this.btnOpenCurrentDLCRRPage.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnOpenCurrentDLCRRPage.Name = "btnOpenCurrentDLCRRPage";
-            this.btnOpenCurrentDLCRRPage.Size = new System.Drawing.Size(249, 28);
+            this.btnOpenCurrentDLCRRPage.Size = new System.Drawing.Size(289, 28);
             this.btnOpenCurrentDLCRRPage.TabIndex = 4;
-            this.btnOpenCurrentDLCRRPage.Text = "Open Riff Repeater info pages for selected songs";
+            this.btnOpenCurrentDLCRRPage.Text = "Open CustomsForge info pages for selected ODLC";
             this.btnOpenCurrentDLCRRPage.UseVisualStyleBackColor = true;
             this.btnOpenCurrentDLCRRPage.Click += new System.EventHandler(this.btnOpenCurrentDLCRRPage_Click);
             // 
@@ -153,17 +156,19 @@
             this.btnDeleteCurrentSongs.Location = new System.Drawing.Point(181, 8);
             this.btnDeleteCurrentSongs.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnDeleteCurrentSongs.Name = "btnDeleteCurrentSongs";
-            this.btnDeleteCurrentSongs.Size = new System.Drawing.Size(249, 28);
+            this.btnDeleteCurrentSongs.Size = new System.Drawing.Size(289, 28);
             this.btnDeleteCurrentSongs.TabIndex = 3;
-            this.btnDeleteCurrentSongs.Text = "Delete selected songs";
+            this.btnDeleteCurrentSongs.Text = "Delete the CDLC equivalants of the selected ODLC";
+            this.toolTip.SetToolTip(this.btnDeleteCurrentSongs, "Keep the ODLC and remove the CDLC\r\n\r\nHINT:  See the Song Manager Log for\r\ndetails" +
+                    " about which CDLC were identified\r\nas having ODLC replacements.");
             this.btnDeleteCurrentSongs.UseVisualStyleBackColor = true;
             this.btnDeleteCurrentSongs.Click += new System.EventHandler(this.btnDeleteCurrentSongs_Click);
             // 
             // panel4
             // 
-            this.panel4.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel4.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.panel4.Controls.Add(this.label2);
             this.panel4.Location = new System.Drawing.Point(3, 312);
             this.panel4.Name = "panel4";
@@ -175,16 +180,16 @@
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(9, 9);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(468, 13);
+            this.label2.Size = new System.Drawing.Size(532, 13);
             this.label2.TabIndex = 2;
-            this.label2.Text = "Older songs that have been released as official DLC and that you have in your DLC" +
-    " collection are:";
+            this.label2.Text = "Older CDLC songs that have been released as official DLC and that you have in you" +
+                "r DLC/CDLC collection are:";
             // 
             // panel2
             // 
-            this.panel2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.panel2.Controls.Add(this.dgvCurrentODLC);
             this.panel2.Location = new System.Drawing.Point(3, 43);
             this.panel2.Name = "panel2";
@@ -195,9 +200,9 @@
             // 
             this.dgvCurrentODLC.AllowUserToAddRows = false;
             this.dgvCurrentODLC.AllowUserToDeleteRows = false;
-            this.dgvCurrentODLC.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.dgvCurrentODLC.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.dgvCurrentODLC.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvCurrentODLC.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvCurrentODLC.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
@@ -267,9 +272,9 @@
             // 
             // panel1
             // 
-            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.Controls.Add(this.label1);
             this.panel1.Location = new System.Drawing.Point(3, 3);
             this.panel1.Name = "panel1";
@@ -281,16 +286,16 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(9, 9);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(533, 13);
+            this.label1.Size = new System.Drawing.Size(559, 13);
             this.label1.TabIndex = 0;
             this.label1.Text = "Following CDLC songs were released this week as official DLC and you also have th" +
-    "em in your CDLC collection:";
+                "em in your DLC/CDLC collection:";
             // 
             // panel5
             // 
-            this.panel5.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel5.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.panel5.Controls.Add(this.linkLblSelectAllOlder);
             this.panel5.Controls.Add(this.btnOpenOlderDLCRRPage);
             this.panel5.Controls.Add(this.btnDeleteOlderSongs);
@@ -316,13 +321,14 @@
             // 
             // btnOpenOlderDLCRRPage
             // 
+            this.btnOpenOlderDLCRRPage.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnOpenOlderDLCRRPage.Font = new System.Drawing.Font("Trebuchet MS", 8.25F);
-            this.btnOpenOlderDLCRRPage.Location = new System.Drawing.Point(436, 10);
+            this.btnOpenOlderDLCRRPage.Location = new System.Drawing.Point(525, 10);
             this.btnOpenOlderDLCRRPage.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnOpenOlderDLCRRPage.Name = "btnOpenOlderDLCRRPage";
-            this.btnOpenOlderDLCRRPage.Size = new System.Drawing.Size(249, 28);
+            this.btnOpenOlderDLCRRPage.Size = new System.Drawing.Size(289, 28);
             this.btnOpenOlderDLCRRPage.TabIndex = 6;
-            this.btnOpenOlderDLCRRPage.Text = "Open Riff Repeater info pages for selected songs";
+            this.btnOpenOlderDLCRRPage.Text = "Open CustomsForge info pages for selected ODLC";
             this.btnOpenOlderDLCRRPage.UseVisualStyleBackColor = true;
             this.btnOpenOlderDLCRRPage.Click += new System.EventHandler(this.btnOpenOlderDLCRRPage_Click);
             // 
@@ -332,17 +338,19 @@
             this.btnDeleteOlderSongs.Location = new System.Drawing.Point(181, 10);
             this.btnDeleteOlderSongs.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnDeleteOlderSongs.Name = "btnDeleteOlderSongs";
-            this.btnDeleteOlderSongs.Size = new System.Drawing.Size(249, 28);
+            this.btnDeleteOlderSongs.Size = new System.Drawing.Size(289, 28);
             this.btnDeleteOlderSongs.TabIndex = 5;
-            this.btnDeleteOlderSongs.Text = "Delete selected songs";
+            this.btnDeleteOlderSongs.Text = "Delete the CDLC equivalants of the selected ODLC";
+            this.toolTip.SetToolTip(this.btnDeleteOlderSongs, "Keep the ODLC and remove the CDLC\r\n\r\nHINT:  See the Song Manager Log for\r\ndetails" +
+                    " about which CDLC were identified\r\nas having ODLC replacements.");
             this.btnDeleteOlderSongs.UseVisualStyleBackColor = true;
             this.btnDeleteOlderSongs.Click += new System.EventHandler(this.btnDeleteOlderSongs_Click);
             // 
             // panel6
             // 
-            this.panel6.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel6.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.panel6.Controls.Add(this.dgvOlderODLC);
             this.panel6.Cursor = System.Windows.Forms.Cursors.Default;
             this.panel6.Location = new System.Drawing.Point(3, 352);
@@ -354,9 +362,9 @@
             // 
             this.dgvOlderODLC.AllowUserToAddRows = false;
             this.dgvOlderODLC.AllowUserToDeleteRows = false;
-            this.dgvOlderODLC.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.dgvOlderODLC.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.dgvOlderODLC.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvOlderODLC.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvOlderODLC.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
@@ -504,14 +512,22 @@
             this.dataGridViewTextBoxColumn10.Name = "dataGridViewTextBoxColumn10";
             this.dataGridViewTextBoxColumn10.Width = 139;
             // 
-            // frmCODLCDuplicates
+            // toolTip
+            // 
+            this.toolTip.AutomaticDelay = 200;
+            this.toolTip.AutoPopDelay = 12000;
+            this.toolTip.InitialDelay = 200;
+            this.toolTip.IsBalloon = true;
+            this.toolTip.ReshowDelay = 100;
+            // 
+            // frmCODLCReplacements
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(883, 622);
             this.Controls.Add(this.tlpDLCDuplicates);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Name = "frmCODLCDuplicates";
+            this.Name = "frmCODLCReplacements";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "O-C DLC Duplicates";
             this.tlpDLCDuplicates.ResumeLayout(false);
@@ -574,5 +590,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn colLink2;
         private System.Windows.Forms.LinkLabel linkLblSelectAllCurrent;
         private System.Windows.Forms.LinkLabel linkLblSelectAllOlder;
+        private System.Windows.Forms.ToolTip toolTip;
     }
 }

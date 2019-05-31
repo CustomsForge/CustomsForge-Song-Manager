@@ -155,6 +155,7 @@ namespace GenTools
             s = s.ToLower();
 
             return s
+                .Replace(" ", "")
                 .Replace("\\", "")
                 .Replace("/", "")
                 .Replace("\"", "")

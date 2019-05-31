@@ -191,11 +191,11 @@
     <Compile Include="Forms\frmLocalProfiles.designer.cs">
       <DependentUpon>frmLocalProfiles.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\frmCODLCDuplicates.cs">
+    <Compile Include="Forms\frmCODLCReplacements.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\frmCODLCDuplicates.Designer.cs">
-      <DependentUpon>frmCODLCDuplicates.cs</DependentUpon>
+    <Compile Include="Forms\frmCODLCReplacements.Designer.cs">
+      <DependentUpon>frmCODLCReplacements.cs</DependentUpon>
     </Compile>
     <Compile Include="LocalTools\FileTools.cs" />
     <Compile Include="LocalTools\DynamicDifficulty.cs" />
@@ -414,8 +414,8 @@
     <EmbeddedResource Include="Forms\frmLocalProfiles.resx">
       <DependentUpon>frmLocalProfiles.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\frmCODLCDuplicates.resx">
-      <DependentUpon>frmCODLCDuplicates.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\frmCODLCReplacements.resx">
+      <DependentUpon>frmCODLCReplacements.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmProfileBackups.resx">

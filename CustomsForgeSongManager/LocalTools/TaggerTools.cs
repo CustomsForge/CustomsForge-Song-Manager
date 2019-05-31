@@ -225,6 +225,9 @@ namespace CustomsForgeSongManager.LocalTools
                     bonusBass = true;
                 if (arr.Contains("vocals"))
                     vocals = true;
+                
+                // TODO: arrangement must be changed to lead or rhythm by charter/user if combo is not desired
+                // permanent solution would be to use RouteMask instead of json arrangement file name
                 if (arr.Contains("combo") && !arr.Contains("combo2"))
                 {
                     lead = true;

@@ -152,8 +152,8 @@ namespace CustomsForgeSongManager.UControls
             this.lnkPersistentId.TabIndex = 18;
             this.lnkPersistentId.TabStop = true;
             this.lnkPersistentId.Text = "Show SongInfo/PersistentID";
-            this.toolTip.SetToolTip(this.lnkPersistentId, "Show the bad boy CDLC that are reusing Persistent IDs\r\nThese causing game hangs a" +
-                    "nd need to be deleted.");
+            this.toolTip.SetToolTip(this.lnkPersistentId, "Toggle Duplicates View ...\r\n\r\nShow CDLC that are reusing Persistent IDs.\r\nThese c" +
+                    "ause in-game hangs and need to be deleted!");
             this.lnkPersistentId.VisitedLinkColor = System.Drawing.SystemColors.ActiveCaption;
             this.lnkPersistentId.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkPersistentId_LinkClicked);
             // 
