@@ -2067,7 +2067,7 @@ namespace CustomsForgeSongManager.UControls
                         var officialSong = new OfficialSong();
                         officialSong.Artist = data.Artist;
                         officialSong.Title = data.Title;
-                        officialSong.ReleaseDate = data.Updated;
+                        officialSong.ReleaseDate = data.Created;
                         officialSong.Link = DOWNLOAD_BASE + data.CFID.ToString();
                         officialSong.Pack = "Single";
 

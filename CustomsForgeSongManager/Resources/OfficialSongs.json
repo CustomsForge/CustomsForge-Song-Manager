@@ -1,5 +1,26 @@
 [
   {
+    "Title": "Amnesia",
+    "Artist": "5 Seconds of Summer",
+    "ReleaseDate": "2019-05-28T00:00:00Z",
+    "Pack": "Single",
+    "Link": "http://customsforge.com/process.php?id=42669"
+  },
+  {
+    "Title": "She's Kinda Hot",
+    "Artist": "5 Seconds of Summer",
+    "ReleaseDate": "2019-05-28T00:00:00Z",
+    "Pack": "Single",
+    "Link": "http://customsforge.com/process.php?id=42670"
+  },
+  {
+    "Title": "She Looks So Perfect",
+    "Artist": "5 Seconds of Summer",
+    "ReleaseDate": "2019-05-28T00:00:00Z",
+    "Pack": "Single",
+    "Link": "http://customsforge.com/process.php?id=42671"
+  },
+  {
     "Title": "Amazing Grace",
     "Artist": "The Notetrackers",
     "ReleaseDate": "2019-05-21T00:00:00Z",
@@ -40,6 +61,27 @@
     "ReleaseDate": "2019-05-14T00:00:00Z",
     "Pack": "Single",
     "Link": "http://customsforge.com/process.php?id=42367"
+  },
+  {
+    "Title": "Girls Just Want To Have Fun",
+    "Artist": "Cyndi Lauper",
+    "ReleaseDate": "2019-05-07T00:00:00Z",
+    "Pack": "Single",
+    "Link": "http://customsforge.com/process.php?id=42714"
+  },
+  {
+    "Title": "Time After Time",
+    "Artist": "Cyndi Lauper",
+    "ReleaseDate": "2019-05-07T00:00:00Z",
+    "Pack": "Single",
+    "Link": "http://customsforge.com/process.php?id=42715"
+  },
+  {
+    "Title": "True Colors",
+    "Artist": "Cyndi Lauper",
+    "ReleaseDate": "2019-05-07T00:00:00Z",
+    "Pack": "Single",
+    "Link": "http://customsforge.com/process.php?id=42716"
   },
   {
     "Title": "Edge of Darkness",
@@ -2445,21 +2487,21 @@
   {
     "Title": "Free Bird",
     "Artist": "Lynyrd Skynyrd",
-    "ReleaseDate": "2017-06-05T00:00:00Z",
+    "ReleaseDate": "2012-10-18T00:00:00Z",
     "Pack": "Single",
     "Link": "http://customsforge.com/process.php?id=11657"
   },
   {
     "Title": "Bodysnatchers",
     "Artist": "Radiohead",
-    "ReleaseDate": "2017-06-05T00:00:00Z",
+    "ReleaseDate": "2012-10-18T00:00:00Z",
     "Pack": "Single",
     "Link": "http://customsforge.com/process.php?id=11658"
   },
   {
     "Title": "Tighten Up",
     "Artist": "The Black Keys",
-    "ReleaseDate": "2017-06-05T00:00:00Z",
+    "ReleaseDate": "2012-10-18T00:00:00Z",
     "Pack": "Single",
     "Link": "http://customsforge.com/process.php?id=11659"
   },
@@ -3320,14 +3362,14 @@
   {
     "Title": "Born to Be Wild",
     "Artist": "Steppenwolf",
-    "ReleaseDate": "2016-10-18T00:00:00Z",
+    "ReleaseDate": "2012-10-18T00:00:00Z",
     "Pack": "Single",
     "Link": "http://customsforge.com/process.php?id=11761"
   },
   {
     "Title": "Thnks fr th Mmrs",
     "Artist": "Fall Out Boy",
-    "ReleaseDate": "2016-10-18T00:00:00Z",
+    "ReleaseDate": "2012-10-18T00:00:00Z",
     "Pack": "Single",
     "Link": "http://customsforge.com/process.php?id=11766"
   },
@@ -3880,35 +3922,35 @@
   {
     "Title": "Should I Stay or Should I Go",
     "Artist": "The Clash",
-    "ReleaseDate": "2016-06-06T00:00:00Z",
+    "ReleaseDate": "2012-10-18T00:00:00Z",
     "Pack": "Single",
     "Link": "http://customsforge.com/process.php?id=11769"
   },
   {
     "Title": "White Wedding - Part 1",
     "Artist": "Billy Idol",
-    "ReleaseDate": "2016-06-06T00:00:00Z",
+    "ReleaseDate": "2012-10-18T00:00:00Z",
     "Pack": "Single",
     "Link": "http://customsforge.com/process.php?id=11788"
   },
   {
     "Title": "Eye of the Tiger",
     "Artist": "Survivor",
-    "ReleaseDate": "2016-06-06T00:00:00Z",
+    "ReleaseDate": "2012-10-18T00:00:00Z",
     "Pack": "Single",
     "Link": "http://customsforge.com/process.php?id=11790"
   },
   {
     "Title": "Call Me",
     "Artist": "Blondie",
-    "ReleaseDate": "2016-06-06T00:00:00Z",
+    "ReleaseDate": "2012-10-18T00:00:00Z",
     "Pack": "Single",
     "Link": "http://customsforge.com/process.php?id=11794"
   },
   {
     "Title": "Jessie's Girl",
     "Artist": "Rick Springfield",
-    "ReleaseDate": "2016-06-06T00:00:00Z",
+    "ReleaseDate": "2012-10-18T00:00:00Z",
     "Pack": "Single",
     "Link": "http://customsforge.com/process.php?id=11795"
   },
@@ -4846,28 +4888,28 @@
   {
     "Title": "Cliffs of Dover",
     "Artist": "Eric Johnson",
-    "ReleaseDate": "2015-10-18T00:00:00Z",
+    "ReleaseDate": "2012-10-18T00:00:00Z",
     "Pack": "Single",
     "Link": "http://customsforge.com/process.php?id=11754"
   },
   {
     "Title": "Surrender",
     "Artist": "Cheap Trick",
-    "ReleaseDate": "2015-10-18T00:00:00Z",
+    "ReleaseDate": "2012-10-18T00:00:00Z",
     "Pack": "Single",
     "Link": "http://customsforge.com/process.php?id=11759"
   },
   {
     "Title": "American Woman",
     "Artist": "The Guess Who",
-    "ReleaseDate": "2015-10-18T00:00:00Z",
+    "ReleaseDate": "2012-10-18T00:00:00Z",
     "Pack": "Single",
     "Link": "http://customsforge.com/process.php?id=11760"
   },
   {
     "Title": "Dance, Dance",
     "Artist": "Fall Out Boy",
-    "ReleaseDate": "2015-10-18T00:00:00Z",
+    "ReleaseDate": "2012-10-18T00:00:00Z",
     "Pack": "Single",
     "Link": "http://customsforge.com/process.php?id=11763"
   },
@@ -4958,7 +5000,7 @@
   {
     "Title": "Guns of Brixton",
     "Artist": "The Clash",
-    "ReleaseDate": "2015-09-18T00:00:00Z",
+    "ReleaseDate": "2012-10-18T00:00:00Z",
     "Pack": "Single",
     "Link": "http://customsforge.com/process.php?id=11767"
   },
@@ -5364,7 +5406,7 @@
   {
     "Title": "867-5309/Jenny",
     "Artist": "Tommy Tutone",
-    "ReleaseDate": "2015-06-06T00:00:00Z",
+    "ReleaseDate": "2012-10-18T00:00:00Z",
     "Pack": "Single",
     "Link": "http://customsforge.com/process.php?id=11796"
   },
@@ -6400,56 +6442,56 @@
   {
     "Title": "Walk",
     "Artist": "Foo Fighters",
-    "ReleaseDate": "2014-10-18T00:00:00Z",
+    "ReleaseDate": "2012-10-18T00:00:00Z",
     "Pack": "Single",
     "Link": "http://customsforge.com/process.php?id=11748"
   },
   {
     "Title": "No Rain",
     "Artist": "Blind Melon",
-    "ReleaseDate": "2014-10-18T00:00:00Z",
+    "ReleaseDate": "2012-10-18T00:00:00Z",
     "Pack": "Single",
     "Link": "http://customsforge.com/process.php?id=11753"
   },
   {
     "Title": "Alive",
     "Artist": "Pearl Jam",
-    "ReleaseDate": "2014-10-18T00:00:00Z",
+    "ReleaseDate": "2012-10-18T00:00:00Z",
     "Pack": "Single",
     "Link": "http://customsforge.com/process.php?id=11755"
   },
   {
     "Title": "Juicebox",
     "Artist": "The Strokes",
-    "ReleaseDate": "2014-10-18T00:00:00Z",
+    "ReleaseDate": "2012-10-18T00:00:00Z",
     "Pack": "Single",
     "Link": "http://customsforge.com/process.php?id=11756"
   },
   {
     "Title": "Last Nite",
     "Artist": "The Strokes",
-    "ReleaseDate": "2014-10-18T00:00:00Z",
+    "ReleaseDate": "2012-10-18T00:00:00Z",
     "Pack": "Single",
     "Link": "http://customsforge.com/process.php?id=11757"
   },
   {
     "Title": "America's Suitehearts",
     "Artist": "Fall Out Boy",
-    "ReleaseDate": "2014-10-18T00:00:00Z",
+    "ReleaseDate": "2012-10-18T00:00:00Z",
     "Pack": "Single",
     "Link": "http://customsforge.com/process.php?id=11762"
   },
   {
     "Title": "I Don't Care",
     "Artist": "Fall Out Boy",
-    "ReleaseDate": "2014-10-18T00:00:00Z",
+    "ReleaseDate": "2012-10-18T00:00:00Z",
     "Pack": "Single",
     "Link": "http://customsforge.com/process.php?id=11764"
   },
   {
     "Title": "Sugar We Going Down",
     "Artist": "Fall Out Boy",
-    "ReleaseDate": "2014-10-18T00:00:00Z",
+    "ReleaseDate": "2012-10-18T00:00:00Z",
     "Pack": "Single",
     "Link": "http://customsforge.com/process.php?id=11765"
   },
@@ -6526,70 +6568,70 @@
   {
     "Title": "Jukebox Hero",
     "Artist": "Foreigner",
-    "ReleaseDate": "2014-09-30T16:15:22Z",
+    "ReleaseDate": "2014-09-30T00:00:00Z",
     "Pack": "Single",
     "Link": "http://customsforge.com/process.php?id=8760"
   },
   {
     "Title": "Hot Blooded",
     "Artist": "Foreigner",
-    "ReleaseDate": "2014-09-30T16:15:16Z",
+    "ReleaseDate": "2014-09-30T00:00:00Z",
     "Pack": "Single",
     "Link": "http://customsforge.com/process.php?id=8759"
   },
   {
     "Title": "Cold as Ice",
     "Artist": "Foreigner",
-    "ReleaseDate": "2014-09-30T16:15:02Z",
+    "ReleaseDate": "2014-09-30T00:00:00Z",
     "Pack": "Single",
     "Link": "http://customsforge.com/process.php?id=8756"
   },
   {
     "Title": "Double Vision",
     "Artist": "Foreigner",
-    "ReleaseDate": "2014-09-30T16:14:57Z",
+    "ReleaseDate": "2014-09-30T00:00:00Z",
     "Pack": "Single",
     "Link": "http://customsforge.com/process.php?id=8757"
   },
   {
     "Title": "Feels Like the First Time",
     "Artist": "Foreigner",
-    "ReleaseDate": "2014-09-30T16:14:49Z",
+    "ReleaseDate": "2014-09-30T00:00:00Z",
     "Pack": "Single",
     "Link": "http://customsforge.com/process.php?id=8758"
   },
   {
     "Title": "Bully",
     "Artist": "Shinedown",
-    "ReleaseDate": "2014-09-23T07:36:36Z",
+    "ReleaseDate": "2014-09-23T04:00:00Z",
     "Pack": "Single",
     "Link": "http://customsforge.com/process.php?id=8532"
   },
   {
     "Title": "45",
     "Artist": "Shinedown",
-    "ReleaseDate": "2014-09-23T07:36:31Z",
+    "ReleaseDate": "2014-09-23T04:00:00Z",
     "Pack": "Single",
     "Link": "http://customsforge.com/process.php?id=8531"
   },
   {
     "Title": "Enemies",
     "Artist": "Shinedown",
-    "ReleaseDate": "2014-09-23T07:36:28Z",
+    "ReleaseDate": "2014-09-23T04:00:00Z",
     "Pack": "Single",
     "Link": "http://customsforge.com/process.php?id=8533"
   },
   {
     "Title": "The Sound of Madness",
     "Artist": "Shinedown",
-    "ReleaseDate": "2014-09-23T07:36:21Z",
+    "ReleaseDate": "2014-09-23T04:00:00Z",
     "Pack": "Single",
     "Link": "http://customsforge.com/process.php?id=8535"
   },
   {
     "Title": "Second Chance",
     "Artist": "Shinedown",
-    "ReleaseDate": "2014-09-23T07:35:29Z",
+    "ReleaseDate": "2014-09-23T04:00:00Z",
     "Pack": "Single",
     "Link": "http://customsforge.com/process.php?id=8534"
   },
@@ -6722,21 +6764,21 @@
   {
     "Title": "Hungry Like the Wolf",
     "Artist": "Duran Duran",
-    "ReleaseDate": "2014-08-19T15:32:36Z",
+    "ReleaseDate": "2014-08-19T04:00:00Z",
     "Pack": "Single",
     "Link": "http://customsforge.com/process.php?id=7567"
   },
   {
     "Title": "Rio",
     "Artist": "Duran Duran",
-    "ReleaseDate": "2014-08-19T15:32:34Z",
+    "ReleaseDate": "2014-08-19T04:00:00Z",
     "Pack": "Single",
     "Link": "http://customsforge.com/process.php?id=7569"
   },
   {
     "Title": "Ordinary World",
     "Artist": "Duran Duran",
-    "ReleaseDate": "2014-08-19T15:32:29Z",
+    "ReleaseDate": "2014-08-19T04:00:00Z",
     "Pack": "Single",
     "Link": "http://customsforge.com/process.php?id=7568"
   },
@@ -6764,91 +6806,91 @@
   {
     "Title": "Stingin' Belle",
     "Artist": "Biffy Clyro",
-    "ReleaseDate": "2014-08-05T15:28:07Z",
+    "ReleaseDate": "2014-08-05T04:00:00Z",
     "Pack": "Single",
     "Link": "http://customsforge.com/process.php?id=7128"
   },
   {
     "Title": "Mountains",
     "Artist": "Biffy Clyro",
-    "ReleaseDate": "2014-08-05T15:28:03Z",
+    "ReleaseDate": "2014-08-05T04:00:00Z",
     "Pack": "Single",
     "Link": "http://customsforge.com/process.php?id=7127"
   },
   {
     "Title": "Many of Horror",
     "Artist": "Biffy Clyro",
-    "ReleaseDate": "2014-08-05T15:27:58Z",
+    "ReleaseDate": "2014-08-05T04:00:00Z",
     "Pack": "Single",
     "Link": "http://customsforge.com/process.php?id=7126"
   },
   {
     "Title": "Black Chandelier",
     "Artist": "Biffy Clyro",
-    "ReleaseDate": "2014-08-05T15:27:55Z",
+    "ReleaseDate": "2014-08-05T04:00:00Z",
     "Pack": "Single",
     "Link": "http://customsforge.com/process.php?id=7123"
   },
   {
     "Title": "Bubbles",
     "Artist": "Biffy Clyro",
-    "ReleaseDate": "2014-08-05T15:27:55Z",
+    "ReleaseDate": "2014-08-05T04:00:00Z",
     "Pack": "Single",
     "Link": "http://customsforge.com/process.php?id=7125"
   },
   {
     "Title": "Ghost Walking",
     "Artist": "Lamb of God",
-    "ReleaseDate": "2014-07-29T07:06:34Z",
+    "ReleaseDate": "2014-07-29T04:00:00Z",
     "Pack": "Single",
     "Link": "http://customsforge.com/process.php?id=6838"
   },
   {
     "Title": "Laid to Rest",
     "Artist": "Lamb of God",
-    "ReleaseDate": "2014-07-29T07:06:26Z",
+    "ReleaseDate": "2014-07-29T04:00:00Z",
     "Pack": "Single",
     "Link": "http://customsforge.com/process.php?id=6839"
   },
   {
     "Title": "Walk With Me in Hell",
     "Artist": "Lamb of God",
-    "ReleaseDate": "2014-07-29T07:06:19Z",
+    "ReleaseDate": "2014-07-29T04:00:00Z",
     "Pack": "Single",
     "Link": "http://customsforge.com/process.php?id=6840"
   },
   {
     "Title": "Hold the Line",
     "Artist": "Toto",
-    "ReleaseDate": "2014-07-22T04:52:58Z",
+    "ReleaseDate": "2014-07-22T04:00:00Z",
     "Pack": "Single",
     "Link": "http://customsforge.com/process.php?id=6661"
   },
   {
     "Title": "Kiss On My List",
     "Artist": "Daryl Hall & John Oates",
-    "ReleaseDate": "2014-07-22T04:52:55Z",
+    "ReleaseDate": "2014-07-22T04:00:00Z",
     "Pack": "Single",
     "Link": "http://customsforge.com/process.php?id=6657"
   },
   {
     "Title": "Escape (The Piña Colada Song)",
     "Artist": "Rupert Holmes",
-    "ReleaseDate": "2014-07-22T04:52:48Z",
+    "ReleaseDate": "2014-07-22T04:00:00Z",
     "Pack": "Single",
     "Link": "http://customsforge.com/process.php?id=6660"
   },
   {
     "Title": "I Keep Forgettin' (Every Time You're Near)",
     "Artist": "Michael McDonald",
-    "ReleaseDate": "2014-07-22T04:52:42Z",
+    "ReleaseDate": "2014-07-22T04:00:00Z",
     "Pack": "Single",
     "Link": "http://customsforge.com/process.php?id=6659"
   },
   {
     "Title": "China Grove",
     "Artist": "The Doobie Brothers",
-    "ReleaseDate": "2014-07-22T04:52:37Z",
+    "ReleaseDate": "2014-07-22T04:00:00Z",
     "Pack": "Single",
     "Link": "http://customsforge.com/process.php?id=6658"
   },
@@ -6904,112 +6946,112 @@
   {
     "Title": "Red Flag",
     "Artist": "Billy Talent",
-    "ReleaseDate": "2014-07-01T18:49:26Z",
+    "ReleaseDate": "2014-07-01T04:00:00Z",
     "Pack": "Single",
     "Link": "http://customsforge.com/process.php?id=5990"
   },
   {
     "Title": "Devil in a Midnight Mass",
     "Artist": "Billy Talent",
-    "ReleaseDate": "2014-07-01T18:49:21Z",
+    "ReleaseDate": "2014-07-01T04:00:00Z",
     "Pack": "Single",
     "Link": "http://customsforge.com/process.php?id=5988"
   },
   {
     "Title": "Fallen Leaves",
     "Artist": "Billy Talent",
-    "ReleaseDate": "2014-07-01T18:49:17Z",
+    "ReleaseDate": "2014-07-01T04:00:00Z",
     "Pack": "Single",
     "Link": "http://customsforge.com/process.php?id=5989"
   },
   {
     "Title": "Try Honesty",
     "Artist": "Billy Talent",
-    "ReleaseDate": "2014-07-01T18:49:13Z",
+    "ReleaseDate": "2014-07-01T04:00:00Z",
     "Pack": "Single",
     "Link": "http://customsforge.com/process.php?id=5991"
   },
   {
     "Title": "Viking Death March",
     "Artist": "Billy Talent",
-    "ReleaseDate": "2014-07-01T18:49:09Z",
+    "ReleaseDate": "2014-07-01T04:00:00Z",
     "Pack": "Single",
     "Link": "http://customsforge.com/process.php?id=5992"
   },
   {
     "Title": "Misirlou",
     "Artist": "Dick Dale and His Del-tones",
-    "ReleaseDate": "2014-06-24T14:39:42Z",
+    "ReleaseDate": "2014-06-22T04:00:00Z",
     "Pack": "Single",
     "Link": "http://customsforge.com/process.php?id=5719"
   },
   {
     "Title": "Walk Don't Run",
     "Artist": "The Ventures",
-    "ReleaseDate": "2014-06-24T14:39:38Z",
+    "ReleaseDate": "2014-06-24T04:00:00Z",
     "Pack": "Single",
     "Link": "http://customsforge.com/process.php?id=5760"
   },
   {
     "Title": "Wipe Out",
     "Artist": "The Surfaris",
-    "ReleaseDate": "2014-06-24T14:39:34Z",
+    "ReleaseDate": "2014-06-24T04:00:00Z",
     "Pack": "Single",
     "Link": "http://customsforge.com/process.php?id=5759"
   },
   {
     "Title": "Voodoo",
     "Artist": "Godsmack",
-    "ReleaseDate": "2014-06-17T08:54:37Z",
+    "ReleaseDate": "2014-06-17T04:00:00Z",
     "Pack": "Single",
     "Link": "http://customsforge.com/process.php?id=5572"
   },
   {
     "Title": "Love-Hate-Sex-Pain",
     "Artist": "Godsmack",
-    "ReleaseDate": "2014-06-17T08:54:33Z",
+    "ReleaseDate": "2014-06-17T04:00:00Z",
     "Pack": "Single",
     "Link": "http://customsforge.com/process.php?id=5571"
   },
   {
     "Title": "I Stand Alone",
     "Artist": "Godsmack",
-    "ReleaseDate": "2014-06-17T08:54:29Z",
+    "ReleaseDate": "2014-06-17T04:00:00Z",
     "Pack": "Single",
     "Link": "http://customsforge.com/process.php?id=5569"
   },
   {
     "Title": "Cryin' Like a Bitch",
     "Artist": "Godsmack",
-    "ReleaseDate": "2014-06-17T08:54:25Z",
+    "ReleaseDate": "2014-06-17T04:00:00Z",
     "Pack": "Single",
     "Link": "http://customsforge.com/process.php?id=5567"
   },
   {
     "Title": "Awake",
     "Artist": "Godsmack",
-    "ReleaseDate": "2014-06-17T08:54:22Z",
+    "ReleaseDate": "2014-06-17T04:00:00Z",
     "Pack": "Single",
     "Link": "http://customsforge.com/process.php?id=5568"
   },
   {
     "Title": "Ain't No Sunshine",
     "Artist": "Bill Withers",
-    "ReleaseDate": "2014-06-10T14:13:38Z",
+    "ReleaseDate": "2014-06-10T04:00:00Z",
     "Pack": "Single",
     "Link": "http://customsforge.com/process.php?id=5370"
   },
   {
     "Title": "Sweet Dreams",
     "Artist": "Roy Buchanan",
-    "ReleaseDate": "2014-06-10T14:13:35Z",
+    "ReleaseDate": "2014-06-10T04:00:00Z",
     "Pack": "Single",
     "Link": "http://customsforge.com/process.php?id=5372"
   },
   {
     "Title": "Funk #49",
     "Artist": "James Gang",
-    "ReleaseDate": "2014-06-10T14:13:03Z",
+    "ReleaseDate": "2014-06-10T04:00:00Z",
     "Pack": "Single",
     "Link": "http://customsforge.com/process.php?id=5371"
   },
@@ -7051,77 +7093,77 @@
   {
     "Title": "Anastasia",
     "Artist": "Slash featuring Myles Kennedy And The Conspirators",
-    "ReleaseDate": "2014-05-27T12:00:58Z",
+    "ReleaseDate": "2014-05-27T04:00:00Z",
     "Pack": "Single",
     "Link": "http://customsforge.com/process.php?id=4885"
   },
   {
     "Title": "You're a Lie",
     "Artist": "Slash featuring Myles Kennedy And The Conspirators",
-    "ReleaseDate": "2014-05-27T12:00:56Z",
+    "ReleaseDate": "2014-05-27T04:00:00Z",
     "Pack": "Single",
     "Link": "http://customsforge.com/process.php?id=4886"
   },
   {
     "Title": "Back from Cali",
     "Artist": "Slash",
-    "ReleaseDate": "2014-05-27T12:00:52Z",
+    "ReleaseDate": "2014-05-27T04:00:00Z",
     "Pack": "Single",
     "Link": "http://customsforge.com/process.php?id=4884"
   },
   {
     "Title": "The Distance",
     "Artist": "Cake",
-    "ReleaseDate": "2014-05-20T18:33:48Z",
+    "ReleaseDate": "2014-05-20T04:00:00Z",
     "Pack": "Single",
     "Link": "http://customsforge.com/process.php?id=4668"
   },
   {
     "Title": "Short Skirt/Long Jacket",
     "Artist": "Cake",
-    "ReleaseDate": "2014-05-20T18:33:44Z",
+    "ReleaseDate": "2014-05-20T04:00:00Z",
     "Pack": "Single",
     "Link": "http://customsforge.com/process.php?id=4672"
   },
   {
     "Title": "Stickshifts and Safetybelts",
     "Artist": "Cake",
-    "ReleaseDate": "2014-05-20T18:33:40Z",
+    "ReleaseDate": "2014-05-20T04:00:00Z",
     "Pack": "Single",
     "Link": "http://customsforge.com/process.php?id=4673"
   },
   {
     "Title": "Never There",
     "Artist": "Cake",
-    "ReleaseDate": "2014-05-20T18:32:56Z",
+    "ReleaseDate": "2014-05-20T04:00:00Z",
     "Pack": "Single",
     "Link": "http://customsforge.com/process.php?id=4671"
   },
   {
     "Title": "I Will Survive",
     "Artist": "Cake",
-    "ReleaseDate": "2014-05-20T18:32:50Z",
+    "ReleaseDate": "2014-05-20T04:00:00Z",
     "Pack": "Single",
     "Link": "http://customsforge.com/process.php?id=4669"
   },
   {
     "Title": "Black Tongue",
     "Artist": "Mastodon",
-    "ReleaseDate": "2014-05-13T12:45:26Z",
+    "ReleaseDate": "2014-05-03T23:22:13Z",
     "Pack": "Single",
     "Link": "http://customsforge.com/process.php?id=3882"
   },
   {
     "Title": "Colony of Birchmen",
     "Artist": "Mastodon",
-    "ReleaseDate": "2014-05-13T12:45:21Z",
+    "ReleaseDate": "2014-05-03T23:25:16Z",
     "Pack": "Single",
     "Link": "http://customsforge.com/process.php?id=3884"
   },
   {
     "Title": "Oblivion",
     "Artist": "Mastodon",
-    "ReleaseDate": "2014-05-13T12:45:10Z",
+    "ReleaseDate": "2014-05-03T23:28:28Z",
     "Pack": "Single",
     "Link": "http://customsforge.com/process.php?id=3886"
   },
@@ -7786,7 +7828,7 @@
   {
     "Title": "What’s Going On",
     "Artist": "Marvin Gaye",
-    "ReleaseDate": "2012-10-19T00:00:00Z",
+    "ReleaseDate": "2012-10-18T00:00:00Z",
     "Pack": "Single",
     "Link": "http://customsforge.com/process.php?id=11712"
   },

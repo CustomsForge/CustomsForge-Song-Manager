@@ -144,6 +144,7 @@ namespace CustomsForgeSongManager.UControls
 
             // validates either old and new (Remastered) version of Rocksmith 2014 D3DX9_42.dll
             var luaPath = Path.Combine(AppSettings.Instance.RSInstalledDir, "lua5.1.dll");
+            var steamClientPath = Path.Combine(AppSettings.Instance.RSInstalledDir, "Steamclient.dll");
             var d3dPath = Path.Combine(AppSettings.Instance.RSInstalledDir, "D3DX9_42.dll");
 
             if (!File.Exists(d3dPath))
@@ -156,12 +157,16 @@ namespace CustomsForgeSongManager.UControls
                 }
 
                 // working directly with the file rather than an embedded resource 
-                if (File.Exists(luaPath))
+                if (File.Exists(luaPath) || File.Exists(steamClientPath))
+                {
                     GenExtensions.CopyFile(Path.Combine(Constants.ApplicationFolder, "D3DX9_42.dll.old"), Path.Combine(AppSettings.Instance.RSInstalledDir, "D3DX9_42.dll"), true, false);
+                    Globals.Log("Installed 'D3DX9_42.dll' file for Rocksmith 2014 ...");
+                }
                 else
+                {
                     GenExtensions.CopyFile(Path.Combine(Constants.ApplicationFolder, "D3DX9_42.dll.new"), Path.Combine(AppSettings.Instance.RSInstalledDir, "D3DX9_42.dll"), true, false);
-
-                Globals.Log("Installed 'D3DX9_42.dll' file ...");
+                    Globals.Log("Installed 'D3DX9_42.dll' file for Rocksmith 2014 Remastered ...");
+                }
             }
             else
             {
@@ -170,7 +175,7 @@ namespace CustomsForgeSongManager.UControls
                 var d3dNewMD5 = GenExtensions.GetMD5Hash(Path.Combine(Constants.ApplicationFolder, "D3DX9_42.dll.new"));
                 var d3dOldMD5 = GenExtensions.GetMD5Hash(Path.Combine(Constants.ApplicationFolder, "D3DX9_42.dll.old"));
 
-                if ((File.Exists(luaPath) && d3dFileMD5 != d3dOldMD5) || (!File.Exists(luaPath) && d3dFileMD5 != d3dNewMD5))
+                if (((File.Exists(luaPath) || File.Exists(steamClientPath)) && d3dFileMD5 != d3dOldMD5) || ((!File.Exists(luaPath) && !File.Exists(steamClientPath)) && d3dFileMD5 != d3dNewMD5))
                 {
                     var dlgMsg1 = "The installed 'D3DX9_42.dll' file MD5 hash value is invalid. Would you like CFSM to update the dll file that is required to play CDLC files?";
                     var dlgMsg2 = "Note: If your CDLC are working fine then answer 'No' and then disable future validation checks in the 'Settings' tab menu.";
@@ -182,15 +187,19 @@ namespace CustomsForgeSongManager.UControls
                         return false;
                     }
 
-                    if (File.Exists(luaPath))
+                    if (File.Exists(luaPath) || File.Exists(steamClientPath))
+                    {
                         GenExtensions.CopyFile(Path.Combine(Constants.ApplicationFolder, "D3DX9_42.dll.old"), Path.Combine(AppSettings.Instance.RSInstalledDir, "D3DX9_42.dll"), true, false);
+                        Globals.Log("Updated 'D3DX9_42.dll' file for Rocksmith 2014 ...");
+                    }
                     else
+                    {
                         GenExtensions.CopyFile(Path.Combine(Constants.ApplicationFolder, "D3DX9_42.dll.new"), Path.Combine(AppSettings.Instance.RSInstalledDir, "D3DX9_42.dll"), true, false);
-
-                    Globals.Log("Updated 'D3DX9_42.dll' file installation ...");
+                        Globals.Log("Updated 'D3DX9_42.dll' file for Rocksmith 2014 Remastered ...");
+                    }
                 }
                 else
-                    Globals.Log("Validated 'D3DX9_42.dll' file installation ...");
+                    Globals.Log("Validated existing 'D3DX9_42.dll' file installation ...");
             }
 
             return true;
@@ -342,7 +351,7 @@ namespace CustomsForgeSongManager.UControls
             {
                 fbd.Description = "Select RS2014 Installation Directory ...";
                 fbd.SelectedPath = LocalExtensions.GetSteamDirectory();
-             
+
                 if (fbd.ShowDialog() != DialogResult.OK)
                     return;
 

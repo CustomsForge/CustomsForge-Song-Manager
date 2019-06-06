@@ -34,12 +34,12 @@ namespace CustomsForgeSongManager.UControls
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Duplicates));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle15 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle16 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle17 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle18 = new System.Windows.Forms.DataGridViewCellStyle();
             this.cmsDuplicateColumns = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.cmsColumnHeaders = new System.Windows.Forms.ToolStripMenuItem();
             this.linkSelectOlderVersions = new System.Windows.Forms.LinkLabel();
@@ -88,8 +88,11 @@ namespace CustomsForgeSongManager.UControls
             this.menuStrip = new System.Windows.Forms.MenuStrip();
             this.tsmiRescan = new CustomControls.ToolStripEnhancedMenuItem();
             this.tsmiRescanAll = new CustomControls.ToolStripEnhancedMenuItem();
-            this.tsmiRescanEnabledDisabled = new CustomControls.ToolStripEnhancedMenuItem();
+            this.tsmiDuplicateType = new CustomControls.ToolStripEnhancedMenuItem();
+            this.tsmiDuplicateTypeDLCKeyATA = new CustomControls.ToolStripEnhancedMenuItem();
+            this.tsmiDuplicateTypePID = new CustomControls.ToolStripEnhancedMenuItem();
             this.tsmiHelp = new CustomControls.ToolStripEnhancedMenuItem();
+            this.tsmiShowEnabledDisabled = new CustomControls.ToolStripEnhancedMenuItem();
             this.cmsDuplicateColumns.SuspendLayout();
             this.gbResults.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvDuplicates)).BeginInit();
@@ -222,19 +225,19 @@ namespace CustomsForgeSongManager.UControls
             // 
             // dgvDuplicates
             // 
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.dgvDuplicates.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle13.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.dgvDuplicates.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle13;
             this.dgvDuplicates.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvDuplicates.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle14.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle14.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle14.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle14.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle14.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle14.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle14.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvDuplicates.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle14;
             this.dgvDuplicates.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.colPID,
             this.colPIDArrangement,
@@ -366,9 +369,9 @@ namespace CustomsForgeSongManager.UControls
             // colSongLength
             // 
             this.colSongLength.DataPropertyName = "SongLength";
-            dataGridViewCellStyle3.Format = "N2";
-            dataGridViewCellStyle3.NullValue = null;
-            this.colSongLength.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle15.Format = "N2";
+            dataGridViewCellStyle15.NullValue = null;
+            this.colSongLength.DefaultCellStyle = dataGridViewCellStyle15;
             this.colSongLength.HeaderText = "Length Seconds";
             this.colSongLength.Name = "colSongLength";
             this.colSongLength.ReadOnly = true;
@@ -377,9 +380,9 @@ namespace CustomsForgeSongManager.UControls
             // colAvgTempo
             // 
             this.colAvgTempo.DataPropertyName = "SongAverageTempo";
-            dataGridViewCellStyle4.Format = "N2";
-            dataGridViewCellStyle4.NullValue = null;
-            this.colAvgTempo.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle16.Format = "N2";
+            dataGridViewCellStyle16.NullValue = null;
+            this.colAvgTempo.DefaultCellStyle = dataGridViewCellStyle16;
             this.colAvgTempo.HeaderText = "BPM";
             this.colAvgTempo.Name = "colAvgTempo";
             this.colAvgTempo.ReadOnly = true;
@@ -433,8 +436,8 @@ namespace CustomsForgeSongManager.UControls
             // colUpdated
             // 
             this.colUpdated.DataPropertyName = "LastConversionDateTime";
-            dataGridViewCellStyle5.NullValue = null;
-            this.colUpdated.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle17.NullValue = null;
+            this.colUpdated.DefaultCellStyle = dataGridViewCellStyle17;
             this.colUpdated.HeaderText = "Updated";
             this.colUpdated.Name = "colUpdated";
             this.colUpdated.ReadOnly = true;
@@ -481,8 +484,8 @@ namespace CustomsForgeSongManager.UControls
             // colIgnitionUpdated
             // 
             this.colIgnitionUpdated.DataPropertyName = "IgnitionUpdated";
-            dataGridViewCellStyle6.NullValue = null;
-            this.colIgnitionUpdated.DefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle18.NullValue = null;
+            this.colIgnitionUpdated.DefaultCellStyle = dataGridViewCellStyle18;
             this.colIgnitionUpdated.HeaderText = "Ignition Updated";
             this.colIgnitionUpdated.Name = "colIgnitionUpdated";
             this.colIgnitionUpdated.ReadOnly = true;
@@ -613,6 +616,7 @@ namespace CustomsForgeSongManager.UControls
             // 
             this.menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsmiRescan,
+            this.tsmiDuplicateType,
             this.tsmiHelp});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
@@ -625,7 +629,7 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiRescan.AssociatedEnumValue = null;
             this.tsmiRescan.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsmiRescanAll,
-            this.tsmiRescanEnabledDisabled});
+            this.tsmiShowEnabledDisabled});
             this.tsmiRescan.Image = ((System.Drawing.Image)(resources.GetObject("tsmiRescan.Image")));
             this.tsmiRescan.Name = "tsmiRescan";
             this.tsmiRescan.RadioButtonGroupName = null;
@@ -643,16 +647,44 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiRescanAll.ToolTipText = "Rescan songs for all duplcates";
             this.tsmiRescanAll.Click += new System.EventHandler(this.tsmiRescanAll_Click);
             // 
-            // tsmiRescanEnabledDisabled
+            // tsmiDuplicateType
             // 
-            this.tsmiRescanEnabledDisabled.AssociatedEnumValue = null;
-            this.tsmiRescanEnabledDisabled.Image = ((System.Drawing.Image)(resources.GetObject("tsmiRescanEnabledDisabled.Image")));
-            this.tsmiRescanEnabledDisabled.Name = "tsmiRescanEnabledDisabled";
-            this.tsmiRescanEnabledDisabled.RadioButtonGroupName = null;
-            this.tsmiRescanEnabledDisabled.Size = new System.Drawing.Size(196, 22);
-            this.tsmiRescanEnabledDisabled.Text = "Show Enabled/Disabled";
-            this.tsmiRescanEnabledDisabled.ToolTipText = "Toggles showing enabled or disabled duplicates";
-            this.tsmiRescanEnabledDisabled.Click += new System.EventHandler(this.tsmiRescanEnabledDisabled_Click);
+            this.tsmiDuplicateType.AssociatedEnumValue = null;
+            this.tsmiDuplicateType.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmiDuplicateTypeDLCKeyATA,
+            this.tsmiDuplicateTypePID});
+            this.tsmiDuplicateType.Name = "tsmiDuplicateType";
+            this.tsmiDuplicateType.RadioButtonGroupName = null;
+            this.tsmiDuplicateType.Size = new System.Drawing.Size(90, 20);
+            this.tsmiDuplicateType.Text = "Duplicate Type";
+            this.tsmiDuplicateType.ToolTipText = "Show duplicates, select a type ...";
+            // 
+            // tsmiDuplicateTypeDLCKeyATA
+            // 
+            this.tsmiDuplicateTypeDLCKeyATA.AssociatedEnumValue = null;
+            this.tsmiDuplicateTypeDLCKeyATA.CheckMarkDisplayStyle = CustomControls.CheckMarkDisplayStyle.RadioButton;
+            this.tsmiDuplicateTypeDLCKeyATA.CheckOnClick = true;
+            this.tsmiDuplicateTypeDLCKeyATA.Name = "tsmiDuplicateTypeDLCKeyATA";
+            this.tsmiDuplicateTypeDLCKeyATA.RadioButtonGroupName = null;
+            this.tsmiDuplicateTypeDLCKeyATA.Size = new System.Drawing.Size(283, 22);
+            this.tsmiDuplicateTypeDLCKeyATA.Text = "DLC Key or Artist, Title, Album Duplicates";
+            this.tsmiDuplicateTypeDLCKeyATA.ToolTipText = "Show CDLC that have duplicate DLC Key, or\r\nduplicate Artist, Title, and Album inf" +
+                "ormation.\r\n\r\nNOTE: The search is not case sensitive and \r\nignores any non-alphnu" +
+                "meric characters.";
+            this.tsmiDuplicateTypeDLCKeyATA.Click += new System.EventHandler(this.tsmiDuplicateTypeDLCKeyATA_Click);
+            // 
+            // tsmiDuplicateTypePID
+            // 
+            this.tsmiDuplicateTypePID.AssociatedEnumValue = null;
+            this.tsmiDuplicateTypePID.CheckMarkDisplayStyle = CustomControls.CheckMarkDisplayStyle.RadioButton;
+            this.tsmiDuplicateTypePID.CheckOnClick = true;
+            this.tsmiDuplicateTypePID.Name = "tsmiDuplicateTypePID";
+            this.tsmiDuplicateTypePID.RadioButtonGroupName = null;
+            this.tsmiDuplicateTypePID.Size = new System.Drawing.Size(283, 22);
+            this.tsmiDuplicateTypePID.Text = "Persistent ID Duplicates (Game Crashers)";
+            this.tsmiDuplicateTypePID.ToolTipText = "Show CDLC that are reusing Persistent IDs.\r\nThese cause in-game hangs and need to" +
+                " be deleted!";
+            this.tsmiDuplicateTypePID.Click += new System.EventHandler(this.tsmiDuplicateTypePID_Click);
             // 
             // tsmiHelp
             // 
@@ -663,6 +695,17 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiHelp.Size = new System.Drawing.Size(56, 20);
             this.tsmiHelp.Text = "Help";
             this.tsmiHelp.Click += new System.EventHandler(this.tsmiHelp_Click);
+            // 
+            // tsmiShowEnabledDisabled
+            // 
+            this.tsmiShowEnabledDisabled.AssociatedEnumValue = null;
+            this.tsmiShowEnabledDisabled.Image = ((System.Drawing.Image)(resources.GetObject("tsmiShowEnabledDisabled.Image")));
+            this.tsmiShowEnabledDisabled.Name = "tsmiShowEnabledDisabled";
+            this.tsmiShowEnabledDisabled.RadioButtonGroupName = null;
+            this.tsmiShowEnabledDisabled.Size = new System.Drawing.Size(196, 22);
+            this.tsmiShowEnabledDisabled.Text = "Show Enabled/Disabled";
+            this.tsmiShowEnabledDisabled.ToolTipText = "Toggles showing enabled or disabled duplicates";
+            this.tsmiShowEnabledDisabled.Click += new System.EventHandler(this.tsmiShowEnabledDisabled_Click);
             // 
             // Duplicates
             // 
@@ -702,7 +745,6 @@ namespace CustomsForgeSongManager.UControls
         private CustomControls.ToolStripEnhancedMenuItem cmsMove;
         private MenuStrip menuStrip;
         private CustomControls.ToolStripEnhancedMenuItem tsmiRescan;
-        private CustomControls.ToolStripEnhancedMenuItem tsmiRescanEnabledDisabled;
         private CustomControls.ToolStripEnhancedMenuItem tsmiRescanAll;
         private CustomControls.ToolStripEnhancedMenuItem tsmiHelp;
         private LinkLabel lnkLblSelectAll;
@@ -736,5 +778,9 @@ namespace CustomsForgeSongManager.UControls
         private DataGridViewTextBoxColumn colIgnitionAuthor;
         private DataGridViewTextBoxColumn colArtistTitleAlbum;
         private DataGridViewAutoFilterTextBoxColumn colArtistTitleAlbumDate;
+        private CustomControls.ToolStripEnhancedMenuItem tsmiDuplicateType;
+        private CustomControls.ToolStripEnhancedMenuItem tsmiDuplicateTypeDLCKeyATA;
+        private CustomControls.ToolStripEnhancedMenuItem tsmiDuplicateTypePID;
+        private CustomControls.ToolStripEnhancedMenuItem tsmiShowEnabledDisabled;
     }
 }

@@ -14,11 +14,21 @@ until you can confirm it is safe by working directly with your AV provider.
 
 CFSM Release Notes
 
+1.5.4.2
+- ATA duplicates detection ignores common short word abrieviations, e.g. 'and', '&'
+- improved Duplicates 'Select All Older Version' method
+- testing new 'Duplicate Type' toolstrip menu dropdown selector in Duplicates tabmenu
+  (same basic function as the current link button 'Show SongInfo/PersistentID,
+   additionally shows which type of duplicate is being displayed)
+- improved Duplicates Rescan All method
+- fixed Duplicates Show Enable/Disable to work with both types of duplicates
+- improved 'D3DX9_42.dll' validation/installation/update
+
 1.5.4.1
-- made Artist, Title, Ablum (ATA), and DLC Key duplicate detection case insensitive
-- made ATA and DLC Key duplicate detection mutually exclusive
+- Artist, Title, Ablum (ATA), and DLC Key duplicate detection is case insensitive
+- ATA and DLC Key duplicate detection is mutually exclusive
 - ignore non-alphanumeric characters and white space in ATA when determining duplicates 
-- improved CDLC/ODLC replacement matching methods
+- improved CDLC/ODLC replacement matching method
 - improved the transfer of ArrangementAnalyzer selections to SongManager
 
 1.5.4.0

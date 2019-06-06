@@ -15,7 +15,6 @@ using DataGridViewTools;
 using System.ComponentModel;
 using CustomsForgeSongManager.Properties;
 using GenTools;
-using StringExtensions = RocksmithToolkitLib.Extensions.StringExtensions;
 
 
 // TODO: try loading Globals.MasterCollection to dgvDuplicates and then filter data
@@ -50,6 +49,9 @@ namespace CustomsForgeSongManager.UControls
 
             // NOTE: for safety subfolders are always included when checking for duplicates
             chkIncludeSubfolders.Visible = false;
+            // dev testing new menu item
+            //if (!Constants.DebugMode)
+            //    tsmiDuplicateType.Visible = false;
 
             // test for duplicate DLCKey
             dupPidSelected = false;
@@ -69,6 +71,10 @@ namespace CustomsForgeSongManager.UControls
 
         public void PopulateDuplicates(bool findDupPIDs = false)
         {
+            // remove all previous selections
+            foreach (var song in Globals.MasterCollection)
+                song.Selected = false;
+
             // NOTE: do not add SongData.Arrangements to the datagridview
             Globals.Log("Populating Duplicates GUI ...");
             dgvDuplicates.Visible = false;
@@ -123,26 +129,28 @@ namespace CustomsForgeSongManager.UControls
             else
             {
                 Globals.Log("Showing CDLC with either duplicate DLCKey or duplicate ArtistTitleAlbum (case insensitive) ...");
-                // use case insensitive duplicate detection that is mutually exclusive
+                // use case insensitive duplicate detection
                 var dupDlcKey = Globals.MasterCollection.GroupBy(x => x.DLCKey.ToUpperInvariant()).Where(g => g.Count() > 1).SelectMany(g => g);
-                var dupATA = Globals.MasterCollection.GroupBy(x => StringExtensions.StripNonAlphaNumeric(x.ArtistTitleAlbum).ToUpperInvariant()).Where(group => group.Count() > 1).SelectMany(group => group);
-                duplicateList = dupATA.Union(dupDlcKey).ToList();
+                // move short words 'the', expand abbreviations, and strip non-alphanumeric characters and whitespace
+                var dupATA = Globals.MasterCollection.GroupBy(x => GenExtensions.CleanString(x.ArtistTitleAlbum)).Where(group => group.Count() > 1).SelectMany(group => group);
+                duplicateList = dupATA.Union(dupDlcKey).ToList(); // duplicate list gets bound to MasterCollection by LINQ
 
                 // for safety subfolders are always included when checking for duplicates
                 if (chkIncludeSubfolders.Visible && !chkIncludeSubfolders.Checked)
                     duplicateList = duplicateList.Where(x => Path.GetFileName(Path.GetDirectoryName(x.FilePath)) == "dlc").ToList();
 
-                if (keyEnabled)
-                {
-                    duplicateList = duplicateList.Where(x => !Path.GetFileName(x.FilePath).Contains("disabled")).ToList();
-                    Globals.Log("Showing duplicate enabled songs ...");
-                }
+            }
 
-                if (keyDisabled)
-                {
-                    duplicateList = duplicateList.Where(x => Path.GetFileName(x.FilePath).Contains("disabled")).ToList();
-                    Globals.Log("Showing duplicate disabled songs ...");
-                }
+            if (keyEnabled)
+            {
+                duplicateList = duplicateList.Where(x => !Path.GetFileName(x.FilePath).Contains("disabled")).ToList();
+                Globals.Log("Showing duplicate enabled songs ...");
+            }
+
+            if (keyDisabled)
+            {
+                duplicateList = duplicateList.Where(x => Path.GetFileName(x.FilePath).Contains("disabled")).ToList();
+                Globals.Log("Showing duplicate disabled songs ...");
             }
 
             duplicateList.RemoveAll(x => x.FileName.ToLower().Contains(Constants.RS1COMP));
@@ -221,6 +229,10 @@ namespace CustomsForgeSongManager.UControls
             Globals.TsLabel_DisabledCounter.Text = String.Format("Duplicates Count: {0}", dgvDuplicates.Rows.Count);
             Globals.TsLabel_DisabledCounter.Visible = true;
             Globals.TsLabel_StatusMsg.Visible = false;
+
+
+            tsmiDuplicateTypeDLCKeyATA.Checked = !dupPidSelected;
+            tsmiDuplicateTypePID.Checked = dupPidSelected;
         }
 
         private void ColumnMenuItemClick(object sender, EventArgs eventArgs)
@@ -345,11 +357,10 @@ namespace CustomsForgeSongManager.UControls
 
         private void SelectOlderVersions()
         {
-            // using concatinated ArtistTitleAlbumDate column to order by/sort on
-            var sortedDupes = duplicateList.OrderBy(x => x.ArtistTitleAlbumDate.ToLower()).ToList();
+            // using cleaned concatinated ArtistTitleAlbumDate column to order by/sort on
+            var sortedDupes = duplicateList.OrderBy(x => GenExtensions.CleanString(x.ArtistTitleAlbumDate)).ToList();
             LoadFilteredBindingList(sortedDupes);
 
-            // TODO: confirm this does what is expected
             var rowCount = dgvDuplicates.Rows.Count;
             for (int i = rowCount - 1; i >= 0; i--)
             {
@@ -358,7 +369,8 @@ namespace CustomsForgeSongManager.UControls
 
                 var currSong = DgvExtensions.GetObjectFromRow<SongData>(dgvDuplicates, i);
                 var nextSong = DgvExtensions.GetObjectFromRow<SongData>(dgvDuplicates, i - 1);
-                if (currSong.ArtistTitleAlbum.ToLower() == nextSong.ArtistTitleAlbum.ToLower())
+
+                if (GenExtensions.CleanString(currSong.ArtistTitleAlbum) == GenExtensions.CleanString(nextSong.ArtistTitleAlbum))
                     dgvDuplicates.Rows[i - 1].Cells["colSelect"].Value = true;
             }
         }
@@ -375,7 +387,14 @@ namespace CustomsForgeSongManager.UControls
 
             if (modeDelete)
             {
-                var diaMsg = "You are about to delete file(s)." + Environment.NewLine + "Deletion is permenant and can not be undone." + Environment.NewLine + "Do you want to continue?";
+                var diaMsg = "You are about to delete file(s).";
+                if (selection.Where(x => x.IsODLC).Any())
+                    diaMsg = "You are about to delete ODLC file(s).";
+
+                diaMsg = diaMsg + Environment.NewLine +
+                    "Deletion is permenant and can not be undone." + Environment.NewLine +
+                    "Do you want to continue?";
+
                 if (DialogResult.No == BetterDialog2.ShowDialog(diaMsg, "Delete File(s) ...", null, "Yes", "No", Bitmap.FromHicon(SystemIcons.Warning.Handle), "Warning", 0, 150))
                     return;
             }
@@ -584,15 +603,17 @@ namespace CustomsForgeSongManager.UControls
 
                 if (song != null)
                 {
+                    // prevent ODLC deletion
                     if (song.IsODLC)
                     {
                         e.CellStyle.Font = Constants.OfficialDLCFont;
-                        // DataGridViewCell cell = dgvDuplicates.Rows[e.RowIndex].Cells["colSelect"];
-                        // DataGridViewCheckBoxCell chkCell = cell as DataGridViewCheckBoxCell;
-                        // chkCell.Style.ForeColor = Color.DarkGray;
-                        // chkCell.FlatStyle = FlatStyle.Flat;
-                        // chkCell.Value = false;
-                        // cell.ReadOnly = true;
+                        e.CellStyle.BackColor = Color.Red;
+                        //DataGridViewCell cell = dgvDuplicates.Rows[e.RowIndex].Cells["colSelect"];
+                        //DataGridViewCheckBoxCell chkCell = cell as DataGridViewCheckBoxCell;
+                        //chkCell.Style.ForeColor = Color.DarkGray;
+                        //chkCell.FlatStyle = FlatStyle.Flat;
+                        //chkCell.Value = false;
+                        //cell.ReadOnly = true;
                     }
 
                     if (distinctPIDS.Contains(song.PID))
@@ -791,6 +812,7 @@ namespace CustomsForgeSongManager.UControls
             SelectAllNone();
         }
 
+        // TODO: depricate lnkPersistentId and use new tsmiDuplicateType to make selection
         private void lnkPersistentId_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             if (dupPidSelected)
@@ -852,12 +874,54 @@ namespace CustomsForgeSongManager.UControls
             dgvPainted = false;
             keyDisabled = false;
             keyEnabled = false;
-            Rescan();
-            PopulateDuplicates();
+            Globals.RescanDuplicates = true;
             UpdateToolStrip();
         }
 
-        private void tsmiRescanEnabledDisabled_Click(object sender, EventArgs e)
+        public DataGridView GetGrid()
+        {
+            return dgvDuplicates;
+        }
+
+        public void TabEnter()
+        {
+            Globals.DgvCurrent = dgvDuplicates;
+            GetGrid().ResetBindings(); // force grid data to rebind/refresh
+            statusDuplicates.RestoreSorting(Globals.DgvCurrent);
+            Globals.Log("Duplicate GUI Activated...");
+        }
+
+        public void TabLeave()
+        {
+            statusDuplicates.SaveSorting(Globals.DgvCurrent);
+            GetGrid().ResetBindings(); // force grid data to rebind/refresh
+
+            // remove all selections
+            foreach (var song in Globals.MasterCollection)
+                song.Selected = false;
+
+            txtNoDuplicates.Visible = false;
+            Globals.Settings.SaveSettingsToFile(dgvDuplicates);
+            Globals.Log("Duplicates GUI Deactivated ...");
+        }
+
+        private void tsmiDuplicateTypeDLCKeyATA_Click(object sender, EventArgs e)
+        {
+            PopulateDuplicates(false);
+            dupPidSelected = false;
+
+            UpdateToolStrip();
+        }
+
+        private void tsmiDuplicateTypePID_Click(object sender, EventArgs e)
+        {
+            PopulateDuplicates(true);
+            dupPidSelected = true;
+
+            UpdateToolStrip();
+        }
+
+        private void tsmiShowEnabledDisabled_Click(object sender, EventArgs e)
         {
             bindingCompleted = false;
             dgvPainted = false;
@@ -875,31 +939,13 @@ namespace CustomsForgeSongManager.UControls
                 keyEnabled = true;
             }
 
-            Rescan();
-            PopulateDuplicates();
+            Globals.RescanDuplicates = true;
             UpdateToolStrip();
-        }
 
-        public DataGridView GetGrid()
-        {
-            return dgvDuplicates;
-        }
-
-        public void TabEnter()
-        {
-            Globals.DgvCurrent = dgvDuplicates;
-            GetGrid().ResetBindings(); // force grid data to rebind/refresh
-            statusDuplicates.RestoreSorting(Globals.DgvCurrent);
-            Globals.Log("Duplicate GUI Activated...");
-         }
-
-        public void TabLeave()
-        {
-            statusDuplicates.SaveSorting(Globals.DgvCurrent);
-            GetGrid().ResetBindings(); // force grid data to rebind/refresh
-            txtNoDuplicates.Visible = false;
-            Globals.Settings.SaveSettingsToFile(dgvDuplicates);
-            Globals.Log("Duplicates GUI Deactivated ...");
+            // keep showing dropdown menu
+            //tsmiRescan.ShowDropDown();
+            //tsmiShowEnabledDisabled.ShowDropDown();
+            //menuStrip.Focus();
         }
 
     }

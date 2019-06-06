@@ -10,7 +10,6 @@ using GenTools;
 using Newtonsoft.Json;
 using System.Reflection;
 using Newtonsoft.Json.Linq;
-using StringExtensions = RocksmithToolkitLib.Extensions.StringExtensions;
 using System.Drawing;
 using CustomControls;
 
@@ -67,18 +66,14 @@ namespace CustomsForgeSongManager.Forms
                 foreach (OfficialSong officialSong in Globals.OfficialDLCSongList)
                 {
                     // create some visual disturbance
-                    if (i % 10 == 0) // increment after every nth record
+                    if (i % 10 == 0) // increment progress after every nth record
                         if (Globals.TsProgressBar_Main.Value < Globals.TsProgressBar_Main.Maximum)
                             Globals.TsProgressBar_Main.Value += 1;
                         else
                             Globals.TsProgressBar_Main.Value = 1;
 
-                    // original method
-                    //if (GenExtensions.CleanName(song.Artist) == GenExtensions.CleanName(officialSong.Artist) &&
-                    //    GenExtensions.CleanName(song.Title) == GenExtensions.CleanName(officialSong.Title))
-                    // toolkitlib method may produce better results
-                    if (StringExtensions.StripNonAlphaNumeric(song.Artist).ToUpperInvariant() == StringExtensions.StripNonAlphaNumeric(officialSong.Artist).ToUpperInvariant() &&
-                        StringExtensions.StripNonAlphaNumeric(song.Title).ToUpperInvariant() == StringExtensions.StripNonAlphaNumeric(officialSong.Title).ToUpperInvariant())
+                    if (GenExtensions.CleanString(song.Artist) == GenExtensions.CleanString(officialSong.Artist) &&
+                        GenExtensions.CleanString(song.Title) == GenExtensions.CleanString(officialSong.Title))
                     {
                         duplicateList.Add(officialSong);
                         songDataList.Add(song);
@@ -117,12 +112,14 @@ namespace CustomsForgeSongManager.Forms
 
             foreach (OfficialSong song in duplicateList)
             {
-                if ((DateTime.Today - song.ReleaseDate).TotalDays < 7)
+                // at best OfficialSongs.json may get updated monthly
+                if ((DateTime.Today - song.ReleaseDate).TotalDays < 31)
                     currentODLCList.Add(song);
                 else
                     olderODLCList.Add(song);
             }
 
+            // TODO: consider simplifing the GUI (weekly/monthly data updates) may be overkill
             foreach (OfficialSong duplicate in currentODLCList)
                 dgvCurrentODLC.Rows.Add(false, duplicate.Title, duplicate.Artist, duplicate.Pack, duplicate.ReleaseDate.ToShortDateString(), duplicate.Link);
 
@@ -167,8 +164,8 @@ namespace CustomsForgeSongManager.Forms
             for (int ndx = dgv.Rows.Count - 1; ndx >= 0; ndx--)
             {
                 DataGridViewRow row = dgv.Rows[ndx];
-                var sdList = songDataList.Where(s => GenExtensions.CleanName(s.Artist) == GenExtensions.CleanName(row.Cells[colNdxArtist].Value.ToString())
-                          && GenExtensions.CleanName(s.Title) == GenExtensions.CleanName(row.Cells[colNdxTitle].Value.ToString())).ToList();
+                var sdList = songDataList.Where(s => GenExtensions.CleanString(s.Artist) == GenExtensions.CleanString(row.Cells[colNdxArtist].Value.ToString())
+                           && GenExtensions.CleanString(s.Title) == GenExtensions.CleanString(row.Cells[colNdxTitle].Value.ToString())).ToList();
 
                 if (row.Selected || Convert.ToBoolean(row.Cells[colNdxSelect].Value))
                 {

@@ -27,7 +27,7 @@ namespace CustomsForgeSongManager.UControls
     public partial class ArrangementAnalyzer : UserControl, IDataGridViewHolder, INotifyTabChanged
     {
         private bool allSelected = false;
-        private List<ArrangementData> arrangementList = new List<ArrangementData>();
+        private List<ArrangementData> arrangementList = new List<ArrangementData>(); // prevents filtering from being inherited
         private AbortableBackgroundWorker bWorker;
         private bool bindingCompleted = false;
         private Stopwatch counterStopwatch = new Stopwatch();

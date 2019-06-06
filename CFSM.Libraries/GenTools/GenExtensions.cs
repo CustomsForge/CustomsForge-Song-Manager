@@ -13,6 +13,7 @@ using System.Diagnostics;
 using CustomControls;
 using System.Security.Cryptography;
 using System.ComponentModel;
+using ToolkitExtensions = RocksmithToolkitLib.Extensions.StringExtensions;
 
 namespace GenTools
 {
@@ -149,28 +150,16 @@ namespace GenTools
             }
         }
 
-        public static string CleanName(this string s)
+        /// <summary>
+        /// Moves short words, replaces abbreviations, strips non-alphanumeric and whitespaces
+        /// <para>Returned clean string is uppercase invariant suitable for use making comparisons</para>
+        /// </summary>
+        /// <param name="s"></param>
+        /// <returns></returns>
+        public static string CleanString(this string s)
         {
-            s = Regex.Replace(s, @"\s+", "");
-            s = s.ToLower();
-
-            return s
-                .Replace(" ", "")
-                .Replace("\\", "")
-                .Replace("/", "")
-                .Replace("\"", "")
-                .Replace("*", "")
-                .Replace(":", "")
-                .Replace("<", "")
-                .Replace(">", "")
-                .Replace("'", "")
-                .Replace(".", "")
-                .Replace("!", "")
-                .Replace("?", "")
-                .Replace("|", "")
-                .Replace("—", "")
-                .Replace("’", "")
-                .Replace("...", "");
+            // using toolkitlib methods to produce a clean workable string
+            return ToolkitExtensions.StripNonAlphaNumeric(ToolkitExtensions.ReplaceAbbreviations(ToolkitExtensions.ShortWordMover(s))).ToUpperInvariant();
         }
 
         public static void ClearFolder(string folderName)

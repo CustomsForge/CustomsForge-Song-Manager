@@ -180,10 +180,10 @@
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(9, 9);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(532, 13);
+            this.label2.Size = new System.Drawing.Size(567, 13);
             this.label2.TabIndex = 2;
-            this.label2.Text = "Older CDLC songs that have been released as official DLC and that you have in you" +
-                "r DLC/CDLC collection are:";
+            this.label2.Text = "These are older CDLC songs that have been released as official DLC songs, and you" +
+                " also have them in your collection:";
             // 
             // panel2
             // 
@@ -286,10 +286,10 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(9, 9);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(559, 13);
+            this.label1.Size = new System.Drawing.Size(595, 13);
             this.label1.TabIndex = 0;
-            this.label1.Text = "Following CDLC songs were released this week as official DLC and you also have th" +
-                "em in your DLC/CDLC collection:";
+            this.label1.Text = "The following CDLC songs were released in the last 30 days as official DLC songs," +
+                " and you also have them in your collection:";
             // 
             // panel5
             // 
@@ -529,7 +529,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmCODLCReplacements";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "O-C DLC Duplicates";
+            this.Text = "DLC Replacements for CDLC";
             this.tlpDLCDuplicates.ResumeLayout(false);
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
