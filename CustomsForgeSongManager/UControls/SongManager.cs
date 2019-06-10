@@ -904,8 +904,8 @@ namespace CustomsForgeSongManager.UControls
 
             if (modeDelete)
             {
-                var diaMsg = "You are about to permenantly delete the selected songs." + Environment.NewLine + 
-                    "This action can not be undone." + Environment.NewLine + Environment.NewLine + 
+                var diaMsg = "You are about to permenantly delete the selected songs." + Environment.NewLine +
+                    "This action can not be undone." + Environment.NewLine + Environment.NewLine +
                     "Are you sure you want to continue?";
                 if (DialogResult.No == BetterDialog2.ShowDialog(diaMsg, "Delete Song(s) ...", null, "Yes", "No", Bitmap.FromHicon(SystemIcons.Warning.Handle), "Warning", 0, 150))
                     return;
@@ -2051,7 +2051,7 @@ namespace CustomsForgeSongManager.UControls
             var projectPath = Directory.GetParent(workingPath).Parent.FullName;
             var resourcesPath = Path.Combine(projectPath, "Resources", "OfficialSongs.json");
             var ignitionDataPath = Path.Combine(rootDir, "IgnitionData.json");
-           
+
             // the embedded resources is editable (can be updated) only while in debug mode
             if (File.Exists(ignitionDataPath) && Constants.DebugMode)
             {

@@ -110,14 +110,22 @@ namespace CustomsForgeSongManager.UControls
 
         private void ToogleRescan(bool rescan)
         {
-            // rescan on tabpage change ... safest but may be better way
-            // possibly never overwrite masterSongControl with Duplicates
             Globals.RescanSongManager = rescan;
             Globals.RescanArrangements = rescan;
             Globals.RescanDuplicates = rescan;
             Globals.RescanSetlistManager = rescan;
             Globals.RescanRenamer = rescan;
             Globals.ReloadSongPacks = rescan;
+        }
+
+        private void ToogleReload(bool reload)
+        {
+            Globals.ReloadSongManager = reload;
+            Globals.ReloadArrangements = reload;
+            Globals.ReloadDuplicates = reload;
+            Globals.ReloadSetlistManager = reload;
+            Globals.ReloadRenamer = reload;
+            Globals.ReloadSongPacks = reload;
         }
 
         private bool ValidateD3D()
@@ -142,7 +150,7 @@ namespace CustomsForgeSongManager.UControls
                 return false;
             }
 
-            // validates either old and new (Remastered) version of Rocksmith 2014 D3DX9_42.dll
+            // validates either old or new version of Rocksmith 2014 D3DX9_42.dll
             var luaPath = Path.Combine(AppSettings.Instance.RSInstalledDir, "lua5.1.dll");
             var steamClientPath = Path.Combine(AppSettings.Instance.RSInstalledDir, "Steamclient.dll");
             var d3dPath = Path.Combine(AppSettings.Instance.RSInstalledDir, "D3DX9_42.dll");
@@ -303,19 +311,19 @@ namespace CustomsForgeSongManager.UControls
         private void chkIncludeCustomPacks_Click(object sender, EventArgs e)
         {
             AppSettings.Instance.IncludeCustomPacks = chkIncludeCustomPacks.Checked;
-            ToogleRescan(true);
+            ToogleReload(true);
         }
 
         private void chkIncludeRS1CompSongs_Click(object sender, EventArgs e)
         {
             AppSettings.Instance.IncludeRS1CompSongs = chkIncludeRS1CompSongs.Checked;
-            ToogleRescan(true);
+            ToogleReload(true);
         }
 
         private void chkIncludeRS2BaseSongs_Click(object sender, EventArgs e)
         {
             AppSettings.Instance.IncludeRS2BaseSongs = chkIncludeRS2BaseSongs.Checked;
-            ToogleRescan(true);
+            ToogleReload(true);
         }
 
         private void chkMacMode_Click(object sender, EventArgs e)

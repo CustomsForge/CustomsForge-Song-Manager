@@ -724,15 +724,6 @@ namespace CustomsForgeSongManager.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Removed {0} obsolete songs..
-        /// </summary>
-        internal static string RemovedX0ObsoleteSongs {
-            get {
-                return ResourceManager.GetString("RemovedX0ObsoleteSongs", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Remove spaces from new names
         ///.
         /// </summary>

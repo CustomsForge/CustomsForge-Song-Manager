@@ -88,9 +88,9 @@ namespace CustomsForgeSongManager.LocalTools
                 WorkerProgress(100);
 
                 if (workOrder.Name == "SongManager" || workOrder.Name == "Duplicates" || workOrder.Name == "SetlistManager")
-                        Globals.Log(String.Format("Finished parsing took: {0}", counterStopwatch.Elapsed));
-                    else if (workOrder.Name == "Renamer")
-                        Globals.Log(String.Format("Finished renaming took: {0}", counterStopwatch.Elapsed));
+                    Globals.Log(String.Format("Finished parsing took: {0}", counterStopwatch.Elapsed));
+                else if (workOrder.Name == "Renamer")
+                    Globals.Log(String.Format("Finished renaming took: {0}", counterStopwatch.Elapsed));
 
                 Globals.WorkerFinished = Globals.Tristate.True;
             }
@@ -157,30 +157,25 @@ namespace CustomsForgeSongManager.LocalTools
             counterStopwatch.Restart();
             int songCounter = 0;
             int oldCount = bwSongCollection.Count();
+
+            // remove songs from collection when the FilePath does not exist
             bwSongCollection.RemoveAll(sd => !File.Exists(sd.FilePath));
-
-            int removed = bwSongCollection.Count() - oldCount;
-            if (removed > 0)
-                Globals.Log(String.Format(Resources.RemovedX0ObsoleteSongs, removed));
-
-            // skip dup check of songs.psarc or compatibility and song packs
-            List<SongData> checkThese = bwSongCollection
-                .Where(x => !x.FileName.ToLower().Contains(Constants.RS1COMP) &&
-                !x.FileName.ToLower().Contains(Constants.SONGPACK) &&
-                !x.FileName.ToLower().Contains(Constants.ABVSONGPACK) &&
-                !x.FileName.ToLower().EndsWith(Constants.BASESONGS))
-                .ToList() as List<SongData>;
-
-            // this is improbable ... two songs have same FilePath
-            var dupPaths = checkThese.GroupBy(x => x.FilePath).Where(group => group.Count() > 1);
-            if (dupPaths.Count() > 0)
+            // remove songs from collection that are not in the fileList
+            bwSongCollection.RemoveAll(sd => !filesList.Exists(x => x.Equals(sd.FilePath)));
+            // remove duplicate songs from collection that have same FilePath and DLCKey (prevents multiple count of song pack songs)
+            var duplicates = bwSongCollection.GroupBy(x => new { x.FilePath, x.DLCKey }).Where(group => group.Count() > 1).ToList();
+            if (duplicates.Count() > 0)
             {
-                foreach (var x in dupPaths)
+                foreach (var x in duplicates)
                 {
                     var toDelete = x.Where(z => z != x.First());
                     bwSongCollection.RemoveAll(sd => toDelete.Contains(sd));
                 }
             }
+
+            int removed = Math.Abs(bwSongCollection.Count() - oldCount);
+            if (removed > 0)
+                Globals.Log(String.Format("Removed ({0}) obsolete songs ...", removed));
 
             Globals.DebugLog("Parsing files ...");
             foreach (string file in filesList)

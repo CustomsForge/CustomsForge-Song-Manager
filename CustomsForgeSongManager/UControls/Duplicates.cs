@@ -909,7 +909,6 @@ namespace CustomsForgeSongManager.UControls
         {
             PopulateDuplicates(false);
             dupPidSelected = false;
-
             UpdateToolStrip();
         }
 
@@ -917,7 +916,6 @@ namespace CustomsForgeSongManager.UControls
         {
             PopulateDuplicates(true);
             dupPidSelected = true;
-
             UpdateToolStrip();
         }
 
@@ -942,7 +940,7 @@ namespace CustomsForgeSongManager.UControls
             Globals.RescanDuplicates = true;
             UpdateToolStrip();
 
-            // keep showing dropdown menu
+            // continue to show dropdown menu
             //tsmiRescan.ShowDropDown();
             //tsmiShowEnabledDisabled.ShowDropDown();
             //menuStrip.Focus();

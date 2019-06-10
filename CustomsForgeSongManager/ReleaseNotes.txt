@@ -14,8 +14,16 @@ until you can confirm it is safe by working directly with your AV provider.
 
 CFSM Release Notes
 
+1.5.4.3
+- improved song collection parsing performance when changing 'Settings' 
+  * avoid unnecessary full rescan of songs
+  * remove songs from memory when the FilePath does not exist
+  * remove songs from memory that are not in the fileList
+  * remove duplicate songs from memory that have same FilePath and DLCKey
+    (prevents multiple count of song pack songs)
+
 1.5.4.2
-- ATA duplicates detection ignores common short word abrieviations, e.g. 'and', '&'
+- ATA duplicates detection ignores common short word abbreviations, e.g. 'and', '&'
 - improved Duplicates 'Select All Older Version' method
 - testing new 'Duplicate Type' toolstrip menu dropdown selector in Duplicates tabmenu
   (same basic function as the current link button 'Show SongInfo/PersistentID,
