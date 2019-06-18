@@ -8,6 +8,7 @@ using GenTools;
 using RocksmithToolkitLib.DLCPackage;
 using RocksmithToolkitLib.Extensions;
 using RocksmithToolkitLib.PsarcLoader;
+using System.Drawing;
 
 namespace CustomsForgeSongManager.LocalTools
 {
@@ -73,6 +74,24 @@ namespace CustomsForgeSongManager.LocalTools
 
         public static void ArtistFolders(string dlcDir, List<SongData> selectedSongs, bool isUndo)
         {
+            // check for duplicates that will cause auto file renaming problems
+            // intentionally less restrictive than the Duplicates tabmenu check
+            var dups = selectedSongs.GroupBy(x => new { Song = x.Title, x.Artist, x.PackageVersion }).Where(group => group.Count() > 1).SelectMany(group => group).ToList();
+            if (dups.Any())
+            {
+                var diaMsg = "Can not organize song collection quite yet ..." + Environment.NewLine +
+                             "Please resolve duplicate song conflicts" + Environment.NewLine +
+                             "using the Duplicates tabmenu ..." + Environment.NewLine + Environment.NewLine +
+                             "HINT: For a quick workaround, enter unique package" + Environment.NewLine +
+                             "version numbers directly into the Duplicates grid," + Environment.NewLine +
+                             "or use the Duplicates linkbutton 'Select All Older" + Environment.NewLine +
+                             "By ToolkitVersion' to put songs into the correct" + Environment.NewLine +
+                             "order to be moved or deleted ...";
+                BetterDialog2.ShowDialog(diaMsg, "Organize Songs ...", null, null, "Ok", Bitmap.FromHicon(SystemIcons.Warning.Handle), "Warning", 0, 150);
+                Globals.CancelBackgroundScan = true;
+                return;
+            }
+
             if (isUndo)
             {
                 Globals.Log("Restoring CDLC files to 'dlc/cdlc' folder ...");
@@ -134,7 +153,7 @@ namespace CustomsForgeSongManager.LocalTools
                         var song = Globals.MasterCollection.FirstOrDefault(s => s.FilePath == srcFilePath);
                         int index = Globals.MasterCollection.IndexOf(song);
                         Globals.MasterCollection[index].FilePath = destFilePath;
-                        GenExtensions.MoveFile(srcFilePath, destFilePath, false);
+                        GenExtensions.MoveFile(srcFilePath, destFilePath, false, true);
                     }
                     else
                         skipped++;

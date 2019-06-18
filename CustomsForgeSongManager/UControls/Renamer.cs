@@ -64,7 +64,7 @@ namespace CustomsForgeSongManager.UControls
                 newFileName = String.Format("{0}" + Constants.DisabledExtension, newFileName);
             else
                 newFileName = String.Format("{0}" + Constants.EnabledExtension, newFileName);
-          
+
             // strip any user added a directory(s) from file name and add to file path
             var dirSeperator = new string[] { "\\" };
             var parts = newFileName.Split(dirSeperator, StringSplitOptions.None);
@@ -247,7 +247,10 @@ namespace CustomsForgeSongManager.UControls
             var dups = renSongList.GroupBy(x => new { Song = x.Title, x.Album, x.Artist }).Where(group => group.Count() > 1).SelectMany(group => group).ToList();
             if (dups.Any())
             {
-                MessageBox.Show("Please remove duplicate songs" + Environment.NewLine + "using the Duplicates tab first.", Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                var diaMsg = "Can not rename song collection quite yet ..." + Environment.NewLine +
+                             "Please resolve duplicate song conflicts" + Environment.NewLine +
+                             "using the Duplicates tabmenu ...";
+                BetterDialog2.ShowDialog(diaMsg, "Renamer ...", null, null, "Ok", Bitmap.FromHicon(SystemIcons.Warning.Handle), "Warning", 0, 150);
                 return false;
             }
 

@@ -454,7 +454,7 @@ namespace CustomsForgeSongManager.LocalTools
                         Directory.CreateDirectory(downloadsFolder);
 
                     var destFilePath = Path.Combine(downloadsFolder, Path.GetFileName(srcFilePath));
-                    GenExtensions.MoveFile(srcFilePath, destFilePath);
+                    GenExtensions.MoveFile(srcFilePath, destFilePath, false, true);
                     Globals.Log(" - Moved new CDLC to: " + downloadsFolder);
                     Globals.ReloadSongManager = true; // set quick reload flag
 

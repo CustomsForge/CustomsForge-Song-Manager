@@ -130,22 +130,12 @@ namespace CustomsForgeSongManager.UControls
 
         private bool ValidateD3D()
         {
-            if (!AppSettings.Instance.ValidateD3D)
+            if (!AppSettings.Instance.ValidateD3D || Constants.OnMac)
             {
-                Globals.Log("<WARNING> 'Validate D3DX9_42.dll' is disabled ...");
-                return false;
-            }
-
-            if (Constants.OnMac)
-            {
-                Globals.Log("Send the 'debug.log' file to CFSM Developer, Cozy1 for analysis ...");
-                Globals.Log("<WARNING> 'D3DX9_42.dll' file validation is disabled while in Mac Mode ...");
-                Globals.Log("AppSettings.Instance.OnMac = " + AppSettings.Instance.MacMode);
-                Globals.Log("AppSettings.Instance.RSInstalledDir = " + AppSettings.Instance.RSInstalledDir);
-                Globals.Log("Application.ExecutablePath = " + Application.ExecutablePath);
-                Globals.Log("Path.GetDirectoryName(Application.ExecutablePath) = " + Path.GetDirectoryName(Application.ExecutablePath));
-                Globals.Log("Constants.ApplicationFolder = " + Constants.ApplicationFolder);
-                Globals.Log("Found 'Application Support' folder: " + Constants.Rs2DlcFolder.Contains("Application Support"));
+                if (Constants.OnMac)
+                    Globals.Log("<MAC MODE> 'Validate D3DX9_42.dll' is not applicable ...");
+                else
+                    Globals.Log("<WARNING> 'Validate D3DX9_42.dll' is disabled ...");
 
                 return false;
             }
@@ -355,10 +345,18 @@ namespace CustomsForgeSongManager.UControls
 
         private void cueRsDir_MouseClick(object sender, MouseEventArgs e)
         {
+            if (Constants.OnMac)
+            {
+                var diaMsg = "The RS2014 Installation Directiory may be hidden.  It can be found at:" + Environment.NewLine +
+                            @"Z:\Users[username]\Library\Application Support\Steam\steamapps\common\Rocksmith2014";
+
+                BetterDialog2.ShowDialog(diaMsg, "Mac User ...", null, null, "Ok", Bitmap.FromHicon(SystemIcons.Information.Handle), "ReadMe", 150, 150);
+            }
+
             using (var fbd = new FolderBrowserDialog())
             {
-                fbd.Description = "Select RS2014 Installation Directory ...";
                 fbd.SelectedPath = LocalExtensions.GetSteamDirectory();
+                fbd.Description = "Select RS2014 Installation Directory ...";
 
                 if (fbd.ShowDialog() != DialogResult.OK)
                     return;
@@ -377,6 +375,17 @@ namespace CustomsForgeSongManager.UControls
             // update RSInstalledDir after above error check passes
             AppSettings.Instance.RSInstalledDir = cueRsDir.Text;
             Globals.Log("Updated RS2014 Installation Directory: " + AppSettings.Instance.RSInstalledDir);
+
+            if (Constants.OnMac)
+            {
+                Globals.Log("<README> Send this entire Log output (copy/paste) to Cozy1 for analysis ...");
+                Globals.Log("AppSettings.Instance.OnMac = " + AppSettings.Instance.MacMode);
+                Globals.Log("AppSettings.Instance.RSInstalledDir = " + AppSettings.Instance.RSInstalledDir);
+                Globals.Log("Application.ExecutablePath = " + Application.ExecutablePath);
+                Globals.Log("Path.GetDirectoryName(Application.ExecutablePath) = " + Path.GetDirectoryName(Application.ExecutablePath));
+                Globals.Log("Constants.ApplicationFolder = " + Constants.ApplicationFolder);
+                Globals.Log("Found 'Application Support' folder: " + Constants.Rs2DlcFolder.Contains("Application Support"));
+            }
         }
 
         private void listDisabledColumns_ItemChecked(object sender, ItemCheckedEventArgs e)
@@ -415,7 +424,6 @@ namespace CustomsForgeSongManager.UControls
             Globals.Log("CFSM multi threading usage was reset ...");
 
         }
-
 
 
     }

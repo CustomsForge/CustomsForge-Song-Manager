@@ -60,7 +60,6 @@ namespace CustomsForgeSongManager.Forms
             this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
             this.tsBtnExport = new System.Windows.Forms.ToolStripDropDownButton();
             this.tsmiBBCode = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmiCSV = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiHTML = new System.Windows.Forms.ToolStripMenuItem();
             this.jSONToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.xMLToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -92,6 +91,8 @@ namespace CustomsForgeSongManager.Forms
             this.ContentPanel = new System.Windows.Forms.ToolStripContentPanel();
             this.timerAudioProgress = new System.Windows.Forms.Timer(this.components);
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.tsmiCSV = new CustomControls.ToolStripEnhancedMenuItem();
+            this.tsmiCSVSeperator = new CustomControls.ToolStripLabelTextBox();
             this.gbLog.SuspendLayout();
             this.contextMenuStrip_Tray.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.scMain)).BeginInit();
@@ -332,7 +333,7 @@ namespace CustomsForgeSongManager.Forms
             this.tsUtilities.Location = new System.Drawing.Point(3, 0);
             this.tsUtilities.Name = "tsUtilities";
             this.tsUtilities.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
-            this.tsUtilities.Size = new System.Drawing.Size(463, 25);
+            this.tsUtilities.Size = new System.Drawing.Size(494, 25);
             this.tsUtilities.TabIndex = 0;
             // 
             // tsBtnLaunchRS
@@ -383,36 +384,28 @@ namespace CustomsForgeSongManager.Forms
             // tsmiBBCode
             // 
             this.tsmiBBCode.Name = "tsmiBBCode";
-            this.tsmiBBCode.Size = new System.Drawing.Size(125, 22);
+            this.tsmiBBCode.Size = new System.Drawing.Size(152, 22);
             this.tsmiBBCode.Text = "BB Code";
             this.tsmiBBCode.Click += new System.EventHandler(this.tsmiBBCode_Click);
-            // 
-            // tsmiCSV
-            // 
-            this.tsmiCSV.Name = "tsmiCSV";
-            this.tsmiCSV.Size = new System.Drawing.Size(125, 22);
-            this.tsmiCSV.Text = "CSV";
-            this.tsmiCSV.ToolTipText = resources.GetString("tsmiCSV.ToolTipText");
-            this.tsmiCSV.Click += new System.EventHandler(this.tsmiCSV_Click);
             // 
             // tsmiHTML
             // 
             this.tsmiHTML.Name = "tsmiHTML";
-            this.tsmiHTML.Size = new System.Drawing.Size(125, 22);
+            this.tsmiHTML.Size = new System.Drawing.Size(152, 22);
             this.tsmiHTML.Text = "HTML";
             this.tsmiHTML.Click += new System.EventHandler(this.tsmiHTML_Click);
             // 
             // jSONToolStripMenuItem
             // 
             this.jSONToolStripMenuItem.Name = "jSONToolStripMenuItem";
-            this.jSONToolStripMenuItem.Size = new System.Drawing.Size(125, 22);
+            this.jSONToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.jSONToolStripMenuItem.Text = "JSON";
             this.jSONToolStripMenuItem.Click += new System.EventHandler(this.tsmiJSON_Click);
             // 
             // xMLToolStripMenuItem
             // 
             this.xMLToolStripMenuItem.Name = "xMLToolStripMenuItem";
-            this.xMLToolStripMenuItem.Size = new System.Drawing.Size(125, 22);
+            this.xMLToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.xMLToolStripMenuItem.Text = "XML";
             this.xMLToolStripMenuItem.Click += new System.EventHandler(this.tsmiXML_Click);
             // 
@@ -489,12 +482,12 @@ namespace CustomsForgeSongManager.Forms
             this.tspbAudioPosition,
             this.tslblTimer});
             this.tsAudioPlayer.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow;
-            this.tsAudioPlayer.Location = new System.Drawing.Point(582, 0);
+            this.tsAudioPlayer.Location = new System.Drawing.Point(818, 0);
             this.tsAudioPlayer.Name = "tsAudioPlayer";
             this.tsAudioPlayer.Padding = new System.Windows.Forms.Padding(0);
             this.tsAudioPlayer.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
             this.tsAudioPlayer.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.tsAudioPlayer.Size = new System.Drawing.Size(224, 25);
+            this.tsAudioPlayer.Size = new System.Drawing.Size(193, 25);
             this.tsAudioPlayer.TabIndex = 1;
             // 
             // tsbPlay
@@ -671,10 +664,33 @@ namespace CustomsForgeSongManager.Forms
             // toolTip
             // 
             this.toolTip.AutomaticDelay = 200;
-            this.toolTip.AutoPopDelay = 5000;
+            this.toolTip.AutoPopDelay = 10000;
             this.toolTip.InitialDelay = 200;
             this.toolTip.IsBalloon = true;
             this.toolTip.ReshowDelay = 40;
+            // 
+            // tsmiCSV
+            // 
+            this.tsmiCSV.AssociatedEnumValue = null;
+            this.tsmiCSV.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmiCSVSeperator});
+            this.tsmiCSV.Name = "tsmiCSV";
+            this.tsmiCSV.RadioButtonGroupName = null;
+            this.tsmiCSV.Size = new System.Drawing.Size(152, 22);
+            this.tsmiCSV.Text = "CSV";
+            this.tsmiCSV.ToolTipText = "Click Me to export the data";
+            this.tsmiCSV.Click += new System.EventHandler(this.tsmiCSV_Click);
+            // 
+            // tsmiCSVSeperator
+            // 
+            this.tsmiCSVSeperator.AutoSize = false;
+            this.tsmiCSVSeperator.BackColor = System.Drawing.Color.Transparent;
+            this.tsmiCSVSeperator.LabelText = "Enter CSV Seperator";
+            this.tsmiCSVSeperator.Name = "tsmiCSVSeperator";
+            this.tsmiCSVSeperator.Size = new System.Drawing.Size(132, 22);
+            this.tsmiCSVSeperator.Text = ";";
+            this.tsmiCSVSeperator.ToolTipText = "Enter a single character to\r\nbe used as the CSV seperator\r\n\r\nDefault character is" +
+                " a semicolon \';\'";
             // 
             // frmMain
             // 
@@ -750,8 +766,6 @@ namespace CustomsForgeSongManager.Forms
         public ToolStripContainer tstripContainer;
         private ToolStripDropDownButton tsBtnExport;
         private ToolStripMenuItem tsmiBBCode;
-        private ToolStripMenuItem tsmiCSV;
-        private ToolStripMenuItem tsmiHTML;
         private ToolStripPanel BottomToolStripPanel;
         private ToolStripPanel TopToolStripPanel;
         private ToolStripPanel RightToolStripPanel;
@@ -776,5 +790,8 @@ namespace CustomsForgeSongManager.Forms
         private ToolStripSeparator toolStripSeparator3;
         private ToolStripSeparator toolStripSeparator5;
         private ToolTip toolTip;
+        private CustomControls.ToolStripEnhancedMenuItem tsmiCSV;
+        private ToolStripMenuItem tsmiHTML;
+        private CustomControls.ToolStripLabelTextBox tsmiCSVSeperator;
     }
 }

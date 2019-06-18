@@ -15,6 +15,7 @@ using DataGridViewTools;
 using System.ComponentModel;
 using CustomsForgeSongManager.Properties;
 using GenTools;
+using CustomsForgeSongManager.SongEditor;
 
 
 // TODO: try loading Globals.MasterCollection to dgvDuplicates and then filter data
@@ -37,7 +38,7 @@ namespace CustomsForgeSongManager.UControls
         private bool keyDisabled;
         private bool keyEnabled;
         private string lastSelectedSongPath = string.Empty;
-        private bool olderVersionsSelected;
+        private string olderVersionType = String.Empty;
         private DgvStatus statusDuplicates = new DgvStatus();
 
         public Duplicates()
@@ -69,6 +70,7 @@ namespace CustomsForgeSongManager.UControls
             }
         }
 
+        // TODO: make method generic to find any Type of Duplicate
         public void PopulateDuplicates(bool findDupPIDs = false)
         {
             // remove all previous selections
@@ -138,7 +140,6 @@ namespace CustomsForgeSongManager.UControls
                 // for safety subfolders are always included when checking for duplicates
                 if (chkIncludeSubfolders.Visible && !chkIncludeSubfolders.Checked)
                     duplicateList = duplicateList.Where(x => Path.GetFileName(Path.GetDirectoryName(x.FilePath)) == "dlc").ToList();
-
             }
 
             if (keyEnabled)
@@ -158,6 +159,9 @@ namespace CustomsForgeSongManager.UControls
             if (!duplicateList.Any())
                 return;
 
+            // final ordering
+            duplicateList.OrderBy(x => x.ArtistTitleAlbumDate);
+
             // PopulateDataGridView respect processing order
             DgvExtensions.DoubleBuffered(dgvDuplicates);
             LoadFilteredBindingList(duplicateList);
@@ -172,13 +176,13 @@ namespace CustomsForgeSongManager.UControls
 
             if (findDupPIDs)
             {
-                colPID.Visible = true;
-                colPIDArrangement.Visible = true;
+                this.colPID.Visible = true;
+                this.colPIDArrangement.Visible = true;
             }
             else
             {
-                colPID.Visible = false;
-                colPIDArrangement.Visible = false;
+                this.colPID.Visible = false;
+                this.colPIDArrangement.Visible = false;
             }
         }
 
@@ -357,22 +361,46 @@ namespace CustomsForgeSongManager.UControls
 
         private void SelectOlderVersions()
         {
-            // using cleaned concatinated ArtistTitleAlbumDate column to order by/sort on
-            var sortedDupes = duplicateList.OrderBy(x => GenExtensions.CleanString(x.ArtistTitleAlbumDate)).ToList();
-            LoadFilteredBindingList(sortedDupes);
+            // always start fresh and deselect all 
+            DgvExtensions.RowsCheckboxValue(dgvDuplicates, false);
+            var sortedDups = new List<SongData>();
 
-            var rowCount = dgvDuplicates.Rows.Count;
-            for (int i = rowCount - 1; i >= 0; i--)
+            if (olderVersionType == "ToolkitVersion") // using cleaned concatinated ToolkitVerion column to order by/sort on
             {
-                if (i - 1 == -1)
-                    break;
-
-                var currSong = DgvExtensions.GetObjectFromRow<SongData>(dgvDuplicates, i);
-                var nextSong = DgvExtensions.GetObjectFromRow<SongData>(dgvDuplicates, i - 1);
-
-                if (GenExtensions.CleanString(currSong.ArtistTitleAlbum) == GenExtensions.CleanString(nextSong.ArtistTitleAlbum))
-                    dgvDuplicates.Rows[i - 1].Cells["colSelect"].Value = true;
+                sortedDups = duplicateList.OrderBy(x => GenExtensions.CleanString(x.ArtistTitleAlbum))
+                 .ThenBy(x => new Version(GenExtensions.CleanVersion(x.ToolkitVersion))).ToList();
             }
+            else // using cleaned concatinated ArtistTitleAlbumDate column to order by/sort on
+                sortedDups = duplicateList.OrderBy(x => GenExtensions.CleanString(x.ArtistTitleAlbumDate)).ToList();
+
+            LoadFilteredBindingList(sortedDups);
+
+            if (String.IsNullOrEmpty(olderVersionType))
+            {
+                Globals.Log("Reset selection ...");
+            }
+            else // select older versions
+            {
+                var rowCount = dgvDuplicates.Rows.Count;
+                for (int i = rowCount - 1; i >= 0; i--)
+                {
+                    if (i - 1 == -1)
+                        break;
+
+                    var currSong = DgvExtensions.GetObjectFromRow<SongData>(dgvDuplicates, i);
+                    var nextSong = DgvExtensions.GetObjectFromRow<SongData>(dgvDuplicates, i - 1);
+                    if (GenExtensions.CleanString(currSong.ArtistTitleAlbum) == GenExtensions.CleanString(nextSong.ArtistTitleAlbum))
+                        dgvDuplicates.Rows[i - 1].Cells["colSelect"].Value = true;
+
+                    if (currSong.IsODLC || nextSong.IsODLC)
+                        dgvDuplicates.Rows[i - 1].Cells["colSelect"].Value = false;
+                }
+
+                var selection = DgvExtensions.GetObjectsFromRows<SongData>(dgvDuplicates);
+                Globals.Log(String.Format("Selected ({0}) older duplicate songs ordered by {1} ...", selection.Count, olderVersionType));
+            }
+
+            dgvDuplicates.Refresh();
         }
 
         private void SelectionDeleteMove(DataGridView dgvCurrent, bool modeDelete = false)
@@ -603,11 +631,11 @@ namespace CustomsForgeSongManager.UControls
 
                 if (song != null)
                 {
-                    // prevent ODLC deletion
                     if (song.IsODLC)
                     {
                         e.CellStyle.Font = Constants.OfficialDLCFont;
                         e.CellStyle.BackColor = Color.Red;
+                        // prevent ODLC deletion
                         //DataGridViewCell cell = dgvDuplicates.Rows[e.RowIndex].Cells["colSelect"];
                         //DataGridViewCheckBoxCell chkCell = cell as DataGridViewCheckBoxCell;
                         //chkCell.Style.ForeColor = Color.DarkGray;
@@ -703,7 +731,12 @@ namespace CustomsForgeSongManager.UControls
             {
                 try
                 {
-                    grid.Rows[e.RowIndex].Cells["colSelect"].Value = !(bool)(grid.Rows[e.RowIndex].Cells["colSelect"].Value);
+
+                    TemporaryDisableDatabindEvent(() => // prevents grid bounce
+                    {
+                        grid.Rows[e.RowIndex].Cells["colSelect"].Value = !(bool)(grid.Rows[e.RowIndex].Cells["colSelect"].Value);
+                        Thread.Sleep(200); // debounce excess clicking
+                    });
                 }
                 catch
                 {
@@ -780,10 +813,12 @@ namespace CustomsForgeSongManager.UControls
 
         private void dgvDuplicates_Sorted(object sender, EventArgs e)
         {
+            return;
+
             if (dgvDuplicates.SortedColumn != null)
             {
-                // refresh is necessary to avoid exceptions when row has been deleted
-                dgvDuplicates.Refresh();
+                // force grid data to rebind/refresh w/o bounce and avoid exceptions when row has been deleted
+                dgvDuplicates.ResetBindings();
 
                 // Reselect last selected row after sorting
                 if (!String.IsNullOrEmpty(lastSelectedSongPath) && dgvDuplicates.Rows.Count > 0)
@@ -795,8 +830,6 @@ namespace CustomsForgeSongManager.UControls
                 else
                     lastSelectedSongPath = String.Empty;
             }
-
-            dgvDuplicates.Refresh();
         }
 
         private void exploreToolStripMenuItem_Click(object sender, EventArgs e)
@@ -831,19 +864,25 @@ namespace CustomsForgeSongManager.UControls
 
         private void lnkSelectOlderVersions_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            if (olderVersionsSelected)
+            var lnkLabel = sender as LinkLabel;
+
+            if (olderVersionType == "ToolkitVersion" && lnkLabel.Text.EndsWith("ToolkitVersion") ||
+                 olderVersionType == "ArtistTitleAlbumDate" && lnkLabel.Text.EndsWith("ArtistTitleAlbumDate"))
             {
-                // reload duplicates and deselect all
-                LoadFilteredBindingList(duplicateList);
-                DgvExtensions.RowsCheckboxValue(dgvDuplicates, false);
-                olderVersionsSelected = false;
+                olderVersionType = String.Empty;
             }
-            else
+            else if (lnkLabel.Text.EndsWith("ToolkitVersion"))
             {
-                SelectOlderVersions();
-                olderVersionsSelected = true;
+                olderVersionType = "ToolkitVersion";
+                this.colToolkitVersion.Visible = true;
+            }
+            else if (lnkLabel.Text.EndsWith("ArtistTitleAlbumDate"))
+            {
+                olderVersionType = "ArtistTitleAlbumDate";
+                this.colArtistTitleAlbumDate.Visible = true;
             }
 
+            SelectOlderVersions();
             UpdateToolStrip();
         }
 
@@ -875,6 +914,7 @@ namespace CustomsForgeSongManager.UControls
             keyDisabled = false;
             keyEnabled = false;
             Globals.RescanDuplicates = true;
+            olderVersionType = String.Empty;
             UpdateToolStrip();
         }
 
@@ -887,6 +927,9 @@ namespace CustomsForgeSongManager.UControls
         {
             Globals.DgvCurrent = dgvDuplicates;
             GetGrid().ResetBindings(); // force grid data to rebind/refresh
+            // workaround for disabled column VS bug
+            dgvDuplicates.Columns["colSelect"].ReadOnly = false;
+            dgvDuplicates.Columns["colPackageVersion"].ReadOnly = false;
             statusDuplicates.RestoreSorting(Globals.DgvCurrent);
             Globals.Log("Duplicate GUI Activated...");
         }
@@ -945,6 +988,42 @@ namespace CustomsForgeSongManager.UControls
             //tsmiShowEnabledDisabled.ShowDropDown();
             //menuStrip.Focus();
         }
+
+        private void cmsEdit_Click(object sender, EventArgs e)
+        {
+            var sd = DgvExtensions.GetObjectFromRow<SongData>(dgvDuplicates.SelectedRows[0]);
+            if (sd.IsODLC || sd.IsRsCompPack || sd.IsSongsPsarc)
+                return;
+
+            // DO NOT edit/modify/repair disabled CDLC
+            if (sd.Enabled != "Yes")
+            {
+                var diaMsg = "Disabled CDLC may not be edited ..." + Environment.NewLine +
+                             "Please enable the CLDC and then edit it." + Environment.NewLine;
+                BetterDialog2.ShowDialog(diaMsg, "Disabled CDLC ...", null, null, "Ok", Bitmap.FromHicon(SystemIcons.Warning.Handle), "ReadMe", 0, 150);
+                return;
+            }
+
+            // DO NOT edit/modify/repair tagged CDLC - artifact data will be lost
+            if (sd.Tagged == SongTaggerStatus.True)
+            {
+                var diaMsg = "Tagged CDLC may not be edited ..." + Environment.NewLine +
+                             "Please untag the CLDC and then edit it." + Environment.NewLine;
+                BetterDialog2.ShowDialog(diaMsg, "Tagged CDLC ...", null, null, "Ok", Bitmap.FromHicon(SystemIcons.Warning.Handle), "ReadMe", 0, 150);
+                return;
+            }
+
+            var filePath = sd.FilePath;
+            using (var songEditor = new frmSongEditor(filePath))
+            {
+                songEditor.Text = String.Format("{0}{1}", "Song Editor ... Loaded: ", Path.GetFileName(filePath));
+                songEditor.ShowDialog();
+            }
+
+            if (Globals.ReloadDuplicates)
+                UpdateToolStrip();
+        }
+
 
     }
 }

@@ -693,8 +693,13 @@ namespace CustomsForgeSongManager.Forms
             DoSomethingWithGrid((dataGrid, selection, colSel, ignoreColumns) =>
             {
                 var sbCSV = new StringBuilder();
+                char csvSep = ';';
+                
+                if (!String.IsNullOrEmpty(tsmiCSVSeperator.Text) && tsmiCSVSeperator.Text.Length == 1)
+                    csvSep = Convert.ToChar(tsmiCSVSeperator.Text);
+                else // reset CSV seperator to the default character
+                    tsmiCSVSeperator.Text = csvSep.ToString(); 
 
-                const char csvSep = ';';
                 sbCSV.AppendLine(String.Format(@"sep={0}", csvSep)); // used by Excel to recognize seperator if Encoding.Unicode is used
                 string columns = String.Empty;
                 var orderedCols = dataGrid.Columns.Cast<DataGridViewColumn>()
@@ -716,7 +721,7 @@ namespace CustomsForgeSongManager.Forms
                         s += row.Cells[c.Index].Value == null ? csvSep.ToString() : row.Cells[c.Index].Value.ToString() + csvSep;
                     }
 
-                    sbCSV.AppendLine(s.Trim(new char[] { ',', ' ' }));
+                    sbCSV.AppendLine(s.Trim(new char[] { csvSep, ' ' }));
                 }
 
                 //using (var noteViewer = new frmNoteViewer())
@@ -892,6 +897,7 @@ namespace CustomsForgeSongManager.Forms
 
         private void tsmiCSV_Click(object sender, EventArgs e)
         {
+            tsBtnExport.HideDropDown();
             DGV2CSV();
         }
 
@@ -1000,6 +1006,7 @@ namespace CustomsForgeSongManager.Forms
             tsUtilities.AutoSize = false; // prevent movement
             tsAudioPlayer.AutoSize = false; // prevent movement
         }
+
 
     }
 }

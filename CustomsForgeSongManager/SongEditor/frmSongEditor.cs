@@ -169,7 +169,7 @@ namespace CustomsForgeSongManager.SongEditor
                 // force reload of CDLC
                 Globals.ReloadSongManager = true;
                 Globals.ReloadArrangements = true;
-                Globals.RescanDuplicates = true;
+                Globals.ReloadDuplicates = true;
                 Globals.ReloadRenamer = true;
                 Globals.ReloadSetlistManager = true;
                 this.Close(); // need to prevent re-editing error

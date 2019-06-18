@@ -139,6 +139,12 @@ namespace DataGridViewTools
             dgvCurrent.Refresh();
         }
 
+        /// <summary>
+        /// Select or deselect all dataPropertyName checkboxes in dgvCurrent
+        /// </summary>
+        /// <param name="dgvCurrent"></param>
+        /// <param name="value"></param>
+        /// <param name="dataPropertyName"></param>
         public static void RowsCheckboxValue(DataGridView dgvCurrent, bool value, string dataPropertyName = "Selected")
         {
             var colNdxSelected = GetDataPropertyColumnIndex(dgvCurrent, dataPropertyName);

@@ -175,7 +175,7 @@ namespace CustomsForgeSongManager.LocalTools
 
             int removed = Math.Abs(bwSongCollection.Count() - oldCount);
             if (removed > 0)
-                Globals.Log(String.Format("Removed ({0}) obsolete songs ...", removed));
+                Globals.Log(String.Format("Removed ({0}) obsolete songs from songsInfo.xml ...", removed));
 
             Globals.DebugLog("Parsing files ...");
             foreach (string file in filesList)

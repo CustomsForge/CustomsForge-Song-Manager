@@ -154,7 +154,7 @@ namespace CustomsForgeSongManager.DataObjects
         public static string ExtractedRs1DlcHsanPath { get { return Path.Combine(SongPacksFolder, "songs_rs1dlc.hsan"); } }
         // TODO: address Mac unpacked directory, i.e., cache.psarc_RS2014_Mac
         public static string Cache7zPath { get { return Path.Combine(SongPacksFolder, "cache.psarc_RS2014_Pc", "cache7.7z"); } }
-        public static string CachePcPath { get { return Path.Combine(SongPacksFolder, "cache.psarc_RS2014_Pc"); } } 
+        public static string CachePcPath { get { return Path.Combine(SongPacksFolder, "cache.psarc_RS2014_Pc"); } }
         // cache7.7z internal paths uses back slashes (normal path mode)
         public static string SongsHsanInternalPath { get { return Path.Combine("manifests", "songs", "songs.hsan"); } }
         // this is not a mistake archive internal paths use forward slashes (internal path mode)

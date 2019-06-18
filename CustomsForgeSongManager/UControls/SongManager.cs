@@ -73,6 +73,8 @@ namespace CustomsForgeSongManager.UControls
             cmsCheckForUpdate.Visible = GeneralExtension.IsInDesignMode ? true : false;
             cmsOpenSongLocation.Visible = GeneralExtension.IsInDesignMode ? true : false;
             cmsGetCharterName.Visible = GeneralExtension.IsInDesignMode ? true : false;
+            cmsOpenSongPage.Visible = GeneralExtension.IsInDesignMode ? true : false;
+            toolStripSeparator11.Visible = GeneralExtension.IsInDesignMode ? true : false;
 
             PopulateSongManager(); // check SongData version first
             PopulateTagger();
@@ -1693,7 +1695,7 @@ namespace CustomsForgeSongManager.UControls
                         cmsEnableDisable.Enabled = false;
                     }
 
-                    cmsSongManager.Show(Cursor.Position);
+                     cmsSongManager.Show(Cursor.Position);
                 }
                 else
                 {

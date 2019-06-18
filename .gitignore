@@ -73,5 +73,6 @@ dev*.txt
 dev*.html
 dev Folder/
 dev SandboxToy/
+.vs/
 
 

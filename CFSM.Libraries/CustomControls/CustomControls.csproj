@@ -88,6 +88,9 @@
       <DependentUpon>ComboBoxPopup.cs</DependentUpon>
     </Compile>
     <Compile Include="ControlHelpers.cs" />
+    <Compile Include="ToolStripLabelTextBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="ToolStripLabelComboBox.cs">
       <SubType>Component</SubType>
     </Compile>

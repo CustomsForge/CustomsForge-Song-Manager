@@ -851,7 +851,7 @@ namespace CustomsForgeSongManager.UControls
             dataGridViewCellStyle19.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
             dataGridViewCellStyle19.NullValue = null;
             this.colLastConversionDateTime.DefaultCellStyle = dataGridViewCellStyle19;
-            this.colLastConversionDateTime.HeaderText = "ConversionDate";
+            this.colLastConversionDateTime.HeaderText = "LastConversionDateTime";
             this.colLastConversionDateTime.Name = "colLastConversionDateTime";
             this.colLastConversionDateTime.ReadOnly = true;
             this.colLastConversionDateTime.Visible = false;
@@ -977,7 +977,7 @@ namespace CustomsForgeSongManager.UControls
             this.colPackageVersion.HeaderText = "PackageVersion";
             this.colPackageVersion.Name = "colPackageVersion";
             this.colPackageVersion.ReadOnly = true;
-            this.colPackageVersion.Visible = false;
+            this.colPackageVersion.Visible = true;
             this.colPackageVersion.Width = 50;
             // 
             // colPackageComment
@@ -1999,8 +1999,7 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiFilesIncludeODLC.RadioButtonGroupName = null;
             this.tsmiFilesIncludeODLC.Size = new System.Drawing.Size(241, 22);
             this.tsmiFilesIncludeODLC.Text = "Include ODLC Files";
-            this.tsmiFilesIncludeODLC.ToolTipText = "If checked, ODLC files will be organized\r\ntoo, even though they are not selectabl" +
-                "e.";
+            this.tsmiFilesIncludeODLC.ToolTipText = "If checked, ODLC files will be organized\r\ntoo, even if they are not selected.";
             this.tsmiFilesIncludeODLC.Click += new System.EventHandler(this.tsmiFilesIncludeODLC_Click);
             // 
             // tsmiHelp
@@ -2181,10 +2180,6 @@ namespace CustomsForgeSongManager.UControls
         private CustomControls.ToolStripEnhancedMenuItem tsmiFilesUnorganize;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator14;
         private CustomControls.ToolStripEnhancedMenuItem tsmiFilesIncludeODLC;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn8;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn9;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn10;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn11;
         private SubclassedDataGridView dgvSongsDetail;
         private CustomControls.ToolStripEnhancedMenuItem tsmiModsPitchShiftStandard;
         private CustomControls.ToolStripEnhancedMenuItem tsmiModsPreserveStats;

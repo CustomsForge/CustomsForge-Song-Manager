@@ -162,6 +162,19 @@ namespace GenTools
             return ToolkitExtensions.StripNonAlphaNumeric(ToolkitExtensions.ReplaceAbbreviations(ToolkitExtensions.ShortWordMover(s))).ToUpperInvariant();
         }
 
+        public static string CleanVersion(this string s)
+        {
+            // 2.9.2.0-bacdb7d3
+            var version = "0.0.0.0"; // default ODLC
+            var ndxDash = s.IndexOf('-');
+
+            if (ndxDash > 6)
+                version = s.Substring(0, ndxDash);
+            
+            return version;
+        }
+
+
         public static void ClearFolder(string folderName)
         {
             // useage: ClearFolder(Path.GetTempPath()); to empty the Local Temp folder
@@ -238,6 +251,9 @@ namespace GenTools
 
         public static bool CopyFile(string fileFrom, string fileTo, bool overWrite, bool verbose = true)
         {
+            if (!File.Exists(fileFrom))
+                return false;
+
             if (verbose)
                 if (!PromptOverwrite(fileTo))
                     return false;
@@ -255,7 +271,8 @@ namespace GenTools
             }
             catch (IOException e)
             {
-                if (!overWrite) return true; // be nice don't throw error
+                if (!overWrite || !verbose)
+                    return true; // be nice don't throw error
                 BetterDialog.ShowDialog(
                     "Could not copy file " + fileFrom + "\r\nError Code: " + e.Message +
                     "\r\nMake sure associated file/folders are closed.",
@@ -342,6 +359,9 @@ namespace GenTools
 
         public static bool DeleteFile(string filePath)
         {
+            if (!File.Exists(filePath))
+                return true;
+
             const int magicDust = 10;
             for (var gnomes = 1; gnomes <= magicDust; gnomes++)
             {
@@ -353,7 +373,7 @@ namespace GenTools
                 }
                 catch (FileNotFoundException)
                 {
-                    return false; // file does not exist
+                    return true; // file does not exist
                 }
                 catch (ArgumentNullException)
                 {
@@ -653,8 +673,11 @@ namespace GenTools
             return Regex.Replace(fileName, invalidRegStr, replaceWith);
         }
 
-        public static bool MoveFile(string fileFrom, string fileTo, bool verbose = true)
+        public static bool MoveFile(string fileFrom, string fileTo, bool overWrite, bool verbose = true)
         {
+            if (!File.Exists(fileFrom))
+                return false;
+
             if (File.Exists(fileTo))
             {
                 if (!verbose)
@@ -673,13 +696,15 @@ namespace GenTools
 
             try
             {
-                File.Copy(fileFrom, fileTo);
+                CopyFile(fileFrom, fileTo, overWrite, verbose);
                 DeleteFile(fileFrom);
-                //File.Move(fileFrom, fileTo);
                 return true;
             }
             catch (IOException e)
             {
+                if (!verbose) // be nice don't throw errMsg
+                    return true;
+
                 var errMsg = "Could not move the file " + fileFrom + "  Error Code: " + e.Message;
                 BetterDialog.ShowDialog(SplitString(errMsg, 50), MESSAGEBOX_CAPTION, MessageBoxButtons.OK, Bitmap.FromHicon(SystemIcons.Warning.Handle), "Warning ...", 150, 150);
                 return false;

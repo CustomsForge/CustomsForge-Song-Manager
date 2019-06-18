@@ -158,7 +158,7 @@ namespace CustomsForgeSongManager.LocalTools
             // which is thrown only on x64 machines that do not have the registry value
             try
             {
-                if (AppSettings.Instance.MacMode)
+                if (Constants.OnMac)
                     return GetMacSteamPath();
 
                 const string installValueName = "InstallLocation";
@@ -213,7 +213,6 @@ namespace CustomsForgeSongManager.LocalTools
         public static string GetMacSteamPath()
         {
             //string homePath = Environment.GetEnvironmentVariable("HOME"); -> crashes
-
             //On Wine -> Environment.SpecialFolder.Personal = @"C:\users\username\My Documents";
 
             string myDocsPath = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
