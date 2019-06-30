@@ -17,6 +17,7 @@ using RocksmithToolkitLib.Extensions;
 using System.Diagnostics;
 using CustomsForgeSongManager.Forms;
 using System.Text;
+using CFSM.RSTKLib.PSARC;
 
 namespace CustomsForgeSongManager.LocalTools
 {
@@ -225,7 +226,7 @@ namespace CustomsForgeSongManager.LocalTools
                     bonusBass = true;
                 if (arr.Contains("vocals"))
                     vocals = true;
-                
+
                 // TODO: arrangement must be changed to lead or rhythm by charter/user if combo is not desired
                 // permanent solution would be to use RouteMask instead of json arrangement file name
                 if (arr.Contains("combo") && !arr.Contains("combo2"))
@@ -577,6 +578,81 @@ namespace CustomsForgeSongManager.LocalTools
             }
 
             GenericWorker.ReportProgress(processed, total, skipped, failed);
+        }
+
+        public void TagSongTitles(List<SongData> songs, string customTag, bool asPrefix)
+        {
+            int total = songs.Count, processed = 0, failed = 0, skipped = 0;
+
+            GenericWorker.InitReportProgress();
+            GenExtensions.InvokeIfRequired(Globals.TsProgressBar_Main.GetCurrentParent(), delegate
+            {
+                Globals.TsProgressBar_Main.Style = ProgressBarStyle.Marquee;
+                Globals.TsProgressBar_Main.Value = 0;
+            });
+
+            GenericWorker.ReportProgress(processed, total, skipped, failed);
+            foreach (var song in songs)
+            {
+                if (song.IsODLC)
+                {
+                    skipped++;
+                    continue;
+                }
+
+                if (TagSongTitle(song, customTag, asPrefix))
+                    processed++;
+                else
+                    failed++;
+
+                GenericWorker.ReportProgress(processed, total, skipped, failed);
+            }
+
+            GenExtensions.InvokeIfRequired(Globals.TsProgressBar_Main.GetCurrentParent(), delegate
+            {
+                Globals.TsProgressBar_Main.Style = ProgressBarStyle.Continuous;
+                Globals.TsProgressBar_Main.Value = 100;
+            });
+        }
+
+        public bool TagSongTitle(SongData song, string customTag, bool asPrefix)
+        {
+            string songPath = song.FilePath;
+            if (!File.Exists(songPath))
+                return false;
+
+            try
+            {
+                var psarc = new PsarcPackage();
+                var packageData = psarc.ReadPackage(songPath);
+
+                Globals.Log("Adding a custom tag to " + song.Title + " by " + song.Artist);
+
+                if (asPrefix)
+                {
+                    packageData.SongInfo.SongDisplayName = customTag + " " + packageData.SongInfo.SongDisplayName;
+                    packageData.SongInfo.SongDisplayNameSort = customTag + " " + packageData.SongInfo.SongDisplayNameSort;
+                }
+                else
+                {
+                    packageData.SongInfo.SongDisplayName = packageData.SongInfo.SongDisplayName + " " + customTag;
+                    packageData.SongInfo.SongDisplayNameSort = packageData.SongInfo.SongDisplayNameSort + " " + customTag;
+                }
+                
+
+                Globals.Log(" - Repackaging");
+                Globals.Log(" - Please wait this could take a minute ...");
+
+                using (var psarcOut = new PsarcPackage(true))
+                    psarcOut.WritePackage(songPath, packageData);
+
+                return true;
+            }
+            catch (Exception e)
+            {
+                Globals.Log("Adding custom title tag failed. Error: " + e.Message);
+                return false;
+            }
         }
     }
 

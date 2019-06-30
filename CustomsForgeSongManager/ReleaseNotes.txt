@@ -13,6 +13,8 @@ until you can confirm it is safe by working directly with your AV provider.
 ========================================================================
 
 CFSM Release Notes
+1.5.4.5 
+- Added	an option to add custom title tags ('Your Tag Here' Song Name / Song Name 'Your Tag Here') under Custom Mods in Song Manager tab	
 
 1.5.4.4
 - RSTL Mac Build Update

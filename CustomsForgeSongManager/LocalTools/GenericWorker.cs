@@ -62,6 +62,8 @@ namespace CustomsForgeSongManager.LocalTools
                 bWorker.DoWork += WorkerOrganizeSongs;
             else if (WorkDescription.Equals(Constants.GWORKER_TAG) || WorkDescription.Equals(Constants.GWORKER_UNTAG))
                 bWorker.DoWork += WorkerTagUntagSongs;
+            else if (WorkDescription.Equals(Constants.GWORKER_TITLETAG))
+                bWorker.DoWork += WorkerTagTitles;
             else
                 throw new Exception("I'm not that kind of worker ...");
 
@@ -217,6 +219,12 @@ namespace CustomsForgeSongManager.LocalTools
         {
             if (!bWorker.CancellationPending)
                 Globals.Tagger.TagUntagSongs(WorkParm1, WorkParm2);
+        }
+
+        private void WorkerTagTitles(object sender, DoWorkEventArgs e)
+        {
+            if(!bWorker.CancellationPending)
+               Globals.Tagger.TagSongTitles(WorkParm1, WorkParm2, WorkParm3);
         }
 
         [SuppressMessage("Microsoft.Usage", "CA2213:DisposableFieldsShouldBeDisposed", MessageId = "bWorker")]

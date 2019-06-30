@@ -1695,7 +1695,7 @@ namespace CustomsForgeSongManager.UControls
                         cmsEnableDisable.Enabled = false;
                     }
 
-                     cmsSongManager.Show(Cursor.Position);
+                    cmsSongManager.Show(Cursor.Position);
                 }
                 else
                 {
@@ -2570,8 +2570,26 @@ namespace CustomsForgeSongManager.UControls
             e.Cancel = true;
         }
 
+        private void tbCustomTitle_Click(object sender, EventArgs e)
+        {
+            if (tbCustomTitle.Text == "Tag here...")
+                tbCustomTitle.Text = "";
+        }
 
+        private void tsmiAddCustomTag_Click(object sender, EventArgs e)
+        {
+            var selection = DgvExtensions.GetObjectsFromRows<SongData>(dgvSongsMaster);
+            if (!selection.Any())
+            {
+                Globals.Log("Please select at least one song you would like to tag!");
+                return;
+            }
 
+            string tag = tbCustomTitle.Text;
+
+            DoWork(Constants.GWORKER_TITLETAG, selection, tag, tsmiRadioAsPrefix.Checked);
+            RefreshDgv(false);
+        }
     }
 }
 
