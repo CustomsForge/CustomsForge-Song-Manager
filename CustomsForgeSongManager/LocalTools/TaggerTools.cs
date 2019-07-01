@@ -628,17 +628,27 @@ namespace CustomsForgeSongManager.LocalTools
 
                 Globals.Log("Adding a custom tag to " + song.Title + " by " + song.Artist);
 
+                string newTitle = "", fixedTitle = "";
                 if (asPrefix)
                 {
-                    packageData.SongInfo.SongDisplayName = customTag + " " + packageData.SongInfo.SongDisplayName;
-                    packageData.SongInfo.SongDisplayNameSort = customTag + " " + packageData.SongInfo.SongDisplayNameSort;
+                    newTitle = customTag + " " + packageData.SongInfo.SongDisplayName;
+                    packageData.SongInfo.SongDisplayName = newTitle;
+                    packageData.SongInfo.SongDisplayNameSort = customTag + " " + packageData.SongInfo.SongDisplayNameSort.GetValidSortableName();
                 }
                 else
                 {
-                    packageData.SongInfo.SongDisplayName = packageData.SongInfo.SongDisplayName + " " + customTag;
+                    newTitle = packageData.SongInfo.SongDisplayName + " " + customTag;
+                    packageData.SongInfo.SongDisplayName = newTitle;
                     packageData.SongInfo.SongDisplayNameSort = packageData.SongInfo.SongDisplayNameSort + " " + customTag;
                 }
-                
+
+                fixedTitle = packageData.SongInfo.SongDisplayName.GetValidAtaSpaceName();
+                packageData.SongInfo.SongDisplayName = fixedTitle;
+                packageData.SongInfo.SongDisplayNameSort =
+                    packageData.SongInfo.SongDisplayNameSort.GetValidSortableName();
+
+                if (!string.Equals(newTitle, fixedTitle))
+                    Globals.Log(" - New title corrected to " + fixedTitle);
 
                 Globals.Log(" - Repackaging");
                 Globals.Log(" - Please wait this could take a minute ...");
