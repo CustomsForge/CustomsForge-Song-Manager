@@ -30,6 +30,7 @@ namespace CustomsForgeSongManager.LocalTools
         public dynamic WorkParm1;
         public dynamic WorkParm2;
         public dynamic WorkParm3;
+        public dynamic WorkParm4;
 
         public void BackgroundProcess(object sender, AbortableBackgroundWorker backgroundWorker = null)
         {
@@ -224,7 +225,7 @@ namespace CustomsForgeSongManager.LocalTools
         private void WorkerTagTitles(object sender, DoWorkEventArgs e)
         {
             if(!bWorker.CancellationPending)
-               Globals.Tagger.TagSongTitles(WorkParm1, WorkParm2, WorkParm3);
+               Globals.Tagger.TagSongTitles(WorkParm1, WorkParm2, WorkParm3, WorkParm4);
         }
 
         [SuppressMessage("Microsoft.Usage", "CA2213:DisposableFieldsShouldBeDisposed", MessageId = "bWorker")]

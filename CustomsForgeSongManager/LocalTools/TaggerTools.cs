@@ -580,7 +580,7 @@ namespace CustomsForgeSongManager.LocalTools
             GenericWorker.ReportProgress(processed, total, skipped, failed);
         }
 
-        public void TagSongTitles(List<SongData> songs, string customTag, bool asPrefix)
+        public void TagSongTitles(List<SongData> songs, string customTag, bool asPrefix, bool removeTag)
         {
             int total = songs.Count, processed = 0, failed = 0, skipped = 0;
 
@@ -600,7 +600,7 @@ namespace CustomsForgeSongManager.LocalTools
                     continue;
                 }
 
-                if (TagSongTitle(song, customTag, asPrefix))
+                if (TagUnTagSongTitle(song, customTag, asPrefix, removeTag))
                     processed++;
                 else
                     failed++;
@@ -615,7 +615,7 @@ namespace CustomsForgeSongManager.LocalTools
             });
         }
 
-        public bool TagSongTitle(SongData song, string customTag, bool asPrefix)
+        public bool TagUnTagSongTitle(SongData song, string customTag, bool asPrefix, bool removeTag = false)
         {
             string songPath = song.FilePath;
             if (!File.Exists(songPath))
@@ -626,18 +626,27 @@ namespace CustomsForgeSongManager.LocalTools
                 var psarc = new PsarcPackage();
                 var packageData = psarc.ReadPackage(songPath);
 
-                Globals.Log("Adding a custom tag to " + song.Title + " by " + song.Artist);
-
-                if (asPrefix)
+                if (removeTag)
                 {
-                    packageData.SongInfo.SongDisplayName = (customTag + " " + packageData.SongInfo.SongDisplayName).GetValidAtaSpaceName();
-                    packageData.SongInfo.SongDisplayNameSort = (customTag + " " + packageData.SongInfo.SongDisplayNameSort).GetValidSortableName();
+                    Globals.Log("Removing the custom tag from " + song.Title + " by " + song.Artist);
+                    packageData.SongInfo.SongDisplayName = (packageData.SongInfo.SongDisplayName.Replace(customTag, "")).GetValidAtaSpaceName().Trim();
+                    packageData.SongInfo.SongDisplayNameSort = (packageData.SongInfo.SongDisplayNameSort.Replace(customTag, "")).GetValidSortableName().Trim();
                 }
                 else
                 {
-                    packageData.SongInfo.SongDisplayName = (packageData.SongInfo.SongDisplayName + " " + customTag).GetValidAtaSpaceName();
-                    packageData.SongInfo.SongDisplayNameSort = (packageData.SongInfo.SongDisplayNameSort + " " + customTag).GetValidSortableName();
+                    Globals.Log("Adding a custom tag to " + song.Title + " by " + song.Artist);
+                    if (asPrefix)
+                    {
+                        packageData.SongInfo.SongDisplayName = (customTag + " " + packageData.SongInfo.SongDisplayName).GetValidAtaSpaceName();
+                        packageData.SongInfo.SongDisplayNameSort = (customTag + " " + packageData.SongInfo.SongDisplayNameSort).GetValidSortableName();
+                    }
+                    else
+                    {
+                        packageData.SongInfo.SongDisplayName = (packageData.SongInfo.SongDisplayName + " " + customTag).GetValidAtaSpaceName();
+                        packageData.SongInfo.SongDisplayNameSort = (packageData.SongInfo.SongDisplayNameSort + " " + customTag).GetValidSortableName();
+                    }
                 }
+                  
 
                 Globals.Log(" - Repackaging");
                 Globals.Log(" - Please wait this could take a minute ...");

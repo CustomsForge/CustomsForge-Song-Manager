@@ -526,6 +526,11 @@ three File IO related 'Actions'.</value>
         c8fNAwP3aC4rzNpFLiHzZrOZF5YF1ul+A6JeKgWmgfTGAAAAAElFTkSuQmCC
 </value>
   </data>
+  <data name="tsmiAddCustomTitleTag.ToolTipText" xml:space="preserve">
+    <value>Add a custom title tag to a song's title. (eg. for a song Heavy Metal, when you add a tag 'B Std' as a prefix, it will end up as 'B Std Heavy Metal'
+
+NOTE: in order to remove a tag, write the tag in the same box as you did when you added it and then press 'Remove tag'</value>
+  </data>
   <data name="tsmiModsPitchShifter.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAIAAACQkWg2AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6

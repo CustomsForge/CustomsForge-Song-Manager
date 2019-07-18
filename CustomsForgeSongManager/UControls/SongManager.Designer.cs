@@ -33,18 +33,18 @@ namespace CustomsForgeSongManager.UControls
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SongManager));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle49 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle50 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle51 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle52 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle53 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle54 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle55 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle56 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle57 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle58 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle59 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle60 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle15 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle16 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle17 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle18 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle19 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle20 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle21 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle22 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle23 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle24 = new System.Windows.Forms.DataGridViewCellStyle();
             this.panelSearch = new System.Windows.Forms.Panel();
             this.chkProtectODLC = new System.Windows.Forms.CheckBox();
             this.chkIncludeSubfolders = new System.Windows.Forms.CheckBox();
@@ -210,6 +210,7 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiHelpRepairs = new CustomControls.ToolStripEnhancedMenuItem();
             this.tsmiHelpErrorLog = new CustomControls.ToolStripEnhancedMenuItem();
             this.tsmiDevDebugUse = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiRemoveCustomTitleTag = new System.Windows.Forms.ToolStripMenuItem();
             this.panelSearch.SuspendLayout();
             this.gb_Main_Search.SuspendLayout();
             this.cmsSongManager.SuspendLayout();
@@ -599,19 +600,19 @@ namespace CustomsForgeSongManager.UControls
             // 
             // dgvSongsMaster
             // 
-            dataGridViewCellStyle49.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.dgvSongsMaster.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle49;
+            dataGridViewCellStyle13.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.dgvSongsMaster.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle13;
             this.dgvSongsMaster.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            dataGridViewCellStyle50.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle50.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle50.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle50.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle50.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle50.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle50.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvSongsMaster.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle50;
+            dataGridViewCellStyle14.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle14.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle14.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle14.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle14.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle14.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle14.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvSongsMaster.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle14;
             this.dgvSongsMaster.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.colShowDetail,
             this.colKey,
@@ -804,9 +805,9 @@ namespace CustomsForgeSongManager.UControls
             // colSongYear
             // 
             this.colSongYear.DataPropertyName = "SongYear";
-            dataGridViewCellStyle51.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle51.NullValue = null;
-            this.colSongYear.DefaultCellStyle = dataGridViewCellStyle51;
+            dataGridViewCellStyle15.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle15.NullValue = null;
+            this.colSongYear.DefaultCellStyle = dataGridViewCellStyle15;
             this.colSongYear.HeaderText = "Year";
             this.colSongYear.Name = "colSongYear";
             this.colSongYear.ReadOnly = true;
@@ -817,10 +818,10 @@ namespace CustomsForgeSongManager.UControls
             // colSongLength
             // 
             this.colSongLength.DataPropertyName = "SongLength";
-            dataGridViewCellStyle52.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle52.Format = "N2";
-            dataGridViewCellStyle52.NullValue = null;
-            this.colSongLength.DefaultCellStyle = dataGridViewCellStyle52;
+            dataGridViewCellStyle16.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle16.Format = "N2";
+            dataGridViewCellStyle16.NullValue = null;
+            this.colSongLength.DefaultCellStyle = dataGridViewCellStyle16;
             this.colSongLength.HeaderText = "SongLength (secs)";
             this.colSongLength.Name = "colSongLength";
             this.colSongLength.ReadOnly = true;
@@ -829,10 +830,10 @@ namespace CustomsForgeSongManager.UControls
             // colSongAverageTempo
             // 
             this.colSongAverageTempo.DataPropertyName = "SongAverageTempo";
-            dataGridViewCellStyle53.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle53.Format = "N2";
-            dataGridViewCellStyle53.NullValue = null;
-            this.colSongAverageTempo.DefaultCellStyle = dataGridViewCellStyle53;
+            dataGridViewCellStyle17.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle17.Format = "N2";
+            dataGridViewCellStyle17.NullValue = null;
+            this.colSongAverageTempo.DefaultCellStyle = dataGridViewCellStyle17;
             this.colSongAverageTempo.HeaderText = "BPM";
             this.colSongAverageTempo.Name = "colSongAverageTempo";
             this.colSongAverageTempo.Resizable = System.Windows.Forms.DataGridViewTriState.True;
@@ -841,10 +842,10 @@ namespace CustomsForgeSongManager.UControls
             // colSongVolume
             // 
             this.colSongVolume.DataPropertyName = "SongVolume";
-            dataGridViewCellStyle54.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle54.Format = "N2";
-            dataGridViewCellStyle54.NullValue = null;
-            this.colSongVolume.DefaultCellStyle = dataGridViewCellStyle54;
+            dataGridViewCellStyle18.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle18.Format = "N2";
+            dataGridViewCellStyle18.NullValue = null;
+            this.colSongVolume.DefaultCellStyle = dataGridViewCellStyle18;
             this.colSongVolume.HeaderText = "SongVolume (LF)";
             this.colSongVolume.Name = "colSongVolume";
             this.colSongVolume.Resizable = System.Windows.Forms.DataGridViewTriState.True;
@@ -854,9 +855,9 @@ namespace CustomsForgeSongManager.UControls
             // colLastConversionDateTime
             // 
             this.colLastConversionDateTime.DataPropertyName = "LastConversionDateTime";
-            dataGridViewCellStyle55.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle55.NullValue = null;
-            this.colLastConversionDateTime.DefaultCellStyle = dataGridViewCellStyle55;
+            dataGridViewCellStyle19.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle19.NullValue = null;
+            this.colLastConversionDateTime.DefaultCellStyle = dataGridViewCellStyle19;
             this.colLastConversionDateTime.HeaderText = "LastConversionDateTime";
             this.colLastConversionDateTime.Name = "colLastConversionDateTime";
             this.colLastConversionDateTime.ReadOnly = true;
@@ -866,9 +867,9 @@ namespace CustomsForgeSongManager.UControls
             // colDD
             // 
             this.colDD.DataPropertyName = "DD";
-            dataGridViewCellStyle56.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle56.NullValue = null;
-            this.colDD.DefaultCellStyle = dataGridViewCellStyle56;
+            dataGridViewCellStyle20.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle20.NullValue = null;
+            this.colDD.DefaultCellStyle = dataGridViewCellStyle20;
             this.colDD.HeaderText = "DDMax";
             this.colDD.Name = "colDD";
             this.colDD.ReadOnly = true;
@@ -919,9 +920,9 @@ namespace CustomsForgeSongManager.UControls
             // colFileDate
             // 
             this.colFileDate.DataPropertyName = "FileDate";
-            dataGridViewCellStyle57.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle57.NullValue = null;
-            this.colFileDate.DefaultCellStyle = dataGridViewCellStyle57;
+            dataGridViewCellStyle21.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle21.NullValue = null;
+            this.colFileDate.DefaultCellStyle = dataGridViewCellStyle21;
             this.colFileDate.HeaderText = "FileDate";
             this.colFileDate.Name = "colFileDate";
             this.colFileDate.Resizable = System.Windows.Forms.DataGridViewTriState.True;
@@ -930,9 +931,9 @@ namespace CustomsForgeSongManager.UControls
             // colFileSize
             // 
             this.colFileSize.DataPropertyName = "FileSize";
-            dataGridViewCellStyle58.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle58.NullValue = null;
-            this.colFileSize.DefaultCellStyle = dataGridViewCellStyle58;
+            dataGridViewCellStyle22.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle22.NullValue = null;
+            this.colFileSize.DefaultCellStyle = dataGridViewCellStyle22;
             this.colFileSize.HeaderText = "FileSize (bytes)";
             this.colFileSize.Name = "colFileSize";
             this.colFileSize.Visible = false;
@@ -950,10 +951,10 @@ namespace CustomsForgeSongManager.UControls
             // colAppID
             // 
             this.colAppID.DataPropertyName = "AppID";
-            dataGridViewCellStyle59.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle59.Format = "N2";
-            dataGridViewCellStyle59.NullValue = null;
-            this.colAppID.DefaultCellStyle = dataGridViewCellStyle59;
+            dataGridViewCellStyle23.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle23.Format = "N2";
+            dataGridViewCellStyle23.NullValue = null;
+            this.colAppID.DefaultCellStyle = dataGridViewCellStyle23;
             this.colAppID.HeaderText = "AppID";
             this.colAppID.Name = "colAppID";
             this.colAppID.ReadOnly = true;
@@ -1024,10 +1025,10 @@ namespace CustomsForgeSongManager.UControls
             // colIgnitionDate
             // 
             this.colIgnitionDate.DataPropertyName = "IgnitionDate";
-            dataGridViewCellStyle60.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle60.Format = "N2";
-            dataGridViewCellStyle60.NullValue = null;
-            this.colIgnitionDate.DefaultCellStyle = dataGridViewCellStyle60;
+            dataGridViewCellStyle24.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle24.Format = "N2";
+            dataGridViewCellStyle24.NullValue = null;
+            this.colIgnitionDate.DefaultCellStyle = dataGridViewCellStyle24;
             this.colIgnitionDate.HeaderText = "IgnitionDate";
             this.colIgnitionDate.Name = "colIgnitionDate";
             this.colIgnitionDate.ReadOnly = true;
@@ -1114,7 +1115,7 @@ namespace CustomsForgeSongManager.UControls
             this.cmsSongManagerColumns.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.testToolStripMenuItem});
             this.cmsSongManagerColumns.Name = "cmsSongManagerColumns";
-            this.cmsSongManagerColumns.Size = new System.Drawing.Size(96, 26);
+            this.cmsSongManagerColumns.Size = new System.Drawing.Size(95, 26);
             // 
             // testToolStripMenuItem
             // 
@@ -1125,7 +1126,7 @@ namespace CustomsForgeSongManager.UControls
             this.testToolStripMenuItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.testToolStripMenuItem.Name = "testToolStripMenuItem";
             this.testToolStripMenuItem.RadioButtonGroupName = null;
-            this.testToolStripMenuItem.Size = new System.Drawing.Size(95, 22);
+            this.testToolStripMenuItem.Size = new System.Drawing.Size(94, 22);
             this.testToolStripMenuItem.Text = "Test";
             // 
             // toolTip
@@ -1692,7 +1693,7 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiModsChangeAppId.Image = ((System.Drawing.Image)(resources.GetObject("tsmiModsChangeAppId.Image")));
             this.tsmiModsChangeAppId.Name = "tsmiModsChangeAppId";
             this.tsmiModsChangeAppId.RadioButtonGroupName = null;
-            this.tsmiModsChangeAppId.Size = new System.Drawing.Size(203, 22);
+            this.tsmiModsChangeAppId.Size = new System.Drawing.Size(202, 22);
             this.tsmiModsChangeAppId.Text = "Edit App IDs";
             this.tsmiModsChangeAppId.ToolTipText = "Change the CDLC App ID to\r\nany other DLC that you own.\r\n\r\nHINT:\r\nYou can also typ" +
     "e in any valid\r\nApp ID if it is not on the list.";
@@ -1701,20 +1702,20 @@ namespace CustomsForgeSongManager.UControls
             // toolStripSeparator17
             // 
             this.toolStripSeparator17.Name = "toolStripSeparator17";
-            this.toolStripSeparator17.Size = new System.Drawing.Size(200, 6);
+            this.toolStripSeparator17.Size = new System.Drawing.Size(199, 6);
             // 
             // tsmiAddCustomTitleTag
             // 
             this.tsmiAddCustomTitleTag.AssociatedEnumValue = null;
             this.tsmiAddCustomTitleTag.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tbCustomTitle,
-            this.tsmiAddCustomTag});
+            this.tsmiAddCustomTag,
+            this.tsmiRemoveCustomTitleTag});
             this.tsmiAddCustomTitleTag.Name = "tsmiAddCustomTitleTag";
             this.tsmiAddCustomTitleTag.RadioButtonGroupName = null;
-            this.tsmiAddCustomTitleTag.Size = new System.Drawing.Size(203, 22);
+            this.tsmiAddCustomTitleTag.Size = new System.Drawing.Size(202, 22);
             this.tsmiAddCustomTitleTag.Text = "Add Custom Title Tag";
-            this.tsmiAddCustomTitleTag.ToolTipText = "Add a custom title tag to a song\'s title. (eg. for a song Heavy Metal, when you a" +
-    "dd a tag \'B Std\' as a prefix, it will end up as \'B Std Heavy Metal\'";
+            this.tsmiAddCustomTitleTag.ToolTipText = resources.GetString("tsmiAddCustomTitleTag.ToolTipText");
             // 
             // tbCustomTitle
             // 
@@ -1727,8 +1728,8 @@ namespace CustomsForgeSongManager.UControls
             // 
             this.tsmiAddCustomTag.BackColor = System.Drawing.SystemColors.ControlLight;
             this.tsmiAddCustomTag.Name = "tsmiAddCustomTag";
-            this.tsmiAddCustomTag.Size = new System.Drawing.Size(160, 22);
-            this.tsmiAddCustomTag.Text = "Do le tagging";
+            this.tsmiAddCustomTag.Size = new System.Drawing.Size(180, 22);
+            this.tsmiAddCustomTag.Text = "Add tag";
             this.tsmiAddCustomTag.Click += new System.EventHandler(this.tsmiAddCustomTag_Click);
             // 
             // tsmiRadioAsPrefix
@@ -1740,7 +1741,7 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiRadioAsPrefix.CheckState = System.Windows.Forms.CheckState.Checked;
             this.tsmiRadioAsPrefix.Name = "tsmiRadioAsPrefix";
             this.tsmiRadioAsPrefix.RadioButtonGroupName = null;
-            this.tsmiRadioAsPrefix.Size = new System.Drawing.Size(203, 22);
+            this.tsmiRadioAsPrefix.Size = new System.Drawing.Size(202, 22);
             this.tsmiRadioAsPrefix.Text = "Add as prefix";
             this.tsmiRadioAsPrefix.ToolTipText = "If this option is selected, custom title tag will be added as a prefix. For examp" +
     "le if you tag a song called Heavy Rain with tag \'Tagio\', it will end up as: Tagi" +
@@ -1753,7 +1754,7 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiRadioAsSuffix.CheckOnClick = true;
             this.tsmiRadioAsSuffix.Name = "tsmiRadioAsSuffix";
             this.tsmiRadioAsSuffix.RadioButtonGroupName = null;
-            this.tsmiRadioAsSuffix.Size = new System.Drawing.Size(203, 22);
+            this.tsmiRadioAsSuffix.Size = new System.Drawing.Size(202, 22);
             this.tsmiRadioAsSuffix.Text = "Add as suffix";
             this.tsmiRadioAsSuffix.ToolTipText = "If this option is selected, custom title tag will be added as a suffix. For examp" +
     "le if you tag a song called Heavy Rain with tag \'Tagio\', it will end up as: Heav" +
@@ -1763,7 +1764,7 @@ namespace CustomsForgeSongManager.UControls
             // toolStripSeparator4
             // 
             this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(200, 6);
+            this.toolStripSeparator4.Size = new System.Drawing.Size(199, 6);
             // 
             // tsmiModsPitchShifter
             // 
@@ -1771,7 +1772,7 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiModsPitchShifter.Image = ((System.Drawing.Image)(resources.GetObject("tsmiModsPitchShifter.Image")));
             this.tsmiModsPitchShifter.Name = "tsmiModsPitchShifter";
             this.tsmiModsPitchShifter.RadioButtonGroupName = "PitchShifter";
-            this.tsmiModsPitchShifter.Size = new System.Drawing.Size(203, 22);
+            this.tsmiModsPitchShifter.Size = new System.Drawing.Size(202, 22);
             this.tsmiModsPitchShifter.Text = "Pitch Shifter";
             this.tsmiModsPitchShifter.ToolTipText = resources.GetString("tsmiModsPitchShifter.ToolTipText");
             this.tsmiModsPitchShifter.Click += new System.EventHandler(this.tsmiModsPitchShifter_Click);
@@ -1782,7 +1783,7 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiModsPitchShiftStandard.CheckOnClick = true;
             this.tsmiModsPitchShiftStandard.Name = "tsmiModsPitchShiftStandard";
             this.tsmiModsPitchShiftStandard.RadioButtonGroupName = null;
-            this.tsmiModsPitchShiftStandard.Size = new System.Drawing.Size(203, 22);
+            this.tsmiModsPitchShiftStandard.Size = new System.Drawing.Size(202, 22);
             this.tsmiModsPitchShiftStandard.Text = "Force E Standard Tuning";
             this.tsmiModsPitchShiftStandard.ToolTipText = "If checked, forces E Standard Tuning even\r\nif arrangement is currently a Drop tun" +
     "ing.";
@@ -1794,7 +1795,7 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiModsPreserveStats.CheckOnClick = true;
             this.tsmiModsPreserveStats.Name = "tsmiModsPreserveStats";
             this.tsmiModsPreserveStats.RadioButtonGroupName = null;
-            this.tsmiModsPreserveStats.Size = new System.Drawing.Size(203, 22);
+            this.tsmiModsPreserveStats.Size = new System.Drawing.Size(202, 22);
             this.tsmiModsPreserveStats.Text = "Preserve Stats";
             this.tsmiModsPreserveStats.ToolTipText = resources.GetString("tsmiModsPreserveStats.ToolTipText");
             this.tsmiModsPreserveStats.CheckStateChanged += new System.EventHandler(this.ModsPitchShift_CheckStateChanged);
@@ -1808,7 +1809,7 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiModsPitchShiftOverwrite.ForeColor = System.Drawing.Color.Red;
             this.tsmiModsPitchShiftOverwrite.Name = "tsmiModsPitchShiftOverwrite";
             this.tsmiModsPitchShiftOverwrite.RadioButtonGroupName = "PitchShift";
-            this.tsmiModsPitchShiftOverwrite.Size = new System.Drawing.Size(203, 22);
+            this.tsmiModsPitchShiftOverwrite.Size = new System.Drawing.Size(202, 22);
             this.tsmiModsPitchShiftOverwrite.Text = "Overwrite File";
             this.tsmiModsPitchShiftOverwrite.ToolTipText = "If checked, overwrite existing CDLC\r\nwith pitch shifted arrangements and\r\nreduces" +
     " the risk of in-game hangs.";
@@ -1817,14 +1818,14 @@ namespace CustomsForgeSongManager.UControls
             // toolStripSeparator5
             // 
             this.toolStripSeparator5.Name = "toolStripSeparator5";
-            this.toolStripSeparator5.Size = new System.Drawing.Size(200, 6);
+            this.toolStripSeparator5.Size = new System.Drawing.Size(199, 6);
             // 
             // tsmiTagStyle
             // 
             this.tsmiTagStyle.AssociatedEnumValue = null;
             this.tsmiTagStyle.Name = "tsmiTagStyle";
             this.tsmiTagStyle.RadioButtonGroupName = null;
-            this.tsmiTagStyle.Size = new System.Drawing.Size(203, 22);
+            this.tsmiTagStyle.Size = new System.Drawing.Size(202, 22);
             this.tsmiTagStyle.Text = "Tag Style";
             // 
             // tsmiModsTagArtwork
@@ -1833,7 +1834,7 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiModsTagArtwork.Image = ((System.Drawing.Image)(resources.GetObject("tsmiModsTagArtwork.Image")));
             this.tsmiModsTagArtwork.Name = "tsmiModsTagArtwork";
             this.tsmiModsTagArtwork.RadioButtonGroupName = null;
-            this.tsmiModsTagArtwork.Size = new System.Drawing.Size(203, 22);
+            this.tsmiModsTagArtwork.Size = new System.Drawing.Size(202, 22);
             this.tsmiModsTagArtwork.Text = "Tag Album Artwork";
             this.tsmiModsTagArtwork.ToolTipText = "Note: CFSM does not tag ODLC.";
             this.tsmiModsTagArtwork.Click += new System.EventHandler(this.tsmiModsTagArtwork_Click);
@@ -1844,14 +1845,14 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiModsUntagArtwork.Image = ((System.Drawing.Image)(resources.GetObject("tsmiModsUntagArtwork.Image")));
             this.tsmiModsUntagArtwork.Name = "tsmiModsUntagArtwork";
             this.tsmiModsUntagArtwork.RadioButtonGroupName = null;
-            this.tsmiModsUntagArtwork.Size = new System.Drawing.Size(203, 22);
+            this.tsmiModsUntagArtwork.Size = new System.Drawing.Size(202, 22);
             this.tsmiModsUntagArtwork.Text = "Un-Tag";
             this.tsmiModsUntagArtwork.Click += new System.EventHandler(this.tsmiModsUntagArtwork_Click);
             // 
             // toolStripSeparator14
             // 
             this.toolStripSeparator14.Name = "toolStripSeparator14";
-            this.toolStripSeparator14.Size = new System.Drawing.Size(200, 6);
+            this.toolStripSeparator14.Size = new System.Drawing.Size(199, 6);
             // 
             // tsmiModsTheMover
             // 
@@ -1859,7 +1860,7 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiModsTheMover.CheckOnClick = true;
             this.tsmiModsTheMover.Name = "tsmiModsTheMover";
             this.tsmiModsTheMover.RadioButtonGroupName = null;
-            this.tsmiModsTheMover.Size = new System.Drawing.Size(203, 22);
+            this.tsmiModsTheMover.Size = new System.Drawing.Size(202, 22);
             this.tsmiModsTheMover.Text = "\'The\' mover";
             this.tsmiModsTheMover.ToolTipText = "\'The\' Mover e.g., The Beatles -> Beatles, The";
             this.tsmiModsTheMover.CheckStateChanged += new System.EventHandler(this.tsmiModsTheMover_CheckStateChanged);
@@ -1870,7 +1871,7 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiModsMyCDLC.Image = global::CustomsForgeSongManager.Properties.Resources.rename;
             this.tsmiModsMyCDLC.Name = "tsmiModsMyCDLC";
             this.tsmiModsMyCDLC.RadioButtonGroupName = null;
-            this.tsmiModsMyCDLC.Size = new System.Drawing.Size(203, 22);
+            this.tsmiModsMyCDLC.Size = new System.Drawing.Size(202, 22);
             this.tsmiModsMyCDLC.Text = "Show My CDLC";
             this.tsmiModsMyCDLC.CheckStateChanged += new System.EventHandler(this.tsmiModsMyCDLC_CheckStateChanged);
             // 
@@ -2129,6 +2130,16 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiDevDebugUse.Text = "Devs Debug Use";
             this.tsmiDevDebugUse.Click += new System.EventHandler(this.tsmiDevsDebugUse_Click);
             // 
+            // tsmiRemoveCustomTitleTag
+            // 
+            this.tsmiRemoveCustomTitleTag.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.tsmiRemoveCustomTitleTag.Name = "tsmiRemoveCustomTitleTag";
+            this.tsmiRemoveCustomTitleTag.Size = new System.Drawing.Size(180, 22);
+            this.tsmiRemoveCustomTitleTag.Text = "Remove tag";
+            this.tsmiRemoveCustomTitleTag.ToolTipText = "NOTE: in order to remove a tag, write the tag in the same box as you did when you" +
+    " added it and then press \'Remove tag\'";
+            this.tsmiRemoveCustomTitleTag.Click += new System.EventHandler(this.tsmiRemoveCustomTitleTag_Click);
+            // 
             // SongManager
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -2321,6 +2332,6 @@ namespace CustomsForgeSongManager.UControls
         private ToolStripTextBox tbCustomTitle;
         private ToolStripMenuItem tsmiAddCustomTag;
         private CustomControls.ToolStripEnhancedMenuItem tsmiRadioAsPrefix;
-
+        private ToolStripMenuItem tsmiRemoveCustomTitleTag;
     }
 }

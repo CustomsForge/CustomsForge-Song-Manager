@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -49,6 +49,7 @@ namespace CustomsForgeSongManager.UControls
         private bool bindingCompleted = false;
         private Stopwatch counterStopwatch;
         private bool dgvPainted = false;
+        private bool loadedDefaultSearch = false;
         private int firstIndex = 0;
         private bool ignoreCheckStateChanged = false;
         private bool keepOpen;
@@ -71,7 +72,6 @@ namespace CustomsForgeSongManager.UControls
             dgvSongsDetail.Visible = false;
             // TODO: future get Ignition based API data
             cmsCheckForUpdate.Visible = GeneralExtension.IsInDesignMode ? true : false;
-            cmsOpenSongLocation.Visible = GeneralExtension.IsInDesignMode ? true : false;
             cmsGetCharterName.Visible = GeneralExtension.IsInDesignMode ? true : false;
             cmsOpenSongPage.Visible = GeneralExtension.IsInDesignMode ? true : false;
             toolStripSeparator11.Visible = GeneralExtension.IsInDesignMode ? true : false;
@@ -86,7 +86,7 @@ namespace CustomsForgeSongManager.UControls
             tsmiDevDebugUse.Visible = GeneralExtension.IsInDesignMode ? true : false;
         }
 
-        public void DoWork(string workDescription, dynamic workerParm1 = null, dynamic workerParm2 = null, dynamic workerParm3 = null)
+        public void DoWork(string workDescription, dynamic workerParm1 = null, dynamic workerParm2 = null, dynamic workerParm3 = null, dynamic workerParm4 = null)
         {
             using (var gWorker = new GenericWorker())
             {
@@ -94,6 +94,7 @@ namespace CustomsForgeSongManager.UControls
                 gWorker.WorkParm1 = workerParm1;
                 gWorker.WorkParm2 = workerParm2;
                 gWorker.WorkParm3 = workerParm3;
+                gWorker.WorkParm4 = workerParm4;
                 gWorker.BackgroundProcess(this);
                 while (Globals.WorkerFinished == Globals.Tristate.False)
                     Application.DoEvents();
@@ -286,8 +287,15 @@ namespace CustomsForgeSongManager.UControls
             if (!String.IsNullOrEmpty(AppSettings.Instance.SearchString) && !isCueSearch)
             {
                 isCueSearch = true;
-                cueSearch.Text = AppSettings.Instance.SearchString;
-                SearchCDLC(AppSettings.Instance.SearchString);
+
+                if (!loadedDefaultSearch)
+                {
+                    cueSearch.Text = AppSettings.Instance.SearchString;
+                    SearchCDLC(AppSettings.Instance.SearchString);
+                    loadedDefaultSearch = true;
+                }
+                else
+                    SearchCDLC(cueSearch.Text);
             }
 
             if (!isCueSearch)
@@ -451,11 +459,15 @@ namespace CustomsForgeSongManager.UControls
             tsmiDLFolderMonitor.Checked = AppSettings.Instance.RepairOptions.DLFolderMonitor;
         }
 
-        private void IncludeSubfolders()
+        private void IncludeSubfolders(bool clearSearchBox = true)
         {
             // search killer
-            cueSearch.Text = String.Empty;
-            AppSettings.Instance.SearchString = String.Empty;
+            if (clearSearchBox)
+            {
+                cueSearch.Text = String.Empty;
+                AppSettings.Instance.SearchString = String.Empty;
+            }
+
             songList = Globals.MasterCollection.ToList();
 
             if (!chkIncludeSubfolders.Checked)
@@ -1430,6 +1442,7 @@ namespace CustomsForgeSongManager.UControls
 
             // restore current sort
             statusSongsMaster.RestoreSorting(dgvSongsMaster);
+
             UpdateToolStrip(true);
         }
 
@@ -2576,7 +2589,7 @@ namespace CustomsForgeSongManager.UControls
                 tbCustomTitle.Text = "";
         }
 
-        private void tsmiAddCustomTag_Click(object sender, EventArgs e)
+        private void TagUnTagSelection(bool removeTag)
         {
             var selection = DgvExtensions.GetObjectsFromRows<SongData>(dgvSongsMaster);
             if (!selection.Any())
@@ -2587,8 +2600,19 @@ namespace CustomsForgeSongManager.UControls
 
             string tag = tbCustomTitle.Text;
 
-            DoWork(Constants.GWORKER_TITLETAG, selection, tag, tsmiRadioAsPrefix.Checked);
+            DoWork(Constants.GWORKER_TITLETAG, selection, tag, tsmiRadioAsPrefix.Checked, removeTag);
             RefreshDgv(false);
+        }
+
+
+        private void tsmiAddCustomTag_Click(object sender, EventArgs e)
+        {
+            TagUnTagSelection(false);
+        }
+
+        private void tsmiRemoveCustomTitleTag_Click(object sender, EventArgs e)
+        {
+            TagUnTagSelection(true);
         }
     }
 }
