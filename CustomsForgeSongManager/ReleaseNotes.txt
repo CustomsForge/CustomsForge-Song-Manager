@@ -13,11 +13,17 @@ until you can confirm it is safe by working directly with your AV provider.
 ========================================================================
 
 CFSM Release Notes
+
+1.5.4.7
+- Beautified Custom Title Tag tooltips and data input
+- User defined search is restored after CDLC Repair 
+
 1.5.4.6
 - Fixed old search terms being used after using certain functions like Rescan, Repair, ...
 - Searches also won't be removed after using those functions
-- Added an optiont to remove custom title tags (under 'Add tag') - NOTE: you have to manually input the tag (or any other part of the title that you want to remove)  
-- Brought back 'Open Song Location' (in the right-click menu)
+- Added an option to remove custom title tags (under 'Add tag')
+  NOTE: you have to manually input the tag (or any other part of the title that you want to remove)  
+- Restored 'Open Song Location' option in the right-click menu
 
 1.5.4.5 
 - Added	an option to add custom title tags ('Your Tag Here' Song Name / Song Name 'Your Tag Here') under Custom Mods in Song Manager tab	

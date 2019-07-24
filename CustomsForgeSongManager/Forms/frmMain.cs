@@ -207,6 +207,7 @@ namespace CustomsForgeSongManager.Forms
                 Globals.SongManager.Size = UCSize;
             }
 
+            Globals.SongManager.UpdateToolStrip();
             currentControl = Globals.SongManager;
         }
 
@@ -348,7 +349,6 @@ namespace CustomsForgeSongManager.Forms
                 // processing order is important to prevent flashing/jumping display
                 case "Song Manager":
                     LoadSongManager();
-                    Globals.SongManager.UpdateToolStrip();
                     break;
                 case "Arrangement Analyzer":
                     // don't reload grid if already loaded

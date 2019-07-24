@@ -49,7 +49,6 @@ namespace CustomsForgeSongManager.UControls
         private bool bindingCompleted = false;
         private Stopwatch counterStopwatch;
         private bool dgvPainted = false;
-        private bool loadedDefaultSearch = false;
         private int firstIndex = 0;
         private bool ignoreCheckStateChanged = false;
         private bool keepOpen;
@@ -263,10 +262,11 @@ namespace CustomsForgeSongManager.UControls
             return ro;
         }
 
-        public void UpdateToolStrip(bool isCueSearch = false)
+        public void UpdateToolStrip()
         {
             chkIncludeSubfolders.Checked = AppSettings.Instance.IncludeSubfolders;
             chkProtectODLC.Checked = AppSettings.Instance.ProtectODLC;
+            cueSearch.Text = AppSettings.Instance.SearchString;
 
             if (Globals.RescanSongManager)
             {
@@ -283,35 +283,24 @@ namespace CustomsForgeSongManager.UControls
                 PopulateSongManager();
             }
 
+            IncludeSubfolders(false);
+            ProtectODLC();
+
             // apply saved search (filters can not be applied the same way)
-            if (!String.IsNullOrEmpty(AppSettings.Instance.SearchString) && !isCueSearch)
+            if (!String.IsNullOrEmpty(AppSettings.Instance.SearchString))
             {
-                isCueSearch = true;
+                SearchCDLC(AppSettings.Instance.SearchString);
+                Thread.Sleep(200); // debounce search
+                dgvSongsMaster.AllowUserToAddRows = false; // corrects initial Song Count
 
-                if (!loadedDefaultSearch)
+                if (dgvSongsMaster.Rows.Count == 0)
                 {
-                    cueSearch.Text = AppSettings.Instance.SearchString;
-                    SearchCDLC(AppSettings.Instance.SearchString);
-                    loadedDefaultSearch = true;
+                    IncludeSubfolders(true); // search killer
+                    Globals.Log(" - CFSM cleared a search that returns no songs ...");
                 }
-                else
-                    SearchCDLC(cueSearch.Text);
             }
 
-            if (!isCueSearch)
-            {
-                IncludeSubfolders(); // search killer
-                ProtectODLC();
-            }
-
-            dgvSongsMaster.AllowUserToAddRows = false; // corrects initial Song Count
-            if (dgvSongsMaster.Rows.Count == 0 && !isCueSearch)
-            {
-                IncludeSubfolders(); // search killer
-                Globals.Log(" - CFSM cleared a saved search that returns no songs ...");
-            }
-
-            if (!AppSettings.Instance.IncludeArrangementData && !isCueSearch)
+            if (!AppSettings.Instance.IncludeArrangementData)
                 colSongAverageTempo.ToolTipText = "Use Arrangement Analyzer, Rescan\r\nFull to confirm BPM accuracy";
             else
                 colSongAverageTempo.ToolTipText = "";
@@ -614,7 +603,6 @@ namespace CustomsForgeSongManager.UControls
                 Environment.Exit(0);
             }
 
-            UpdateToolStrip();
             return true;
         }
 
@@ -882,6 +870,9 @@ namespace CustomsForgeSongManager.UControls
         {
             var lowerCriteria = criteria.ToLower();
             AppSettings.Instance.SearchString = lowerCriteria;
+            // perform quick save of AppSettings.Instance
+            using (var fs = new FileStream(Constants.AppSettingsPath, FileMode.Create, FileAccess.Write, FileShare.Write))
+                AppSettings.Instance.SerializeXml(fs);
 
             var results = songList.Where(x => x.ArtistTitleAlbum.ToLower().Contains(lowerCriteria) || x.Tunings1D.ToLower().Contains(lowerCriteria) || x.Arrangements1D.ToLower().Contains(lowerCriteria) || x.PackageAuthor.ToLower().Contains(lowerCriteria) || (x.IgnitionAuthor != null && x.IgnitionAuthor.ToLower().Contains(lowerCriteria) || (x.IgnitionID != null && x.IgnitionID.ToLower().Contains(lowerCriteria)) || x.SongYear.ToString().Contains(criteria) || x.FilePath.ToLower().Contains(lowerCriteria))).ToList();
 
@@ -1443,7 +1434,7 @@ namespace CustomsForgeSongManager.UControls
             // restore current sort
             statusSongsMaster.RestoreSorting(dgvSongsMaster);
 
-            UpdateToolStrip(true);
+            UpdateToolStrip();
         }
 
         private void dgvSongsMaster_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -2583,12 +2574,6 @@ namespace CustomsForgeSongManager.UControls
             e.Cancel = true;
         }
 
-        private void tbCustomTitle_Click(object sender, EventArgs e)
-        {
-            if (tbCustomTitle.Text == "Tag here...")
-                tbCustomTitle.Text = "";
-        }
-
         private void TagUnTagSelection(bool removeTag)
         {
             var selection = DgvExtensions.GetObjectsFromRows<SongData>(dgvSongsMaster);
@@ -2598,22 +2583,24 @@ namespace CustomsForgeSongManager.UControls
                 return;
             }
 
-            string tag = tbCustomTitle.Text;
+            string tag = tsmiCustomTitleTagTextBox.Text;
 
-            DoWork(Constants.GWORKER_TITLETAG, selection, tag, tsmiRadioAsPrefix.Checked, removeTag);
+            DoWork(Constants.GWORKER_TITLETAG, selection, tag, tsmiCustomTitleTagAsPrefix.Checked, removeTag);
             RefreshDgv(false);
         }
 
 
-        private void tsmiAddCustomTag_Click(object sender, EventArgs e)
+        private void tsmiCustomTitleTagAdd_Click(object sender, EventArgs e)
         {
             TagUnTagSelection(false);
         }
 
-        private void tsmiRemoveCustomTitleTag_Click(object sender, EventArgs e)
+        private void tsmiCustomTitleTagRemove_Click(object sender, EventArgs e)
         {
             TagUnTagSelection(true);
         }
+
+
     }
 }
 
