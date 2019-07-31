@@ -270,6 +270,33 @@ namespace GenTools
             return result;
         }
 
+        /// <summary>
+        /// Removes the suffix from a string, otherwise leave string unchanged
+        /// </summary>
+        /// <param name="str"></param>
+        /// <param name="suffix"></param>
+        /// <returns></returns>
+        public static string RemoveSuffix(this string str, string suffix)
+        {
+            if (str.EndsWith(suffix))
+                str = str.Remove(str.Length - suffix.Length, suffix.Length);
+
+            return str;
+        }
+
+        /// <summary>
+        /// Removes the prefix from a string, otherwise leave string unchanged
+        /// </summary>
+        /// <param name="str"></param>
+        /// <param name="prefix"></param>
+        /// <returns></returns>
+        public static string RemovePrefix(this string str, string prefix)
+        {
+            if (str.StartsWith(prefix))
+                str = str.Remove(0, prefix.Length);
+
+            return str;
+        }
 
     }
 }

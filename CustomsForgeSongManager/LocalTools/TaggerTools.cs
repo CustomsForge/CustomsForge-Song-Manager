@@ -628,9 +628,17 @@ namespace CustomsForgeSongManager.LocalTools
 
                 if (removeTag)
                 {
-                    Globals.Log("Removing the custom tag from " + song.Title + " by " + song.Artist);
-                    packageData.SongInfo.SongDisplayName = (packageData.SongInfo.SongDisplayName.Replace(customTag, "")).GetValidAtaSpaceName().Trim();
-                    packageData.SongInfo.SongDisplayNameSort = (packageData.SongInfo.SongDisplayNameSort.Replace(customTag, "")).GetValidSortableName().Trim();
+                    Globals.Log("Removing the custom tag from " + song.Title + " by " + song.Artist);                   
+                    if (asPrefix)
+                    {
+                        packageData.SongInfo.SongDisplayName = packageData.SongInfo.SongDisplayName.RemovePrefix(customTag).GetValidAtaSpaceName().Trim();
+                        packageData.SongInfo.SongDisplayNameSort = packageData.SongInfo.SongDisplayNameSort.RemovePrefix(customTag).GetValidAtaSpaceName().Trim();
+                    }
+                    else
+                    {
+                        packageData.SongInfo.SongDisplayName = packageData.SongInfo.SongDisplayName.RemoveSuffix(customTag).GetValidAtaSpaceName().Trim();
+                        packageData.SongInfo.SongDisplayNameSort = packageData.SongInfo.SongDisplayNameSort.RemoveSuffix(customTag).GetValidAtaSpaceName().Trim();
+                    }
                 }
                 else
                 {
@@ -646,7 +654,6 @@ namespace CustomsForgeSongManager.LocalTools
                         packageData.SongInfo.SongDisplayNameSort = (packageData.SongInfo.SongDisplayNameSort + " " + customTag).GetValidSortableName();
                     }
                 }
-                  
 
                 Globals.Log(" - Repackaging");
                 Globals.Log(" - Please wait this could take a minute ...");

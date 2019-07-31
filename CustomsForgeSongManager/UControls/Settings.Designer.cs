@@ -170,7 +170,7 @@ namespace CustomsForgeSongManager.UControls
             this.lstDgvColumns.Location = new System.Drawing.Point(0, 24);
             this.lstDgvColumns.MultiSelect = false;
             this.lstDgvColumns.Name = "lstDgvColumns";
-            this.lstDgvColumns.Size = new System.Drawing.Size(513, 438);
+            this.lstDgvColumns.Size = new System.Drawing.Size(513, 432);
             this.lstDgvColumns.TabIndex = 5;
             this.lstDgvColumns.UseCompatibleStateImageBehavior = false;
             this.lstDgvColumns.View = System.Windows.Forms.View.Details;

@@ -11,6 +11,10 @@ namespace CustomControls
 {
     [ToolStripItemDesignerAvailability(ToolStripItemDesignerAvailability.MenuStrip | ToolStripItemDesignerAvailability.ToolStrip | ToolStripItemDesignerAvailability.ContextMenuStrip)]
     [DefaultProperty("Items")]
+    [ToolboxBitmap(typeof(ComboBox))]
+    [RefreshProperties(RefreshProperties.Repaint)]
+    [Browsable(true)]
+    [EditorBrowsable(EditorBrowsableState.Always)]
     public class ToolStripLabelCombo : ToolStripControlHost
     {
         #region Private fields

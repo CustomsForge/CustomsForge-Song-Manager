@@ -1,5 +1,250 @@
 [
   {
+    "Title": "Bittersweet Symphony",
+    "Artist": "Aranbee Pop Symphony Orchestra",
+    "ReleaseDate": "2019-07-16T00:00:00Z",
+    "Pack": "Single",
+    "Link": "http://customsforge.com/process.php?id=43730"
+  },
+  {
+    "Title": "Chasing Cars",
+    "Artist": "Snow Patrol",
+    "ReleaseDate": "2019-07-16T00:00:00Z",
+    "Pack": "Single",
+    "Link": "http://customsforge.com/process.php?id=43731"
+  },
+  {
+    "Title": "Renegades",
+    "Artist": "X Ambassadors",
+    "ReleaseDate": "2019-07-16T00:00:00Z",
+    "Pack": "Single",
+    "Link": "http://customsforge.com/process.php?id=43732"
+  },
+  {
+    "Title": "Going to Hell",
+    "Artist": "The Pretty Reckless",
+    "ReleaseDate": "2019-07-09T00:00:00Z",
+    "Pack": "Single",
+    "Link": "http://customsforge.com/process.php?id=43579"
+  },
+  {
+    "Title": "Make Me Wanna Die",
+    "Artist": "The Pretty Reckless",
+    "ReleaseDate": "2019-07-09T00:00:00Z",
+    "Pack": "Single",
+    "Link": "http://customsforge.com/process.php?id=43580"
+  },
+  {
+    "Title": "My Medicine",
+    "Artist": "The Pretty Reckless",
+    "ReleaseDate": "2019-07-09T00:00:00Z",
+    "Pack": "Single",
+    "Link": "http://customsforge.com/process.php?id=43581"
+  },
+  {
+    "Title": "Guitar – Intermediate Linear Playing Exercise 1",
+    "Artist": "The Notetrackers",
+    "ReleaseDate": "2019-07-02T00:00:00Z",
+    "Pack": "Single",
+    "Link": "http://customsforge.com/process.php?id=43413"
+  },
+  {
+    "Title": "Guitar – Intermediate Hammer-on/Pull-Off Exercise 1",
+    "Artist": "The Notetrackers",
+    "ReleaseDate": "2019-07-02T00:00:00Z",
+    "Pack": "Single",
+    "Link": "http://customsforge.com/process.php?id=43414"
+  },
+  {
+    "Title": "Guitar – Intermediate Pull-off/Hammer-on Exercise 1",
+    "Artist": "The Notetrackers",
+    "ReleaseDate": "2019-07-02T00:00:00Z",
+    "Pack": "Single",
+    "Link": "http://customsforge.com/process.php?id=43415"
+  },
+  {
+    "Title": "Guitar – Intermediate String Skipping Exercise 1",
+    "Artist": "The Notetrackers",
+    "ReleaseDate": "2019-07-02T00:00:00Z",
+    "Pack": "Single",
+    "Link": "http://customsforge.com/process.php?id=43416"
+  },
+  {
+    "Title": "Guitar – Intermediate String Switching Exercise 1",
+    "Artist": "The Notetrackers",
+    "ReleaseDate": "2019-07-02T00:00:00Z",
+    "Pack": "Single",
+    "Link": "http://customsforge.com/process.php?id=43417"
+  },
+  {
+    "Title": "Bass – Intermediate Linear Playing Exercise 1",
+    "Artist": "The Notetrackers",
+    "ReleaseDate": "2019-07-02T00:00:00Z",
+    "Pack": "Single",
+    "Link": "http://customsforge.com/process.php?id=43418"
+  },
+  {
+    "Title": "Bass – Intermediate Hammer-on/Pull-Off Exercise 1",
+    "Artist": "The Notetrackers",
+    "ReleaseDate": "2019-07-02T00:00:00Z",
+    "Pack": "Single",
+    "Link": "http://customsforge.com/process.php?id=43419"
+  },
+  {
+    "Title": "Bass – Intermediate Pull-off/Hammer-on Exercise 1",
+    "Artist": "The Notetrackers",
+    "ReleaseDate": "2019-07-02T00:00:00Z",
+    "Pack": "Single",
+    "Link": "http://customsforge.com/process.php?id=43420"
+  },
+  {
+    "Title": "Bass – Intermediate String Skipping Exercise 1",
+    "Artist": "The Notetrackers",
+    "ReleaseDate": "2019-07-02T00:00:00Z",
+    "Pack": "Single",
+    "Link": "http://customsforge.com/process.php?id=43421"
+  },
+  {
+    "Title": "Bass – Intermediate String Switching Exercise 1",
+    "Artist": "The Notetrackers",
+    "ReleaseDate": "2019-07-02T00:00:00Z",
+    "Pack": "Single",
+    "Link": "http://customsforge.com/process.php?id=43422"
+  },
+  {
+    "Title": "The Con",
+    "Artist": "Tegan and Sara",
+    "ReleaseDate": "2019-06-25T00:00:00Z",
+    "Pack": "Single",
+    "Link": "http://customsforge.com/process.php?id=43235"
+  },
+  {
+    "Title": "Call It Off",
+    "Artist": "Tegan and Sara",
+    "ReleaseDate": "2019-06-25T00:00:00Z",
+    "Pack": "Single",
+    "Link": "http://customsforge.com/process.php?id=43234"
+  },
+  {
+    "Title": "Walking With A Ghost",
+    "Artist": "Tegan and Sara",
+    "ReleaseDate": "2019-06-25T00:00:00Z",
+    "Pack": "Single",
+    "Link": "http://customsforge.com/process.php?id=43236"
+  },
+  {
+    "Title": "Over The Hills And Far Away",
+    "Artist": "Nightwish",
+    "ReleaseDate": "2019-06-18T00:00:00Z",
+    "Pack": "Single",
+    "Link": "http://customsforge.com/process.php?id=43107"
+  },
+  {
+    "Title": "Louie Louie",
+    "Artist": "Joan Jett & The Blackhearts",
+    "ReleaseDate": "2019-06-18T00:00:00Z",
+    "Pack": "Single",
+    "Link": "http://customsforge.com/process.php?id=43106"
+  },
+  {
+    "Title": "Take On Me",
+    "Artist": "Reel Big Fish",
+    "ReleaseDate": "2019-06-18T00:00:00Z",
+    "Pack": "Single",
+    "Link": "http://customsforge.com/process.php?id=43108"
+  },
+  {
+    "Title": "A Gunshot To The Head of Trepidation",
+    "Artist": "Trivium",
+    "ReleaseDate": "2019-06-11T00:00:00Z",
+    "Pack": "Single",
+    "Link": "http://customsforge.com/process.php?id=42980"
+  },
+  {
+    "Title": "Dying In Your Arms",
+    "Artist": "Trivium",
+    "ReleaseDate": "2019-06-11T00:00:00Z",
+    "Pack": "Single",
+    "Link": "http://customsforge.com/process.php?id=42981"
+  },
+  {
+    "Title": "Pull Harder On The Strings Of Your Martyr",
+    "Artist": "Trivium",
+    "ReleaseDate": "2019-06-11T00:00:00Z",
+    "Pack": "Single",
+    "Link": "http://customsforge.com/process.php?id=42982"
+  },
+  {
+    "Title": "Bass – Easy Pull-off Exercise 1",
+    "Artist": "The Notetrackers",
+    "ReleaseDate": "2019-06-04T00:00:00Z",
+    "Pack": "Single",
+    "Link": "http://customsforge.com/process.php?id=42961"
+  },
+  {
+    "Title": "Bass – Easy String Skipping Exercise 1",
+    "Artist": "The Notetrackers",
+    "ReleaseDate": "2019-06-04T00:00:00Z",
+    "Pack": "Single",
+    "Link": "http://customsforge.com/process.php?id=42962"
+  },
+  {
+    "Title": "Bass – Easy Linear Playing Exercise 1",
+    "Artist": "The Notetrackers",
+    "ReleaseDate": "2019-06-04T00:00:00Z",
+    "Pack": "Single",
+    "Link": "http://customsforge.com/process.php?id=42960"
+  },
+  {
+    "Title": "Bass – Easy String Switching Exercise 1",
+    "Artist": "The Notetrackers",
+    "ReleaseDate": "2019-06-04T00:00:00Z",
+    "Pack": "Single",
+    "Link": "http://customsforge.com/process.php?id=42963"
+  },
+  {
+    "Title": "Guitar – Easy Linear Playing Exercise 1",
+    "Artist": "The Notetrackers",
+    "ReleaseDate": "2019-06-04T00:00:00Z",
+    "Pack": "Single",
+    "Link": "http://customsforge.com/process.php?id=42955"
+  },
+  {
+    "Title": "Guitar – Easy Pull-off Exercise 1",
+    "Artist": "The Notetrackers",
+    "ReleaseDate": "2019-06-04T00:00:00Z",
+    "Pack": "Single",
+    "Link": "http://customsforge.com/process.php?id=42956"
+  },
+  {
+    "Title": "Guitar – Easy String Skipping Exercise 1",
+    "Artist": "The Notetrackers",
+    "ReleaseDate": "2019-06-04T00:00:00Z",
+    "Pack": "Single",
+    "Link": "http://customsforge.com/process.php?id=42957"
+  },
+  {
+    "Title": "Guitar – Easy String Switching Exercise 1",
+    "Artist": "The Notetrackers",
+    "ReleaseDate": "2019-06-04T00:00:00Z",
+    "Pack": "Single",
+    "Link": "http://customsforge.com/process.php?id=42958"
+  },
+  {
+    "Title": "Bass – Easy Hammer-on Exercise 1",
+    "Artist": "The Notetrackers",
+    "ReleaseDate": "2019-06-04T00:00:00Z",
+    "Pack": "Single",
+    "Link": "http://customsforge.com/process.php?id=42959"
+  },
+  {
+    "Title": "Guitar – Easy Hammer-on Exercise 1",
+    "Artist": "The Notetrackers",
+    "ReleaseDate": "2019-06-04T00:00:00Z",
+    "Pack": "Single",
+    "Link": "http://customsforge.com/process.php?id=42954"
+  },
+  {
     "Title": "Amnesia",
     "Artist": "5 Seconds of Summer",
     "ReleaseDate": "2019-05-28T00:00:00Z",

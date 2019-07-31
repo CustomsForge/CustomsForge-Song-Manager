@@ -82,7 +82,7 @@ namespace CustomsForgeSongManager.UControls
             UserSupport();
             TabEnter();
             // developer sandbox
-            tsmiDevDebugUse.Visible = GeneralExtension.IsInDesignMode ? true : false;
+            tsmiDevUseOnly.Visible = GeneralExtension.IsInDesignMode ? true : false;
         }
 
         public void DoWork(string workDescription, dynamic workerParm1 = null, dynamic workerParm2 = null, dynamic workerParm3 = null, dynamic workerParm4 = null)
@@ -267,6 +267,9 @@ namespace CustomsForgeSongManager.UControls
             chkIncludeSubfolders.Checked = AppSettings.Instance.IncludeSubfolders;
             chkProtectODLC.Checked = AppSettings.Instance.ProtectODLC;
             cueSearch.Text = AppSettings.Instance.SearchString;
+            // save settings incase user made any changes to grid
+            if (Globals.RescanSongManager || Globals.ReloadSongManager)
+                Globals.Settings.SaveSettingsToFile(dgvSongsMaster);
 
             if (Globals.RescanSongManager)
             {
@@ -2045,13 +2048,13 @@ namespace CustomsForgeSongManager.UControls
             Process.Start("https://goo.gl/iTPfRU");
         }
 
-        private void tsmiDevsDebugUse_Click(object sender, EventArgs e)
+        private void tsmiDevUseOnly_Click(object sender, EventArgs e)
         {
-            // developer sandbox debugging area for testing new methods
+            // developer sandbox area for testing new methods
 
             // For Devoper Use Only
-            // update the embedded resource OfficialSongs.json
-            // from Ignition ODLC data saved as local IgnitionData.json file
+            // this updates the embedded resource OfficialSongs.json
+            // from scraped Ignition ODLC data saved as local IgnitionData.json file
             var workingPath = Environment.CurrentDirectory;
             var rootDir = Path.GetPathRoot(workingPath);
             var projectPath = Directory.GetParent(workingPath).Parent.FullName;
@@ -2089,9 +2092,12 @@ namespace CustomsForgeSongManager.UControls
 
                     Globals.OfficialDLCSongList = officialSongs;
                     Globals.Log("<DEVELOPER> Updated embedded resource and loaded OfficialSongs.json ...");
-                    Globals.Log("<DEVELOPER> Answer 'Yes to All' to any VS IDE popup question about reloading a file ...");
+                    Globals.Log("<DEVELOPER> Answer 'Yes to All' for any VS IDE popup question about reloading a file ...");
                 }
             }
+            else
+                MessageBox.Show("<ERROR> Did not update OfficialSongs.json file ...", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
             return;
 
             var prfldbPath = RocksmithProfile.SelectProfile();
@@ -2585,19 +2591,27 @@ namespace CustomsForgeSongManager.UControls
 
             string tag = tsmiCustomTitleTagTextBox.Text;
 
-            DoWork(Constants.GWORKER_TITLETAG, selection, tag, tsmiCustomTitleTagAsPrefix.Checked, removeTag);
-            RefreshDgv(false);
-        }
-
-
-        private void tsmiCustomTitleTagAdd_Click(object sender, EventArgs e)
-        {
-            TagUnTagSelection(false);
+            DoWork(Constants.GWORKER_TITLETAG, selection, tag, tsmiCustomTitleTagPrefix.Checked, removeTag);
+            UpdateToolStrip();
         }
 
         private void tsmiCustomTitleTagRemove_Click(object sender, EventArgs e)
         {
+            tsmiMods.HideDropDown();
             TagUnTagSelection(true);
+        }
+
+        private void tsmiCustomTitleTagAdd_Click(object sender, EventArgs e)
+        {
+            tsmiMods.HideDropDown();
+            TagUnTagSelection(false);
+        }
+
+        private void CustomTitleTag_Click(object sender, EventArgs e)
+        {
+            tsmiMods.ShowDropDown();
+            tsmiCustomTitleTag.ShowDropDown();
+            menuStrip.Focus();
         }
 
 
