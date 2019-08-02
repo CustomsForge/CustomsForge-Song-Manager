@@ -33,7 +33,7 @@ namespace CustomControls
         #region Constructors
 
         public ToolStripLabelTextBox()
-            : base(new FlowLayoutPanel { AutoSize = true, BackColor = Color.Transparent, Margin = new Padding(1, 1, 0, 2) })
+            : base(new FlowLayoutPanel { AutoSize = true, BackColor = Color.Transparent })
         {
             tt = new ToolTip();
             ShowAlways = DEFAULT_SHOW_ALWAYS;
@@ -45,7 +45,8 @@ namespace CustomControls
                {
                    Anchor = AnchorStyles.Left,
                    AutoSize = true,
-                   Margin = new Padding { All = 0 },
+                   // Margin = new Padding { All = 0 }, // This f's up the tooltip
+                   Margin = new Padding(1, 1, 1, 2),
                    Text = "Enter LabelText"
                };
 
@@ -54,7 +55,8 @@ namespace CustomControls
                     Anchor = AnchorStyles.Left,
                     AutoSize = true,
                     TextAlign = HorizontalAlignment.Center,
-                    Margin = new Padding { All = 0 }
+                    // Margin = new Padding { All = 0 }, // This f's up the tooltip
+                    Margin = new Padding(1, 1, 1, 2),
                 };
 
             Panel.Controls.AddRange(new Control[] { Label, TextBox });
@@ -237,24 +239,26 @@ namespace CustomControls
         protected override void OnMouseLeave(EventArgs e)
         {
             base.OnMouseLeave(e);
-            ToolStrip parent = GetCurrentParent();
-            var mea = parent.PointToClient(Control.MousePosition);
 
-            // detect if mouse moved off target
-            if (Math.Abs(_mouseOverPoint.X - mea.X) < SystemInformation.MouseHoverSize.Width && (Math.Abs(_mouseOverPoint.Y - mea.Y) < SystemInformation.MouseHoverSize.Height))
-            {
-                if (!String.IsNullOrEmpty(m_ToolTipText))
-                {
-                    tt.Active = false;
-                    tt.Hide(parent);
-                    _mouseOverPoint = new Point(-50, -50);
-                    _mouseOverItem = null;
-                }
+            // Commented out becuase tooltip shows/hides properly without this          
+            //ToolStrip parent = GetCurrentParent();
+            //var mea = parent.PointToClient(Control.MousePosition);
 
-                Debug.WriteLine("Detected mouse leave event");
-            }
-            else
-                Debug.WriteLine("Suppressed mouse leave event");
+            //// detect if mouse moved off target
+            //if (Math.Abs(_mouseOverPoint.X - mea.X) < SystemInformation.MouseHoverSize.Width && (Math.Abs(_mouseOverPoint.Y - mea.Y) < SystemInformation.MouseHoverSize.Height))
+            //{
+            //    if (!String.IsNullOrEmpty(m_ToolTipText))
+            //    {
+            //        tt.Active = false;
+            //        tt.Hide(parent);
+            //        _mouseOverPoint = new Point(-50, -50);
+            //        _mouseOverItem = null;
+            //    }
+
+            //    Debug.WriteLine("Detected mouse leave event");
+            //}
+            //else
+            //    Debug.WriteLine("Suppressed mouse leave event");
         }
 
         protected override void Dispose(bool disposing)
@@ -287,7 +291,7 @@ namespace CustomControls
         {
             if (!this.AutoSize)
                 return;
- 
+
             this.AutoSize = false;
             this.AutoSize = true;
         }

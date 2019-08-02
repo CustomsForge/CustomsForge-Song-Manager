@@ -36,7 +36,7 @@ namespace CustomControls
                 this.UpdateAutoSize();
             }
         }
-        
+
         public override string Text
         {
             get { return this.txt.Text; }
@@ -46,7 +46,7 @@ namespace CustomControls
                 this.UpdateAutoSize();
             }
         }
-        
+
         public override Size Size
         {
             get { return base.Size; }
@@ -59,7 +59,7 @@ namespace CustomControls
                 }
             }
         }
-        
+
         [DefaultValue(50)]
         public int NumericWidth
         {
@@ -70,14 +70,14 @@ namespace CustomControls
                 this.UpdateAutoSize();
             }
         }
-        
+
         [DefaultValue(typeof(decimal), "100")]
         public decimal Maximum
         {
             get { return this.num.Maximum; }
             set { this.num.Maximum = value; }
         }
-        
+
         [DefaultValue(typeof(decimal), "0")]
         public decimal Minimum
         {
@@ -90,7 +90,7 @@ namespace CustomControls
         {
             get { return this.num.Value; }
             set
-            {                
+            {
                 if (value < Minimum)
                     this.num.Value = Minimum;
                 else if (value > Maximum)

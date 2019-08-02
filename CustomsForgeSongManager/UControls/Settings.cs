@@ -96,9 +96,26 @@ namespace CustomsForgeSongManager.UControls
                     return;
 
                 if (!Directory.Exists(Constants.GridSettingsFolder))
+                {
                     Directory.CreateDirectory(Constants.GridSettingsFolder);
 
-                // TODO: allow customized grid settings to be saved and loaded by name
+                    // TODO: a feature request ... allow customized grid settings to be loaded and saved by name directly from the Settings tabmenu
+                    // DEV'S OPINION: the limited benefit that this feature would have does not justify the significant coding effort it will take to impliment
+                    // datagrids are intentionally not initialized until after each tabmenu has been selected to save on memory overhead
+                    // as such, datagrid settings may not be available to load as would be needed for this feature
+
+                    // populate the default dgv[NAME].xml files ...
+                    // SerialExtensions.SaveToFile(Constants.GridSettingsPath, RAExtensions.SaveColumnOrder(Globals.ArrangementAnalyzer.GetGrid()));
+                    // SerialExtensions.SaveToFile(Constants.GridSettingsPath, RAExtensions.SaveColumnOrder(Globals.Duplicates.GetGrid()));
+                    // SerialExtensions.SaveToFile(Constants.GridSettingsPath, RAExtensions.SaveColumnOrder(Globals.SetlistManager.GetGrid()));
+
+                    // the problem is these grids have verbose output and would need a workaround
+                    // SerialExtensions.SaveToFile(Constants.GridSettingsPath, RAExtensions.SaveColumnOrder(Globals.ProfileSongLists.GetGrid()));
+                    // SerialExtensions.SaveToFile(Constants.GridSettingsPath, RAExtensions.SaveColumnOrder(Globals.SongPacks.GetGrid()));
+                    // alt method, still needs workaround
+                    // SerialExtensions.SaveToFile(Constants.GridSettingsPath, RAExtensions.SaveColumnOrder(new SongPacks().dgvSongPacks));
+                }
+
                 SerialExtensions.SaveToFile(Constants.GridSettingsPath, RAExtensions.SaveColumnOrder(dgvCurrent));
                 Globals.Log("Saved File: " + Path.GetFileName(Constants.GridSettingsPath));
             }

@@ -7,7 +7,6 @@ using System.Windows.Forms.Design;
 using System.Diagnostics;
 
 // FIXME: IDE does not display properties or event handlers in the dropdown
-// FIXME: Tooltip and overrides are not working
 
 namespace CustomControls
 {
@@ -35,7 +34,7 @@ namespace CustomControls
         #region Constructors
 
         public ToolStripButton()
-            : base(new FlowLayoutPanel { AutoSize = true, BackColor = Color.Transparent, Margin = new Padding(1, 1, 0, 2) })
+            : base(new FlowLayoutPanel { AutoSize = true, BackColor = Color.Transparent })
         {
             tt = new ToolTip();
             ShowAlways = DEFAULT_SHOW_ALWAYS;
@@ -47,7 +46,8 @@ namespace CustomControls
             {
                 Anchor = AnchorStyles.Left,
                 AutoSize = true,
-                Margin = new Padding { All = 0 },
+                // Margin = new Padding { All = 0 }, // This f's up the tooltip
+                Margin = new Padding(1, 1, 1, 2), // provides best overall appearance
                 Text = "Enter Button Text"
             };
 
@@ -145,15 +145,6 @@ namespace CustomControls
         #endregion
 
         #region Overrides
-        // FIXME: only the Dispose override is working
-        // all other overrides are not working ... don't know why???
-
-        protected override void OnMouseEnter(EventArgs e)
-        {
-            // for debugging override issue
-            base.OnMouseEnter(e);
-            base.BackColor = Color.Blue;
-        }
 
         // using OnMouseMove instead OnMouseEnter to get mea location
         protected override void OnMouseMove(MouseEventArgs mea)
@@ -228,33 +219,27 @@ namespace CustomControls
         protected override void OnMouseLeave(EventArgs e)
         {
             base.OnMouseLeave(e);
-            base.BackColor = Color.LightGray;
+            
+            // Commented out becuase tooltip shows/hides properly without this          
+            //ToolStrip parent = GetCurrentParent();
+            //var mea = parent.PointToClient(Control.MousePosition);
 
-            ToolStrip parent = GetCurrentParent();
-            var mea = parent.PointToClient(Control.MousePosition);
+            //// detect if mouse moved off target
+            //if (Math.Abs(_mouseOverPoint.X - mea.X) < SystemInformation.MouseHoverSize.Width && (Math.Abs(_mouseOverPoint.Y - mea.Y) < SystemInformation.MouseHoverSize.Height))
+            //{
+            //    if (!String.IsNullOrEmpty(m_ToolTipText))
+            //    {
+            //        tt.Active = false;
+            //        tt.Hide(parent);
+            //        _mouseOverPoint = new Point(-50, -50);
+            //        _mouseOverItem = null;
+            //    }
 
-            // detect if mouse moved off target
-            if (Math.Abs(_mouseOverPoint.X - mea.X) < SystemInformation.MouseHoverSize.Width && (Math.Abs(_mouseOverPoint.Y - mea.Y) < SystemInformation.MouseHoverSize.Height))
-            {
-                if (!String.IsNullOrEmpty(m_ToolTipText))
-                {
-                    tt.Active = false;
-                    tt.Hide(parent);
-                    _mouseOverPoint = new Point(-50, -50);
-                    _mouseOverItem = null;
-                }
-
-                Debug.WriteLine("Detected mouse leave event");
-            }
-            else
-                Debug.WriteLine("Suppressed mouse leave event");
+            //    Debug.WriteLine("Detected mouse leave event");
+            //}
+            //else
+            //    Debug.WriteLine("Suppressed mouse leave event");
         }
-
-        protected override void OnClick(EventArgs e)
-        {
-            base.OnClick(e);
-        }
-
 
         protected override void Dispose(bool disposing)
         {

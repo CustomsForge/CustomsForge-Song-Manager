@@ -223,8 +223,9 @@ namespace CustomsForgeSongManager.UControls
             this.colSelect.Name = "colSelect";
             this.colSelect.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.colSelect.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.colSelect.ToolTipText = "Left mouse click the \'Select\' checkbox to select a row\r\nRight mouse click on row " +
+                "to show file operation options";
             this.colSelect.TrueValue = "true";
-            this.colSelect.ToolTipText = "Left mouse click the \'Select\' checkbox to select a row\r\nRight mouse click on row to show file operation options";
             this.colSelect.Width = 52;
             // 
             // colEnabled
@@ -493,7 +494,6 @@ namespace CustomsForgeSongManager.UControls
         private System.Windows.Forms.Button btnSaveSongs;
         private System.Windows.Forms.Button btnEnableSongs;
         private System.Windows.Forms.Button btnDisableSongs;
-        private RADataGridView dgvSongPacks;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Label lblSongPack;
         private System.Windows.Forms.ComboBox cmbSongPacks;
@@ -522,5 +522,6 @@ namespace CustomsForgeSongManager.UControls
         private DataGridViewTools.DataGridViewAutoFilterTextBoxColumn colSongYear;
         private DataGridViewTools.DataGridViewAutoFilterTextBoxColumn colSongLength;
         private DataGridViewTools.DataGridViewAutoFilterTextBoxColumn colSongKey;
+        private RADataGridView dgvSongPacks;
     }
 }
