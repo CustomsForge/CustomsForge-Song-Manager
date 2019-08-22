@@ -66,6 +66,9 @@ namespace CustomsForgeSongManager.DataObjects
         public int? TonesCount { get; set; }
         public int? SectionsCount { get; set; }
 
+        // Arrangement Attributes from HSAN file
+        public double? SongDifficulty { get; set; } 
+
         // Arrangement Levels
         public int? ChordCount { get; set; }
         public int? NoteCount { get; set; }

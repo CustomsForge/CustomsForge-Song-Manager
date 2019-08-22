@@ -11,7 +11,7 @@ using System.Drawing;
 
 namespace CustomsForgeSongManager.UControls
 {
-    public partial class Settings : UserControl
+    public partial class Settings : UserControl, INotifyTabChanged
     {
         public Settings()
         {
@@ -127,6 +127,10 @@ namespace CustomsForgeSongManager.UControls
 
         private void ToogleRescan(bool rescan)
         {
+            // speed up load process
+            if (AppSettings.Instance.FirstRun)
+                return;
+           
             Globals.RescanSongManager = rescan;
             Globals.RescanArrangements = rescan;
             Globals.RescanDuplicates = rescan;
@@ -137,6 +141,10 @@ namespace CustomsForgeSongManager.UControls
 
         private void ToogleReload(bool reload)
         {
+            // speed up load process
+            if (AppSettings.Instance.FirstRun)
+                return;
+           
             Globals.ReloadSongManager = reload;
             Globals.ReloadArrangements = reload;
             Globals.ReloadDuplicates = reload;
@@ -439,9 +447,17 @@ namespace CustomsForgeSongManager.UControls
         {
             AppSettings.Instance.MultiThread = -1;
             Globals.Log("CFSM multi threading usage was reset ...");
-
         }
 
+        public void TabLeave()
+        {
+            // DO SOMETHING
+        }
+
+        public void TabEnter()
+        {
+            // DO SOMETHING
+        }
 
     }
 }

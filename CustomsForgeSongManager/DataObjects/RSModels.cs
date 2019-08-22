@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace CustomsForgeSongManager.DataObjects
 {
-    // SongPack related
+    // SongPack related hsan data
     public class RSDataJsonDictionary<T> : Dictionary<string, Dictionary<string, T>> where T : RSDataAbstractBase { }
 
     public class RSDataAbstract
@@ -43,7 +43,7 @@ namespace CustomsForgeSongManager.DataObjects
         public float SongDiffEasy { get; set; }
         public float SongDiffHard { get; set; }
         public float SongDiffMed { get; set; }
-        public float SongDifficulty { get; set; }
+        public double SongDifficulty { get; set; }
         public float SongLength { get; set; }
         public string SongName { get; set; }
         public string SongNameSort { get; set; }

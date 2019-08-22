@@ -170,7 +170,6 @@ namespace CustomsForgeSongManager.Forms
                 if (!GeneralExtension.ValidateDisplaySettings(this, this)) // , true, true)) // uncomment for debugging
                     Globals.Log("+ Adjusted AutoScaleDimensions, AutoScaleMode, and AutoSize ...");
 
-                AppSettings.Instance.FirstRun = false;
                 Globals.Settings.SaveSettingsToFile(Globals.DgvCurrent);
             }
 
@@ -352,16 +351,16 @@ namespace CustomsForgeSongManager.Forms
                     break;
                 case "Arrangement Analyzer":
                     // don't reload grid if already loaded
-                    if (!tpArrangements.Controls.Contains(Globals.ArrangementAnalyzer) || Globals.ReloadArrangements)
+                    if (!tpArrangements.Controls.Contains(Globals.ArrangementAnalyzer))
                     {
                         this.tpArrangements.Controls.Clear();
                         this.tpArrangements.Controls.Add(Globals.ArrangementAnalyzer);
                         Globals.ArrangementAnalyzer.Dock = DockStyle.Fill;
                         Globals.ArrangementAnalyzer.Location = UCLocation;
                         Globals.ArrangementAnalyzer.Size = UCSize;
-                        Globals.ArrangementAnalyzer.UpdateToolStrip();
                     }
 
+                    Globals.ArrangementAnalyzer.UpdateToolStrip();
                     currentControl = Globals.ArrangementAnalyzer;
                     break;
                 case "Duplicates":
@@ -694,11 +693,11 @@ namespace CustomsForgeSongManager.Forms
             {
                 var sbCSV = new StringBuilder();
                 char csvSep = ';';
-                
+
                 if (!String.IsNullOrEmpty(tsmiCSVSeperator.Text) && tsmiCSVSeperator.Text.Length == 1)
                     csvSep = Convert.ToChar(tsmiCSVSeperator.Text);
                 else // reset CSV seperator to the default character
-                    tsmiCSVSeperator.Text = csvSep.ToString(); 
+                    tsmiCSVSeperator.Text = csvSep.ToString();
 
                 sbCSV.AppendLine(String.Format(@"sep={0}", csvSep)); // used by Excel to recognize seperator if Encoding.Unicode is used
                 string columns = String.Empty;

@@ -173,6 +173,7 @@ namespace CustomsForgeSongManager.UControls
             this.colBPMChangeCount = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
             this.colMaxBPM = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
             this.colMinBPM = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
+            this.colSongDifficulty = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
             this.panelSearch.SuspendLayout();
             this.gb_Main_Search.SuspendLayout();
             this.gb_Main_Grid.SuspendLayout();
@@ -427,7 +428,8 @@ namespace CustomsForgeSongManager.UControls
             this.colTimeSignatureChangeCount,
             this.colBPMChangeCount,
             this.colMaxBPM,
-            this.colMinBPM});
+            this.colMinBPM,
+            this.colSongDifficulty});
             this.dgvArrangements.Location = new System.Drawing.Point(6, 19);
             this.dgvArrangements.Name = "dgvArrangements";
             this.dgvArrangements.RowHeadersVisible = false;
@@ -668,7 +670,7 @@ namespace CustomsForgeSongManager.UControls
             this.colSongAverageTempo.DefaultCellStyle = dataGridViewCellStyle5;
             this.colSongAverageTempo.HeaderText = "BPM";
             this.colSongAverageTempo.Name = "colSongAverageTempo";
-            this.colSongAverageTempo.ReadOnly = true;            
+            this.colSongAverageTempo.ReadOnly = true;
             // 
             // colSongVolume
             // 
@@ -1303,6 +1305,13 @@ namespace CustomsForgeSongManager.UControls
             this.colMinBPM.ReadOnly = true;
             this.colMinBPM.Visible = false;
             // 
+            // colSongDifficulty
+            // 
+            this.colSongDifficulty.DataPropertyName = "SongDifficulty";
+            this.colSongDifficulty.HeaderText = "Song Difficulty";
+            this.colSongDifficulty.Name = "colSongDifficulty";
+            this.colSongDifficulty.ToolTipText = "0.0 to 1.0 (Easy/Hard)";
+            // 
             // ArrangementAnalyzer
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -1425,5 +1434,6 @@ namespace CustomsForgeSongManager.UControls
         private DataGridViewAutoFilterTextBoxColumn colBPMChangeCount;
         private DataGridViewAutoFilterTextBoxColumn colMaxBPM;
         private DataGridViewAutoFilterTextBoxColumn colMinBPM;
+        private DataGridViewAutoFilterTextBoxColumn colSongDifficulty;
     }
 }

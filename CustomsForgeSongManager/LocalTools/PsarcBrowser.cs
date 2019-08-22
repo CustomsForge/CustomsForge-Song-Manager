@@ -22,6 +22,7 @@ using System.Threading;
 using GenTools;
 using System.Globalization;
 using System.Windows.Forms;
+using RocksmithToolkitLib.DLCPackage.Manifest2014.Header;
 
 
 namespace CustomsForgeSongManager.LocalTools
@@ -249,6 +250,7 @@ namespace CustomsForgeSongManager.LocalTools
 
                     var arr = new Arrangement(song);
                     var arrName = attributes.ArrangementName;
+
                     if (Char.IsNumber(jsonEntry.Name[jsonEntry.Name.IndexOf(".json") - 1]))
                         arrName = arrName + jsonEntry.Name[jsonEntry.Name.IndexOf(".json") - 1];
 
@@ -288,12 +290,46 @@ namespace CustomsForgeSongManager.LocalTools
                         // parse Arrangment Analyzer data (slow process, only done if requested by user)
                         if (AppSettings.Instance.IncludeArrangementData)
                         {
-                            // loading SNG is 5X faster than loading XML (ODLC does not have XML)
+                            Platform platform = _filePath.GetPlatform();
+
+                            // quick load HSAN file data
+                            var hsanEntries = new ManifestHeader2014<AttributesHeader2014>(platform);
+                            var hsanEntry = _archive.TOC.FirstOrDefault(x => x.Name.StartsWith("manifests/songs") && x.Name.EndsWith(".hsan"));
+
+                            if (hsanEntry == null)
+                                throw new Exception("Could not find valid hsan manifest in archive.");
+
+                            using (var ms = ExtractEntryData(x => x.Name.Equals(hsanEntry.Name)))
+                            using (var readerJson = new StreamReader(ms, new UTF8Encoding(), true, 65536))
+                                hsanEntries = JsonConvert.DeserializeObject<ManifestHeader2014<AttributesHeader2014>>(readerJson.ReadToEnd());
+
+                            // use PID instead of ArrangementName which may not be unique in ODLC
+                            var arrPID = attributes.PersistentID;
+                            arr.SongDifficulty = hsanEntries.Entries[arrPID].ToArray()[0].Value.SongDifficulty;
+
+                            // TODO: simplify using LINQ and benchmark for efficiency
+                            //foreach (string persistentID in hsanEntries.Entries.Keys)
+                            //{
+                            //    // workaround for ODLC that have multple Combo arrangements
+                            //    if (arrName.ToLower() == "combo2" && song.IsODLC)
+                            //    {
+                            //        arr.SongDifficulty = hsanEntries.Entries[persistentID].ToArray()[0].Value.SongDifficulty;
+                            //        break;
+                            //    }
+
+                            //    foreach (AttributesHeader2014 hsanAttr in hsanEntries.Entries[persistentID].Select(k => k.Value))
+                            //    {
+                            //        if (hsanAttr.ArrangementName.ToLower().Contains(arrName.ToLower()))
+                            //            arr.SongDifficulty = hsanAttr.SongDifficulty;
+                            //    }
+                            //}
+
+                            // loading SNG is 5X faster than loading XML (ODLC do not have XML)
                             var song2014 = new Song2014();
                             var sngEntry = _archive.TOC.FirstOrDefault(x => x.Name.EndsWith(".sng") && x.Name.ToLower().Contains(arrName.ToLower() + ".sng") && x.Name.Contains(strippedName));
                             using (var ms = ExtractEntryData(x => x.Name.Equals(sngEntry.Name)))
                             {
-                                Platform platform = _filePath.GetPlatform();
+                                // Platform platform = _filePath.GetPlatform();
                                 var sng2014File = Sng2014File.ReadSng(ms, platform);
                                 song2014 = new Song2014(sng2014File, attributes);
                             }
@@ -587,7 +623,7 @@ namespace CustomsForgeSongManager.LocalTools
 
             Globals.Log("Extracting Audio ...");
             Globals.Log("Please wait ...");
-            
+
             // get contents of archive
             using (var archive = new PSARC(true))
             using (var stream = File.OpenRead(archiveName))
@@ -608,7 +644,7 @@ namespace CustomsForgeSongManager.LocalTools
                 }
 
                 if (wems.Count > 0)
-                {                  
+                {
                     var top = wems[0];
                     Application.DoEvents();
                     archive.InflateEntry(top);

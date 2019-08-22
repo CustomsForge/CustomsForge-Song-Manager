@@ -110,6 +110,7 @@ namespace CustomsForgeSongManager
                     return true;
                 }
             }
+
             return false;
         }
     }

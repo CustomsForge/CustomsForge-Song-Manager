@@ -56,7 +56,7 @@ namespace CustomsForgeSongManager.DataObjects
     {
         // version 0 - 9: recyclable version number
         // incrementing version forces songInfo.xml and appSettings.xml to reset/update to defaults
-        public const string SongDataVersion = "4"; // devs change only when needed to force user update
+        public const string SongDataVersion = "5"; // devs change only when needed to force user update
 
         // Unique Song Key
         public string DLCKey { get; set; }
@@ -244,7 +244,7 @@ namespace CustomsForgeSongManager.DataObjects
 
     [Serializable]
     public class Arrangement
-    {
+    {        
         // Arrangement Attributes
         public string PersistentID { get; set; } // unique ID
         public string ArrangementName { get; set; }
@@ -257,6 +257,9 @@ namespace CustomsForgeSongManager.DataObjects
         public string Tones { get; set; } // concatinated string of the tones used in arrangement
         public int? TonesCount { get; set; }
         public int? SectionsCount { get; set; }
+
+        // Arrangement Attributes from HSAN file data
+        public double? SongDifficulty { get; set; } 
 
         // Arrangement Levels
         public int? ChordCount { get; set; }

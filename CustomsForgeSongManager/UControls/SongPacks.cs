@@ -58,6 +58,8 @@ namespace CustomsForgeSongManager.UControls
         public SongPacks()
         {
             InitializeSongPacks();
+            // there is not much point showing Tuning until arrangement handling issue is fixed
+            this.colTuning.Visible = false;
         }
 
         public void UpdateToolStrip()
@@ -85,6 +87,10 @@ namespace CustomsForgeSongManager.UControls
                 foreach (dynamic songAttributes in song.Value)
                 {
                     dynamic songData = songAttributes.Value;
+
+                    // FIXME: current algos produce inconsistent arrangement handling
+                    var debugMe = songData.ArrangementName;
+
                     if (songData.SongName != null)
                     {
                         SongPackData sngData = AttributesToSongPackData(songData, false);
@@ -119,17 +125,20 @@ namespace CustomsForgeSongManager.UControls
             song.SongLength = String.Format("{0:00}:{1:00}", minutes, seconds);
             song.SongKey = songAttributes.SongKey;
 
+            // FIXME: current algos produce inconsistent arrangement handling
             if (songAttributes.ArrangementName != "Vocals")
             {
                 foreach (KeyValuePair<string, int> stringTuning in songAttributes.Tuning)
                     tuning += stringTuning.Value;
 
-                song.Tuning = PsarcExtensions.TuningStringToName(tuning);
+                // added ArrangementName to show the problem with arrangement handling
+                song.Tuning = PsarcExtensions.TuningStringToName(tuning) + " [" + songAttributes.ArrangementName + "]";
             }
             else
             {
                 song.Tuning = "Other";
             }
+
             return song;
         }
 
@@ -404,7 +413,7 @@ namespace CustomsForgeSongManager.UControls
                 Globals.Settings.SaveSettingsToFile(dgvSongPacks);
         }
 
-        // ... deserialize filePath
+        // ... deserialize file data
         private void PopulateSongList<T>(string songFilePath, RSDataJsonDictionary<T> songCollection, ref RSDataJsonDictionary<T> fullSongCollection, RSDataJsonDictionary<T> disabledSongCollection, ref RSDataJsonDictionary<T> fullDisabledSongCollection) where T : RSDataAbstractBase
         {
             Globals.TsProgressBar_Main.Value = 0;
@@ -534,7 +543,7 @@ namespace CustomsForgeSongManager.UControls
             var filterStatus = DataGridViewAutoFilterColumnHeaderCell.GetFilterStatus(dgvSongPacks);
             if (!String.IsNullOrEmpty(filterStatus))
                 DataGridViewAutoFilterTextBoxColumn.RemoveFilter(dgvSongPacks);
-            
+
             UpdateToolStrip();
             // reapply sort direction to reselect the filtered song
             statusSongPacks.RestoreSorting(dgvSongPacks);

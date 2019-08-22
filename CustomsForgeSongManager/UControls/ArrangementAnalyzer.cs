@@ -63,10 +63,11 @@ namespace CustomsForgeSongManager.UControls
             }
         }
 
-        public void UpdateToolStrip(bool isCueSearch = false)
+        public void UpdateToolStrip(bool verbose = true)
         {
             chkIncludeSubfolders.Checked = AppSettings.Instance.IncludeSubfolders;
             chkIncludeVocals.Checked = AppSettings.Instance.IncludeVocals;
+            cueSearch.Text = AppSettings.Instance.SearchString;
 
             if (Globals.RescanArrangements && AppSettings.Instance.IncludeArrangementData)
             {
@@ -81,22 +82,20 @@ namespace CustomsForgeSongManager.UControls
                 PopulateArrangementManager();
             }
 
+            IncludeSubfolders(false);
+            
             // apply saved search (filters can not be applied the same way)
-            if (!String.IsNullOrEmpty(AppSettings.Instance.SearchString) && !isCueSearch)
+            if (!String.IsNullOrEmpty(AppSettings.Instance.SearchString))
             {
-                isCueSearch = true;
-                cueSearch.Text = AppSettings.Instance.SearchString;
                 SearchCDLC(AppSettings.Instance.SearchString);
-            }
+                Thread.Sleep(200); // debounce search
+                dgvArrangements.AllowUserToAddRows = false; // corrects initial Song Count
 
-            if (!isCueSearch)
-                IncludeSubfolders(); // search killer
-
-            dgvArrangements.AllowUserToAddRows = false; // corrects initial Song Count
-            if (dgvArrangements.Rows.Count == 0 && !isCueSearch)
-            {
-                IncludeSubfolders(); // search killer
-                Globals.Log(" - CFSM cleared a saved search that returns no songs ...");
+                if (dgvArrangements.Rows.Count == 0)
+                {
+                    IncludeSubfolders(true); // search killer
+                    Globals.Log(" - CFSM cleared a search that returns no songs ...");
+                }
             }
 
             Globals.TsLabel_MainMsg.Text = String.Format("Rocksmith Arrangements Count: {0}", dgvArrangements.Rows.Count);
@@ -105,7 +104,7 @@ namespace CustomsForgeSongManager.UControls
             Globals.TsLabel_StatusMsg.Visible = false;
 
 
-            if (!AppSettings.Instance.IncludeArrangementData && !isCueSearch)
+            if (!AppSettings.Instance.IncludeArrangementData && verbose)
             {
                 var diaMsg = "Arrangement data has not been fully parsed" + Environment.NewLine +
                              "from the CDLC archives.  Use 'Rescan Full'" + Environment.NewLine +
@@ -141,18 +140,19 @@ namespace CustomsForgeSongManager.UControls
             }
         }
 
-        private void IncludeSubfolders()
+        private void IncludeSubfolders(bool clearSearchBox = true)
         {
             // search killer
-            cueSearch.Text = String.Empty;
-            AppSettings.Instance.SearchString = String.Empty;
-            if (!chkIncludeSubfolders.Checked)
+            if (clearSearchBox)
             {
-                var results = arrangementList.Where(x => Path.GetFileName(Path.GetDirectoryName(x.FilePath)) == "dlc").ToList();
-                LoadFilteredBindingList(results);
+                cueSearch.Text = String.Empty;
+                AppSettings.Instance.SearchString = String.Empty;
             }
-            else
-                LoadFilteredBindingList(arrangementList);
+
+            if (!chkIncludeSubfolders.Checked)
+                arrangementList = arrangementList.Where(x => Path.GetFileName(Path.GetDirectoryName(x.FilePath)) == "dlc").ToList();
+
+            LoadFilteredBindingList(arrangementList);
         }
 
         private void InitializeArrangements()
@@ -244,6 +244,9 @@ namespace CustomsForgeSongManager.UControls
                         Tones = songArr.Tones,
                         SectionsCount = songArr.SectionsCount,
                         TonesCount = songArr.TonesCount,
+
+                        // Arrangement Attributes from HSAN file
+                        SongDifficulty = songArr.SongDifficulty,
 
                         // Arrangement Levels
                         ChordCount = songArr.ChordCount,
@@ -381,7 +384,7 @@ namespace CustomsForgeSongManager.UControls
             if (!String.IsNullOrEmpty(filterStatus))
                 DataGridViewAutoFilterTextBoxColumn.RemoveFilter(dgvArrangements);
 
-            UpdateToolStrip();
+            UpdateToolStrip(false);
             // reapply sort direction to reselect the filtered song
             statusArrangementAnalyzer.RestoreSorting(dgvArrangements);
             Refresh();
@@ -540,7 +543,7 @@ namespace CustomsForgeSongManager.UControls
 
             // restore current sort
             statusArrangementAnalyzer.RestoreSorting(dgvArrangements);
-            UpdateToolStrip(true);
+            UpdateToolStrip(false);
         }
 
         private void dgvArrangements_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -842,8 +845,8 @@ namespace CustomsForgeSongManager.UControls
             cueSearch.Text = String.Empty;
             cueSearch.Cue = "Search";
             AppSettings.Instance.SearchString = String.Empty;
+            Globals.RescanArrangements = true; // refresh data
             RemoveFilter();
-            Globals.ReloadArrangements = true; // refresh data
 
             // save current sorting before clearing search
             statusArrangementAnalyzer.SaveSorting(dgvArrangements);
