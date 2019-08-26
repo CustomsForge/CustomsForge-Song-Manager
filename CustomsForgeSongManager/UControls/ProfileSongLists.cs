@@ -232,7 +232,7 @@ namespace CustomsForgeSongManager.UControls
         {
             bindingCompleted = false;
             dgvPainted = false;
-            // sortable binding list with drop down filtering
+            // sortable binding list with dropdown filtering
             dgvSongListMaster.AutoGenerateColumns = false;
             var fbl = new FilteredBindingList<SongData>(list);
             var bs = new BindingSource { DataSource = fbl };
@@ -365,7 +365,7 @@ namespace CustomsForgeSongManager.UControls
             var selectedRow = dgvGameSongLists.Rows.Cast<DataGridViewRow>().Where(slr => Convert.ToBoolean(slr.Cells["colGameSongListsSelect"].Value)).FirstOrDefault();
             if (selectedRow == null || dgvGameSongLists.Rows.Count == 0)
             {
-                // preserve custom column headers and clear the table
+                // preserve custom column headers and clear the grid
                 dgvSongListSongs.AutoGenerateColumns = false;
                 dgvSongListSongs.DataSource = null;
                 gbSongListSongs.Text = "In-Game Song List Songs";

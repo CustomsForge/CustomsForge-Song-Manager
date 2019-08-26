@@ -1,4 +1,6 @@
 ﻿using System;
+using System.ComponentModel;
+using System.Data;
 using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
@@ -8,11 +10,15 @@ using GenTools;
 using DataGridViewTools;
 using CustomControls;
 using System.Drawing;
+using System.Text.RegularExpressions;
+using System.Threading;
 
 namespace CustomsForgeSongManager.UControls
 {
     public partial class Settings : UserControl, INotifyTabChanged
     {
+        private bool isDirty;
+
         public Settings()
         {
             InitializeComponent();
@@ -57,27 +63,6 @@ namespace CustomsForgeSongManager.UControls
             }
         }
 
-        public void PopulateSettings(DataGridView dgvCurrent)
-        {
-            // done everytime loaded in case there are any changes to SongManager
-            Globals.Log("Populating Settings GUI for " + dgvCurrent.Name + " ...");
-            Globals.DgvCurrent = dgvCurrent;
-
-            // each DGV contains a tag which holds a friendly name, aka current TabPage.Text
-            var dgvTag = dgvCurrent.Tag.ToString();
-
-            // show which DataGridView is loaded
-            lblDgvColumns.Text = String.Format("Settings for {0} from file: {1}", dgvTag, Path.GetFileName(Constants.GridSettingsPath));
-
-            // initialize column list
-            lstDgvColumns.Items.Clear();
-            foreach (DataGridViewColumn col in Globals.DgvCurrent.Columns)
-            {
-                ListViewItem newItem = new ListViewItem(new[] { String.Empty, col.Name, col.HeaderText, col.Width.ToString() }) { Checked = col.Visible };
-                lstDgvColumns.Items.Add(newItem);
-            }
-        }
-
         public void SaveSettingsToFile(DataGridView dgvCurrent, bool verbose = false)
         {
             Globals.DgvCurrent = dgvCurrent;
@@ -92,29 +77,11 @@ namespace CustomsForgeSongManager.UControls
                         Globals.Log("Saved File: " + Path.GetFileName(Constants.AppSettingsPath));
                 }
 
-                if (String.IsNullOrEmpty(dgvCurrent.Name) || dgvCurrent.RowCount == 0)
+                if (String.IsNullOrEmpty(dgvCurrent.Name)) // || dgvCurrent.RowCount == 0)
                     return;
 
                 if (!Directory.Exists(Constants.GridSettingsFolder))
-                {
                     Directory.CreateDirectory(Constants.GridSettingsFolder);
-
-                    // TODO: a feature request ... allow customized grid settings to be loaded and saved by name directly from the Settings tabmenu
-                    // DEV'S OPINION: the limited benefit that this feature would have does not justify the significant coding effort it will take to impliment
-                    // datagrids are intentionally not initialized until after each tabmenu has been selected to save on memory overhead
-                    // as such, datagrid settings may not be available to load as would be needed for this feature
-
-                    // populate the default dgv[NAME].xml files ...
-                    // SerialExtensions.SaveToFile(Constants.GridSettingsPath, RAExtensions.SaveColumnOrder(Globals.ArrangementAnalyzer.GetGrid()));
-                    // SerialExtensions.SaveToFile(Constants.GridSettingsPath, RAExtensions.SaveColumnOrder(Globals.Duplicates.GetGrid()));
-                    // SerialExtensions.SaveToFile(Constants.GridSettingsPath, RAExtensions.SaveColumnOrder(Globals.SetlistManager.GetGrid()));
-
-                    // the problem is these grids have verbose output and would need a workaround
-                    // SerialExtensions.SaveToFile(Constants.GridSettingsPath, RAExtensions.SaveColumnOrder(Globals.ProfileSongLists.GetGrid()));
-                    // SerialExtensions.SaveToFile(Constants.GridSettingsPath, RAExtensions.SaveColumnOrder(Globals.SongPacks.GetGrid()));
-                    // alt method, still needs workaround
-                    // SerialExtensions.SaveToFile(Constants.GridSettingsPath, RAExtensions.SaveColumnOrder(new SongPacks().dgvSongPacks));
-                }
 
                 SerialExtensions.SaveToFile(Constants.GridSettingsPath, RAExtensions.SaveColumnOrder(dgvCurrent));
                 Globals.Log("Saved File: " + Path.GetFileName(Constants.GridSettingsPath));
@@ -130,7 +97,7 @@ namespace CustomsForgeSongManager.UControls
             // speed up load process
             if (AppSettings.Instance.FirstRun)
                 return;
-           
+
             Globals.RescanSongManager = rescan;
             Globals.RescanArrangements = rescan;
             Globals.RescanDuplicates = rescan;
@@ -144,7 +111,7 @@ namespace CustomsForgeSongManager.UControls
             // speed up load process
             if (AppSettings.Instance.FirstRun)
                 return;
-           
+
             Globals.ReloadSongManager = reload;
             Globals.ReloadArrangements = reload;
             Globals.ReloadDuplicates = reload;
@@ -288,13 +255,20 @@ namespace CustomsForgeSongManager.UControls
 
         private void btnSettingsLoad_Click(object sender, EventArgs e)
         {
+            if (String.IsNullOrEmpty(Globals.DgvCurrent.Name) && !String.IsNullOrEmpty(cueDgvSettingsPath.Text))
+                SetGlobalsDgvCurrent(cueDgvSettingsPath.Text);
+
+            if (String.IsNullOrEmpty(Globals.DgvCurrent.Name))
+                return;
+
             LoadSettingsFromFile(Globals.DgvCurrent, true);
+            PopulateSettings(Globals.DgvCurrent);
         }
 
         private void btnSettingsSave_Click(object sender, EventArgs e)
         {
             ValidateRsDir();
-            SaveSettingsToFile(Globals.DgvCurrent);
+            TabLeave();
         }
 
         private void chkEnableAutoUpdate_Click(object sender, EventArgs e)
@@ -372,8 +346,7 @@ namespace CustomsForgeSongManager.UControls
         {
             if (Constants.OnMac)
             {
-                var diaMsg = "The RS2014 Installation Directiory may be hidden.  It can be found at:" + Environment.NewLine +
-                            @"Z:\Users[username]\Library\Application Support\Steam\steamapps\common\Rocksmith2014";
+                var diaMsg = "The RS2014 Installation Directiory may be hidden.  It can be found at:" + Environment.NewLine + @"Z:\Users[username]\Library\Application Support\Steam\steamapps\common\Rocksmith2014";
 
                 BetterDialog2.ShowDialog(diaMsg, "Mac User ...", null, null, "Ok", Bitmap.FromHicon(SystemIcons.Information.Handle), "ReadMe", 150, 150);
             }
@@ -413,26 +386,6 @@ namespace CustomsForgeSongManager.UControls
             }
         }
 
-        private void listDisabledColumns_ItemChecked(object sender, ItemCheckedEventArgs e)
-        {
-            DataGridViewColumn column = Globals.DgvCurrent.Columns[e.Item.SubItems[1].Text];
-            if (column != null)
-            {
-                column.Visible = e.Item.Checked;
-                column.Width = Convert.ToInt16(e.Item.SubItems[3].Text);
-            }
-        }
-
-        private void lnkSelectAll_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            bool deselect = lstDgvColumns.Items[1].Checked;
-
-            for (int i = 1; i < lstDgvColumns.Items.Count; i++)
-            {
-                lstDgvColumns.Items[i].Checked = !deselect;
-            }
-        }
-
         private void rbCleanOnClosing_Click(object sender, EventArgs e)
         {
             AppSettings.Instance.CleanOnClosing = rbCleanOnClosing.Checked;
@@ -449,15 +402,334 @@ namespace CustomsForgeSongManager.UControls
             Globals.Log("CFSM multi threading usage was reset ...");
         }
 
+        public void PopulateSettings(DataGridView dgvCurrent)
+        {
+            if (!String.IsNullOrEmpty(dgvCurrent.Name))
+            {
+                Globals.Log("Populating Settings GUI for " + dgvCurrent.Name + " ...");
+                Globals.DgvCurrent = dgvCurrent;
+
+                // each DataGridView has a tag which holds a friendly name
+                var dgvTag = dgvCurrent.Tag.ToString();
+                lblDgvColumns.Text = String.Format("Grid settings for {0} from file: {1}", dgvTag, Path.GetFileName(Constants.GridSettingsPath));
+            }
+
+            if (!File.Exists(Constants.GridSettingsPath))
+            {
+                if (!Directory.Exists(Constants.GridSettingsFolder))
+                    Directory.CreateDirectory(Constants.GridSettingsFolder);
+
+                SerialExtensions.SaveToFile(Constants.GridSettingsPath, RAExtensions.SaveColumnOrder(Globals.DgvCurrent));
+                Globals.Log("<WARNING> Did not find file so created new default file: " + Path.GetFileName(Constants.GridSettingsPath));
+            }
+
+            LoadDgvColumns(Constants.GridSettingsPath);
+        }
+
+        public void LoadDgvColumns(string gridSettingsPath)
+        {
+            isDirty = false;
+
+            try
+            {
+                RAExtensions.ManagerGridSettings = SerialExtensions.LoadFromFile<RADataGridViewSettings>(gridSettingsPath);
+                Globals.Log("Loaded File: " + Path.GetFileName(gridSettingsPath));
+
+                // reset the grid data
+                dgvColumns.DataSource = null;
+                dgvColumns.AutoGenerateColumns = false;
+                var list = RAExtensions.ManagerGridSettings.ColumnOrder;
+                // allows bound grid to be sorted by clicking column headers
+                FilteredBindingList<ColumnOrderItem> fbl = new FilteredBindingList<ColumnOrderItem>(list);
+                BindingSource bs = new BindingSource { DataSource = fbl };
+                dgvColumns.DataSource = bs;
+
+                // initial sort is ascending on DisplayIndex
+                dgvColumns.Sort(dgvColumns.Columns["colDisplayIndex"], ListSortDirection.Ascending);
+                dgvColumns.SelectionMode = DataGridViewSelectionMode.CellSelect;
+                colDisplayIndex.ReadOnly = false;
+                colDisplayIndex.ToolTipText = "Click to Sort (Read/Write)\r\nEither manually edit 'DisplayIndex', or\r\ndrag and drop a 'HeaderText' row\r\nto change grid column display order.\r\n\r\nNOTE: CFSM makes its best effort to\r\nauto correct any manual entry mistakes.";
+
+                // initialize drag and drop event handlers
+                dgvColumns.AllowDrop = true;
+                dgvColumns.MouseDown += new MouseEventHandler(dgvColumns_MouseDown);
+                dgvColumns.MouseMove += new MouseEventHandler(dgvColumns_MouseMove);
+                dgvColumns.DragOver += new DragEventHandler(dgvColumns_DragOver);
+                dgvColumns.DragDrop += new DragEventHandler(dgvColumns_DragDrop);
+            }
+            catch (Exception ex)
+            {
+                Globals.Log("<ERROR> GridSettings could not be loaded ...");
+                Globals.Log("Windows 10 users must uninstall .Net 4.7 and manually install .Net 4.0 if this error persists ...");
+                Globals.Log(ex.Message);
+                RAExtensions.ManagerGridSettings = null; // reset
+            }
+        }
+
+        private void lnkSelectAll_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            bool deselect = Convert.ToBoolean(dgvColumns.Rows[0].Cells["colVisible"].Value);
+
+            for (int i = 0; i < dgvColumns.Rows.Count; i++)
+            {
+                dgvColumns.Rows[i].Cells["colVisible"].Value = Convert.ToString(!deselect);
+            }
+        }
+
+        private void dgvColumns_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
+            isDirty = true;
+            // refresh grid on manual DisplayIndex change
+            if (!colDisplayIndex.ReadOnly)
+            {
+                dgvColumns.InvalidateCell(e.ColumnIndex, e.RowIndex);
+                dgvColumns.Refresh();
+            }
+        }
+
         public void TabLeave()
         {
-            // DO SOMETHING
+            if (String.IsNullOrEmpty(Globals.DgvCurrent.Name))
+                throw new DataException("<ERROR> TabLeave DgvCurrent.Name is null/empty ...");
+
+            if (isDirty)
+            {
+                // reload modified column settings to the actual dgvCurrent
+                ((RADataGridView)Globals.DgvCurrent).ReLoadColumnOrder(RAExtensions.ManagerGridSettings.ColumnOrder);
+                Globals.Log("Reloaded Modified Column Settings: " + Globals.DgvCurrent.Name);
+            }
+
+            // autosave Settings
+            SaveSettingsToFile(Globals.DgvCurrent);
+            //SerialExtensions.SaveToFile(Constants.GridSettingsPath, RAExtensions.ManagerGridSettings.ColumnOrder);
+            Globals.Log("Saved CFSM Settings ... ");
+
+            // force the initial load on FirstRun
+            if (AppSettings.Instance.FirstRun)
+            {
+                Globals.ReloadSongManager = true;
+                AppSettings.Instance.FirstRun = false;
+            }
         }
 
         public void TabEnter()
         {
-            // DO SOMETHING
+            cueDgvSettingsPath.Text = String.Empty;
         }
+
+        private void cueDgvSettingsPath_MouseClick(object sender, MouseEventArgs e)
+        {
+            using (var ofd = new OpenFileDialog())
+            {
+                ofd.Filter = "Grid Settings XML Files (*.xml)|*.xml";
+                ofd.InitialDirectory = Constants.GridSettingsFolder;
+                ofd.Title = "Select a grid settings file to edit ...";
+                ofd.CheckFileExists = true;
+
+                if (ofd.ShowDialog() != DialogResult.OK)
+                    return;
+
+                cueDgvSettingsPath.Text = ofd.FileName;
+            }
+
+            var dgvName = Path.GetFileNameWithoutExtension(cueDgvSettingsPath.Text).Replace("dgv", "");
+            var splitName = Regex.Split(dgvName, @"(?<!^)(?=[A-Z])");
+            var dgvTag = splitName[0];
+            for (int i = 1; i < splitName.Length; i++)
+                dgvTag = dgvTag + " " + splitName[i];
+
+            lblDgvColumns.Text = String.Format("Settings for {0} from file: {1}", dgvTag, Path.GetFileName(cueDgvSettingsPath.Text));
+            SetGlobalsDgvCurrent(cueDgvSettingsPath.Text);
+            LoadDgvColumns(cueDgvSettingsPath.Text);
+        }
+
+        private void dgvColumns_CellValidating(object sender, DataGridViewCellValidatingEventArgs e)
+        {
+            // validate user input
+            int newInteger;
+            var colNdx = e.ColumnIndex;
+            var rowNdx = e.RowIndex;
+
+            if (dgvColumns.Rows[rowNdx].IsNewRow)
+                return;
+
+            // clear any previous error message glyph
+            dgvColumns.Rows[rowNdx].ErrorText = "";
+
+            if (colNdx == dgvColumns.Columns["colDisplayIndex"].Index)
+            {
+                if (!int.TryParse(e.FormattedValue.ToString(), out newInteger) || newInteger < 0 || newInteger >= dgvColumns.Rows.Count)
+                {
+                    e.Cancel = true;
+                    dgvColumns.Rows[rowNdx].ErrorText = "DisplayIndex must be between 0 and " + (dgvColumns.Rows.Count - 1);
+                }
+            }
+            else if (colNdx == dgvColumns.Columns["colWidth"].Index)
+            {
+                if (!int.TryParse(e.FormattedValue.ToString(), out newInteger) || newInteger < 1 || newInteger > 999)
+                {
+                    e.Cancel = true;
+                    dgvColumns.Rows[rowNdx].ErrorText = "Width must be between 1 and 999";
+                }
+            }
+
+            // dgvColumns.Rows[rowNdx].ErrorText = "Oops ... that's not right!";
+        }
+
+        private void SetGlobalsDgvCurrent(string dgvSettingsPath)
+        {
+            // given a grid settings file set Globals.DgvCurrent
+            var dgvName = Path.GetFileNameWithoutExtension(dgvSettingsPath);
+
+            switch (dgvName)
+            {
+                case "dgvSongsMaster":
+                    Globals.DgvCurrent = Globals.SongManager.GetGrid();
+                    Globals.ReloadSongManager = true;
+                    break;
+                case "dgvArrangements":
+                    Globals.DgvCurrent = Globals.ArrangementAnalyzer.GetGrid();
+                    Globals.ReloadArrangements = true;
+                    break;
+                case "dgvDuplicates":
+                    Globals.DgvCurrent = Globals.Duplicates.GetGrid();
+                    Globals.ReloadDuplicates = true;
+                    break;
+                case "dgvSetlistMaster":
+                    Globals.DgvCurrent = Globals.SetlistManager.GetGrid();
+                    Globals.ReloadSetlistManager = true;
+                    break;
+                case "dgvSongListMaster":
+                    Globals.DgvCurrent = Globals.ProfileSongLists.GetGrid();
+                    Globals.ReloadProfileSongLists = true;
+                    break;
+                case "dgvSongPacks":
+                    Globals.DgvCurrent = Globals.SongPacks.GetGrid();
+                    Globals.ReloadSongPacks = true;
+                    break;
+                default:
+                    throw new DataException("Can not get grid control for " + dgvName);
+                    break;
+            }
+        }
+
+
+        #region Drag/Drop effect for dgv rows
+
+        private Rectangle dragBoxFromMouseDown;
+        private int rowIndexFromMouseDown;
+        private int colIndexFromMouseDown;
+        private int rowIndexOfItemUnderMouseToDrop;
+        private int colIndexOfItemUnderMouseToDrop;
+
+        private void dgvColumns_MouseMove(object sender, MouseEventArgs e)
+        {
+            if ((e.Button & MouseButtons.Left) == MouseButtons.Left)
+            {
+                // If the mouse moves outside the rectangle, start the drag.
+                if (dragBoxFromMouseDown != Rectangle.Empty && !dragBoxFromMouseDown.Contains(e.X, e.Y))
+                {
+                    // Proceed with the drag and drop, passing in the grid data.                   
+                    DragDropEffects dropEffect = dgvColumns.DoDragDrop(dgvColumns.Rows[rowIndexFromMouseDown], DragDropEffects.Move);
+                }
+            }
+        }
+
+        private void dgvColumns_MouseDown(object sender, MouseEventArgs e)
+        {
+            // Get the row index of the item the mouse is below.
+            rowIndexFromMouseDown = dgvColumns.HitTest(e.X, e.Y).RowIndex;
+            // Get the column index of the item the mouse is below.
+            colIndexFromMouseDown = dgvColumns.HitTest(e.X, e.Y).ColumnIndex;
+
+            if (rowIndexFromMouseDown != -1)
+            {
+                // Remember the point where the mouse down occurred.
+                // The DragSize indicates the size that the mouse can move
+                // before a drag event should be started.               
+                Size dragSize = SystemInformation.DragSize;
+
+                // Create a rectangle using the DragSize, with the mouse position being
+                // at the center of the rectangle.
+                dragBoxFromMouseDown = new Rectangle(new Point(e.X - (dragSize.Width / 2), e.Y - (dragSize.Height / 2)), dragSize);
+            }
+            else
+            {
+                // Reset the rectangle if the mouse is not over an item in the grid.
+                dragBoxFromMouseDown = Rectangle.Empty;
+            }
+        }
+
+        private void dgvColumns_DragOver(object sender, DragEventArgs e)
+        {
+            e.Effect = DragDropEffects.Move;
+        }
+
+        private void dgvColumns_DragDrop(object sender, DragEventArgs e)
+        {
+            // The mouse locations are relative to the screen, so they must be
+            // converted to client coordinates.
+            Point clientPoint = dgvColumns.PointToClient(new Point(e.X, e.Y));
+
+            // Get the row index of the item the mouse is below.
+            rowIndexOfItemUnderMouseToDrop = dgvColumns.HitTest(clientPoint.X, clientPoint.Y).RowIndex;
+            // Get the column index of the item the mouse is below.
+            colIndexOfItemUnderMouseToDrop = dgvColumns.HitTest(clientPoint.X, clientPoint.Y).ColumnIndex;
+
+            // If the drag operation was a move then remove and insert the row.
+            if (e.Effect == DragDropEffects.Move)
+            {
+                // check if grid is properly sorted
+                if (dgvColumns.SortedColumn.Index != dgvColumns.Columns["colDisplayIndex"].Index ||
+                    (dgvColumns.SortedColumn.Index == dgvColumns.Columns["colDisplayIndex"].Index && dgvColumns.SortOrder != SortOrder.Ascending))
+                {
+                    var diaMsg = "Sort on DisplayIndex (ascending) before" + Environment.NewLine + "using the drag and drop feature ...";
+                    BetterDialog2.ShowDialog(diaMsg, "Settings ...", null, null, "Ok", Bitmap.FromHicon(SystemIcons.Warning.Handle), "ReadMe", 0, 150);
+                    return;
+                }
+
+                if (colIndexFromMouseDown == dgvColumns.Columns["colHeaderText"].Index)
+                {
+                    // use this method for unbound grids
+                    //DataGridViewRow rowToMove = e.Data.GetData(typeof(DataGridViewRow)) as DataGridViewRow;
+                    //dgvColumns.Rows.RemoveAt(rowIndexFromMouseDown);
+                    //dgvColumns.Rows.Insert(rowIndexOfItemUnderMouseToDrop, rowToMove);
+
+                    // use this method for bound grids
+                    dynamic list = dgvColumns.DataSource;
+                    var item = list[rowIndexFromMouseDown];
+                    list.RemoveAt(rowIndexFromMouseDown);
+
+                    if (rowIndexOfItemUnderMouseToDrop == -1)
+                        list.Add(item);
+                    else
+                        list.Insert(rowIndexOfItemUnderMouseToDrop, item);
+
+                    // refresh row placement in grid
+                    dgvColumns.Invalidate();
+                    dgvColumns.Refresh();
+
+                    // renumber display index according to the new row position
+                    for (int i = 0; i < dgvColumns.Rows.Count; i++)
+                        dgvColumns.Rows[i].Cells["colDisplayIndex"].Value = i;
+
+                    // prevent user from making any manual changes to DisplayIndex                    
+                    colDisplayIndex.ReadOnly = true;
+                    colDisplayIndex.ToolTipText = "Click to Sort (Read Only)";
+                    dgvColumns.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+                    dgvColumns.ClearSelection();
+                }
+
+                // reset drag/drop variables
+                dragBoxFromMouseDown = new Rectangle();
+                rowIndexFromMouseDown = -1;
+                colIndexFromMouseDown = -1;
+                rowIndexOfItemUnderMouseToDrop = -1;
+                colIndexOfItemUnderMouseToDrop = -1;
+            }
+        }
+
+        #endregion
 
     }
 }

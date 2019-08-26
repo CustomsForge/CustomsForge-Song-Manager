@@ -8,6 +8,7 @@ using System.Text;
 using System.Collections.Generic;
 using CustomsForgeSongManager.DataObjects;
 using CustomsForgeSongManager.LocalTools;
+using CustomsForgeSongManager.UControls;
 using CustomsForgeSongManager.UITheme;
 using GenTools;
 using System.Diagnostics;
@@ -67,6 +68,7 @@ namespace CustomsForgeSongManager.Forms
 
             // verify application directory structure
             FileTools.VerifyCfsmFolders();
+            // FileTools.VerifyCfsmFiles(); 
 
             // create VersionInfo.txt file
             VersionInfo.CreateVersionInfo();
@@ -170,6 +172,7 @@ namespace CustomsForgeSongManager.Forms
                 if (!GeneralExtension.ValidateDisplaySettings(this, this)) // , true, true)) // uncomment for debugging
                     Globals.Log("+ Adjusted AutoScaleDimensions, AutoScaleMode, and AutoSize ...");
 
+                var debugMe = Globals.DgvCurrent.Name;
                 Globals.Settings.SaveSettingsToFile(Globals.DgvCurrent);
             }
 
@@ -207,7 +210,11 @@ namespace CustomsForgeSongManager.Forms
             }
 
             Globals.SongManager.UpdateToolStrip();
-            currentControl = Globals.SongManager;
+
+            if (AppSettings.Instance.FirstRun)
+                currentControl = Globals.Settings;
+            else
+                currentControl = Globals.SongManager;
         }
 
         private void ShowHelp()

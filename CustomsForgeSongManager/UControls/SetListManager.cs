@@ -196,7 +196,7 @@ namespace CustomsForgeSongManager.UControls
         {
             bindingCompleted = false;
             dgvPainted = false;
-            // sortable binding list with drop down filtering
+            // sortable binding list with dropdown filtering
             dgvSetlistMaster.AutoGenerateColumns = false;
             var fbl = new FilteredBindingList<SongData>(list);
             var bs = new BindingSource { DataSource = fbl };
@@ -262,7 +262,7 @@ namespace CustomsForgeSongManager.UControls
             var selectedRows = dgvSetlists.Rows.Cast<DataGridViewRow>().Where(slr => Convert.ToBoolean(slr.Cells["colSetlistSelect"].Value)).ToList();
             if (dgvSetlists.Rows.Count == 0 || !selectedRows.Any())
             {
-                // preserve custom column headers and clear the table
+                // preserve custom column headers and clear the grid
                 dgvSetlistSongs.AutoGenerateColumns = false;
                 dgvSetlistSongs.DataSource = null;
                 gbSetlistSongs.Text = "Setlist Songs";

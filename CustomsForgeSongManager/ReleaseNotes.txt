@@ -14,6 +14,15 @@ until you can confirm it is safe by working directly with your AV provider.
 
 CFSM Release Notes
 
+1.5.5.1
+- fixed Search box backspace to empty issues in SongManager and ArrangementAnalyzer 
+- Search box no longer clears itself if CFSM doesn't find any matching records ... Doh!
+  Be the the first user to say, 'I don't see any of my CDLC' to get the dunce award ;(
+- added user customizable grid settings for Visible, DisplayIndex, and Width columns in Settings
+  Manually enter the DisplayIndex, or drag and drop the HeaderText row to a new position
+- select and modify any previously selected tabmenu's grid settings using new grid settings path selector
+- added numerous user tooltip popups in support of the new features (be sure to read them)
+
 1.5.5.0
 - added SongDifficulty column to ArrangementAnalayzer grid (arrange songs by difficulty)
 - fixed some FirstRun scanning issues

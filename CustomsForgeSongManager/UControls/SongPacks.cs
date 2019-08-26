@@ -377,7 +377,7 @@ namespace CustomsForgeSongManager.UControls
         {
             bindingCompleted = false;
             dgvPainted = false;
-            // sortable binding list with drop down filtering
+            // sortable binding list with dropdown filtering
             dgvSongPacks.AutoGenerateColumns = false;
             var fbl = new FilteredBindingList<SongPackData>(list);
             var bs = new BindingSource { DataSource = fbl };

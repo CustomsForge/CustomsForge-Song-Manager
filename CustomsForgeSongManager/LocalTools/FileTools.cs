@@ -9,6 +9,8 @@ using RocksmithToolkitLib.DLCPackage;
 using RocksmithToolkitLib.Extensions;
 using RocksmithToolkitLib.PsarcLoader;
 using System.Drawing;
+using DataGridViewTools;
+using CustomsForgeSongManager.UControls;
 
 namespace CustomsForgeSongManager.LocalTools
 {
@@ -624,6 +626,16 @@ namespace CustomsForgeSongManager.LocalTools
                 throw new Exception(); // force app to stop here
             }
         }
+
+        public static void VerifyCfsmFiles()
+        {
+            // attempting to populate grid settings XML files on initial run
+            // this method seems to be a dead end
+            //Globals.DgvCurrent = new SongManager().dgvSongsMaster as DataGridView;
+            //if (!File.Exists(Constants.GridSettingsPath))
+            //    SerialExtensions.SaveToFile(Constants.GridSettingsPath, RAExtensions.ManagerGridSettings.ColumnOrder);
+        }
+
     }
 }
 

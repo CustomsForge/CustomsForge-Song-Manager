@@ -292,7 +292,7 @@ namespace CustomsForgeSongManager.LocalTools
                         {
                             Platform platform = _filePath.GetPlatform();
 
-                            // quick load HSAN file data
+                            // quick load HSAN file data to get SongDifficulty
                             var hsanEntries = new ManifestHeader2014<AttributesHeader2014>(platform);
                             var hsanEntry = _archive.TOC.FirstOrDefault(x => x.Name.StartsWith("manifests/songs") && x.Name.EndsWith(".hsan"));
 
@@ -303,28 +303,11 @@ namespace CustomsForgeSongManager.LocalTools
                             using (var readerJson = new StreamReader(ms, new UTF8Encoding(), true, 65536))
                                 hsanEntries = JsonConvert.DeserializeObject<ManifestHeader2014<AttributesHeader2014>>(readerJson.ReadToEnd());
 
-                            // use PID instead of ArrangementName which may not be unique in ODLC
+                            // use unique PID instead of ArrangementName which may not be unique in ODLC
                             var arrPID = attributes.PersistentID;
                             arr.SongDifficulty = hsanEntries.Entries[arrPID].ToArray()[0].Value.SongDifficulty;
 
-                            // TODO: simplify using LINQ and benchmark for efficiency
-                            //foreach (string persistentID in hsanEntries.Entries.Keys)
-                            //{
-                            //    // workaround for ODLC that have multple Combo arrangements
-                            //    if (arrName.ToLower() == "combo2" && song.IsODLC)
-                            //    {
-                            //        arr.SongDifficulty = hsanEntries.Entries[persistentID].ToArray()[0].Value.SongDifficulty;
-                            //        break;
-                            //    }
-
-                            //    foreach (AttributesHeader2014 hsanAttr in hsanEntries.Entries[persistentID].Select(k => k.Value))
-                            //    {
-                            //        if (hsanAttr.ArrangementName.ToLower().Contains(arrName.ToLower()))
-                            //            arr.SongDifficulty = hsanAttr.SongDifficulty;
-                            //    }
-                            //}
-
-                            // loading SNG is 5X faster than loading XML (ODLC do not have XML)
+                            // loading SNG is 5X faster than loading XML and ODLC do not have XML
                             var song2014 = new Song2014();
                             var sngEntry = _archive.TOC.FirstOrDefault(x => x.Name.EndsWith(".sng") && x.Name.ToLower().Contains(arrName.ToLower() + ".sng") && x.Name.Contains(strippedName));
                             using (var ms = ExtractEntryData(x => x.Name.Equals(sngEntry.Name)))

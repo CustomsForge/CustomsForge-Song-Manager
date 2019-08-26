@@ -67,7 +67,6 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiNudScrollSpeed.Text = "(Default 1.3)";
             this.tsmiNudScrollSpeed.TextVisible = true;
 
-            Globals.TsLabel_StatusMsg.Click += lnkShowAll_Click;
             dgvSongsDetail.Visible = false;
             // TODO: future get Ignition based API data
             cmsCheckForUpdate.Visible = GeneralExtension.IsInDesignMode ? true : false;
@@ -76,11 +75,14 @@ namespace CustomsForgeSongManager.UControls
             toolStripSeparator11.Visible = GeneralExtension.IsInDesignMode ? true : false;
 
             PopulateSongManager(); // check SongData version first
+
             PopulateTagger();
             InitializeRepairMenu();
             tsmiRepairs.HideDropDown();
             UserSupport();
-            TabEnter();
+            this.TabEnter();
+            Globals.TsLabel_StatusMsg.Click += lnkShowAll_Click;
+
             // developer sandbox
             tsmiDevUseOnly.Visible = GeneralExtension.IsInDesignMode ? true : false;
         }
@@ -267,6 +269,7 @@ namespace CustomsForgeSongManager.UControls
             chkIncludeSubfolders.Checked = AppSettings.Instance.IncludeSubfolders;
             chkProtectODLC.Checked = AppSettings.Instance.ProtectODLC;
             cueSearch.Text = AppSettings.Instance.SearchString;
+
             // save settings incase user made any changes to grid
             if (Globals.RescanSongManager || Globals.ReloadSongManager)
                 Globals.Settings.SaveSettingsToFile(dgvSongsMaster);
@@ -296,11 +299,12 @@ namespace CustomsForgeSongManager.UControls
                 Thread.Sleep(200); // debounce search
                 dgvSongsMaster.AllowUserToAddRows = false; // corrects initial Song Count
 
-                if (dgvSongsMaster.Rows.Count == 0)
-                {
-                    IncludeSubfolders(true); // search killer
-                    Globals.Log(" - CFSM cleared a search that returns no songs ...");
-                }
+                // commented out ... some speedster typist who are prone to mistakes :)
+                //if (dgvSongsMaster.Rows.Count == 0)
+                //{
+                //    IncludeSubfolders(true); // search killer
+                //    Globals.Log(" - CFSM cleared a search that returns no songs ...");
+                //}
             }
 
             if (!AppSettings.Instance.IncludeArrangementData)
@@ -482,7 +486,7 @@ namespace CustomsForgeSongManager.UControls
         {
             bindingCompleted = false;
             dgvPainted = false;
-            // sortable binding list with drop down filtering
+            // sortable binding list with dropdown filtering
             dgvSongsMaster.AutoGenerateColumns = false;
             FilteredBindingList<SongData> fbl = new FilteredBindingList<SongData>(list);
             BindingSource bs = new BindingSource { DataSource = fbl };
@@ -569,9 +573,6 @@ namespace CustomsForgeSongManager.UControls
                     var tabIndex = Globals.MainForm.tcMain.TabPages.IndexOf(Globals.MainForm.tpSettings);
                     Globals.MainForm.tcMain.SelectedIndex = tabIndex;
                     Globals.Log("Customize CFSM Settings options before returning to Song Manager ...");
-
-                    // halt loading SongManger
-                    return false;
                 }
 
                 // Rescan calls BackgroundScan/ParseSongs and loads Globals.MasterCollection
@@ -603,6 +604,7 @@ namespace CustomsForgeSongManager.UControls
 
                 MessageBox.Show(String.Format("{0}{1}{1}CFSM will now shut down.", err, Environment.NewLine), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Environment.Exit(0);
+                return false;
             }
 
             return true;
@@ -772,7 +774,6 @@ namespace CustomsForgeSongManager.UControls
             UpdateToolStrip();
             // reapply sort direction to reselect the filtered song
             statusSongsMaster.RestoreSorting(dgvSongsMaster);
-
             Refresh();
         }
 
@@ -872,9 +873,6 @@ namespace CustomsForgeSongManager.UControls
         {
             var lowerCriteria = criteria.ToLower();
             AppSettings.Instance.SearchString = lowerCriteria;
-            // perform quick save of AppSettings.Instance
-            using (var fs = new FileStream(Constants.AppSettingsPath, FileMode.Create, FileAccess.Write, FileShare.Write))
-                AppSettings.Instance.SerializeXml(fs);
 
             var results = songList.Where(x => x.ArtistTitleAlbum.ToLower().Contains(lowerCriteria) || x.Tunings1D.ToLower().Contains(lowerCriteria) || x.Arrangements1D.ToLower().Contains(lowerCriteria) || x.PackageAuthor.ToLower().Contains(lowerCriteria) || (x.IgnitionAuthor != null && x.IgnitionAuthor.ToLower().Contains(lowerCriteria) || (x.IgnitionID != null && x.IgnitionID.ToLower().Contains(lowerCriteria)) || x.SongYear.ToString().Contains(criteria) || x.FilePath.ToLower().Contains(lowerCriteria))).ToList();
 
@@ -1427,15 +1425,19 @@ namespace CustomsForgeSongManager.UControls
             // save current sort
             statusSongsMaster.SaveSorting(dgvSongsMaster);
             ResetDetail();
+            SearchCDLC(cueSearch.Text);
 
-            if (cueSearch.Text.Length > 0) // && e.KeyCode == Keys.Enter)
-                SearchCDLC(cueSearch.Text);
-            else
-                LoadFilteredBindingList(songList);
+            if (cueSearch.Text.Length == 0)
+            {
+                // workaround for single character remnant in textbox
+                cueSearch.Text = String.Empty;
+                cueSearch.Cue = "Type characters to search for ...";
+                AppSettings.Instance.SearchString = String.Empty;
+            }
 
+            UpdateToolStrip();
             // restore current sort
             statusSongsMaster.RestoreSorting(dgvSongsMaster);
-            UpdateToolStrip();
         }
 
         private void dgvSongsMaster_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -1931,15 +1933,10 @@ namespace CustomsForgeSongManager.UControls
         {
             tsmiModsMyCDLC.Checked = false;
             cueSearch.Text = String.Empty;
-            cueSearch.Cue = "Search";
+            cueSearch.Cue = "Type characters to search for ...";
             AppSettings.Instance.SearchString = String.Empty;
+            SearchCDLC(cueSearch.Text);
             RemoveFilter();
-
-            // save current sorting before clearing search
-            statusSongsMaster.SaveSorting(dgvSongsMaster);
-            UpdateToolStrip();
-            statusSongsMaster.RestoreSorting(dgvSongsMaster);
-            Globals.Settings.SaveSettingsToFile(Globals.DgvCurrent);
         }
 
         private void lnkLblSelectAll_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -2570,13 +2567,6 @@ namespace CustomsForgeSongManager.UControls
 
             Globals.Settings.SaveSettingsToFile(Globals.DgvCurrent);
             Globals.Log("Song Manager GUI Deactivated ...");
-
-            // force the initial load on FirstRun
-            if (AppSettings.Instance.FirstRun)
-            {
-                Globals.ReloadSongManager = true;
-                AppSettings.Instance.FirstRun = false;
-            }
         }
 
         private void dgvSongsMaster_DataError(object sender, DataGridViewDataErrorEventArgs e)

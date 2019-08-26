@@ -613,10 +613,10 @@ namespace DataGridViewTools
                     SizeF stringSizeF = graphics.MeasureString(filter, dropDownListBox.Font);
 
                     //dropDownListBoxHeight += (Int32)stringSizeF.Height;
-                    // increase size of drop down
+                    // increase size of dropdown
                     dropDownListBoxHeight += (Int32)stringSizeF.Height + 4;
                     //currentWidth = (Int32)stringSizeF.Width;
-                    // increase size of drop down
+                    // increase size of dropdown
                     currentWidth = (Int32)stringSizeF.Width + 4;
 
                     if (dropDownListBoxWidth < currentWidth)

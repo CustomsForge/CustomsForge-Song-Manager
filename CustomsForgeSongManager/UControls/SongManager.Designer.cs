@@ -2194,7 +2194,6 @@ namespace CustomsForgeSongManager.UControls
         private CustomControls.ToolStripEnhancedMenuItem cmsDelete;
         private CustomControls.ToolStripEnhancedMenuItem cmsBackup;
         private System.Windows.Forms.ContextMenuStrip cmsSongManager;
-        private RADataGridView dgvSongsMaster;
         private System.Windows.Forms.LinkLabel lnkLblSelectAll;
         private System.Windows.Forms.GroupBox gb_Main_Grid;
         private System.Windows.Forms.ContextMenuStrip cmsSongManagerColumns;
@@ -2348,5 +2347,6 @@ namespace CustomsForgeSongManager.UControls
         private ToolStripSeparator toolStripSeparator18;
         private CustomControls.ToolStripButton tsmiCustomTitleTagAdd;
         private CustomControls.ToolStripButton tsmiCustomTitleTagRemove;
+        private RADataGridView dgvSongsMaster;
     }
 }

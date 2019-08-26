@@ -413,6 +413,7 @@
     <Compile Include="LocalTools\Worker.cs" />
     <EmbeddedResource Include="Forms\frmLocalProfiles.resx">
       <DependentUpon>frmLocalProfiles.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmCODLCReplacements.resx">
       <DependentUpon>frmCODLCReplacements.cs</DependentUpon>

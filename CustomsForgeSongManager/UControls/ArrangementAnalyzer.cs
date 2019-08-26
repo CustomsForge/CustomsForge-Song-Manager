@@ -39,8 +39,8 @@ namespace CustomsForgeSongManager.UControls
         public ArrangementAnalyzer()
         {
             InitializeComponent();
-            Globals.TsLabel_StatusMsg.Click += lnkShowAll_Click;
             PopulateArrangementManager(); // done once on initial load
+            Globals.TsLabel_StatusMsg.Click += lnkShowAll_Click;
         }
 
         public void PopulateArrangementManager()
@@ -83,7 +83,7 @@ namespace CustomsForgeSongManager.UControls
             }
 
             IncludeSubfolders(false);
-            
+
             // apply saved search (filters can not be applied the same way)
             if (!String.IsNullOrEmpty(AppSettings.Instance.SearchString))
             {
@@ -91,11 +91,12 @@ namespace CustomsForgeSongManager.UControls
                 Thread.Sleep(200); // debounce search
                 dgvArrangements.AllowUserToAddRows = false; // corrects initial Song Count
 
-                if (dgvArrangements.Rows.Count == 0)
-                {
-                    IncludeSubfolders(true); // search killer
-                    Globals.Log(" - CFSM cleared a search that returns no songs ...");
-                }
+                // commented out ... some speedster typist who are prone to mistakes :)
+                //if (dgvArrangements.Rows.Count == 0)
+                //{
+                //    IncludeSubfolders(true); // search killer
+                //    Globals.Log(" - CFSM cleared a search that returns no songs ...");
+                //}
             }
 
             Globals.TsLabel_MainMsg.Text = String.Format("Rocksmith Arrangements Count: {0}", dgvArrangements.Rows.Count);
@@ -148,6 +149,10 @@ namespace CustomsForgeSongManager.UControls
                 cueSearch.Text = String.Empty;
                 AppSettings.Instance.SearchString = String.Empty;
             }
+
+            // reload arrangementList
+            if (arrangementList.Count == 0)
+                LoadArrangements();
 
             if (!chkIncludeSubfolders.Checked)
                 arrangementList = arrangementList.Where(x => Path.GetFileName(Path.GetDirectoryName(x.FilePath)) == "dlc").ToList();
@@ -327,15 +332,13 @@ namespace CustomsForgeSongManager.UControls
 
             //sw.Stop();
             //Globals.Log(String.Format("Arrangement reflection took: {0} (msec)", sw.ElapsedMilliseconds));
-
-            var debugMe = arrangementList;
         }
 
         private void LoadFilteredBindingList(dynamic list)
         {
             bindingCompleted = false;
             dgvPainted = false;
-            // sortable binding list with drop down filtering
+            // sortable binding list with dropdown filtering
             dgvArrangements.AutoGenerateColumns = false;
             FilteredBindingList<ArrangementData> fbl = new FilteredBindingList<ArrangementData>(list);
             BindingSource bs = new BindingSource { DataSource = fbl };
@@ -535,15 +538,19 @@ namespace CustomsForgeSongManager.UControls
 
             // save current sort
             statusArrangementAnalyzer.SaveSorting(dgvArrangements);
+            SearchCDLC(cueSearch.Text);
 
-            if (cueSearch.Text.Length > 0) // && e.KeyCode == Keys.Enter)
-                SearchCDLC(cueSearch.Text);
-            else
-                LoadFilteredBindingList(arrangementList);
+            if (cueSearch.Text.Length == 0)
+            {
+                // workaround for single character remnant in textbox
+                cueSearch.Text = String.Empty;
+                cueSearch.Cue = "Type characters to search for ...";
+                AppSettings.Instance.SearchString = String.Empty;
+            }
 
+            UpdateToolStrip(false);
             // restore current sort
             statusArrangementAnalyzer.RestoreSorting(dgvArrangements);
-            UpdateToolStrip(false);
         }
 
         private void dgvArrangements_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -843,16 +850,10 @@ namespace CustomsForgeSongManager.UControls
         private void lnkClearSearch_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             cueSearch.Text = String.Empty;
-            cueSearch.Cue = "Search";
+            cueSearch.Cue = "Type characters to search for ...";
             AppSettings.Instance.SearchString = String.Empty;
-            Globals.RescanArrangements = true; // refresh data
+            SearchCDLC(cueSearch.Text);
             RemoveFilter();
-
-            // save current sorting before clearing search
-            statusArrangementAnalyzer.SaveSorting(dgvArrangements);
-            UpdateToolStrip();
-            statusArrangementAnalyzer.RestoreSorting(dgvArrangements);
-            Globals.Settings.SaveSettingsToFile(Globals.DgvCurrent);
         }
 
         private void lnkLblSelectAll_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
