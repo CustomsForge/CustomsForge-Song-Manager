@@ -73,7 +73,7 @@ namespace DataGridViewTools
                 .Select(x => x.GetMethod().ReflectedType.Assembly)
                 .Distinct().Where(x => x.GetReferencedAssemblies()
                     .Any(y => y.FullName == currentAssembly.FullName));
-            
+
             var initialAssembly = callerAssemblies.Last();
             object moduleName = dataObject.GetType().GetProperty("Module").GetValue(dataObject, null);
             Module assemblyName = initialAssembly.GetModules()[0];
@@ -118,7 +118,8 @@ namespace DataGridViewTools
     public class RADataGridViewSettings
     {
         // ver 1.1 - added column HeaderText to DataGridViewTools column settings
-        public const string gridViewSettingsVersion = "1.1";
+        // ver 1.2 - major revision to Settings tabmenu
+        public const string gridViewSettingsVersion = "1.2";
 
         [XmlIgnore]
         public string LoadedVersion { get; private set; }
@@ -218,6 +219,36 @@ namespace DataGridViewTools
                 {
                     Debug.WriteLine(String.Format("<Error>: {0}", ex.Message));
                 }
+            }
+
+            return settings;
+        }
+
+
+        public static RADataGridViewSettings SaveColumnOrder(List<ColumnOrderItem> columnOrderCollection)
+        {
+            // transpose RAExtensions.ManagerGridSettings.ColumnOrder
+
+            var settings = new RADataGridViewSettings();
+            if (!columnOrderCollection.Any())
+                throw new NullReferenceException("<ERROR> columnOrderCollection ...");
+
+            try
+            {
+                for (int i = 0; i < columnOrderCollection.Count; i++)
+                    settings.ColumnOrder.Add(new ColumnOrderItem
+                    {
+                        ColumnIndex = columnOrderCollection[i].ColumnIndex,
+                        DisplayIndex = columnOrderCollection[i].DisplayIndex,
+                        Visible = columnOrderCollection[i].Visible,
+                        Width = columnOrderCollection[i].Width,
+                        ColumnName = columnOrderCollection[i].ColumnName,
+                        HeaderText = columnOrderCollection[i].HeaderText
+                    });
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(String.Format("<Error>: {0}", ex.Message));
             }
 
             return settings;

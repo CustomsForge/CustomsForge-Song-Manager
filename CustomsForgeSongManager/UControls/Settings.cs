@@ -12,12 +12,14 @@ using CustomControls;
 using System.Drawing;
 using System.Text.RegularExpressions;
 using System.Threading;
+using System.Collections.Generic;
 
 namespace CustomsForgeSongManager.UControls
 {
     public partial class Settings : UserControl, INotifyTabChanged
     {
         private bool isDirty;
+        private List<ColumnOrderItem> columnOrderList;
 
         public Settings()
         {
@@ -255,7 +257,7 @@ namespace CustomsForgeSongManager.UControls
 
         private void btnSettingsLoad_Click(object sender, EventArgs e)
         {
-            if (String.IsNullOrEmpty(Globals.DgvCurrent.Name) && !String.IsNullOrEmpty(cueDgvSettingsPath.Text))
+            if (!String.IsNullOrEmpty(cueDgvSettingsPath.Text))
                 SetGlobalsDgvCurrent(cueDgvSettingsPath.Text);
 
             if (String.IsNullOrEmpty(Globals.DgvCurrent.Name))
@@ -267,8 +269,32 @@ namespace CustomsForgeSongManager.UControls
 
         private void btnSettingsSave_Click(object sender, EventArgs e)
         {
-            ValidateRsDir();
-            TabLeave();
+            SaveSettingsToFile(Globals.DgvCurrent);
+
+            if (!String.IsNullOrEmpty(cueDgvSettingsPath.Text))
+            {
+                // grid settings file naming convention: 'dgv[GridName][[CustomName]].xml'
+                using (var sfd = new SaveFileDialog())
+                {
+                    sfd.Filter = "Grid Settings XML Files (dgv[GridName][[NameRev]].xml)|dgv*.xml";
+                    sfd.InitialDirectory = Constants.GridSettingsFolder;
+                    sfd.Title = "Save grid settings file ... 'dgv[GridName][[CustomName]].xml'";
+                    sfd.FileName = cueDgvSettingsPath.Text;
+
+                    if (sfd.ShowDialog() != DialogResult.OK)
+                        return;
+
+                    if (!sfd.FileName.StartsWith("dgv") && !sfd.FileName.ToLower().EndsWith(".xml"))
+                        throw new Exception("<ERROR> Grid settings file name convention ..." + Environment.NewLine + "dgv[GridName][[CustomName]].xml" + Environment.NewLine);
+
+                    // ((RADataGridView)Globals.DgvCurrent).ReLoadColumnOrder(RAExtensions.ManagerGridSettings.ColumnOrder);
+                    //SerialExtensions.SaveToFile(sfd.FileName, RAExtensions.SaveColumnOrder(Globals.DgvCurrent));
+                    SerialExtensions.SaveToFile(sfd.FileName, RAExtensions.SaveColumnOrder(columnOrderList));
+                    cueDgvSettingsPath.Text = sfd.FileName;
+                    Globals.Log("Saved Custom Grid Settings XML File: " + sfd.FileName);
+
+                }
+            }
         }
 
         private void chkEnableAutoUpdate_Click(object sender, EventArgs e)
@@ -438,9 +464,9 @@ namespace CustomsForgeSongManager.UControls
                 // reset the grid data
                 dgvColumns.DataSource = null;
                 dgvColumns.AutoGenerateColumns = false;
-                var list = RAExtensions.ManagerGridSettings.ColumnOrder;
+                columnOrderList = RAExtensions.ManagerGridSettings.ColumnOrder;
                 // allows bound grid to be sorted by clicking column headers
-                FilteredBindingList<ColumnOrderItem> fbl = new FilteredBindingList<ColumnOrderItem>(list);
+                FilteredBindingList<ColumnOrderItem> fbl = new FilteredBindingList<ColumnOrderItem>(columnOrderList);
                 BindingSource bs = new BindingSource { DataSource = fbl };
                 dgvColumns.DataSource = bs;
 
@@ -489,19 +515,20 @@ namespace CustomsForgeSongManager.UControls
 
         public void TabLeave()
         {
+            ValidateRsDir();
             if (String.IsNullOrEmpty(Globals.DgvCurrent.Name))
                 throw new DataException("<ERROR> TabLeave DgvCurrent.Name is null/empty ...");
 
-            if (isDirty)
-            {
-                // reload modified column settings to the actual dgvCurrent
-                ((RADataGridView)Globals.DgvCurrent).ReLoadColumnOrder(RAExtensions.ManagerGridSettings.ColumnOrder);
-                Globals.Log("Reloaded Modified Column Settings: " + Globals.DgvCurrent.Name);
-            }
-
+            // reload modified column settings to the actual dgvCurrent
+            ((RADataGridView)Globals.DgvCurrent).ReLoadColumnOrder(RAExtensions.ManagerGridSettings.ColumnOrder);
+            Globals.Log("Reloaded Modified Column Settings: " + Globals.DgvCurrent.Name);
             // autosave Settings
             SaveSettingsToFile(Globals.DgvCurrent);
-            //SerialExtensions.SaveToFile(Constants.GridSettingsPath, RAExtensions.ManagerGridSettings.ColumnOrder);
+        
+            // save custom grid settings
+            if (!String.IsNullOrEmpty(cueDgvSettingsPath.Text) && cueDgvSettingsPath.Text != Constants.GridSettingsPath)
+                SerialExtensions.SaveToFile(cueDgvSettingsPath.Text, RAExtensions.SaveColumnOrder(columnOrderList));
+
             Globals.Log("Saved CFSM Settings ... ");
 
             // force the initial load on FirstRun
@@ -521,7 +548,7 @@ namespace CustomsForgeSongManager.UControls
         {
             using (var ofd = new OpenFileDialog())
             {
-                ofd.Filter = "Grid Settings XML Files (*.xml)|*.xml";
+                ofd.Filter = "Grid Settings XML Files (dgv[GridName][[NameRev]].xml)|dgv*.xml";
                 ofd.InitialDirectory = Constants.GridSettingsFolder;
                 ofd.Title = "Select a grid settings file to edit ...";
                 ofd.CheckFileExists = true;
@@ -532,13 +559,6 @@ namespace CustomsForgeSongManager.UControls
                 cueDgvSettingsPath.Text = ofd.FileName;
             }
 
-            var dgvName = Path.GetFileNameWithoutExtension(cueDgvSettingsPath.Text).Replace("dgv", "");
-            var splitName = Regex.Split(dgvName, @"(?<!^)(?=[A-Z])");
-            var dgvTag = splitName[0];
-            for (int i = 1; i < splitName.Length; i++)
-                dgvTag = dgvTag + " " + splitName[i];
-
-            lblDgvColumns.Text = String.Format("Settings for {0} from file: {1}", dgvTag, Path.GetFileName(cueDgvSettingsPath.Text));
             SetGlobalsDgvCurrent(cueDgvSettingsPath.Text);
             LoadDgvColumns(cueDgvSettingsPath.Text);
         }
@@ -578,8 +598,27 @@ namespace CustomsForgeSongManager.UControls
 
         private void SetGlobalsDgvCurrent(string dgvSettingsPath)
         {
-            // given a grid settings file set Globals.DgvCurrent
+            // grid settings file name convention 'dgv[GridName][[CustomName]].xml' 
+            // properly initialize the Globals.DgvCurrent variable
             var dgvName = Path.GetFileNameWithoutExtension(dgvSettingsPath);
+            // dgvName = dgvName.Replace("dgv", "");
+            var beginBracket = dgvName.IndexOf("[");
+            var endBracket = dgvName.IndexOf("]");
+            var dgvNameRev = String.Empty;
+            if (beginBracket != -1 && endBracket != -1)
+                dgvNameRev = dgvName.Substring(beginBracket, endBracket - beginBracket + 1);
+
+            if (!String.IsNullOrEmpty(dgvNameRev))
+                dgvName = dgvName.Replace(dgvNameRev, "");
+
+            var splitName = Regex.Split(dgvName, @"(?<!^)(?=[A-Z])");
+            var dgvTag = splitName[1];
+            for (int i = 2; i < splitName.Length; i++)
+                dgvTag = dgvTag + " " + splitName[i];
+
+            lblDgvColumns.Text = String.Format("Settings for {0} from file: {1}", dgvTag, Path.GetFileName(dgvSettingsPath));
+            if (splitName[0] != "dgv")
+                throw new Exception("<ERROR> Grid settings file name must be in the form ..." + Environment.NewLine + "dgv[GridName][[CustomName]].xml" + Environment.NewLine);
 
             switch (dgvName)
             {

@@ -14,13 +14,32 @@ until you can confirm it is safe by working directly with your AV provider.
 
 CFSM Release Notes
 
+1.5.5.2
+- advanced users may create multiple custom grid setting files for a single grid:
+  =====================================
+  create multiple custom grid settings
+  a) CFSM>Settings>Grid Settings File Path>click on selector
+  b) Select a default grid settings XML file 'dgv[GridName].xml'
+  c) Edit the grid settings, i.e., Visible, DisplayIndex, or Width
+  d) CFSM>Settings>Save Settings>click on button
+  e) Specify a new custom grid settings XML file name 'dgv[GridName][[CustomName]].xml'
+  f) New custom grid settings will be auto loaded into the corresponding tabmenu
+  =====================================
+  load saved custom grid settings
+  a) CFSM>Settings>Grid Settings File Path>click on selector
+  b) Select the cooresponding tabmenu feature
+
+  Note: the default grid settings XML file 'dgv[GridName].xml' is updated with the
+        latest grid settings even when a custom grid setting file name is specified
+
 1.5.5.1
-- fixed Search box backspace to empty issues in SongManager and ArrangementAnalyzer 
+- fixed Search box backspace key issues in SongManager and ArrangementAnalyzer 
 - Search box no longer clears itself if CFSM doesn't find any matching records ... Doh!
-  Be the the first user to say, 'I don't see any of my CDLC' to get the dunce award ;(
+  Be the the first user to say, 'I don't see any of my CDLC' to get a dunce award ;(
 - added user customizable grid settings for Visible, DisplayIndex, and Width columns in Settings
   Manually enter the DisplayIndex, or drag and drop the HeaderText row to a new position
-- select and modify any previously selected tabmenu's grid settings using new grid settings path selector
+- select and modify any previously selected tabmenu's grid settings using new 
+  'Grid Settings File Path' selector
 - added numerous user tooltip popups in support of the new features (be sure to read them)
 
 1.5.5.0
