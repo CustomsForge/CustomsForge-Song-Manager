@@ -464,7 +464,6 @@ namespace CustomsForgeSongManager.UControls
                 PopulateSongList(Constants.ExtractedRs1DlcHsanPath, Rs1DlcSongCollection, ref Rs1DlcEntireCollection, Rs1DlcDisabledSongCollection, ref Rs1DlcDisabledEntireCollection);
 
             var songCount = CacheSongCollection.Count + Rs1DiscSongCollection.Count + Rs1DlcSongCollection.Count;
-
             if (songCount == 0)
                 return false;
 
@@ -794,6 +793,12 @@ namespace CustomsForgeSongManager.UControls
                     MessageBox.Show("Could not find required file: cache.psarc" + Environment.NewLine + "inside the Rocksmith Installation Directory.  ", "Required files missing!", MessageBoxButtons.OK, MessageBoxIcon.Stop);
                     return false;
                 }
+                else
+                {
+                    // rename songs.disabled.psarc so it can be used by SongPacks
+                    if (File.Exists(Path.Combine(AppSettings.Instance.RSInstalledDir, Constants.BASESONGSDISABLED)))
+                        GenExtensions.MoveFile(Path.Combine(AppSettings.Instance.RSInstalledDir, Constants.BASESONGSDISABLED), Path.Combine(AppSettings.Instance.RSInstalledDir, Constants.BASESONGS), true, true);
+                }
 
                 this.Enabled = false;
                 Globals.TsProgressBar_Main.Value = 50;
@@ -943,6 +948,14 @@ namespace CustomsForgeSongManager.UControls
                     SerializeSongFile(Constants.ExtractedSongsHsanPath, CacheEntireCollection, CacheDisabledEntireCollection, typeof(RS2VocalsData));
                     Globals.TsProgressBar_Main.Value = 75;
                     RepackCachePsarc();
+
+                    var disabledCount = dgvSongPacks.Rows.Cast<DataGridViewRow>().Count(r => r.Cells["colEnabled"].Value.ToString() == "No");
+                    // if all songs in cache.psarc are disable then also disable songs.psarc so it is songs show as disabled in SongManager/ArrangementAnalyzer
+                    if (dgvSongPacks.Rows.Count == disabledCount)
+                    {
+                        GenExtensions.MoveFile(Path.Combine(AppSettings.Instance.RSInstalledDir, Constants.BASESONGS), Path.Combine(AppSettings.Instance.RSInstalledDir, Constants.BASESONGSDISABLED), true, true);
+                        Globals.Log("songs.psarc was renamed to songs.disabled.psarc ...");
+                    }
                     break;
                 case 1: // rs1compatibilitydisc_p.psarc
                     if (File.Exists(Constants.Rs1DiscPsarcPath))
@@ -984,8 +997,9 @@ namespace CustomsForgeSongManager.UControls
                     throw new Exception("Song Packs Combobox Failure");
             }
 
+            Globals.ReloadSongManager = true;
             Globals.TsProgressBar_Main.Value = 100;
-            Globals.Log("SUCCESSFUL ...");
+            Globals.Log("Songpack repackaging was sucessful...");
             this.Enabled = true;
             Cursor = Cursors.Default;
         }

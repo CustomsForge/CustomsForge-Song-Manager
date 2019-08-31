@@ -381,7 +381,14 @@ namespace CustomsForgeSongManager.LocalTools
                 files = files.Where(file => !file.ToLower().Contains(Constants.SONGPACK) && !file.ToLower().Contains(Constants.ABVSONGPACK)).ToList();
 
             if (includeRS2014BaseSongs)
-                files.Add(Constants.SongsPsarcPath);
+            {
+                var baseSongs = Directory.EnumerateFiles(AppSettings.Instance.RSInstalledDir, Constants.BASESONGS, SearchOption.TopDirectoryOnly).ToList();
+                baseSongs.AddRange(Directory.EnumerateFiles(AppSettings.Instance.RSInstalledDir, Constants.BASESONGSDISABLED, SearchOption.TopDirectoryOnly).ToList());
+                if (baseSongs.Count != 1)
+                    throw new FileLoadException("<ERROR> Invalid songs*.psarc file count ...");
+
+                files.AddRange(baseSongs);
+            }
 
             return files;
         }

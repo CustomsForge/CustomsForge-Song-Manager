@@ -743,6 +743,7 @@ namespace CustomsForgeSongManager.UControls
                     "to show file operation options");
             this.dgvSongPacks.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.dgvCurrent_CellFormatting);
             this.dgvSongPacks.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvCurrent_CellMouseUp);
+            this.dgvSongPacks.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvSongPacks_CellValueChanged);
             this.dgvSongPacks.CurrentCellDirtyStateChanged += new System.EventHandler(this.dgvSongPacks_CurrentCellDirtyStateChanged);
             // 
             // colSongPackSelect

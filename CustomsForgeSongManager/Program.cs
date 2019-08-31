@@ -26,7 +26,7 @@ namespace CustomsForgeSongManager
         /// </summary>
         [STAThread]
         private static void Main()
-         {
+        {
             // must come first if it is used
             Application.SetCompatibleTextRenderingDefault(false);
 
@@ -87,31 +87,5 @@ namespace CustomsForgeSongManager
             }
         }
 
-        public static bool RemoveGridSettings()
-        {
-            if (String.IsNullOrEmpty(Globals.DgvCurrent.Name))
-                Globals.DgvCurrent.Name = "dgvSongsMaster";
-
-            if (!File.Exists(Constants.GridSettingsPath))
-                return false;
-
-            using (var fs = File.OpenRead(Constants.GridSettingsPath))
-            {
-                try
-                {
-                    var gs = fs.DeserializeXml<RADataGridViewSettings>();
-                    if (gs.LoadedVersion == null)
-                        return true;
-                    if (gs.LoadedVersion != RADataGridViewSettings.gridViewSettingsVersion)
-                        return true;
-                }
-                catch (Exception)
-                {
-                    return true;
-                }
-            }
-
-            return false;
-        }
     }
 }

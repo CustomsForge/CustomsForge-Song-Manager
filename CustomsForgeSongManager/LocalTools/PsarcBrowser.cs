@@ -114,7 +114,7 @@ namespace CustomsForgeSongManager.LocalTools
             if (!xblockEntries.Any())
                 throw new Exception("Could not find valid xblock file : " + _filePath);
 
-            if (_filePath.ToLower().EndsWith(Constants.BASESONGS))
+            if (_filePath.ToLower().EndsWith(Constants.BASESONGS) || _filePath.ToLower().EndsWith(Constants.BASESONGSDISABLED))
                 xblockEntries = xblockEntries.Where(s => !s.Name.Contains("rs2")).ToList();
 
             var jsonData = new List<Manifest2014<Attributes2014>>();
@@ -170,7 +170,7 @@ namespace CustomsForgeSongManager.LocalTools
                 var strippedName = xblockEntry.Name.Replace(".xblock", "").Replace("gamexblocks/nsongs", "");
                 if (strippedName.Contains("_fcp_dlc"))
                     strippedName = strippedName.Replace("fcp_dlc", "");
-
+        
                 var jsonEntries = _archive.TOC.Where(x => x.Name.StartsWith("manifests/songs") && x.Name.EndsWith(".json") && x.Name.Contains(strippedName)).OrderBy(x => x.Name).ToList();
                 if (jsonEntries.Count > 6) // Remastered CDLC max with vocals
                     Debug.WriteLine("<WARNING> Manifest Count > 6 : " + _filePath);
@@ -558,6 +558,7 @@ namespace CustomsForgeSongManager.LocalTools
 
                 // log some songpacks parsing info
                 if (_fileName.ToLower().EndsWith(Constants.BASESONGS) ||
+                    _fileName.ToLower().EndsWith(Constants.BASESONGSDISABLED) ||
                     _fileName.ToLower().Contains(Constants.RS1COMP) ||
                     _fileName.ToLower().Contains(Constants.SONGPACK) ||
                     _fileName.ToLower().Contains(Constants.ABVSONGPACK))
@@ -568,7 +569,7 @@ namespace CustomsForgeSongManager.LocalTools
 
                     Globals.Log(String.Format(" + Parsed Song Pack: {0};{1}", _fileName, song.ArtistTitleAlbumDate));
                 }
-
+            
                 song.Arrangements2D = arrangements;
                 songsData.Add(song);
             }

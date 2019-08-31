@@ -258,7 +258,7 @@ namespace CustomsForgeSongManager.UControls
         private void btnSettingsLoad_Click(object sender, EventArgs e)
         {
             if (!String.IsNullOrEmpty(cueDgvSettingsPath.Text))
-                SetGlobalsDgvCurrent(cueDgvSettingsPath.Text);
+                SetGlobalsDgvCurrent(GetDgvGridName(cueDgvSettingsPath.Text));
 
             if (String.IsNullOrEmpty(Globals.DgvCurrent.Name))
                 return;
@@ -276,7 +276,7 @@ namespace CustomsForgeSongManager.UControls
                 // grid settings file naming convention: 'dgv[GridName][[CustomName]].xml'
                 using (var sfd = new SaveFileDialog())
                 {
-                    sfd.Filter = "Grid Settings XML Files (dgv[GridName][[NameRev]].xml)|dgv*.xml";
+                    sfd.Filter = "Grid Settings XML Files (dgv[GridName][[CustomName]].xml)|dgv*.xml";
                     sfd.InitialDirectory = Constants.GridSettingsFolder;
                     sfd.Title = "Save grid settings file ... 'dgv[GridName][[CustomName]].xml'";
                     sfd.FileName = cueDgvSettingsPath.Text;
@@ -284,15 +284,15 @@ namespace CustomsForgeSongManager.UControls
                     if (sfd.ShowDialog() != DialogResult.OK)
                         return;
 
-                    if (!sfd.FileName.StartsWith("dgv") && !sfd.FileName.ToLower().EndsWith(".xml"))
-                        throw new Exception("<ERROR> Grid settings file name convention ..." + Environment.NewLine + "dgv[GridName][[CustomName]].xml" + Environment.NewLine);
+                    // validate the new custom grid file name
+                    if (String.IsNullOrEmpty(GetDgvGridName(sfd.FileName)))
+                        return;
 
                     // ((RADataGridView)Globals.DgvCurrent).ReLoadColumnOrder(RAExtensions.ManagerGridSettings.ColumnOrder);
                     //SerialExtensions.SaveToFile(sfd.FileName, RAExtensions.SaveColumnOrder(Globals.DgvCurrent));
                     SerialExtensions.SaveToFile(sfd.FileName, RAExtensions.SaveColumnOrder(columnOrderList));
                     cueDgvSettingsPath.Text = sfd.FileName;
                     Globals.Log("Saved Custom Grid Settings XML File: " + sfd.FileName);
-
                 }
             }
         }
@@ -524,7 +524,7 @@ namespace CustomsForgeSongManager.UControls
             Globals.Log("Reloaded Modified Column Settings: " + Globals.DgvCurrent.Name);
             // autosave Settings
             SaveSettingsToFile(Globals.DgvCurrent);
-        
+
             // save custom grid settings
             if (!String.IsNullOrEmpty(cueDgvSettingsPath.Text) && cueDgvSettingsPath.Text != Constants.GridSettingsPath)
                 SerialExtensions.SaveToFile(cueDgvSettingsPath.Text, RAExtensions.SaveColumnOrder(columnOrderList));
@@ -542,14 +542,14 @@ namespace CustomsForgeSongManager.UControls
         public void TabEnter()
         {
             cueDgvSettingsPath.Text = String.Empty;
+            btnSettingsSave.Text = "Save Settings  ";
         }
 
         private void cueDgvSettingsPath_MouseClick(object sender, MouseEventArgs e)
         {
             using (var ofd = new OpenFileDialog())
             {
-                ofd.Filter = "Grid Settings XML Files (dgv[GridName][[NameRev]].xml)|dgv*.xml";
-                ofd.InitialDirectory = Constants.GridSettingsFolder;
+                ofd.Filter = "Grid Settings XML Files (dgv[GridName][[CustomName]].xml)|dgv*.xml";
                 ofd.Title = "Select a grid settings file to edit ...";
                 ofd.CheckFileExists = true;
 
@@ -557,9 +557,13 @@ namespace CustomsForgeSongManager.UControls
                     return;
 
                 cueDgvSettingsPath.Text = ofd.FileName;
+                btnSettingsSave.Text = "Save As       ";
             }
 
-            SetGlobalsDgvCurrent(cueDgvSettingsPath.Text);
+            if (!RAExtensions.ValidateGridSettingsVersion(cueDgvSettingsPath.Text))
+                throw new DataException("<ERROR> Invalid grid settings version " + cueDgvSettingsPath);
+
+            SetGlobalsDgvCurrent(GetDgvGridName(cueDgvSettingsPath.Text));
             LoadDgvColumns(cueDgvSettingsPath.Text);
         }
 
@@ -596,31 +600,46 @@ namespace CustomsForgeSongManager.UControls
             // dgvColumns.Rows[rowNdx].ErrorText = "Oops ... that's not right!";
         }
 
-        private void SetGlobalsDgvCurrent(string dgvSettingsPath)
+        private string GetDgvGridName(string dgvSettingsPath)
         {
-            // grid settings file name convention 'dgv[GridName][[CustomName]].xml' 
-            // properly initialize the Globals.DgvCurrent variable
-            var dgvName = Path.GetFileNameWithoutExtension(dgvSettingsPath);
-            // dgvName = dgvName.Replace("dgv", "");
-            var beginBracket = dgvName.IndexOf("[");
-            var endBracket = dgvName.IndexOf("]");
-            var dgvNameRev = String.Empty;
-            if (beginBracket != -1 && endBracket != -1)
-                dgvNameRev = dgvName.Substring(beginBracket, endBracket - beginBracket + 1);
+            // validate dgvSettingsPath file name and gets dgvGridName
+            var dgvGridName = String.Empty;
+            var settingsFile = Path.GetFileName(dgvSettingsPath);
+            Regex rgxDefaultName = new Regex("^dgv[a-zA-Z]+\\.xml$");
+            Regex rgxCustomName = new Regex("^dgv[a-zA-Z]+\\[[a-zA-Z0-9]+]\\.xml$");
 
-            if (!String.IsNullOrEmpty(dgvNameRev))
-                dgvName = dgvName.Replace(dgvNameRev, "");
+            // confirm grid settings file name matches convention 'dgv[GridName][[CustomName]].xml' 
+            if (rgxCustomName.IsMatch(settingsFile) || rgxDefaultName.IsMatch(settingsFile))
+            {
+                dgvGridName = Path.GetFileNameWithoutExtension(dgvSettingsPath);
+                var beginBracket = dgvGridName.IndexOf("[");
+                var endBracket = dgvGridName.IndexOf("]");
+                var dgvNameCustom = String.Empty;
+                if (beginBracket != -1 && endBracket != -1)
+                    dgvNameCustom = dgvGridName.Substring(beginBracket, endBracket - beginBracket + 1);
 
-            var splitName = Regex.Split(dgvName, @"(?<!^)(?=[A-Z])");
-            var dgvTag = splitName[1];
-            for (int i = 2; i < splitName.Length; i++)
-                dgvTag = dgvTag + " " + splitName[i];
+                if (!String.IsNullOrEmpty(dgvNameCustom))
+                    dgvGridName = dgvGridName.Replace(dgvNameCustom, "");
 
-            lblDgvColumns.Text = String.Format("Settings for {0} from file: {1}", dgvTag, Path.GetFileName(dgvSettingsPath));
-            if (splitName[0] != "dgv")
-                throw new Exception("<ERROR> Grid settings file name must be in the form ..." + Environment.NewLine + "dgv[GridName][[CustomName]].xml" + Environment.NewLine);
+                var splitName = Regex.Split(dgvGridName, @"(?<!^)(?=[A-Z])");
+                var dgvTag = splitName[1];
+                for (int i = 2; i < splitName.Length; i++)
+                    dgvTag = dgvTag + " " + splitName[i];
 
-            switch (dgvName)
+                lblDgvColumns.Text = String.Format("Settings for {0} from file: {1}", dgvTag, Path.GetFileName(dgvSettingsPath));
+            }
+            else
+            {
+                var diaMsg = "<WARNING> Invalid grid settings file name: " + Path.GetFileName(dgvSettingsPath) + Environment.NewLine + "must be in the form: dgv[GridName][[CustomName]].xml";
+                BetterDialog2.ShowDialog(diaMsg, "Settings ...", null, null, "Ok", Bitmap.FromHicon(SystemIcons.Warning.Handle), "File Naming Error ...", 0, 150);
+            }
+
+            return dgvGridName;
+        }
+
+        private void SetGlobalsDgvCurrent(string dgvGridName)
+        {
+            switch (dgvGridName)
             {
                 case "dgvSongsMaster":
                     Globals.DgvCurrent = Globals.SongManager.GetGrid();
@@ -647,7 +666,7 @@ namespace CustomsForgeSongManager.UControls
                     Globals.ReloadSongPacks = true;
                     break;
                 default:
-                    throw new DataException("Can not get grid control for " + dgvName);
+                    throw new DataException("<ERROR> Can not get grid control for " + dgvGridName);
                     break;
             }
         }

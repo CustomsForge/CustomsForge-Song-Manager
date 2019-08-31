@@ -6,6 +6,8 @@ using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
 using System.Xml.Serialization;
+using System.IO;
+using GenTools;
 
 namespace DataGridViewTools
 {
@@ -224,12 +226,12 @@ namespace DataGridViewTools
             return settings;
         }
 
-
         public static RADataGridViewSettings SaveColumnOrder(List<ColumnOrderItem> columnOrderCollection)
         {
             // transpose RAExtensions.ManagerGridSettings.ColumnOrder
-
+            // add grid settings version info
             var settings = new RADataGridViewSettings();
+
             if (!columnOrderCollection.Any())
                 throw new NullReferenceException("<ERROR> columnOrderCollection ...");
 
@@ -252,6 +254,32 @@ namespace DataGridViewTools
             }
 
             return settings;
+        }
+
+        public static bool ValidateGridSettingsVersion(string gridSettingsPath)
+        {
+            // check the version info
+            if (!File.Exists(gridSettingsPath))
+                return false;
+
+            using (var fs = File.OpenRead(gridSettingsPath))
+            {
+                try
+                {
+                    var gs = fs.DeserializeXml<RADataGridViewSettings>();
+
+                    if (gs.LoadedVersion == null)
+                        return false;
+                    if (gs.LoadedVersion != RADataGridViewSettings.gridViewSettingsVersion)
+                        return false;
+                }
+                catch (Exception)
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
 
     }

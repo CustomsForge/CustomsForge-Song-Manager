@@ -111,7 +111,7 @@ namespace CustomsForgeSongManager.DataObjects
         [XmlIgnore]
         public bool IsSongsPsarc
         {
-            get { return !String.IsNullOrEmpty(FilePath) && FileName.ToLower().EndsWith(Constants.BASESONGS); }
+            get { return !String.IsNullOrEmpty(FilePath) && (FileName.ToLower().EndsWith(Constants.BASESONGS) || FileName.ToLower().EndsWith(Constants.BASESONGSDISABLED)); }
         }
 
         [XmlIgnore]
@@ -157,7 +157,17 @@ namespace CustomsForgeSongManager.DataObjects
         [XmlIgnore]
         public string Enabled
         {
-            get { return (new FileInfo(FilePath).Name).ToLower().Contains("disabled") ? "No" : "Yes"; }
+            get
+            {
+                // individual non-songpack songs and songpacks may be entirely disabled by filename
+                if ((new FileInfo(FilePath).Name).ToLower().Contains("disabled"))
+                    return "No";
+                // songpack song status is unknown if not entirely disabled by filename
+                if (IsRsCompPack || IsSongPack || IsSongsPsarc)
+                    return "Unknown";
+                // individual non-songpack songs
+                return "Yes";
+            }
             set { } // required for XML file usage
         }
 
@@ -244,7 +254,7 @@ namespace CustomsForgeSongManager.DataObjects
 
     [Serializable]
     public class Arrangement
-    {        
+    {
         // Arrangement Attributes
         public string PersistentID { get; set; } // unique ID
         public string ArrangementName { get; set; }
@@ -259,7 +269,7 @@ namespace CustomsForgeSongManager.DataObjects
         public int? SectionsCount { get; set; }
 
         // Arrangement Attributes from HSAN file data
-        public double? SongDifficulty { get; set; } 
+        public double? SongDifficulty { get; set; }
 
         // Arrangement Levels
         public int? ChordCount { get; set; }

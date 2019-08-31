@@ -107,7 +107,7 @@ namespace CustomsForgeSongManager.UControls
             var song = DgvExtensions.GetObjectFromFirstSelectedRow<SongData>(dgvSongsMaster);
             if (song != null)
             {
-                if (song.FileName.ToLower().EndsWith(Constants.BASESONGS) || song.FileName.ToLower().Contains(Constants.RS1COMP) || song.FileName.ToLower().Contains(Constants.SONGPACK) || song.FileName.ToLower().Contains(Constants.ABVSONGPACK))
+                if (song.FileName.ToLower().EndsWith(Constants.BASESONGS) || song.FileName.ToLower().EndsWith(Constants.BASESONGSDISABLED) || song.FileName.ToLower().Contains(Constants.RS1COMP) || song.FileName.ToLower().Contains(Constants.SONGPACK) || song.FileName.ToLower().Contains(Constants.ABVSONGPACK))
                 {
                     Globals.Log("<WARNING> Audio from SongPacks is not available for playback ...");
                     return;

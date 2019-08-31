@@ -39,6 +39,7 @@ namespace CustomsForgeSongManager.DataObjects
         public static string GWORKER_TITLETAG = "tagging title";
 
         public static readonly string BASESONGS = "songs.psarc";
+        public static readonly string BASESONGSDISABLED = "songs.disabled.psarc";
         public static readonly string RS1COMP = "rs1compatibility";
         public static readonly string SONGPACK = "songpack";
         public static readonly string ABVSONGPACK = "_sp_"; // abbreviation for songpack
@@ -140,7 +141,6 @@ namespace CustomsForgeSongManager.DataObjects
         public static string Rs2DlcFolder { get { return Path.Combine(AppSettings.Instance.RSInstalledDir, "dlc"); } }
         public static string Rs2CdlcFolder { get { return Path.Combine(Rs2DlcFolder, "cdlc"); } }
         public static string CachePsarcPath { get { return Path.Combine(AppSettings.Instance.RSInstalledDir, "cache.psarc"); } }
-        public static string SongsPsarcPath { get { return Path.Combine(AppSettings.Instance.RSInstalledDir, "songs.psarc"); } }
 
         // not a good practice for app to use rocksmith2014 folder because of issues with OS Permissions and some AV
         [Obsolete("Depricated, please use 'My Documents/CFSM' folder", false)]

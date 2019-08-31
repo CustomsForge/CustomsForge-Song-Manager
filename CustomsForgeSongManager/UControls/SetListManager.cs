@@ -300,10 +300,11 @@ namespace CustomsForgeSongManager.UControls
             // populate dgvSongPacks that can be enabled/disabled
             dgvSongPacks.Rows.Clear();
 
-            var baseSongFiles = Directory.GetFiles(AppSettings.Instance.RSInstalledDir, "*").Where(file => file.ToLower().Contains("songs") && file.ToLower().EndsWith(".psarc")).ToList();
-            if (baseSongFiles.Any())
-                foreach (var baseSongFile in baseSongFiles)
-                    dgvSongPacks.Rows.Add(false, baseSongFile.Contains("disabled") ? "No" : "Yes", baseSongFile, Path.GetFileName(baseSongFile));
+            // NOTE: use SongPacks to enable/disable songs.psarc via cache.psarc enable/disable meth
+            //var baseSongFiles = Directory.GetFiles(AppSettings.Instance.RSInstalledDir, "*").Where(file => file.ToLower().Contains("songs") && file.ToLower().EndsWith(".psarc")).ToList();
+            //if (baseSongFiles.Any())
+            //    foreach (var baseSongFile in baseSongFiles)
+            //        dgvSongPacks.Rows.Add(false, baseSongFile.Contains("disabled") ? "No" : "Yes", baseSongFile, Path.GetFileName(baseSongFile));
 
             var rs1CompFiles = Directory.GetFiles(dlcDir, "*").Where(file => file.ToLower().Contains(Constants.RS1COMP)).ToList();
             if (rs1CompFiles.Any())
@@ -403,6 +404,7 @@ namespace CustomsForgeSongManager.UControls
             Globals.ReloadDuplicates = true;
             Globals.ReloadRenamer = true;
             Globals.ReloadSongManager = true;
+            Globals.ReloadArrangements = true;
             Globals.ReloadProfileSongLists = true;
 
             if (Globals.WorkerFinished == Globals.Tristate.Cancelled)
@@ -577,7 +579,7 @@ namespace CustomsForgeSongManager.UControls
                         {
                             var disabledPath = originalPath.Replace(Constants.EnabledExtension, Constants.DisabledExtension);
                             if (originalPath.EndsWith(Constants.BASESONGS))
-                                disabledPath = originalPath.Replace(Constants.BASESONGS, "songs.disabled.psarc");
+                                disabledPath = originalPath.Replace(Constants.BASESONGS, Constants.BASESONGSDISABLED);
                             File.Move(originalPath, disabledPath);
                             row.Cells[colNdxPath].Value = disabledPath;
                             row.Cells[colNdxEnabled].Value = "No";
@@ -585,8 +587,8 @@ namespace CustomsForgeSongManager.UControls
                         else
                         {
                             var enabledPath = originalPath.Replace(Constants.DisabledExtension, Constants.EnabledExtension);
-                            if (originalPath.EndsWith("songs.disabled.psarc"))
-                                enabledPath = originalPath.Replace("songs.disabled.psarc", Constants.BASESONGS);
+                            if (originalPath.EndsWith(Constants.BASESONGSDISABLED))
+                                enabledPath = originalPath.Replace(Constants.BASESONGSDISABLED, Constants.BASESONGS);
                             File.Move(originalPath, enabledPath);
                             row.Cells[colNdxPath].Value = enabledPath;
                             row.Cells[colNdxEnabled].Value = "Yes";
@@ -1184,7 +1186,7 @@ namespace CustomsForgeSongManager.UControls
                 return;
 
             var sd = DgvExtensions.GetObjectFromRow<SongData>(grid, e.RowIndex);
-            if (sd == null && e.RowIndex != -1)
+            if (sd == null && e.RowIndex != -1 && grid != dgvSongPacks)
                 return;
 
             if (e.Button == MouseButtons.Right)
@@ -1426,6 +1428,19 @@ namespace CustomsForgeSongManager.UControls
             GetGrid().ResetBindings(); // force grid data to rebind/refresh
             Globals.Settings.SaveSettingsToFile(Globals.DgvCurrent);
             Globals.Log("Setlist Manager GUI Deactivated ...");
+        }
+
+        private void dgvSongPacks_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            var grid = (DataGridView)sender;
+
+            if (e.RowIndex != -1 && e.ColumnIndex == colEnabled.Index)
+            {
+                // force reload
+                Globals.ReloadArrangements = true;
+                Globals.ReloadSongManager = true;
+            }
+
         }
     }
 }

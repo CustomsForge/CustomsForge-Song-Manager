@@ -647,7 +647,7 @@ namespace CustomsForgeSongManager.UControls
                         {
                             var disabledPath = originalPath.Replace(Constants.EnabledExtension, Constants.DisabledExtension);
                             if (originalPath.EndsWith(Constants.BASESONGS))
-                                disabledPath = originalPath.Replace(Constants.BASESONGS, "songs.disabled.psarc");
+                                disabledPath = originalPath.Replace(Constants.BASESONGS, Constants.BASESONGSDISABLED);
                             File.Move(originalPath, disabledPath);
                             row.Cells[colNdxPath].Value = disabledPath;
                             row.Cells[colNdxEnabled].Value = "No";
@@ -655,8 +655,8 @@ namespace CustomsForgeSongManager.UControls
                         else
                         {
                             var enabledPath = originalPath.Replace(Constants.DisabledExtension, Constants.EnabledExtension);
-                            if (originalPath.EndsWith("songs.disabled.psarc"))
-                                enabledPath = originalPath.Replace("songs.disabled.psarc", Constants.BASESONGS);
+                            if (originalPath.EndsWith(Constants.BASESONGSDISABLED))
+                                enabledPath = originalPath.Replace(Constants.BASESONGSDISABLED, Constants.BASESONGS);
                             File.Move(originalPath, enabledPath);
                             row.Cells[colNdxPath].Value = enabledPath;
                             row.Cells[colNdxEnabled].Value = "Yes";

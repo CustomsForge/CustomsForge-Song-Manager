@@ -114,6 +114,12 @@
   <ItemGroup>
     <EmbeddedResource Include="Resources\filtered.png" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\GenTools\GenTools.csproj">
+      <Project>{41EA9CF7-BF72-4243-98A8-5BF16BCD90AD}</Project>
+      <Name>GenTools</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
