@@ -14,12 +14,15 @@ until you can confirm it is safe by working directly with your AV provider.
 
 CFSM Release Notes
 
+1.5.5.4
+- improved SetlistManager and SongPacks handling of disabled files
+
 1.5.5.3
 - added grid setting version validation
 - added additional error checking for custom grid settings file naming
 - fixed a bug in SetlistManager that prevented SongPack files from being enabled/disabled
   Note: use SongPacks to enable/disable some or all of the included Base Songs
-- fixed SongManager and ArrangementAnalyzer handling of 'songs.disabled.psarc' file
+- improved SongManager handling of enable/disable status for songpack files
 
 1.5.5.2
 - advanced users may create multiple custom grid setting files for a single grid:
@@ -205,7 +208,7 @@ CFSM Release Notes
 
 1.5.2.2
 - final multi threading build (thanks to everyone who helped with testing)
-- multi threading selection can be reset any time in 'Setting' tab menu
+- multi threading selection can be reset any time in 'Settings' tabmenu
   Note: In testing the use of multi threading improved CFSM performance by
         10-30%, i.e., the total CDLC rescan time was reduced using multi
         threading.  Also, system Task Manager showed better balanced CPU core
@@ -295,7 +298,7 @@ CFSM Release Notes
 
 1.5.0.2
 - fixed Arrangements and Tunings columns in Setlist Manager and Profile Song Lists
-- fixed auto-selecting 'Settings' tab menu on first time startup
+- fixed auto-selecting 'Settings' tabmenu on first time startup
 
 1.5.0.1
 - added full automode to 'Profile Song Lists' updater
@@ -728,7 +731,7 @@ EXTENSIVE REVISIONS AND ADDITIONS (Let the devs know if you find any bugs!)
 1.3.3.6
 - added an exception handler to VerifyCfsmFolders method for better debugging
 - load (Analyzer) extra data on startup if 'Settings' checkbox is selected
-- Rescan Quick and Full now works for (Analyzer) extra data when 'Setting' menu checkbox is selected
+- Rescan Quick and Full now works for (Analyzer) extra data when 'Settings' menu checkbox is selected
 - Right Mouse Click on a song to show context menu options and Get Analyzer Data for selected songs
 - correct status of 'ExtraMetaDataScanned'
 

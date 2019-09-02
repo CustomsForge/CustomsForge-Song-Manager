@@ -136,7 +136,7 @@ namespace CustomsForgeSongManager.LocalTools
                                  "the new multicore support feature?" + Environment.NewLine + Environment.NewLine +
                                  "Repairs can be made using the old method if you answer 'No'" + Environment.NewLine +
                                  "Please send your feedback and 'debug.log' file to Cozy1." + Environment.NewLine + Environment.NewLine +
-                                 "Threading seletion can be reset in 'Settings' tab menu";
+                                 "Threading seletion can be reset in 'Settings' tabmenu";
 
                     if (DialogResult.Yes == BetterDialog2.ShowDialog(diaMsg, "Multicore Processor Beta Test ...", null, "Yes", "No", Bitmap.FromHicon(SystemIcons.Hand.Handle), "ReadMe", 0, 150))
                         AppSettings.Instance.MultiThread = 1;

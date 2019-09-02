@@ -59,7 +59,7 @@ namespace CustomsForgeSongManager.UControls
             // theoretically this error condition should not exist
             if (String.IsNullOrEmpty(AppSettings.Instance.RSInstalledDir) || !Directory.Exists(AppSettings.Instance.RSInstalledDir))
             {
-                MessageBox.Show(@"Please fix the Rocksmith installation directory!  " + Environment.NewLine + @"This can be changed in the 'Settings' menu tab.", MESSAGE_CAPTION, MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                MessageBox.Show(@"Please fix the Rocksmith installation directory!  " + Environment.NewLine + @"This can be changed in the 'Settings' tabmenu.", MESSAGE_CAPTION, MessageBoxButtons.OK, MessageBoxIcon.Stop);
                 return;
             }
 
@@ -300,11 +300,11 @@ namespace CustomsForgeSongManager.UControls
             // populate dgvSongPacks that can be enabled/disabled
             dgvSongPacks.Rows.Clear();
 
-            // NOTE: use SongPacks to enable/disable songs.psarc via cache.psarc enable/disable meth
-            //var baseSongFiles = Directory.GetFiles(AppSettings.Instance.RSInstalledDir, "*").Where(file => file.ToLower().Contains("songs") && file.ToLower().EndsWith(".psarc")).ToList();
-            //if (baseSongFiles.Any())
-            //    foreach (var baseSongFile in baseSongFiles)
-            //        dgvSongPacks.Rows.Add(false, baseSongFile.Contains("disabled") ? "No" : "Yes", baseSongFile, Path.GetFileName(baseSongFile));
+            // NOTE: use SongPacks to enable/disable songs.psarc via cache.psarc enable/disable method
+            var baseSongFiles = Directory.GetFiles(AppSettings.Instance.RSInstalledDir, "*").Where(file => file.ToLower().Contains("songs") && file.ToLower().EndsWith(".psarc")).ToList();
+            if (baseSongFiles.Any())
+                foreach (var baseSongFile in baseSongFiles)
+                    dgvSongPacks.Rows.Add(false, baseSongFile.Contains("disabled") ? "No" : "Yes", baseSongFile, Path.GetFileName(baseSongFile));
 
             var rs1CompFiles = Directory.GetFiles(dlcDir, "*").Where(file => file.ToLower().Contains(Constants.RS1COMP)).ToList();
             if (rs1CompFiles.Any())
@@ -1433,14 +1433,30 @@ namespace CustomsForgeSongManager.UControls
         private void dgvSongPacks_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
             var grid = (DataGridView)sender;
+            var row = e.RowIndex;
+            var col = e.ColumnIndex;
 
-            if (e.RowIndex != -1 && e.ColumnIndex == colEnabled.Index)
+            if (row != -1 && col == colEnabled.Index)
             {
+                var _fileName = grid.Rows[row].Cells["colSongPackFileName"].Value.ToString().ToLower();
+                if (_fileName.ToLower().EndsWith(Constants.BASESONGS) ||
+                    _fileName.ToLower().EndsWith(Constants.BASESONGSDISABLED))
+                    //||
+                    //_fileName.ToLower().Contains(Constants.RS1COMP) ||
+                    //_fileName.ToLower().Contains(Constants.SONGPACK) ||
+                    //_fileName.ToLower().Contains(Constants.ABVSONGPACK))
+                {
+                    var diaMsg = "Base Songs should be enabled/disabled using the" + Environment.NewLine +
+                                 "Song Packs tabmenu to add/remove them from in game." + Environment.NewLine +
+                                 "Otherwise they will just appear greyed out in game" + Environment.NewLine +
+                                 "and will only disappear one at a time as selected ...";
+                    BetterDialog2.ShowDialog(diaMsg, "Setlist Manager ...", null, null, "Ok", Bitmap.FromHicon(SystemIcons.Warning.Handle), "ReadMe", 0, 150);
+                }
+
                 // force reload
-                Globals.ReloadArrangements = true;
                 Globals.ReloadSongManager = true;
             }
-
         }
+
     }
 }

@@ -164,7 +164,7 @@ namespace CustomsForgeSongManager.DataObjects
                     return "No";
                 // songpack song status is unknown if not entirely disabled by filename
                 if (IsRsCompPack || IsSongPack || IsSongsPsarc)
-                    return "Unknown";
+                    return "SongPack";
                 // individual non-songpack songs
                 return "Yes";
             }

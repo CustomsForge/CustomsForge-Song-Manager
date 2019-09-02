@@ -562,7 +562,7 @@ namespace CustomsForgeSongManager.UControls
                     frmNoteViewer.ViewExternalFile("ReleaseNotes.txt", "Release Notes");
 
                     // switch to Setting tab so user can customize first run settings
-                    var diaMsg = "CFSM will now switch to the Settings menu." + Environment.NewLine +
+                    var diaMsg = "CFSM will now switch to the Settings tabmenu." + Environment.NewLine +
                                  "Please customize the CFSM Settings options" + Environment.NewLine +
                                  "before returning to the Song Manager tab." + Environment.NewLine;
 
@@ -1126,7 +1126,7 @@ namespace CustomsForgeSongManager.UControls
             }
             else
             {
-                Globals.Log("To use this feature, go to 'Settings' menu and enter a charter name ...");
+                Globals.Log("To use this feature, go to 'Settings' tabmenu and enter a charter name ...");
                 tsmiModsMyCDLC.Checked = false;
             }
         }
@@ -1715,12 +1715,11 @@ namespace CustomsForgeSongManager.UControls
             // programmatic left clicking on colSelect
             if (e.Button == MouseButtons.Left && e.RowIndex != -1 && e.ColumnIndex == colSelect.Index)
             {
-                // use Setlist Manager or SongPacks tab menu
+                // use SongPacks tabmenu
                 if (sd.IsRsCompPack || sd.IsSongsPsarc || sd.IsSongPack)
                 {
-                    var diaMsg = "Please use Setlist Manager feature to enable/disable " + Environment.NewLine +
-                                 "entire song pack quickly, or use Song Packs feature" + Environment.NewLine +
-                                 "to enable/disable individual songs from song packs." + Environment.NewLine;
+                    var diaMsg = "Please use Song Packs tabmenu to see or change" + Environment.NewLine +
+                                 "the enabled/disabled status of this song ...";
                     BetterDialog2.ShowDialog(diaMsg, "Song Packs ...", null, null, "Ok", Bitmap.FromHicon(SystemIcons.Warning.Handle), "ReadMe", 0, 150);
 
                     // programatically uncheck the select checkbox
@@ -2314,7 +2313,7 @@ namespace CustomsForgeSongManager.UControls
             }
             else
             {
-                Globals.Log("To use this feature, go to 'Settings' menu and enter a charter name ...");
+                Globals.Log("To use this feature, go to 'Settings' tabmenu and enter a charter name ...");
                 tsmiModsMyCDLC.Checked = false;
             }
 

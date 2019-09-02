@@ -143,7 +143,7 @@ namespace CustomsForgeSongManager.LocalTools
                              "the new multicore support feature?" + Environment.NewLine + Environment.NewLine +
                              "Rescan can be done using the old method if you answer 'No'" + Environment.NewLine +
                              "Please send your feedback and 'debug.log' file to Cozy1." + Environment.NewLine + Environment.NewLine +
-                             "Threading selection can be reset in 'Settings' tab menu.";
+                             "Threading selection can be reset in 'Settings' tabmenu.";
 
                 if (DialogResult.Yes == BetterDialog2.ShowDialog(diaMsg, "Multicore Processor Beta Test ...", null, "Yes", "No", Bitmap.FromHicon(SystemIcons.Hand.Handle), "ReadMe", 0, 150))
                     AppSettings.Instance.MultiThread = 1;
@@ -353,7 +353,7 @@ namespace CustomsForgeSongManager.LocalTools
                 else
                 {
                     Globals.Log(String.Format("<WARNING> File was not quarantined ..."));
-                    Globals.Log(String.Format(" - Auto quarantine may be enabled in the 'Settings' menu ..."));
+                    Globals.Log(String.Format(" - Auto quarantine may be enabled in the 'Settings' tabmenu ..."));
                 }
             }
         }
@@ -384,8 +384,12 @@ namespace CustomsForgeSongManager.LocalTools
             {
                 var baseSongs = Directory.EnumerateFiles(AppSettings.Instance.RSInstalledDir, Constants.BASESONGS, SearchOption.TopDirectoryOnly).ToList();
                 baseSongs.AddRange(Directory.EnumerateFiles(AppSettings.Instance.RSInstalledDir, Constants.BASESONGSDISABLED, SearchOption.TopDirectoryOnly).ToList());
-                if (baseSongs.Count != 1)
-                    throw new FileLoadException("<ERROR> Invalid songs*.psarc file count ...");
+                if (baseSongs.Count > 1)
+                {
+                    File.Delete(Path.Combine(AppSettings.Instance.RSInstalledDir, Constants.BASESONGSDISABLED));
+                    baseSongs.RemoveAt(1);
+                    // throw new FileLoadException("<ERROR> Invalid songs*.psarc file count ...");
+                }
 
                 files.AddRange(baseSongs);
             }
