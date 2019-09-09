@@ -743,8 +743,9 @@ namespace GenTools
         {
             if (File.Exists(destPath))
             {
-                if (BetterDialog.ShowDialog(Path.GetFileName(destPath) + @" already exists." +
-                    Environment.NewLine + Environment.NewLine + @"Overwrite the existing file?", @"Warning: Overwrite File Message",
+                if (BetterDialog.ShowDialog("File already exists:" + Environment.NewLine +
+                    SplitString(destPath, 50, false) + Environment.NewLine + Environment.NewLine + 
+                    "Overwrite the existing file?", @"Warning: Overwrite File Message",
                     MessageBoxButtons.YesNo, Bitmap.FromHicon(SystemIcons.Warning.Handle), "Warning ...", 150, 150)
                     == DialogResult.No)
                     return false;

@@ -374,9 +374,11 @@ namespace CustomsForgeSongManager.LocalTools
             var files = Directory.EnumerateFiles(filePath, "*" + Constants.EnabledExtension, SearchOption.AllDirectories).ToList();
             files.AddRange(Directory.EnumerateFiles(filePath, "*" + Constants.DisabledExtension, SearchOption.AllDirectories).ToList());
 
+            // removes enabled/disabled RS1Packs
             if (!includeRS1Pack)
                 files = files.Where(file => !file.ToLower().Contains(Constants.RS1COMP)).ToList();
 
+            // removes enabled/disabled CustomPacks
             if (!includeCustomPacks)
                 files = files.Where(file => !file.ToLower().Contains(Constants.SONGPACK) && !file.ToLower().Contains(Constants.ABVSONGPACK)).ToList();
 
@@ -384,14 +386,46 @@ namespace CustomsForgeSongManager.LocalTools
             {
                 var baseSongs = Directory.EnumerateFiles(AppSettings.Instance.RSInstalledDir, Constants.BASESONGS, SearchOption.TopDirectoryOnly).ToList();
                 baseSongs.AddRange(Directory.EnumerateFiles(AppSettings.Instance.RSInstalledDir, Constants.BASESONGSDISABLED, SearchOption.TopDirectoryOnly).ToList());
-                if (baseSongs.Count > 1)
-                {
-                    File.Delete(Path.Combine(AppSettings.Instance.RSInstalledDir, Constants.BASESONGSDISABLED));
-                    baseSongs.RemoveAt(1);
-                    // throw new FileLoadException("<ERROR> Invalid songs*.psarc file count ...");
-                }
+
+                // Check for duplicate enable/disabled files and remove disabled file
+                //if (baseSongs.Count > 1)
+                //{
+                //    Globals.Log("<WARNING> Invalid songs*.psarc file count ...");
+
+                //    for (int i = 1; i < baseSongs.Count; i++)
+                //    {
+                //        var baseSong = Path.Combine(AppSettings.Instance.RSInstalledDir, baseSongs[i]);
+                //        File.Delete(baseSong);
+                //        baseSongs.RemoveAt(i);
+                //        Globals.Log("- Deleted file: " + baseSong + " ...");
+                //    }
+                //}
 
                 files.AddRange(baseSongs);
+            }
+
+            // Check for duplicate enable/disabled files in same directory and move the disabled file to CFSM/Duplicates folder
+            var dups = files.Select(fullPath => new { Name = Path.Combine(Path.GetDirectoryName(fullPath), Path.GetFileNameWithoutExtension(Path.GetFileNameWithoutExtension(fullPath))), FullPath = fullPath })
+                .GroupBy(file => file.Name).Where(fileGroup => fileGroup.Count() > 1).ToList();
+
+            foreach (var dup in dups)
+            {
+                foreach (var item in dup)
+                {
+                    var dupPath = item.FullPath;
+                    // if (dupPath.Contains(Constants.DisabledExtension)) // does not detect songs.disabled.psarc
+                    if (dupPath.Contains(".disabled."))
+                    {
+                        // File.Delete(dupPath); // a bit too harsh
+                        var destFilePath = Path.Combine(Constants.DuplicatesFolder, Path.GetFileName(dupPath));
+                        if (!GenExtensions.MoveFile(dupPath, destFilePath, true, true))
+                            continue;
+
+                        files.Remove(dupPath);
+                        Globals.Log("- Moved disabled duplicate file: " + dupPath);
+                        Globals.Log("- To: " + destFilePath);
+                    }
+                }
             }
 
             return files;

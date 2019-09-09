@@ -14,6 +14,11 @@ until you can confirm it is safe by working directly with your AV provider.
 
 CFSM Release Notes
 
+1.5.5.5
+- check for duplicate enable/disabled files in same directory and move the 
+  disabled file to CFSM/Duplicates folder
+- updated RocksmithToolkitLib.dll (robust CDLC error checking)
+
 1.5.5.4
 - improved SetlistManager and SongPacks handling of disabled files
 
@@ -78,7 +83,8 @@ CFSM Release Notes
 - Restored 'Open Song Location' option in the right-click menu
 
 1.5.4.5 
-- Added	an option to add custom title tags ('Your Tag Here' Song Name / Song Name 'Your Tag Here') under Custom Mods in Song Manager tab	
+- Added	an option to add custom title tags ('Your Tag Here' Song Name / Song Name 'Your Tag Here')
+  under Custom Mods in Song Manager tab	
 
 1.5.4.4
 - RSTL Mac Build Update

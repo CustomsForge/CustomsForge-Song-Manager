@@ -212,9 +212,9 @@ namespace CustomsForgeSongManager.LocalTools
                 if (extFilePath.Contains(Constants.EXT_DUP))
                     destFilePath = Path.Combine(Constants.DuplicatesFolder, Path.GetFileName(extFilePath));
 
-
                 try
                 {
+                    // TODO: confirm this action
                     if (!File.Exists(destFilePath))
                     {
                         GenExtensions.CopyFile(extFilePath, destFilePath, true, false);

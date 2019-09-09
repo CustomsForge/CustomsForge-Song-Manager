@@ -172,6 +172,7 @@ namespace CustomsForgeSongManager.LocalTools
                     strippedName = strippedName.Replace("fcp_dlc", "");
         
                 var jsonEntries = _archive.TOC.Where(x => x.Name.StartsWith("manifests/songs") && x.Name.EndsWith(".json") && x.Name.Contains(strippedName)).OrderBy(x => x.Name).ToList();
+                // may be it is a songpack file
                 if (jsonEntries.Count > 6) // Remastered CDLC max with vocals
                     Debug.WriteLine("<WARNING> Manifest Count > 6 : " + _filePath);
 
