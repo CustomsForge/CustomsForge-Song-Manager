@@ -46,6 +46,7 @@ namespace CustomsForgeSongManager.UControls
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
             this.panelSearch = new System.Windows.Forms.Panel();
+            this.chkAdvancedSearch = new System.Windows.Forms.CheckBox();
             this.chkProtectODLC = new System.Windows.Forms.CheckBox();
             this.chkIncludeSubfolders = new System.Windows.Forms.CheckBox();
             this.lnkClearSearch = new System.Windows.Forms.LinkLabel();
@@ -228,6 +229,7 @@ namespace CustomsForgeSongManager.UControls
             this.panelSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
+            this.panelSearch.Controls.Add(this.chkAdvancedSearch);
             this.panelSearch.Controls.Add(this.chkProtectODLC);
             this.panelSearch.Controls.Add(this.chkIncludeSubfolders);
             this.panelSearch.Controls.Add(this.lnkClearSearch);
@@ -237,6 +239,19 @@ namespace CustomsForgeSongManager.UControls
             this.panelSearch.Name = "panelSearch";
             this.panelSearch.Size = new System.Drawing.Size(879, 33);
             this.panelSearch.TabIndex = 5;
+            // 
+            // chkAdvancedSearch
+            // 
+            this.chkAdvancedSearch.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.chkAdvancedSearch.AutoSize = true;
+            this.chkAdvancedSearch.Location = new System.Drawing.Point(651, 7);
+            this.chkAdvancedSearch.Name = "chkAdvancedSearch";
+            this.chkAdvancedSearch.Size = new System.Drawing.Size(112, 17);
+            this.chkAdvancedSearch.TabIndex = 52;
+            this.chkAdvancedSearch.Text = "Advanced Search";
+            this.toolTip.SetToolTip(this.chkAdvancedSearch, resources.GetString("chkAdvancedSearch.ToolTip"));
+            this.chkAdvancedSearch.UseVisualStyleBackColor = true;
+            this.chkAdvancedSearch.CheckedChanged += new System.EventHandler(this.chkAdvancedSearch_CheckedChanged);
             // 
             // chkProtectODLC
             // 
@@ -260,13 +275,12 @@ namespace CustomsForgeSongManager.UControls
             // 
             this.chkIncludeSubfolders.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.chkIncludeSubfolders.AutoSize = true;
-            this.chkIncludeSubfolders.Location = new System.Drawing.Point(540, 8);
+            this.chkIncludeSubfolders.Location = new System.Drawing.Point(531, 8);
             this.chkIncludeSubfolders.Name = "chkIncludeSubfolders";
             this.chkIncludeSubfolders.Size = new System.Drawing.Size(114, 17);
             this.chkIncludeSubfolders.TabIndex = 24;
             this.chkIncludeSubfolders.Text = "Include Subfolders";
-            this.toolTip.SetToolTip(this.chkIncludeSubfolders, "If checked, search \'dlc\' folder and \r\nsubfolders for any matching songs.\r\n\r\nClear" +
-                    "s any existing search and/or filter.");
+            this.toolTip.SetToolTip(this.chkIncludeSubfolders, "If checked, search \'dlc\' folder and \r\nsubfolders for any matching songs.");
             this.chkIncludeSubfolders.UseVisualStyleBackColor = true;
             this.chkIncludeSubfolders.MouseUp += new System.Windows.Forms.MouseEventHandler(this.chkIncludeSubfolders_MouseUp);
             // 
@@ -307,7 +321,8 @@ namespace CustomsForgeSongManager.UControls
             this.cueSearch.Name = "cueSearch";
             this.cueSearch.Size = new System.Drawing.Size(396, 20);
             this.cueSearch.TabIndex = 1;
-            this.toolTip.SetToolTip(this.cueSearch, "HINT:\r\nSearching is must faster than filtering.");
+            this.toolTip.SetToolTip(this.cueSearch, "Performs a quick search of the\r\nArtistTitleAlbum column.\r\n\r\nCheck \'Advanced Searc" +
+                    "h\' to search\r\nadditonal columns.");
             this.cueSearch.KeyUp += new System.Windows.Forms.KeyEventHandler(this.cueSearch_KeyUp);
             // 
             // gb_Main_Search
@@ -2348,5 +2363,6 @@ namespace CustomsForgeSongManager.UControls
         private CustomControls.ToolStripButton tsmiCustomTitleTagAdd;
         private CustomControls.ToolStripButton tsmiCustomTitleTagRemove;
         private RADataGridView dgvSongsMaster;
+        private CheckBox chkAdvancedSearch;
     }
 }

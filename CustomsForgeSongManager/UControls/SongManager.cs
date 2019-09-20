@@ -23,7 +23,6 @@ using CustomsForgeSongManager.Properties;
 using System.Net.Cache;
 using CFSM.RSTKLib.PSARC;
 using RocksmithToolkitLib.DLCPackage;
-using RocksmithToolkitLib.PsarcLoader;
 using RocksmithToolkitLib.Extensions;
 using BetterDialog2 = CustomControls.BetterDialog2;
 using System.Threading.Tasks;
@@ -874,7 +873,21 @@ namespace CustomsForgeSongManager.UControls
             var lowerCriteria = criteria.ToLower();
             AppSettings.Instance.SearchString = lowerCriteria;
 
-            var results = songList.Where(x => x.ArtistTitleAlbum.ToLower().Contains(lowerCriteria) || x.Tunings1D.ToLower().Contains(lowerCriteria) || x.Arrangements1D.ToLower().Contains(lowerCriteria) || x.PackageAuthor.ToLower().Contains(lowerCriteria) || (x.IgnitionAuthor != null && x.IgnitionAuthor.ToLower().Contains(lowerCriteria) || (x.IgnitionID != null && x.IgnitionID.ToLower().Contains(lowerCriteria)) || x.SongYear.ToString().Contains(criteria) || x.FilePath.ToLower().Contains(lowerCriteria))).ToList();
+            if (songList.Count == 0)
+                IncludeSubfolders(false);
+
+            List<SongData> results;
+            if (chkAdvancedSearch.Checked)
+                results = songList.Where(x => x.ArtistTitleAlbum.ToLower().Contains(lowerCriteria) ||
+                    x.Tunings1D.ToLower().Contains(lowerCriteria) ||
+                    x.Arrangements1D.ToLower().Contains(lowerCriteria) ||
+                    x.PackageAuthor.ToLower().Contains(lowerCriteria) ||
+                    (x.IgnitionAuthor != null && x.IgnitionAuthor.ToLower().Contains(lowerCriteria) ||
+                    (x.IgnitionID != null && x.IgnitionID.ToLower().Contains(lowerCriteria)) ||
+                    x.SongYear.ToString().Contains(criteria) ||
+                    x.FilePath.ToLower().Contains(lowerCriteria))).ToList();
+            else
+                results = songList.Where(x => x.ArtistTitleAlbum.ToLower().Contains(lowerCriteria)).ToList(); 
 
             if (!chkIncludeSubfolders.Checked)
                 results = results.Where(x => Path.GetFileName(Path.GetDirectoryName(x.FilePath)) == "dlc").ToList();
@@ -2606,6 +2619,11 @@ namespace CustomsForgeSongManager.UControls
             tsmiMods.ShowDropDown();
             tsmiCustomTitleTag.ShowDropDown();
             menuStrip.Focus();
+        }
+
+        private void chkAdvancedSearch_CheckedChanged(object sender, EventArgs e)
+        {
+            SearchCDLC(cueSearch.Text);
         }
 
 

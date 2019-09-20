@@ -7,7 +7,6 @@ using System.Windows.Forms;
 using CustomsForgeSongManager.DataObjects;
 using CustomsForgeSongManager.Forms;
 using GenTools;
-using RocksmithToolkitLib.PsarcLoader;
 using RocksmithToolkitLib.DLCPackage;
 using RocksmithToolkitLib.Sng;
 using RocksmithToolkitLib.Extensions;
@@ -18,6 +17,7 @@ using Arrangement = RocksmithToolkitLib.DLCPackage.Arrangement;
 using System.Threading;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using RocksmithToolkitLib.PSARC;
 
 //
 // DO NOT USE RESHAPER SORT ON THIS METHOD IT RUINS REPAIR OPTIONS OBJECT ORDER

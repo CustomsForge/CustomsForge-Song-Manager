@@ -7,10 +7,10 @@ using CustomsForgeSongManager.DataObjects;
 using GenTools;
 using RocksmithToolkitLib.DLCPackage;
 using RocksmithToolkitLib.Extensions;
-using RocksmithToolkitLib.PsarcLoader;
 using System.Drawing;
 using DataGridViewTools;
 using CustomsForgeSongManager.UControls;
+using RocksmithToolkitLib.PSARC;
 
 namespace CustomsForgeSongManager.LocalTools
 {

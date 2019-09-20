@@ -466,9 +466,14 @@ namespace CustomsForgeSongManager.UControls
             var lowerCriteria = criteria.ToLower();
             AppSettings.Instance.SearchString = lowerCriteria;
 
-            var results = arrangementList
-                .Where(x => x.ArtistTitleAlbum.ToLower().Contains(lowerCriteria) ||
-                    x.FilePath.ToLower().Contains(lowerCriteria)).ToList();
+            if (arrangementList.Count == 0)
+                IncludeSubfolders(false);
+
+            // use same simple search as SongManager
+            var results = arrangementList.Where(x => x.ArtistTitleAlbum.ToLower().Contains(lowerCriteria)).ToList();
+
+            if (!chkIncludeSubfolders.Checked)
+                results = results.Where(x => Path.GetFileName(Path.GetDirectoryName(x.FilePath)) == "dlc").ToList();
 
             if (results.Any())
                 LoadFilteredBindingList(results);
@@ -1020,6 +1025,11 @@ namespace CustomsForgeSongManager.UControls
         {
             Globals.DebugLog(String.Format("<ERROR> (Row: {0}, Col: {1}), {2} ...", e.RowIndex, e.ColumnIndex, e.Exception.Message));
             e.Cancel = true;
+        }
+
+        private void chkAdvancedSearch_CheckedChanged(object sender, EventArgs e)
+        {
+            SearchCDLC(cueSearch.Text);
         }
 
     }

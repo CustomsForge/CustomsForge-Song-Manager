@@ -14,6 +14,9 @@ until you can confirm it is safe by working directly with your AV provider.
 
 CFSM Release Notes
 
+1.5.5.6
+- added 'Advanced Search' checkbox in SongManager, perform faster default searches
+
 1.5.5.5
 - check for duplicate enable/disabled files in same directory and move the 
   disabled file to CFSM/Duplicates folder

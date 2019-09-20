@@ -5,7 +5,6 @@ using RocksmithToolkitLib.Extensions;
 using RocksmithToolkitLib.XML;
 using System.Xml;
 using System.IO;
-using RocksmithToolkitLib.PsarcLoader;
 using RocksmithToolkitLib;
 using System.Reflection;
 using CustomsForgeSongManager.DataObjects;
@@ -14,6 +13,7 @@ using System.Drawing;
 using CustomsForgeSongManager.Forms;
 using System.Threading;
 using BetterDialog2 = CustomControls.BetterDialog2;
+using RocksmithToolkitLib.PSARC;
 
 
 namespace CustomsForgeSongManager.LocalTools

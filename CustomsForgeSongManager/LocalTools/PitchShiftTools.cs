@@ -7,12 +7,12 @@ using CustomsForgeSongManager.DataObjects;
 using GenTools;
 using RocksmithToolkitLib.DLCPackage;
 using RocksmithToolkitLib.DLCPackage.Manifest2014.Tone;
-using RocksmithToolkitLib.PsarcLoader;
 using RocksmithToolkitLib.Sng;
 using RocksmithToolkitLib.ToolkitTone;
 using RocksmithToolkitLib.XML;
 using RocksmithToolkitLib.XmlRepository;
 using RocksmithToolkitLib;
+using RocksmithToolkitLib.PSARC;
 
 namespace CustomsForgeSongManager.LocalTools
 {
