@@ -1,6 +1,5 @@
 ﻿//Win.Forms Custom Theme library. Originally written for the CustomsForge Song manager
 
-using CFSM.RSTKLib.PSARC;
 using GenTools;
 using Newtonsoft.Json;
 using System;
@@ -10,6 +9,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Xml.Serialization;
+using RocksmithToolkitLib.PSARC;
 
 namespace DF.WinForms.ThemeLib
 {

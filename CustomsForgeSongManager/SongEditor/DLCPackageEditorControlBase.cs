@@ -1,8 +1,8 @@
 ﻿using System;
 using System.IO;
 using System.Windows.Forms;
-using CFSM.RSTKLib.PSARC;
 using RocksmithToolkitLib.DLCPackage;
+using RocksmithToolkitLib.PSARC;
 
 namespace CustomsForgeSongManager.SongEditor
 {

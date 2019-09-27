@@ -23,18 +23,18 @@ namespace CustomsForgeSongManager.SongEditor
 
             cbLowBass.Visible = song.ArrangementsInitials.Contains('B');
 
-            // validate on-load to address old CDLC issues
-            txtKey.Text = SongData.Name;
-            txtArtist.Text = SongData.SongInfo.Artist.GetValidAtaSpaceName(); ;
-            txtArtistSort.Text = SongData.SongInfo.ArtistSort.GetValidSortableName(); ;
-            txtTitle.Text = SongData.SongInfo.SongDisplayName.GetValidAtaSpaceName(); ;
-            txtTitleSort.Text = SongData.SongInfo.SongDisplayNameSort.GetValidSortableName(); ;
-            txtAlbum.Text = SongData.SongInfo.Album.GetValidAtaSpaceName(); ;
-            txtAlbumSort.Text = SongData.SongInfo.AlbumSort.GetValidSortableName(); ;
-            txtAppId.Text = SongData.AppId;
-            txtVersion.Text = SongData.ToolkitInfo.PackageVersion;
-            txtYear.Text = SongData.SongInfo.SongYear.ToString();
-            txtAvgTempo.Text = SongData.SongInfo.AverageTempo.ToString();
+            // validate on-load to address some old CDLC issues
+            txtKey.Text = SongData.Name.GetValidKey();
+            txtArtist.Text = SongData.SongInfo.Artist.GetValidAtaSpaceName();
+            txtArtistSort.Text = SongData.SongInfo.ArtistSort.GetValidSortableName();
+            txtTitle.Text = SongData.SongInfo.SongDisplayName.GetValidAtaSpaceName();
+            txtTitleSort.Text = SongData.SongInfo.SongDisplayNameSort.GetValidSortableName();
+            txtAlbum.Text = SongData.SongInfo.Album.GetValidAtaSpaceName();
+            txtAlbumSort.Text = SongData.SongInfo.AlbumSort.GetValidSortableName();
+            txtAppId.Text = SongData.AppId.GetValidAppIdSixDigits();
+            txtVersion.Text = SongData.ToolkitInfo.PackageVersion.GetValidVersion();
+            txtYear.Text = SongData.SongInfo.SongYear.ToString().GetValidYear();
+            txtAvgTempo.Text = SongData.SongInfo.AverageTempo.ToString().GetValidTempo();
             cmbSongVolume.Value = Convert.ToDecimal(SongData.Volume);
             cmbPreviewVolume.Value = Convert.ToDecimal(SongData.PreviewVolume);
             txtCharter.Text = song.PackageAuthor;
@@ -151,20 +151,21 @@ namespace CustomsForgeSongManager.SongEditor
                 return;
 
             SongData.Name = txtKey.Text;
+            SongData.AppId = txtAppId.Text;
+            SongData.Volume = Convert.ToSingle(cmbSongVolume.Value);
+            SongData.PreviewVolume = Convert.ToSingle(cmbPreviewVolume.Value);
+            //
             SongData.SongInfo.Artist = txtArtist.Text;
             SongData.SongInfo.ArtistSort = txtArtistSort.Text;
             SongData.SongInfo.SongDisplayName = txtTitle.Text;
             SongData.SongInfo.SongDisplayNameSort = txtTitleSort.Text;
             SongData.SongInfo.Album = txtAlbum.Text;
             SongData.SongInfo.AlbumSort = txtAlbumSort.Text;
-            SongData.AppId = txtAppId.Text;
-            SongData.ToolkitInfo.PackageVersion = txtVersion.Text;
             SongData.SongInfo.SongYear = Convert.ToInt32(txtYear.Text);
             SongData.SongInfo.AverageTempo = Convert.ToInt32(txtAvgTempo.Text);
-            SongData.Volume = Convert.ToSingle(cmbSongVolume.Value);
-            SongData.PreviewVolume = Convert.ToSingle(cmbPreviewVolume.Value);
             // many CDLC authors do not enter their charter name so permit user to edit the name
             SongData.ToolkitInfo.PackageAuthor = txtCharter.Text;
+            SongData.ToolkitInfo.PackageVersion = txtVersion.Text;
 
             base.Save();
         }
@@ -203,5 +204,6 @@ namespace CustomsForgeSongManager.SongEditor
                 txtAppId.Text = cmbAppId.SelectedItem.ToString().Split(new string[] { " - " }, StringSplitOptions.None)[2];
             }
         }
-    }
+
+ }
 }

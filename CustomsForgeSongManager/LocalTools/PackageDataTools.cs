@@ -56,7 +56,6 @@ namespace CustomsForgeSongManager.LocalTools
         #region Tone Fixing
         public static DLCPackageData GetDataWithFixedTones(string srcFilePath)
         {
-
             var packageData = new DLCPackageData();
             var fnameWithoutExt = Path.GetFileNameWithoutExtension(srcFilePath);
             Platform platform = Packer.GetPlatform(srcFilePath);
@@ -135,7 +134,7 @@ namespace CustomsForgeSongManager.LocalTools
                     using (var toolkitVersionStream = new MemoryStream())
                     {
                         DLCPackageCreator.GenerateToolkitVersion(toolkitVersionStream, sd.PackageAuthor, sd.PackageVersion, sd.PackageComment, sd.PackageRating, sd.ToolkitVersion);
-                        CFSM.RSTKLib.PSARC.PsarcExtensions.InjectArchiveEntry(sd.FilePath, "toolkit.version", toolkitVersionStream);
+                        PsarcExtensions.InjectArchiveEntry(sd.FilePath, "toolkit.version", toolkitVersionStream);
                         toolkitVersionStream.Dispose(); // CRITICAL
                         Globals.Log("Updated PackageRating in: " + sd.FileName + " ...");
                     }

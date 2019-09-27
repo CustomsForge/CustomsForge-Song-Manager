@@ -62,17 +62,35 @@ namespace CustomsForgeSongManager
 
             if (Constants.DebugMode) // have VS handle the exception
             {
-                Application.EnableVisualStyles();
                 // this is throwing an error so commented out and moved
-                //  Application.SetCompatibleTextRenderingDefault(false);    
+                Application.SetCompatibleTextRenderingDefault(false);    
+                Application.EnableVisualStyles();
                 Application.Run(new frmMain(myLog));
             }
             else
             {
                 try
                 {
-                    Application.EnableVisualStyles();
                     // Application.SetCompatibleTextRenderingDefault(false);
+                    Application.EnableVisualStyles();
+
+                    // non-UI thread exceptions handling.
+                    Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException);
+                    AppDomain.CurrentDomain.UnhandledException += (s, e) =>
+                    {
+                        var exception = e.ExceptionObject as Exception;
+                        Globals.MyLog.Write(exception.Message.ToString());
+                        MessageBox.Show(exception.Message.ToString(), "Non-UI Thread Exception Handler", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    };
+
+                    // UI thread exceptions handling.
+                    Application.ThreadException += (s, e) =>
+                    {
+                        var exception = e.Exception;
+                        Globals.MyLog.Write(exception.ToString());
+                        MessageBox.Show(exception.ToString(), "UI Thread Exception Handler", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    };
+
                     Application.Run(new frmMain(myLog));
                 }
                 catch (Exception ex)

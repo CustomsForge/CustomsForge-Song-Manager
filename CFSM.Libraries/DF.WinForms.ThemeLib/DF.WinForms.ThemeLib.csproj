@@ -42,6 +42,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\libs\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="RocksmithToolkitLib">
+      <HintPath>..\..\libs\RocksmithToolkitLib.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
@@ -83,10 +86,6 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CFSM.RSTKLib\CFSM.RSTKLib.csproj">
-      <Project>{B59A7CDF-086B-4B94-A917-4CFA4D42F981}</Project>
-      <Name>CFSM.RSTKLib</Name>
-    </ProjectReference>
     <ProjectReference Include="..\GenTools\GenTools.csproj">
       <Project>{41EA9CF7-BF72-4243-98A8-5BF16BCD90AD}</Project>
       <Name>GenTools</Name>

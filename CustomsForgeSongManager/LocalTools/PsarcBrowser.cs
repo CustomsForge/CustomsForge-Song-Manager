@@ -1,6 +1,5 @@
 ﻿using System.Diagnostics;
 using CFSM.AudioTools;
-using CFSM.RSTKLib.PSARC;
 using CustomsForgeSongManager.DataObjects;
 using DataGridViewTools;
 using Newtonsoft.Json.Linq;
@@ -23,6 +22,7 @@ using GenTools;
 using System.Globalization;
 using System.Windows.Forms;
 using RocksmithToolkitLib.DLCPackage.Manifest2014.Header;
+using RocksmithToolkitLib.PSARC;
 
 
 namespace CustomsForgeSongManager.LocalTools

@@ -15,6 +15,7 @@ using System.Security.Cryptography;
 using System.ComponentModel;
 using ToolkitExtensions = RocksmithToolkitLib.Extensions.StringExtensions;
 
+
 namespace GenTools
 {
     public static class GenExtensions

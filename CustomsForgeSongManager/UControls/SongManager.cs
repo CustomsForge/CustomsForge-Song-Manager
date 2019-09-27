@@ -21,7 +21,6 @@ using Newtonsoft.Json;
 using System.Xml;
 using CustomsForgeSongManager.Properties;
 using System.Net.Cache;
-using CFSM.RSTKLib.PSARC;
 using RocksmithToolkitLib.DLCPackage;
 using RocksmithToolkitLib.Extensions;
 using BetterDialog2 = CustomControls.BetterDialog2;

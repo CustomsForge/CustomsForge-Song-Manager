@@ -4,14 +4,16 @@ using System.Windows.Forms;
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
-using CFSM.RSTKLib.PSARC;
 using CustomsForgeSongManager.DataObjects;
 using RocksmithToolkitLib;
 using RocksmithToolkitLib.DLCPackage;
+using RocksmithToolkitLib.DLCPackage.Manifest2014.Tone;
 using RocksmithToolkitLib.Extensions;
 using RocksmithToolkitLib.Sng;
 using RocksmithToolkitLib.XML;
 using Arrangement = RocksmithToolkitLib.DLCPackage.Arrangement;
+using RocksmithToolkitLib.PSARC;
+using CustomsForgeSongManager.LocalTools;
 
 namespace CustomsForgeSongManager.SongEditor
 {
@@ -43,7 +45,7 @@ namespace CustomsForgeSongManager.SongEditor
                 this.Icon = Properties.Resources.cfsm_48x48;
                 tslExit.Alignment = ToolStripItemAlignment.Right;
 
-                var psarc = new PsarcPackage();
+                var psarc = new PsarcPackager();
                 packageData = psarc.ReadPackage(songPath);
 
                 filePath = songPath;
@@ -70,7 +72,7 @@ namespace CustomsForgeSongManager.SongEditor
             get { return editorControls.Where(x => x.Dirty).Count() > 0; }
         }
 
-        private void Save(string outputPath)
+        private void Save(string destPath, string srcPath)
         {
             // force validation of user controls
             this.ValidateChildren();
@@ -78,7 +80,7 @@ namespace CustomsForgeSongManager.SongEditor
             if (editorControls.Where(ec => ec.HaltOnError).Any())
                 return;
 
-            Globals.Log("Saving song information for: " + Path.GetFileName(outputPath));
+            Globals.Log("Saving song information for: " + Path.GetFileName(destPath));
             Cursor.Current = Cursors.WaitCursor;
             tsProgressBar.Value = 30;
             tsMsg.Text = "Working ...";
@@ -86,6 +88,7 @@ namespace CustomsForgeSongManager.SongEditor
 
             try
             {
+                // update SongData
                 editorControls.ForEach(ec => { if (ec.Dirty) ec.Save(); });
 
                 //Generate metronome arrangemnts here
@@ -102,7 +105,8 @@ namespace CustomsForgeSongManager.SongEditor
                     "Answering 'Yes' will reduce the risk of CDLC" + Environment.NewLine +
                     "in game hanging and song stats will be reset.  ";
                 //only ask if it's a new filename.
-                bool updateArrangementID = (outputPath != filePath) ? MessageBox.Show(msg, "Song Editor ...", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes : false;
+                bool updateArrangementID = (destPath != filePath) ? MessageBox.Show(msg, "Song Editor ...", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes : false;
+                this.Refresh();
 
                 // Update Xml arrangements song info
                 foreach (var arr in packageData.Arrangements)
@@ -132,19 +136,19 @@ namespace CustomsForgeSongManager.SongEditor
 
                 tsProgressBar.Value = 60;
 
-                using (var psarc = new PsarcPackage(true))
-                    psarc.WritePackage(outputPath, packageData);
+                using (var psarc = new PsarcPackager(true))
+                    psarc.WritePackage(destPath, packageData, srcPath);
 
-                //unfortunately needed a hack for replacing images
+                // hack for replacing images
                 var x = editorControls.Where(e => e.NeedsAfterSave());
                 if (x.Count() > 0)
                 {
-                    if (!outputPath.ToLower().EndsWith(Constants.EnabledExtension))
-                        outputPath += Constants.EnabledExtension;
+                    if (!destPath.ToLower().EndsWith(Constants.EnabledExtension))
+                        destPath += Constants.EnabledExtension;
 
                     tsProgressBar.Value = 80;
                     var p = new PSARC();
-                    using (var fs = File.OpenRead(outputPath))
+                    using (var fs = File.OpenRead(destPath))
                         p.Read(fs);
                     bool needsSave = false;
                     foreach (var ec in x)
@@ -154,7 +158,7 @@ namespace CustomsForgeSongManager.SongEditor
                     }
                     if (needsSave)
                     {
-                        using (var fs = File.Create(outputPath))
+                        using (var fs = File.Create(destPath))
                             p.Write(fs, true);
                     }
                 }
@@ -178,18 +182,27 @@ namespace CustomsForgeSongManager.SongEditor
 
         private void tslSave_Click(object sender, EventArgs e)
         {
-            Save(filePath);
+            Save(filePath, filePath);
         }
 
         private void tslSaveAs_Click(object sender, EventArgs e)
         {
+            // force validation of user controls
+            this.ValidateChildren();
+
+            // update packageData needed for creating fileName
+            editorControls.ForEach(ec => { if (ec.Dirty) ec.Save(); });
+
             using (var sfd = new SaveFileDialog())
             {
-                sfd.FileName = StringExtensions.GetValidShortFileName(packageData.SongInfo.ArtistSort, packageData.SongInfo.SongDisplayNameSort, packageData.ToolkitInfo.PackageVersion.Replace(".", "_"), false);
+                var fileNameprefix = StringExtensions.GetValidShortFileName(packageData.SongInfo.ArtistSort, packageData.SongInfo.SongDisplayNameSort, "v" + packageData.ToolkitInfo.PackageVersion.Replace(".", "_"), false);
+                var fileName = String.Format("{0}{1}", fileNameprefix, Constants.EnabledExtension);
+
+                sfd.FileName = fileName;
                 sfd.InitialDirectory = Path.GetDirectoryName(filePath);
 
                 if (sfd.ShowDialog() == DialogResult.OK)
-                    Save(sfd.FileName);
+                    Save(sfd.FileName, filePath);
             }
         }
 
@@ -316,6 +329,7 @@ namespace CustomsForgeSongManager.SongEditor
             if (arr.ArrangementType == ArrangementType.ShowLight)
                 return;
 
+            // D:\Documents and Settings\Administrator\Local Settings\Temp\Three Days Grace_One X_vNA_BLRV_RS2014_Pc\EOF\threedaysgrace_bass.xml
             var songXml = Song2014.LoadFromFile(arr.SongXml.File);
             arr.ClearCache();
             songXml.AlbumName = info.SongInfo.Album;

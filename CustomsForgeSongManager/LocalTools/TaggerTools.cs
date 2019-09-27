@@ -17,7 +17,8 @@ using RocksmithToolkitLib.Extensions;
 using System.Diagnostics;
 using CustomsForgeSongManager.Forms;
 using System.Text;
-using CFSM.RSTKLib.PSARC;
+using RocksmithToolkitLib.PSARC;
+
 
 namespace CustomsForgeSongManager.LocalTools
 {
@@ -135,12 +136,12 @@ namespace CustomsForgeSongManager.LocalTools
                 using (var images = new BitmapHolder(themePath))
                 {
                     var songPath = sd.FilePath;
-                    using (CFSM.RSTKLib.PSARC.PSARC archive = new CFSM.RSTKLib.PSARC.PSARC(true))
+                    using (PSARC archive = new PSARC(true))
                     using (var fs = File.OpenRead(songPath))
                     {
                         archive.Read(fs, true);
 
-                        CFSM.RSTKLib.PSARC.Entry imgEntry;
+                        Entry imgEntry;
                         if (sd.Tagged == SongTaggerStatus.True)
                             imgEntry = archive.TOC.FirstOrDefault(entry => entry.Name.Equals("tagger.org"));
                         else
@@ -198,7 +199,7 @@ namespace CustomsForgeSongManager.LocalTools
             }
         }
 
-        private void TagDrawImage(SongData song, BitmapHolder images, XmlThemeStorage xTheme, CFSM.RSTKLib.PSARC.PSARC archive, Bitmap bigAlbumArt, String folderFullPath)
+        private void TagDrawImage(SongData song, BitmapHolder images, XmlThemeStorage xTheme, PSARC archive, Bitmap bigAlbumArt, String folderFullPath)
         {
             var lead = false;
             var rhythm = false;
@@ -363,7 +364,7 @@ namespace CustomsForgeSongManager.LocalTools
                 try
                 {
                     string songPath = song.FilePath;
-                    using (CFSM.RSTKLib.PSARC.PSARC archive = new CFSM.RSTKLib.PSARC.PSARC())
+                    using (PSARC archive = new PSARC())
                     {
                         using (var fs = File.OpenRead(songPath))
                             archive.Read(fs);
@@ -474,7 +475,7 @@ namespace CustomsForgeSongManager.LocalTools
                 TagSong(song, images);
         }
 
-        public void UntagSong(SongData song, CFSM.RSTKLib.PSARC.PSARC archive)
+        public void UntagSong(SongData song, PSARC archive)
         {
             if (File.Exists(song.FilePath)) //Just to be sure :)
             {
@@ -514,7 +515,7 @@ namespace CustomsForgeSongManager.LocalTools
 
             if (File.Exists(song.FilePath)) //Just to be sure :)
             {
-                using (CFSM.RSTKLib.PSARC.PSARC archive = new CFSM.RSTKLib.PSARC.PSARC())
+                using (PSARC archive = new PSARC())
                 {
                     using (var fs = File.OpenRead(song.FilePath))
                         archive.Read(fs);
@@ -623,7 +624,7 @@ namespace CustomsForgeSongManager.LocalTools
 
             try
             {
-                var psarc = new PsarcPackage();
+                var psarc = new PsarcPackager();
                 var packageData = psarc.ReadPackage(songPath);
 
                 if (removeTag)
@@ -658,7 +659,7 @@ namespace CustomsForgeSongManager.LocalTools
                 Globals.Log(" - Repackaging");
                 Globals.Log(" - Please wait this could take a minute ...");
 
-                using (var psarcOut = new PsarcPackage(true))
+                using (var psarcOut = new PsarcPackager(true))
                     psarcOut.WritePackage(songPath, packageData);
 
                 return true;

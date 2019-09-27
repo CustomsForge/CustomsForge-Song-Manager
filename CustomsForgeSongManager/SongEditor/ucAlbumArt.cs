@@ -4,8 +4,8 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using CFSM.ImageTools;
-using CFSM.RSTKLib.PSARC;
 using CustomsForgeSongManager.DataObjects;
+using RocksmithToolkitLib.PSARC;
 
 namespace CustomsForgeSongManager.SongEditor
 {

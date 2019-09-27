@@ -10,7 +10,6 @@ using System.IO;
 using CustomsForgeSongManager.DataObjects;
 using CustomsForgeSongManager.UITheme;
 using GenTools;
-using CFSM.RSTKLib.PSARC;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 using RocksmithToolkitLib;
@@ -19,6 +18,7 @@ using RocksmithToolkitLib.Extensions;
 using DataGridViewTools;
 using SevenZip;
 using RocksmithToolkitLib.XmlRepository;
+using RocksmithToolkitLib.PSARC;
 
 namespace CustomsForgeSongManager.UControls
 {

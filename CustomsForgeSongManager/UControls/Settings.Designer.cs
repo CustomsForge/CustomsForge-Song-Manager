@@ -34,12 +34,12 @@ namespace CustomsForgeSongManager.UControls
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Settings));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle19 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle20 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle21 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle22 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle23 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle24 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             this.tlpSettings_Wrapper = new System.Windows.Forms.TableLayoutPanel();
             this.cueRsDir = new CustomControls.CueTextBox();
             this.lblSettingsRSDir = new System.Windows.Forms.Label();
@@ -457,20 +457,20 @@ namespace CustomsForgeSongManager.UControls
             this.dgvColumns.AllowUserToDeleteRows = false;
             this.dgvColumns.AllowUserToResizeColumns = false;
             this.dgvColumns.AllowUserToResizeRows = false;
-            dataGridViewCellStyle19.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.dgvColumns.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle19;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.dgvColumns.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
             this.dgvColumns.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.dgvColumns.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            dataGridViewCellStyle20.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle20.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle20.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle20.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle20.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle20.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle20.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvColumns.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle20;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvColumns.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
             this.dgvColumns.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvColumns.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.colVisible,
@@ -503,10 +503,10 @@ namespace CustomsForgeSongManager.UControls
             // 
             this.colDisplayIndex.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
             this.colDisplayIndex.DataPropertyName = "DisplayIndex";
-            dataGridViewCellStyle21.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle21.Format = "N0";
-            dataGridViewCellStyle21.NullValue = null;
-            this.colDisplayIndex.DefaultCellStyle = dataGridViewCellStyle21;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle3.Format = "N0";
+            dataGridViewCellStyle3.NullValue = null;
+            this.colDisplayIndex.DefaultCellStyle = dataGridViewCellStyle3;
             this.colDisplayIndex.HeaderText = "DisplayIndex";
             this.colDisplayIndex.Name = "colDisplayIndex";
             this.colDisplayIndex.ToolTipText = "Click to Sort (Read/Write)\r\nEither manually edit \'DisplayIndex\', or\r\ndrag and dro" +
@@ -516,10 +516,10 @@ namespace CustomsForgeSongManager.UControls
             // colWidth
             // 
             this.colWidth.DataPropertyName = "Width";
-            dataGridViewCellStyle22.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle22.Format = "N0";
-            dataGridViewCellStyle22.NullValue = null;
-            this.colWidth.DefaultCellStyle = dataGridViewCellStyle22;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle4.Format = "N0";
+            dataGridViewCellStyle4.NullValue = null;
+            this.colWidth.DefaultCellStyle = dataGridViewCellStyle4;
             this.colWidth.HeaderText = "Width";
             this.colWidth.Name = "colWidth";
             this.colWidth.ToolTipText = "Click to Sort (Read/Write)";
@@ -529,8 +529,8 @@ namespace CustomsForgeSongManager.UControls
             // 
             this.colHeaderText.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.colHeaderText.DataPropertyName = "HeaderText";
-            dataGridViewCellStyle23.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            this.colHeaderText.DefaultCellStyle = dataGridViewCellStyle23;
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            this.colHeaderText.DefaultCellStyle = dataGridViewCellStyle5;
             this.colHeaderText.HeaderText = "HeaderText";
             this.colHeaderText.Name = "colHeaderText";
             this.colHeaderText.ReadOnly = true;
@@ -541,10 +541,10 @@ namespace CustomsForgeSongManager.UControls
             // 
             this.colColumnIndex.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
             this.colColumnIndex.DataPropertyName = "ColumnIndex";
-            dataGridViewCellStyle24.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle24.Format = "N0";
-            dataGridViewCellStyle24.NullValue = null;
-            this.colColumnIndex.DefaultCellStyle = dataGridViewCellStyle24;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle6.Format = "N0";
+            dataGridViewCellStyle6.NullValue = null;
+            this.colColumnIndex.DefaultCellStyle = dataGridViewCellStyle6;
             this.colColumnIndex.HeaderText = "ColumnIndex";
             this.colColumnIndex.Name = "colColumnIndex";
             this.colColumnIndex.ReadOnly = true;

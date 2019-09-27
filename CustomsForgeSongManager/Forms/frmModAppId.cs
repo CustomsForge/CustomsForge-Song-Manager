@@ -4,12 +4,12 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
-using CFSM.RSTKLib.PSARC;
 using CustomsForgeSongManager.DataObjects;
 using DF.WinForms.ThemeLib;
 using RocksmithToolkitLib;
 using RocksmithToolkitLib.Extensions;
 using RocksmithToolkitLib.XmlRepository;
+using RocksmithToolkitLib.PSARC;
 
 namespace CustomsForgeSongManager.Forms
 {

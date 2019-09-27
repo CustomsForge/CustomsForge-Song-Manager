@@ -148,8 +148,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\libs\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="RocksmithToolkitLib, Version=2.6.1.0, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="RocksmithToolkitLib">
       <HintPath>..\libs\RocksmithToolkitLib.dll</HintPath>
     </Reference>
     <Reference Include="SevenZipSharp, Version=0.64.3890.29348, Culture=neutral, PublicKeyToken=20de82c62b055c88, processorArchitecture=MSIL">
@@ -787,10 +786,6 @@
     <ProjectReference Include="..\CFSM.Libraries\CFSM.ImageTools\CFSM.ImageTools.csproj">
       <Project>{E6565985-C477-46F4-8A42-08E04CD40B65}</Project>
       <Name>CFSM.ImageTools</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\CFSM.Libraries\CFSM.RSTKLib\CFSM.RSTKLib.csproj">
-      <Project>{B59A7CDF-086B-4B94-A917-4CFA4D42F981}</Project>
-      <Name>CFSM.RSTKLib</Name>
     </ProjectReference>
     <ProjectReference Include="..\CFSM.Libraries\CustomControls\CustomControls.csproj">
       <Project>{CBB57466-4341-49BC-A61D-43A7CC656A95}</Project>

@@ -42,8 +42,9 @@
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\..\libs\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="RocksmithToolkitLib">
-      <HintPath>..\..\libs\RocksmithToolkitLib.dll</HintPath>
+    <Reference Include="RocksmithToolkitLib, Version=2.9.2.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\rocksmith-custom-song-toolkit\RocksmithToolkitLib\bin\Debug\RocksmithToolkitLib.dll</HintPath>
     </Reference>
     <Reference Include="SevenZipSharp, Version=0.64.3890.29348, Culture=neutral, PublicKeyToken=20de82c62b055c88, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>

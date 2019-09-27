@@ -156,15 +156,6 @@ is not empty then you will be able to specify a
 'Save As' custom grid setting file name for the
 current settings.</value>
   </data>
-  <data name="lblDgvSettingsPath.ToolTip" xml:space="preserve">
-    <value>Hint: Use the 'Reset CFSM On Closing'
-to restore all default grid settings ...
-
-The grid settings files are initially created
-when the matching tabmenu is selected.
-Subsequently the grid settings file path
-will then be available for selection here.</value>
-  </data>
   <metadata name="colVisible.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
@@ -183,6 +174,15 @@ will then be available for selection here.</value>
   <metadata name="colColumnName.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
+  <data name="lblDgvSettingsPath.ToolTip" xml:space="preserve">
+    <value>Hint: Use the 'Reset CFSM On Closing'
+to restore all default grid settings ...
+
+The grid settings files are initially created
+when the matching tabmenu is selected.
+Subsequently the grid settings file path
+will then be available for selection here.</value>
+  </data>
   <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>39</value>
   </metadata>

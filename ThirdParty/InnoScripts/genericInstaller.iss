@@ -43,7 +43,6 @@ Source: {#BuildPath}CFSM.ImageTools.dll; DestDir: {app}; Flags: ignoreversion
 Source: {#BuildPath}DF.WinForms.ThemeLib.dll; DestDir: {app}; Flags: ignoreversion
 Source: {#BuildPath}GenTools.dll; DestDir: {app}; Flags: ignoreversion
 Source: {#BuildPath}CustomControls.dll; DestDir: {app}; Flags: ignoreversion
-Source: {#BuildPath}CFSM.RSTKLib.dll; DestDir: {app}; Flags: ignoreversion
 Source: {#BuildPath}bass.dll; DestDir: {app}; Flags: ignoreversion
 Source: {#BuildPath}DataGridViewTools.dll; DestDir: {app}; Flags: ignoreversion
 Source: {#BuildPath}CFSM.NCalc.dll; DestDir: {app}; Flags: ignoreversion
