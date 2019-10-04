@@ -153,7 +153,7 @@ namespace GenTools
 
         /// <summary>
         /// Moves short words, replaces abbreviations, strips non-alphanumeric and whitespaces
-        /// <para>Returned clean string is uppercase invariant suitable for use making comparisons</para>
+        /// <para>Returned clean string is uppercase invariant suitable for use in making comparisons</para>
         /// </summary>
         /// <param name="s"></param>
         /// <returns></returns>

@@ -538,20 +538,16 @@ namespace CustomsForgeSongManager.UControls
 
         private void cueSearch_KeyUp(object sender, KeyEventArgs e)
         {
+            // wait for return key to run search, and re-run search on backspace/left arrow
+            if (e.KeyCode != Keys.Return && e.KeyCode != Keys.Back && e.KeyCode != Keys.Left)
+                return;
+
             // debounce KeyUp to eliminate intermittent NullReferenceException
             Thread.Sleep(50);
 
             // save current sort
             statusArrangementAnalyzer.SaveSorting(dgvArrangements);
             SearchCDLC(cueSearch.Text);
-
-            if (cueSearch.Text.Length == 0)
-            {
-                // workaround for single character remnant in textbox
-                cueSearch.Text = String.Empty;
-                cueSearch.Cue = "Type characters to search for ...";
-                AppSettings.Instance.SearchString = String.Empty;
-            }
 
             UpdateToolStrip(false);
             // restore current sort
@@ -855,7 +851,7 @@ namespace CustomsForgeSongManager.UControls
         private void lnkClearSearch_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             cueSearch.Text = String.Empty;
-            cueSearch.Cue = "Type characters to search for ...";
+            cueSearch.Cue = "Type characters to search for then hit return ...";
             AppSettings.Instance.SearchString = String.Empty;
             SearchCDLC(cueSearch.Text);
             RemoveFilter();

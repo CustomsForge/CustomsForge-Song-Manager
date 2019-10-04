@@ -615,7 +615,7 @@ namespace CustomsForgeSongManager.UControls
             this.cmsDelete,
             this.cmsMove});
             this.cmsDuplicates.Name = "contextMenuStrip_MainManager";
-            this.cmsDuplicates.Size = new System.Drawing.Size(190, 170);
+            this.cmsDuplicates.Size = new System.Drawing.Size(190, 192);
             this.cmsDuplicates.Closing += new System.Windows.Forms.ToolStripDropDownClosingEventHandler(this.cmsDuplicates_Closing);
             this.cmsDuplicates.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.cmsDuplicates_ItemClicked);
             // 
@@ -627,7 +627,9 @@ namespace CustomsForgeSongManager.UControls
             this.cmsActions.RadioButtonGroupName = null;
             this.cmsActions.Size = new System.Drawing.Size(189, 22);
             this.cmsActions.Text = "Actions:";
-            this.cmsActions.ToolTipText = resources.GetString("cmsActions.ToolTipText");
+            this.cmsActions.ToolTipText = "NOTE:\nMultiple selections can be made for\n\'Enable/Disable Songs\', \'Delete Songs\'\n" +
+                "and \'Move Songs\'.\n\nFor safety, the column \'Select\' checkbox\nmust be checked to p" +
+                "erform File I/O \nrelated \'Actions\'.";
             // 
             // toolStripSeparator1
             // 
@@ -698,7 +700,7 @@ namespace CustomsForgeSongManager.UControls
             this.cmsMove.RadioButtonGroupName = null;
             this.cmsMove.Size = new System.Drawing.Size(189, 22);
             this.cmsMove.Text = "Move Songs";
-            this.cmsMove.ToolTipText = "Select must be checked.\r\nSee Log for moved file location.\r\n";
+            this.cmsMove.ToolTipText = "Select must be checked.\r\nSee Log for moved file location.";
             this.cmsMove.Click += new System.EventHandler(this.cmsMove_Click);
             // 
             // menuStrip

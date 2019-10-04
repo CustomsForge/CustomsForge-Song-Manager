@@ -61,7 +61,7 @@ namespace CustomsForgeSongManager.UControls
             }
             catch (Exception ex)
             {
-                Globals.MyLog.Write(String.Format("<Error>: {0}", ex.Message));
+                Globals.MyLog.Write(String.Format("<Error> LoadSettingsFromFile: {0}", ex.Message));
             }
         }
 
@@ -90,7 +90,7 @@ namespace CustomsForgeSongManager.UControls
             }
             catch (Exception ex)
             {
-                Globals.Log(String.Format("<Error>: {0}", ex.Message));
+                Globals.Log(String.Format("<Error> SaveSettingsToFile: {0}", ex.Message));
             }
         }
 
@@ -546,9 +546,16 @@ namespace CustomsForgeSongManager.UControls
         }
 
         private void cueDgvSettingsPath_MouseClick(object sender, MouseEventArgs e)
-        {
+        {            
+            var currentDirectory = Environment.CurrentDirectory;
+
             using (var ofd = new OpenFileDialog())
             {
+                // ensure proper usage of 'My Documents\CFSM' folder and reset initial directory if needed
+                if (!currentDirectory.Contains(Constants.WorkFolder))
+                    ofd.InitialDirectory = Constants.GridSettingsFolder;
+            
+                ofd.RestoreDirectory = false;
                 ofd.Filter = "Grid Settings XML Files (dgv[GridName][[CustomName]].xml)|dgv*.xml";
                 ofd.Title = "Select a grid settings file to edit ...";
                 ofd.CheckFileExists = true;
@@ -561,7 +568,7 @@ namespace CustomsForgeSongManager.UControls
             }
 
             if (!RAExtensions.ValidateGridSettingsVersion(cueDgvSettingsPath.Text))
-                throw new DataException("<ERROR> Invalid grid settings version " + cueDgvSettingsPath);
+                throw new DataException("<ERROR> Invalid grid settings version " + cueDgvSettingsPath.Text);
 
             SetGlobalsDgvCurrent(GetDgvGridName(cueDgvSettingsPath.Text));
             LoadDgvColumns(cueDgvSettingsPath.Text);
@@ -788,6 +795,7 @@ namespace CustomsForgeSongManager.UControls
         }
 
         #endregion
+
 
     }
 }

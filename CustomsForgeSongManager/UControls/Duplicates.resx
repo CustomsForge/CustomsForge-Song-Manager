@@ -203,16 +203,6 @@ duplicates according to selection.</value>
   <metadata name="cmsDuplicates.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>161, 7</value>
   </metadata>
-  <data name="cmsActions.ToolTipText" xml:space="preserve">
-    <value>NOTE:
-Multiple selections can be made for
-'Enable/Disable Songs', 'Delete Songs'
-and 'Move Songs'.
-
-For safety, the column 'Select' checkbox
-must be checked to perform File I/O 
-related 'Actions'.</value>
-  </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="cmsEdit.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>

@@ -190,7 +190,7 @@ namespace CustomsForgeSongManager.LocalTools
         {
             // remove any .bak, .org, .max and .cor files from dlc folder and subfolders
             Globals.Log("Cleaning 'dlc' folder and subfolders ...");
-            string[] extensions = { Constants.EXT_BAK, Constants.EXT_ORG, Constants.EXT_MAX, Constants.EXT_COR };
+            string[] extensions = { Constants.EXT_BAK, Constants.EXT_COR, Constants.EXT_DUP, Constants.EXT_MAX, Constants.EXT_ORG };
             var extFilePaths = Directory.EnumerateFiles(Constants.Rs2DlcFolder, "*.*", SearchOption.AllDirectories).Where(fi => extensions.Any(fi.ToLower().Contains)).ToList();
 
             var total = extFilePaths.Count;
@@ -203,14 +203,23 @@ namespace CustomsForgeSongManager.LocalTools
                 GenericWorker.ReportProgress(processed, total, skipped, failed);
 
                 var destFilePath = extFilePath;
-                if (extFilePath.Contains(Constants.EXT_ORG))
-                    destFilePath = Path.Combine(Constants.RemasteredOrgFolder, Path.GetFileName(extFilePath));
-                if (extFilePath.Contains(Constants.EXT_MAX))
-                    destFilePath = Path.Combine(Constants.RemasteredMaxFolder, Path.GetFileName(extFilePath));
-                if (extFilePath.Contains(Constants.EXT_COR))
+                if (extFilePath.Contains(Constants.EXT_BAK))
+                    destFilePath = Path.Combine(Constants.BackupsFolder, Path.GetFileName(extFilePath));
+                else if (extFilePath.Contains(Constants.EXT_COR))
                     destFilePath = Path.Combine(Constants.RemasteredCorFolder, Path.GetFileName(extFilePath));
-                if (extFilePath.Contains(Constants.EXT_DUP))
+                else if (extFilePath.Contains(Constants.EXT_DUP))
                     destFilePath = Path.Combine(Constants.DuplicatesFolder, Path.GetFileName(extFilePath));
+                else if (extFilePath.Contains(Constants.EXT_MAX))
+                    destFilePath = Path.Combine(Constants.RemasteredMaxFolder, Path.GetFileName(extFilePath));
+                else if (extFilePath.Contains(Constants.EXT_ORG))
+                    destFilePath = Path.Combine(Constants.RemasteredOrgFolder, Path.GetFileName(extFilePath));
+                else
+                {
+                    // JIC ... this should never happen
+                    Globals.Log("<WARNING> Unexpected file type: " + extFilePath);
+                    skipped++;
+                    continue;
+                }
 
                 try
                 {
@@ -218,11 +227,11 @@ namespace CustomsForgeSongManager.LocalTools
                     if (!File.Exists(destFilePath))
                     {
                         GenExtensions.CopyFile(extFilePath, destFilePath, true, false);
-                        Globals.Log("Moved file to: " + Path.GetFileName(destFilePath));
+                        Globals.Log("Moved file to: " + destFilePath);
                     }
                     else
                     {
-                        Globals.Log("Deleted duplicate file: " + Path.GetFileName(extFilePath));
+                        Globals.Log("Deleted duplicate file: " + extFilePath);
                         skipped++;
                     }
 
@@ -231,7 +240,7 @@ namespace CustomsForgeSongManager.LocalTools
                 }
                 catch (IOException ex)
                 {
-                    Globals.Log("<ERROR> Move File Failed: " + Path.GetFileName(extFilePath) + " ...");
+                    Globals.Log("<ERROR> Move File Failed: " + extFilePath + " ...");
                     Globals.Log(ex.Message);
                     failed++;
                 }

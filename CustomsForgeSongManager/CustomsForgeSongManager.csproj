@@ -426,6 +426,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmHtmlViewer.resx">
       <DependentUpon>frmHtmlViewer.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmOutdatedSongs.resx">
       <DependentUpon>frmOutdatedSongs.cs</DependentUpon>

@@ -104,9 +104,9 @@ namespace CustomsForgeSongManager.Forms
             if (duplicateList.Count == 0)
             {
                 Globals.Log(" - No CDLC/ODLC replacements detected ...");
-                var diaMsg = "No CDLC songs that have been released as  " + Environment.NewLine +
-                             "ODLC where detected in the DLC folder.";
-                BetterDialog2.ShowDialog(diaMsg, "Good News ...", null, null, "Ok", Bitmap.FromHicon(SystemIcons.Information.Handle), "Info", 0, 150);
+                var diaMsg = "CFSM did not find any CDLC in your collection  " + Environment.NewLine +
+                             "that have been released as ODLC by Ubisoft.";
+                BetterDialog2.ShowDialog(diaMsg, "Good News!", null, null, "Ok", Bitmap.FromHicon(SystemIcons.Information.Handle), "No CDLC/ODLC Replacements ...", 0, 150);
                 return false;
             }
 

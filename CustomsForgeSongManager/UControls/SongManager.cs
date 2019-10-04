@@ -613,7 +613,7 @@ namespace CustomsForgeSongManager.UControls
             // respect processing order
             DgvExtensions.DoubleBuffered(dgvSongsMaster);
             CFSMTheme.InitializeDgvAppearance(dgvSongsMaster);
-            // reload column order, width, visibility
+            // reload column order, width, visibility, and settings
             Globals.Settings.LoadSettingsFromFile(dgvSongsMaster, true);
 
             if (RAExtensions.ManagerGridSettings != null)
@@ -886,7 +886,7 @@ namespace CustomsForgeSongManager.UControls
                     x.SongYear.ToString().Contains(criteria) ||
                     x.FilePath.ToLower().Contains(lowerCriteria))).ToList();
             else
-                results = songList.Where(x => x.ArtistTitleAlbum.ToLower().Contains(lowerCriteria)).ToList(); 
+                results = songList.Where(x => x.ArtistTitleAlbum.ToLower().Contains(lowerCriteria)).ToList();
 
             if (!chkIncludeSubfolders.Checked)
                 results = results.Where(x => Path.GetFileName(Path.GetDirectoryName(x.FilePath)) == "dlc").ToList();
@@ -1431,6 +1431,10 @@ namespace CustomsForgeSongManager.UControls
 
         private void cueSearch_KeyUp(object sender, KeyEventArgs e)
         {
+            // wait for return key to run search, and re-run search on backspace/left arrow
+            if (e.KeyCode != Keys.Return && e.KeyCode != Keys.Back && e.KeyCode != Keys.Left)
+                return;
+
             // debounce KeyUp to eliminate intermittent NullReferenceException
             Thread.Sleep(50);
 
@@ -1438,14 +1442,6 @@ namespace CustomsForgeSongManager.UControls
             statusSongsMaster.SaveSorting(dgvSongsMaster);
             ResetDetail();
             SearchCDLC(cueSearch.Text);
-
-            if (cueSearch.Text.Length == 0)
-            {
-                // workaround for single character remnant in textbox
-                cueSearch.Text = String.Empty;
-                cueSearch.Cue = "Type characters to search for ...";
-                AppSettings.Instance.SearchString = String.Empty;
-            }
 
             UpdateToolStrip();
             // restore current sort
@@ -1944,7 +1940,7 @@ namespace CustomsForgeSongManager.UControls
         {
             tsmiModsMyCDLC.Checked = false;
             cueSearch.Text = String.Empty;
-            cueSearch.Cue = "Type characters to search for ...";
+            cueSearch.Cue = "Type characters to search for then hit return ...";
             AppSettings.Instance.SearchString = String.Empty;
             SearchCDLC(cueSearch.Text);
             RemoveFilter();
@@ -2624,7 +2620,6 @@ namespace CustomsForgeSongManager.UControls
         {
             SearchCDLC(cueSearch.Text);
         }
-
 
     }
 }

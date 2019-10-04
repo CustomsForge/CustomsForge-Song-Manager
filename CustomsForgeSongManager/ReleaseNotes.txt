@@ -14,6 +14,11 @@ until you can confirm it is safe by working directly with your AV provider.
 
 CFSM Release Notes
 
+1.5.5.8
+- improved SongManager toolstrip item [Clean 'dlc' Folder]
+- modified CFSM Search features to run after the user hits ENTER
+- updated OfficialSongs.json (used for checking CDLC/ODLC replacement detection)
+
 1.5.5.7
 - eliminated internal CFSM conflicts with RocksmithToolkitLib.dll
 - fixed SongEditor SaveAs file naming bugs

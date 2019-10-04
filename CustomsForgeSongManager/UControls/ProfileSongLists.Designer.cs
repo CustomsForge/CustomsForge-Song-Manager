@@ -32,7 +32,6 @@ namespace CustomsForgeSongManager.UControls
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ProfileSongLists));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
@@ -56,6 +55,7 @@ namespace CustomsForgeSongManager.UControls
             this.chkProtectODLC = new System.Windows.Forms.CheckBox();
             this.chkIncludeSubfolders = new System.Windows.Forms.CheckBox();
             this.btnForceUpdate = new System.Windows.Forms.Button();
+            this.cueSearch = new DataGridViewTools.CueTextBox();
             this.gbSongListSongs = new System.Windows.Forms.GroupBox();
             this.dgvSongListSongs = new DataGridViewTools.RADataGridView();
             this.colSongListSongsSelect = new System.Windows.Forms.DataGridViewCheckBoxColumn();
@@ -96,7 +96,6 @@ namespace CustomsForgeSongManager.UControls
             this.gbButtons = new System.Windows.Forms.GroupBox();
             this.lnkLoadPrfldb = new System.Windows.Forms.LinkLabel();
             this.lnkSongListsHelp = new System.Windows.Forms.LinkLabel();
-            this.cueSearch = new DataGridViewTools.CueTextBox();
             this.cmsProfileSongLists.SuspendLayout();
             this.gbSongListSongs.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvSongListSongs)).BeginInit();
@@ -262,9 +261,24 @@ namespace CustomsForgeSongManager.UControls
             this.btnForceUpdate.Name = "btnForceUpdate";
             this.btnForceUpdate.Size = new System.Drawing.Size(27, 26);
             this.btnForceUpdate.TabIndex = 54;
-            this.toolTip.SetToolTip(this.btnForceUpdate, resources.GetString("btnForceUpdate.ToolTip"));
+            this.toolTip.SetToolTip(this.btnForceUpdate, "NOTE: User Profile Song Lists\nupdate automatically as needed.\nUpdate occures when" +
+                    " another tab\nis opened or when CFSM is exited.\n\nThis button will force an immedi" +
+                    "ate\nupdate of User Profile Song Lists.");
             this.btnForceUpdate.UseVisualStyleBackColor = true;
             this.btnForceUpdate.Click += new System.EventHandler(this.btnForceUpdate_Click);
+            // 
+            // cueSearch
+            // 
+            this.cueSearch.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.cueSearch.Cue = "Search";
+            this.cueSearch.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
+            this.cueSearch.ForeColor = System.Drawing.Color.Gray;
+            this.cueSearch.Location = new System.Drawing.Point(20, 16);
+            this.cueSearch.Name = "cueSearch";
+            this.cueSearch.Size = new System.Drawing.Size(144, 20);
+            this.cueSearch.TabIndex = 44;
+            this.toolTip.SetToolTip(this.cueSearch, "Type characters to search for then hit return ...");
+            this.cueSearch.KeyUp += new System.Windows.Forms.KeyEventHandler(this.cueSearch_KeyUp);
             // 
             // gbSongListSongs
             // 
@@ -734,7 +748,7 @@ namespace CustomsForgeSongManager.UControls
             this.lnkLoadPrfldb.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lnkLoadPrfldb.ForeColor = System.Drawing.Color.Black;
             this.lnkLoadPrfldb.LinkColor = System.Drawing.SystemColors.ActiveCaption;
-            this.lnkLoadPrfldb.Location = new System.Drawing.Point(16, 109);
+            this.lnkLoadPrfldb.Location = new System.Drawing.Point(17, 122);
             this.lnkLoadPrfldb.Name = "lnkLoadPrfldb";
             this.lnkLoadPrfldb.Size = new System.Drawing.Size(158, 15);
             this.lnkLoadPrfldb.TabIndex = 51;
@@ -749,25 +763,13 @@ namespace CustomsForgeSongManager.UControls
             this.lnkSongListsHelp.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lnkSongListsHelp.ForeColor = System.Drawing.Color.Black;
             this.lnkSongListsHelp.LinkColor = System.Drawing.SystemColors.ActiveCaption;
-            this.lnkSongListsHelp.Location = new System.Drawing.Point(24, 67);
+            this.lnkSongListsHelp.Location = new System.Drawing.Point(21, 78);
             this.lnkSongListsHelp.Name = "lnkSongListsHelp";
             this.lnkSongListsHelp.Size = new System.Drawing.Size(143, 16);
             this.lnkSongListsHelp.TabIndex = 45;
             this.lnkSongListsHelp.TabStop = true;
             this.lnkSongListsHelp.Text = "Profile Song Lists Help";
             this.lnkSongListsHelp.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkSongListsHelp_LinkClicked);
-            // 
-            // cueSearch
-            // 
-            this.cueSearch.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.cueSearch.Cue = "Search";
-            this.cueSearch.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
-            this.cueSearch.ForeColor = System.Drawing.Color.Gray;
-            this.cueSearch.Location = new System.Drawing.Point(20, 16);
-            this.cueSearch.Name = "cueSearch";
-            this.cueSearch.Size = new System.Drawing.Size(144, 20);
-            this.cueSearch.TabIndex = 44;
-            this.cueSearch.KeyUp += new System.Windows.Forms.KeyEventHandler(this.cueSearch_KeyUp);
             // 
             // ProfileSongLists
             // 

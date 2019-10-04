@@ -133,7 +133,7 @@ namespace CustomsForgeSongManager.UControls
                 Globals.Log("Showing CDLC with either duplicate DLCKey or duplicate ArtistTitleAlbum (case insensitive) ...");
                 // use case insensitive duplicate detection
                 var dupDlcKey = Globals.MasterCollection.GroupBy(x => x.DLCKey.ToUpperInvariant()).Where(g => g.Count() > 1).SelectMany(g => g);
-                // move short words 'the', expand abbreviations, and strip non-alphanumeric characters and whitespace
+                // move short words like 'the', expand abbreviations, and strip non-alphanumeric characters and whitespace
                 var dupATA = Globals.MasterCollection.GroupBy(x => GenExtensions.CleanString(x.ArtistTitleAlbum)).Where(group => group.Count() > 1).SelectMany(group => group);
                 duplicateList = dupATA.Union(dupDlcKey).ToList(); // duplicate list gets bound to MasterCollection by LINQ
 

@@ -243,7 +243,7 @@ namespace CustomsForgeSongManager.UControls
             // 
             // cueSearch
             // 
-            this.cueSearch.Cue = "Type characters to search for ...";
+            this.cueSearch.Cue = "Type characters to search for then hit return ...";
             this.cueSearch.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
             this.cueSearch.ForeColor = System.Drawing.Color.Gray;
             this.cueSearch.Location = new System.Drawing.Point(21, 8);
