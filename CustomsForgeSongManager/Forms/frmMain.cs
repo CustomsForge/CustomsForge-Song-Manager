@@ -167,6 +167,9 @@ namespace CustomsForgeSongManager.Forms
             Globals.Log("+ System Display DPI Setting (" + GeneralExtension.GetDisplayDpi(this) + ")");
             Globals.Log("+ System Display Screen Scale Factor (" + GeneralExtension.GetDisplayScalingFactor(this) * 100 + "%)");
 
+            if (!ToolkitVersion.IsRSTKLibValid())
+                throw new ApplicationException(Environment.NewLine + "<WARNING> This version of CFSM has expired." + Environment.NewLine + "Please download and install the latest version.");
+
             if (AppSettings.Instance.FirstRun)
             {
                 if (!GeneralExtension.ValidateDisplaySettings(this, this)) // , true, true)) // uncomment for debugging

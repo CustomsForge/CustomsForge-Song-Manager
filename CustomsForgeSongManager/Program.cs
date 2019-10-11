@@ -10,6 +10,7 @@ using DLogNet;
 using DataGridViewTools;
 using Mutex = System.Threading.Mutex;
 using System.Threading;
+using RocksmithToolkitLib;
 
 #if WINDOWS
 
@@ -62,8 +63,7 @@ namespace CustomsForgeSongManager
 
             if (Constants.DebugMode) // have VS handle the exception
             {
-                // this is throwing an error so commented out and moved
-                Application.SetCompatibleTextRenderingDefault(false);    
+                Application.SetCompatibleTextRenderingDefault(false);
                 Application.EnableVisualStyles();
                 Application.Run(new frmMain(myLog));
             }
@@ -79,23 +79,34 @@ namespace CustomsForgeSongManager
                     AppDomain.CurrentDomain.UnhandledException += (s, e) =>
                     {
                         var exception = e.ExceptionObject as Exception;
-                        Globals.MyLog.Write(exception.Message.ToString());
-                        MessageBox.Show(exception.Message.ToString(), "Non-UI Thread Exception Handler", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        Globals.MyLog.Write(String.Format("<ERROR> Unhandled.Exception:\nSource: {0}\nTarget: {1}\n{2}\n", exception.Source, exception.TargetSite, exception.ToString()));
+                        if (MessageBox.Show(String.Format("Unhandled.Exception:\n\n{0}\nPlease send us the {1} file if you need help.  Open log file now?",
+                            exception.Message.ToString(), Path.GetFileName(AppSettings.Instance.LogFilePath)), "Please Read This Important Message Completely ...", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+                        {
+                            Process.Start(AppSettings.Instance.LogFilePath);
+                        }
                     };
 
                     // UI thread exceptions handling.
                     Application.ThreadException += (s, e) =>
                     {
                         var exception = e.Exception;
-                        Globals.MyLog.Write(exception.ToString());
-                        MessageBox.Show(exception.ToString(), "UI Thread Exception Handler", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        Globals.MyLog.Write(String.Format("<ERROR> Application.ThreadException\n\nSource: {0}\nTarget: {1}\n{2}\n", exception.Source, exception.TargetSite, exception.ToString()));
+
+                        if (MessageBox.Show(String.Format("Application.ThreadException:\n{0}\nPlease send us the {1} file if you need help.  Open log file now?",
+                           exception.Message.ToString(), Path.GetFileName(AppSettings.Instance.LogFilePath)), "Please Read This Important Message Completely ...",
+                           MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+                        {
+                            Process.Start(AppSettings.Instance.LogFilePath);
+                        }
+
                     };
 
                     Application.Run(new frmMain(myLog));
                 }
                 catch (Exception ex)
                 {
-                    //a more detailed exception message
+                    // a more detailed exception message
                     var exMessage = String.Format("Exception({0}): {1}", ex.GetType().Name, ex.Message);
                     if (ex.InnerException != null)
                         exMessage += String.Format(", InnerException({0}): {1}", ex.InnerException.GetType().Name, ex.InnerException.Message);

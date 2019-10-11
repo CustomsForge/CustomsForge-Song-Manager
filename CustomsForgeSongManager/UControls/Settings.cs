@@ -47,7 +47,6 @@ namespace CustomsForgeSongManager.UControls
                 chkValidateD3D.Checked = AppSettings.Instance.ValidateD3D;
                 chkMacMode.Checked = AppSettings.Instance.MacMode;
                 rbCleanOnClosing.Checked = AppSettings.Instance.CleanOnClosing;
-                txtCharterName.Text = AppSettings.Instance.CharterName;
 
                 // check validation only on startup
                 if (dgvCurrent == null)
@@ -127,14 +126,14 @@ namespace CustomsForgeSongManager.UControls
             if (!AppSettings.Instance.ValidateD3D || Constants.OnMac)
             {
                 if (Constants.OnMac)
-                    Globals.Log("<MAC MODE> 'Validate D3DX9_42.dll' is not applicable ...");
+                    Globals.Log("<MAC MODE> 'Validate D3DX9_42.dll' checkbox is not applicable ...");
                 else
-                    Globals.Log("<WARNING> 'Validate D3DX9_42.dll' is disabled ...");
+                    Globals.Log("<WARNING> 'Validate D3DX9_42.dll' checkbox is disabled ...");
 
                 return false;
             }
 
-            // validates either old or new version of Rocksmith 2014 D3DX9_42.dll
+            // validates either legacy or remastered version of D3DX9_42.dll
             var luaPath = Path.Combine(AppSettings.Instance.RSInstalledDir, "lua5.1.dll");
             var steamClientPath = Path.Combine(AppSettings.Instance.RSInstalledDir, "Steamclient.dll");
             var d3dPath = Path.Combine(AppSettings.Instance.RSInstalledDir, "D3DX9_42.dll");
@@ -151,8 +150,9 @@ namespace CustomsForgeSongManager.UControls
                 // working directly with the file rather than an embedded resource 
                 if (File.Exists(luaPath) || File.Exists(steamClientPath))
                 {
-                    GenExtensions.CopyFile(Path.Combine(Constants.ApplicationFolder, "D3DX9_42.dll.old"), Path.Combine(AppSettings.Instance.RSInstalledDir, "D3DX9_42.dll"), true, false);
-                    Globals.Log("Installed 'D3DX9_42.dll' file for Rocksmith 2014 ...");
+                    //GenExtensions.CopyFile(Path.Combine(Constants.ApplicationFolder, "D3DX9_42.dll.old"), Path.Combine(AppSettings.Instance.RSInstalledDir, "D3DX9_42.dll"), true, false);
+                    //Globals.Log("Installed 'D3DX9_42.dll' file for Rocksmith 2014 ...");
+                    Globals.Log("<WARNING> Legacy 'D3DX9_42.dll' file installation for Rocksmith 2014 is not supported ...");
                 }
                 else
                 {
@@ -181,8 +181,9 @@ namespace CustomsForgeSongManager.UControls
 
                     if (File.Exists(luaPath) || File.Exists(steamClientPath))
                     {
-                        GenExtensions.CopyFile(Path.Combine(Constants.ApplicationFolder, "D3DX9_42.dll.old"), Path.Combine(AppSettings.Instance.RSInstalledDir, "D3DX9_42.dll"), true, false);
-                        Globals.Log("Updated 'D3DX9_42.dll' file for Rocksmith 2014 ...");
+                        //GenExtensions.CopyFile(Path.Combine(Constants.ApplicationFolder, "D3DX9_42.dll.old"), Path.Combine(AppSettings.Instance.RSInstalledDir, "D3DX9_42.dll"), true, false);
+                        //Globals.Log("Updated 'D3DX9_42.dll' file for Rocksmith 2014 ...");
+                        Globals.Log("<WARNING> Legacy 'D3DX9_42.dll' file updating for Rocksmith 2014 is not supported ...");
                     }
                     else
                     {
@@ -417,11 +418,6 @@ namespace CustomsForgeSongManager.UControls
             AppSettings.Instance.CleanOnClosing = rbCleanOnClosing.Checked;
         }
 
-        private void tbCreator_TextChanged(object sender, EventArgs e)
-        {
-            AppSettings.Instance.CharterName = txtCharterName.Text;
-        }
-
         private void btnResetThreading_Click(object sender, EventArgs e)
         {
             AppSettings.Instance.MultiThread = -1;
@@ -546,7 +542,7 @@ namespace CustomsForgeSongManager.UControls
         }
 
         private void cueDgvSettingsPath_MouseClick(object sender, MouseEventArgs e)
-        {            
+        {
             var currentDirectory = Environment.CurrentDirectory;
 
             using (var ofd = new OpenFileDialog())
@@ -554,7 +550,7 @@ namespace CustomsForgeSongManager.UControls
                 // ensure proper usage of 'My Documents\CFSM' folder and reset initial directory if needed
                 if (!currentDirectory.Contains(Constants.WorkFolder))
                     ofd.InitialDirectory = Constants.GridSettingsFolder;
-            
+
                 ofd.RestoreDirectory = false;
                 ofd.Filter = "Grid Settings XML Files (dgv[GridName][[CustomName]].xml)|dgv*.xml";
                 ofd.Title = "Select a grid settings file to edit ...";

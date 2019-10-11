@@ -80,7 +80,7 @@ namespace CustomsForgeSongManager.SongEditor
             if (editorControls.Where(ec => ec.HaltOnError).Any())
                 return;
 
-            Globals.Log("Saving song information for: " + Path.GetFileName(destPath));
+            Globals.Log("Saving song information to: " + Path.GetFileName(destPath));
             Cursor.Current = Cursors.WaitCursor;
             tsProgressBar.Value = 30;
             tsMsg.Text = "Working ...";
@@ -162,15 +162,16 @@ namespace CustomsForgeSongManager.SongEditor
                             p.Write(fs, true);
                     }
                 }
+
+                Globals.Log("Song information saved ... ");
+                tsProgressBar.Value = 100;
+                tsMsg.Text = "Done ...";
             }
             finally
             {
-                tsProgressBar.Value = 100;
-                tsMsg.Text = "Done ...";
                 statusStripMain.Refresh();
                 Cursor.Current = Cursors.Default;
-                Globals.Log("Song information saved ... ");
-                // force reload of CDLC
+                 // force reload of CDLC
                 Globals.ReloadSongManager = true;
                 Globals.ReloadArrangements = true;
                 Globals.ReloadDuplicates = true;

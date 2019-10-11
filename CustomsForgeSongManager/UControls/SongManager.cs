@@ -267,7 +267,7 @@ namespace CustomsForgeSongManager.UControls
             chkIncludeSubfolders.Checked = AppSettings.Instance.IncludeSubfolders;
             chkProtectODLC.Checked = AppSettings.Instance.ProtectODLC;
             cueSearch.Text = AppSettings.Instance.SearchString;
-
+  
             // save settings incase user made any changes to grid
             if (Globals.RescanSongManager || Globals.ReloadSongManager)
                 Globals.Settings.SaveSettingsToFile(dgvSongsMaster);
@@ -466,6 +466,9 @@ namespace CustomsForgeSongManager.UControls
 
             if (!chkIncludeSubfolders.Checked)
                 songList = songList.Where(x => Path.GetFileName(Path.GetDirectoryName(x.FilePath)) == "dlc").ToList();
+
+            if (tsmiModsMyCDLC.Checked)
+                songList = (songList.Where(x => x.PackageAuthor == AppSettings.Instance.CharterName).ToList());
 
             LoadFilteredBindingList(songList);
         }
@@ -830,6 +833,7 @@ namespace CustomsForgeSongManager.UControls
                 Globals.ReloadSetlistManager = true;
                 // do not reload ProfileSongLists
                 //Globals.ReloadProfileSongLists = true;
+                tsmiModsMyCDLC.Checked = false;
             }
 
             // run new worker
@@ -1125,22 +1129,37 @@ namespace CustomsForgeSongManager.UControls
             }
         }
 
-        private void tsmiModsMyCDLC_CheckedChanged(object sender, EventArgs e)
+        private void tsmiModsMyCDLC_Click(object sender, EventArgs e)
         {
-            var charterName = AppSettings.Instance.CharterName;
-
-            if (!String.IsNullOrEmpty(charterName))
+            // using click instead of check(state)changed to prevent double calling
+            if (tsmiModsMyCDLC.Checked)
             {
-                if (tsmiModsMyCDLC.Checked)
-                    LoadFilteredBindingList(songList.Where(x => x.PackageAuthor == charterName).ToList());
-                else
-                    InitializeSongsMaster();
+                using (var userInput = new FormUserInput(false))
+                {
+                    userInput.CustomInputLabel = "Enter the CDLC Charter's Name ...";
+                    userInput.FrmHeaderText = "Find CDLC by Charter's Name ...";
+                    userInput.CustomInputText = AppSettings.Instance.CharterName;
+                    userInput.SetHeightWidth();
+                    userInput.StartPosition = FormStartPosition.Manual;
+                    userInput.Location = new Point(Parent.Bounds.Right - userInput.Width - 20, Parent.Bounds.Bottom + userInput.Height - 40);
+                    userInput.TopMost = true;
+
+                    if (DialogResult.OK != userInput.ShowDialog())
+                        return;
+
+                    AppSettings.Instance.CharterName = userInput.CustomInputText;
+                }
             }
+
+            if (tsmiModsMyCDLC.Checked && !String.IsNullOrEmpty(AppSettings.Instance.CharterName))
+                Globals.Log("Now showing CDLC for Charter's Name: " + AppSettings.Instance.CharterName);
             else
             {
-                Globals.Log("To use this feature, go to 'Settings' tabmenu and enter a charter name ...");
+                Globals.Log("Showing CDLC for all Charters ...");
                 tsmiModsMyCDLC.Checked = false;
             }
+
+            UpdateToolStrip();
         }
 
         private void CheckAllForUpdates(object sender, DoWorkEventArgs e)
@@ -1809,7 +1828,6 @@ namespace CustomsForgeSongManager.UControls
                 Globals.TsLabel_DisabledCounter.Alignment = ToolStripItemAlignment.Right;
                 Globals.TsLabel_DisabledCounter.Text = filterStatus;
                 Globals.TsLabel_DisabledCounter.Visible = true;
-
                 tsmiModsMyCDLC.Checked = false;
 
                 // auto save filter - future use
@@ -1944,6 +1962,7 @@ namespace CustomsForgeSongManager.UControls
             AppSettings.Instance.SearchString = String.Empty;
             SearchCDLC(cueSearch.Text);
             RemoveFilter();
+            Globals.Log("Cleared Filters and Search ...");
         }
 
         private void lnkLblSelectAll_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -2308,27 +2327,6 @@ namespace CustomsForgeSongManager.UControls
             dgvSongsMaster.Refresh();
         }
 
-        private void tsmiModsMyCDLC_CheckStateChanged(object sender, EventArgs e)
-        {
-            var charterName = AppSettings.Instance.CharterName;
-
-            if (!String.IsNullOrEmpty(charterName))
-            {
-                if (tsmiModsMyCDLC.Checked)
-                    LoadFilteredBindingList(songList.Where(x => x.PackageAuthor == charterName).ToList());
-                else
-                    InitializeSongsMaster();
-            }
-            else
-            {
-                Globals.Log("To use this feature, go to 'Settings' tabmenu and enter a charter name ...");
-                tsmiModsMyCDLC.Checked = false;
-            }
-
-            tsmiMods.ShowDropDown();
-            menuStrip.Focus();
-        }
-
         private void tsmiModsPitchShifter_Click(object sender, EventArgs e)
         {
             var selection = DgvExtensions.GetObjectsFromRows<SongData>(dgvSongsMaster);
@@ -2512,9 +2510,10 @@ namespace CustomsForgeSongManager.UControls
             var processorSpeed = SysExtensions.GetProcessorSpeed();
             var coreCount = SysExtensions.GetCoreCount();
             var secsPerSong = (float)Math.Round(psarcFactor / (processorSpeed * coreCount * osMajor), 2);
-            var songsCount = songList.Count;
+            var songsCount = Globals.MasterCollection.Count;
             var secsEPT = songsCount * secsPerSong; // estimated pasing time (secs)
-            var diaMsg = "You are about to run a full rescan of (" + songsCount + ") songs." + Environment.NewLine +
+            var songsCountAsString = songsCount == 0 ? "all" : songsCount.ToString();
+            var diaMsg = "You are about to run a full rescan of (" + songsCountAsString + ") songs." + Environment.NewLine +
                          "Operation will take approximately (" + secsEPT + ") seconds  " + Environment.NewLine +
                          "to complete." + Environment.NewLine + Environment.NewLine +
                          "Do you want to proceed?";

@@ -855,6 +855,7 @@ namespace CustomsForgeSongManager.UControls
             AppSettings.Instance.SearchString = String.Empty;
             SearchCDLC(cueSearch.Text);
             RemoveFilter();
+            Globals.Log("Cleared Filters and Search ...");
         }
 
         private void lnkLblSelectAll_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -929,7 +930,8 @@ namespace CustomsForgeSongManager.UControls
             var secsPerSong = (float)Math.Round(psarcFactor / (processorSpeed * coreCount * osMajor), 2);
             var songsCount = Globals.MasterCollection.Count;
             var secsEPT = songsCount * secsPerSong; // estimated pasing time (secs)
-            var diaMsg = "You are about to run a full rescan of (" + songsCount + ") songs." + Environment.NewLine +
+            var songsCountAsString = songsCount == 0 ? "all" : songsCount.ToString();
+            var diaMsg = "You are about to run a full rescan of (" + songsCountAsString + ") songs." + Environment.NewLine +
                          "Operation will take approximately (" + secsEPT + ") seconds  " + Environment.NewLine +
                          "to complete." + Environment.NewLine + Environment.NewLine +
                          "Do you want to proceed?";

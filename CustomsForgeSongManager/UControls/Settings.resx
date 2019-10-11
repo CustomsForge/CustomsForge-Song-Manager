@@ -120,21 +120,6 @@
   <metadata name="toolTip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>54, 15</value>
   </metadata>
-  <data name="rbCleanOnClosing.ToolTip" xml:space="preserve">
-    <value>NOTE:
--------
-This is a resettable toggle button, i.e.
-the reset action occurs only one time.
-
-- Removes working directories and files 
-from the 'My Documents/CFSM' folder.
-- Restores default GUI view and functiion.
-- Frees up HDD space but may result
-in slower loading on initial restart.
-- Restores default grid settings.
-- Eliminates System.NullReferenceException
-errors.</value>
-  </data>
   <data name="chkMacMode.ToolTip" xml:space="preserve">
     <value>If checked, switch CFSM to Mac
 compatibility mode to use with
@@ -182,6 +167,21 @@ The grid settings files are initially created
 when the matching tabmenu is selected.
 Subsequently the grid settings file path
 will then be available for selection here.</value>
+  </data>
+  <data name="rbCleanOnClosing.ToolTip" xml:space="preserve">
+    <value>NOTE:
+-------
+This is a resettable toggle button, i.e.
+the reset action occurs only one time.
+
+- Removes working directories and files 
+from the 'My Documents/CFSM' folder.
+- Restores default GUI view and functiion.
+- Frees up HDD space but may result
+in slower loading on initial restart.
+- Restores default grid settings.
+- Eliminates System.NullReferenceException
+errors.</value>
   </data>
   <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>39</value>

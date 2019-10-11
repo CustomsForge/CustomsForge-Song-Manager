@@ -36,6 +36,10 @@ namespace CustomsForgeSongManager.UControls
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Settings));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
@@ -43,11 +47,9 @@ namespace CustomsForgeSongManager.UControls
             this.tlpSettings_Wrapper = new System.Windows.Forms.TableLayoutPanel();
             this.cueRsDir = new CustomControls.CueTextBox();
             this.lblSettingsRSDir = new System.Windows.Forms.Label();
-            this.rbCleanOnClosing = new System.Windows.Forms.RadioButton();
             this.btnSettingsLoad = new System.Windows.Forms.Button();
             this.btnResetDownloads = new System.Windows.Forms.Button();
             this.chkIncludeCustomPacks = new System.Windows.Forms.CheckBox();
-            this.txtCharterName = new CustomControls.CueTextBox();
             this.chkMacMode = new System.Windows.Forms.CheckBox();
             this.chkValidateD3D = new System.Windows.Forms.CheckBox();
             this.chkEnableQuarantine = new System.Windows.Forms.CheckBox();
@@ -61,17 +63,24 @@ namespace CustomsForgeSongManager.UControls
             this.btnSettingsSave = new System.Windows.Forms.Button();
             this.panel5 = new System.Windows.Forms.Panel();
             this.dgvColumns = new System.Windows.Forms.DataGridView();
+            this.lnkSelectAll = new System.Windows.Forms.LinkLabel();
+            this.lblDgvColumns = new System.Windows.Forms.Label();
+            this.lblDgvSettingsPath = new System.Windows.Forms.Label();
+            this.cueDgvSettingsPath = new CustomControls.CueTextBox();
+            this.rbCleanOnClosing = new System.Windows.Forms.RadioButton();
+            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.dataGridViewCheckBoxColumn1 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colVisible = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.colDisplayIndex = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colWidth = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colHeaderText = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colColumnIndex = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colColumnName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.lnkSelectAll = new System.Windows.Forms.LinkLabel();
-            this.lblDgvColumns = new System.Windows.Forms.Label();
-            this.lblDgvSettingsPath = new System.Windows.Forms.Label();
-            this.cueDgvSettingsPath = new CustomControls.CueTextBox();
-            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.tlpSettings_Wrapper.SuspendLayout();
             this.panel5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvColumns)).BeginInit();
@@ -85,11 +94,9 @@ namespace CustomsForgeSongManager.UControls
             this.tlpSettings_Wrapper.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 60.16674F));
             this.tlpSettings_Wrapper.Controls.Add(this.cueRsDir, 2, 0);
             this.tlpSettings_Wrapper.Controls.Add(this.lblSettingsRSDir, 0, 0);
-            this.tlpSettings_Wrapper.Controls.Add(this.rbCleanOnClosing, 0, 13);
-            this.tlpSettings_Wrapper.Controls.Add(this.btnSettingsLoad, 0, 17);
-            this.tlpSettings_Wrapper.Controls.Add(this.btnResetDownloads, 1, 16);
+            this.tlpSettings_Wrapper.Controls.Add(this.btnSettingsLoad, 0, 15);
+            this.tlpSettings_Wrapper.Controls.Add(this.btnResetDownloads, 1, 14);
             this.tlpSettings_Wrapper.Controls.Add(this.chkIncludeCustomPacks, 0, 4);
-            this.tlpSettings_Wrapper.Controls.Add(this.txtCharterName, 0, 11);
             this.tlpSettings_Wrapper.Controls.Add(this.chkMacMode, 0, 10);
             this.tlpSettings_Wrapper.Controls.Add(this.chkValidateD3D, 0, 9);
             this.tlpSettings_Wrapper.Controls.Add(this.chkEnableQuarantine, 0, 8);
@@ -98,16 +105,17 @@ namespace CustomsForgeSongManager.UControls
             this.tlpSettings_Wrapper.Controls.Add(this.chkIncludeArrangementData, 0, 5);
             this.tlpSettings_Wrapper.Controls.Add(this.chkIncludeRS1CompSongs, 0, 3);
             this.tlpSettings_Wrapper.Controls.Add(this.chkIncludeRS2BaseSongs, 0, 2);
-            this.tlpSettings_Wrapper.Controls.Add(this.btnResetThreading, 1, 15);
-            this.tlpSettings_Wrapper.Controls.Add(this.btnEmptyLogs, 1, 17);
-            this.tlpSettings_Wrapper.Controls.Add(this.btnSettingsSave, 0, 16);
+            this.tlpSettings_Wrapper.Controls.Add(this.btnResetThreading, 1, 13);
+            this.tlpSettings_Wrapper.Controls.Add(this.btnEmptyLogs, 1, 15);
+            this.tlpSettings_Wrapper.Controls.Add(this.btnSettingsSave, 0, 14);
             this.tlpSettings_Wrapper.Controls.Add(this.panel5, 2, 2);
             this.tlpSettings_Wrapper.Controls.Add(this.lblDgvSettingsPath, 0, 1);
             this.tlpSettings_Wrapper.Controls.Add(this.cueDgvSettingsPath, 2, 1);
+            this.tlpSettings_Wrapper.Controls.Add(this.rbCleanOnClosing, 0, 12);
             this.tlpSettings_Wrapper.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tlpSettings_Wrapper.Location = new System.Drawing.Point(0, 0);
             this.tlpSettings_Wrapper.Name = "tlpSettings_Wrapper";
-            this.tlpSettings_Wrapper.RowCount = 20;
+            this.tlpSettings_Wrapper.RowCount = 17;
             this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
             this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
             this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
@@ -120,13 +128,11 @@ namespace CustomsForgeSongManager.UControls
             this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
             this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
             this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
-            this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 8F));
             this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
+            this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 32F));
+            this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 32F));
+            this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 32F));
             this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 32F));
-            this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 32F));
-            this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 32F));
-            this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 14F));
             this.tlpSettings_Wrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tlpSettings_Wrapper.Size = new System.Drawing.Size(866, 490);
             this.tlpSettings_Wrapper.TabIndex = 1;
@@ -161,29 +167,11 @@ namespace CustomsForgeSongManager.UControls
             this.lblSettingsRSDir.Text = "RS2014 Installation Directory:";
             this.lblSettingsRSDir.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // rbCleanOnClosing
-            // 
-            this.rbCleanOnClosing.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.rbCleanOnClosing.AutoSize = true;
-            this.tlpSettings_Wrapper.SetColumnSpan(this.rbCleanOnClosing, 2);
-            this.rbCleanOnClosing.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.rbCleanOnClosing.Location = new System.Drawing.Point(3, 345);
-            this.rbCleanOnClosing.Name = "rbCleanOnClosing";
-            this.rbCleanOnClosing.Padding = new System.Windows.Forms.Padding(9, 0, 0, 0);
-            this.rbCleanOnClosing.Size = new System.Drawing.Size(166, 19);
-            this.rbCleanOnClosing.TabIndex = 10;
-            this.rbCleanOnClosing.Text = "Reset CFSM On Closing";
-            this.rbCleanOnClosing.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.toolTip.SetToolTip(this.rbCleanOnClosing, resources.GetString("rbCleanOnClosing.ToolTip"));
-            this.rbCleanOnClosing.UseVisualStyleBackColor = true;
-            this.rbCleanOnClosing.Click += new System.EventHandler(this.rbCleanOnClosing_Click);
-            // 
             // btnSettingsLoad
             // 
-            this.btnSettingsLoad.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.btnSettingsLoad.Image = global::CustomsForgeSongManager.Properties.Resources.load;
             this.btnSettingsLoad.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnSettingsLoad.Location = new System.Drawing.Point(35, 428);
+            this.btnSettingsLoad.Location = new System.Drawing.Point(3, 428);
             this.btnSettingsLoad.Name = "btnSettingsLoad";
             this.btnSettingsLoad.Padding = new System.Windows.Forms.Padding(3, 0, 0, 0);
             this.btnSettingsLoad.Size = new System.Drawing.Size(118, 25);
@@ -198,7 +186,6 @@ namespace CustomsForgeSongManager.UControls
             // 
             // btnResetDownloads
             // 
-            this.btnResetDownloads.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnResetDownloads.Image = global::CustomsForgeSongManager.Properties.Resources.clear;
             this.btnResetDownloads.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnResetDownloads.Location = new System.Drawing.Point(192, 396);
@@ -215,11 +202,10 @@ namespace CustomsForgeSongManager.UControls
             // 
             // chkIncludeCustomPacks
             // 
-            this.chkIncludeCustomPacks.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.chkIncludeCustomPacks.AutoSize = true;
             this.tlpSettings_Wrapper.SetColumnSpan(this.chkIncludeCustomPacks, 2);
             this.chkIncludeCustomPacks.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.chkIncludeCustomPacks.Location = new System.Drawing.Point(3, 113);
+            this.chkIncludeCustomPacks.Location = new System.Drawing.Point(3, 112);
             this.chkIncludeCustomPacks.Name = "chkIncludeCustomPacks";
             this.chkIncludeCustomPacks.Padding = new System.Windows.Forms.Padding(9, 0, 0, 0);
             this.chkIncludeCustomPacks.Size = new System.Drawing.Size(188, 19);
@@ -230,29 +216,12 @@ namespace CustomsForgeSongManager.UControls
             this.chkIncludeCustomPacks.UseVisualStyleBackColor = true;
             this.chkIncludeCustomPacks.Click += new System.EventHandler(this.chkIncludeCustomPacks_Click);
             // 
-            // txtCharterName
-            // 
-            this.txtCharterName.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.tlpSettings_Wrapper.SetColumnSpan(this.txtCharterName, 2);
-            this.txtCharterName.Cue = "Enter a CDLC Charter\'s Name";
-            this.txtCharterName.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
-            this.txtCharterName.ForeColor = System.Drawing.Color.Gray;
-            this.txtCharterName.Location = new System.Drawing.Point(12, 309);
-            this.txtCharterName.Margin = new System.Windows.Forms.Padding(12, 3, 3, 3);
-            this.txtCharterName.Name = "txtCharterName";
-            this.txtCharterName.Size = new System.Drawing.Size(179, 20);
-            this.txtCharterName.TabIndex = 9;
-            this.toolTip.SetToolTip(this.txtCharterName, "Enter your charter name or the name\r\nof any charter you would like to show \r\nquic" +
-                    "kly when checkbox \'Show My CDLC\' \r\nis checked in Song Manager, Custom Mods.\r\n");
-            this.txtCharterName.TextChanged += new System.EventHandler(this.tbCreator_TextChanged);
-            // 
             // chkMacMode
             // 
-            this.chkMacMode.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.chkMacMode.AutoSize = true;
             this.tlpSettings_Wrapper.SetColumnSpan(this.chkMacMode, 2);
             this.chkMacMode.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chkMacMode.Location = new System.Drawing.Point(3, 281);
+            this.chkMacMode.Location = new System.Drawing.Point(3, 280);
             this.chkMacMode.Name = "chkMacMode";
             this.chkMacMode.Padding = new System.Windows.Forms.Padding(9, 0, 0, 0);
             this.chkMacMode.Size = new System.Drawing.Size(167, 19);
@@ -265,11 +234,10 @@ namespace CustomsForgeSongManager.UControls
             // 
             // chkValidateD3D
             // 
-            this.chkValidateD3D.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.chkValidateD3D.AutoSize = true;
             this.tlpSettings_Wrapper.SetColumnSpan(this.chkValidateD3D, 2);
             this.chkValidateD3D.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chkValidateD3D.Location = new System.Drawing.Point(3, 253);
+            this.chkValidateD3D.Location = new System.Drawing.Point(3, 252);
             this.chkValidateD3D.Name = "chkValidateD3D";
             this.chkValidateD3D.Padding = new System.Windows.Forms.Padding(9, 0, 0, 0);
             this.chkValidateD3D.Size = new System.Drawing.Size(159, 19);
@@ -282,11 +250,10 @@ namespace CustomsForgeSongManager.UControls
             // 
             // chkEnableQuarantine
             // 
-            this.chkEnableQuarantine.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.chkEnableQuarantine.AutoSize = true;
             this.tlpSettings_Wrapper.SetColumnSpan(this.chkEnableQuarantine, 2);
             this.chkEnableQuarantine.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chkEnableQuarantine.Location = new System.Drawing.Point(3, 225);
+            this.chkEnableQuarantine.Location = new System.Drawing.Point(3, 224);
             this.chkEnableQuarantine.Name = "chkEnableQuarantine";
             this.chkEnableQuarantine.Padding = new System.Windows.Forms.Padding(9, 0, 0, 0);
             this.chkEnableQuarantine.Size = new System.Drawing.Size(165, 19);
@@ -300,11 +267,10 @@ namespace CustomsForgeSongManager.UControls
             // 
             // chkEnableNotifications
             // 
-            this.chkEnableNotifications.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.chkEnableNotifications.AutoSize = true;
             this.tlpSettings_Wrapper.SetColumnSpan(this.chkEnableNotifications, 2);
             this.chkEnableNotifications.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chkEnableNotifications.Location = new System.Drawing.Point(3, 197);
+            this.chkEnableNotifications.Location = new System.Drawing.Point(3, 196);
             this.chkEnableNotifications.Name = "chkEnableNotifications";
             this.chkEnableNotifications.Padding = new System.Windows.Forms.Padding(9, 0, 0, 0);
             this.chkEnableNotifications.Size = new System.Drawing.Size(144, 19);
@@ -317,11 +283,10 @@ namespace CustomsForgeSongManager.UControls
             // 
             // chkEnableAutoUpdate
             // 
-            this.chkEnableAutoUpdate.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.chkEnableAutoUpdate.AutoSize = true;
             this.tlpSettings_Wrapper.SetColumnSpan(this.chkEnableAutoUpdate, 2);
             this.chkEnableAutoUpdate.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chkEnableAutoUpdate.Location = new System.Drawing.Point(3, 169);
+            this.chkEnableAutoUpdate.Location = new System.Drawing.Point(3, 168);
             this.chkEnableAutoUpdate.Name = "chkEnableAutoUpdate";
             this.chkEnableAutoUpdate.Padding = new System.Windows.Forms.Padding(9, 0, 0, 0);
             this.chkEnableAutoUpdate.Size = new System.Drawing.Size(144, 19);
@@ -335,11 +300,10 @@ namespace CustomsForgeSongManager.UControls
             // 
             // chkIncludeArrangementData
             // 
-            this.chkIncludeArrangementData.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.chkIncludeArrangementData.AutoSize = true;
             this.tlpSettings_Wrapper.SetColumnSpan(this.chkIncludeArrangementData, 2);
             this.chkIncludeArrangementData.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.chkIncludeArrangementData.Location = new System.Drawing.Point(3, 141);
+            this.chkIncludeArrangementData.Location = new System.Drawing.Point(3, 140);
             this.chkIncludeArrangementData.Name = "chkIncludeArrangementData";
             this.chkIncludeArrangementData.Padding = new System.Windows.Forms.Padding(9, 0, 0, 0);
             this.chkIncludeArrangementData.Size = new System.Drawing.Size(227, 19);
@@ -353,11 +317,10 @@ namespace CustomsForgeSongManager.UControls
             // 
             // chkIncludeRS1CompSongs
             // 
-            this.chkIncludeRS1CompSongs.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.chkIncludeRS1CompSongs.AutoSize = true;
             this.tlpSettings_Wrapper.SetColumnSpan(this.chkIncludeRS1CompSongs, 2);
             this.chkIncludeRS1CompSongs.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chkIncludeRS1CompSongs.Location = new System.Drawing.Point(3, 85);
+            this.chkIncludeRS1CompSongs.Location = new System.Drawing.Point(3, 84);
             this.chkIncludeRS1CompSongs.Name = "chkIncludeRS1CompSongs";
             this.chkIncludeRS1CompSongs.Padding = new System.Windows.Forms.Padding(9, 0, 0, 0);
             this.chkIncludeRS1CompSongs.Size = new System.Drawing.Size(211, 19);
@@ -371,11 +334,10 @@ namespace CustomsForgeSongManager.UControls
             // 
             // chkIncludeRS2BaseSongs
             // 
-            this.chkIncludeRS2BaseSongs.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.chkIncludeRS2BaseSongs.AutoSize = true;
             this.tlpSettings_Wrapper.SetColumnSpan(this.chkIncludeRS2BaseSongs, 2);
             this.chkIncludeRS2BaseSongs.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.chkIncludeRS2BaseSongs.Location = new System.Drawing.Point(3, 57);
+            this.chkIncludeRS2BaseSongs.Location = new System.Drawing.Point(3, 56);
             this.chkIncludeRS2BaseSongs.Name = "chkIncludeRS2BaseSongs";
             this.chkIncludeRS2BaseSongs.Padding = new System.Windows.Forms.Padding(9, 0, 0, 0);
             this.chkIncludeRS2BaseSongs.Size = new System.Drawing.Size(192, 19);
@@ -389,7 +351,6 @@ namespace CustomsForgeSongManager.UControls
             // 
             // btnResetThreading
             // 
-            this.btnResetThreading.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnResetThreading.Image = global::CustomsForgeSongManager.Properties.Resources.restorewindow;
             this.btnResetThreading.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnResetThreading.Location = new System.Drawing.Point(192, 364);
@@ -406,7 +367,6 @@ namespace CustomsForgeSongManager.UControls
             // 
             // btnEmptyLogs
             // 
-            this.btnEmptyLogs.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnEmptyLogs.Image = global::CustomsForgeSongManager.Properties.Resources.delete;
             this.btnEmptyLogs.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnEmptyLogs.Location = new System.Drawing.Point(192, 428);
@@ -422,11 +382,10 @@ namespace CustomsForgeSongManager.UControls
             // 
             // btnSettingsSave
             // 
-            this.btnSettingsSave.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.btnSettingsSave.BackColor = System.Drawing.SystemColors.Control;
             this.btnSettingsSave.Image = global::CustomsForgeSongManager.Properties.Resources.save;
             this.btnSettingsSave.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnSettingsSave.Location = new System.Drawing.Point(35, 396);
+            this.btnSettingsSave.Location = new System.Drawing.Point(3, 396);
             this.btnSettingsSave.Name = "btnSettingsSave";
             this.btnSettingsSave.Padding = new System.Windows.Forms.Padding(3, 0, 3, 0);
             this.btnSettingsSave.Size = new System.Drawing.Size(118, 25);
@@ -447,7 +406,7 @@ namespace CustomsForgeSongManager.UControls
             this.panel5.Controls.Add(this.lblDgvColumns);
             this.panel5.Location = new System.Drawing.Point(347, 56);
             this.panel5.Name = "panel5";
-            this.tlpSettings_Wrapper.SetRowSpan(this.panel5, 18);
+            this.tlpSettings_Wrapper.SetRowSpan(this.panel5, 15);
             this.panel5.Size = new System.Drawing.Size(516, 431);
             this.panel5.TabIndex = 4;
             // 
@@ -488,6 +447,161 @@ namespace CustomsForgeSongManager.UControls
             this.dgvColumns.TabIndex = 7;
             this.dgvColumns.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvColumns_CellEndEdit);
             this.dgvColumns.CellValidating += new System.Windows.Forms.DataGridViewCellValidatingEventHandler(this.dgvColumns_CellValidating);
+            // 
+            // lnkSelectAll
+            // 
+            this.lnkSelectAll.AutoSize = true;
+            this.lnkSelectAll.Location = new System.Drawing.Point(3, 5);
+            this.lnkSelectAll.Name = "lnkSelectAll";
+            this.lnkSelectAll.Size = new System.Drawing.Size(98, 13);
+            this.lnkSelectAll.TabIndex = 6;
+            this.lnkSelectAll.TabStop = true;
+            this.lnkSelectAll.Text = "Deselect/Select All";
+            this.lnkSelectAll.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkSelectAll_LinkClicked);
+            // 
+            // lblDgvColumns
+            // 
+            this.lblDgvColumns.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblDgvColumns.AutoSize = true;
+            this.lblDgvColumns.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblDgvColumns.Location = new System.Drawing.Point(119, 5);
+            this.lblDgvColumns.Name = "lblDgvColumns";
+            this.lblDgvColumns.Size = new System.Drawing.Size(169, 13);
+            this.lblDgvColumns.TabIndex = 1;
+            this.lblDgvColumns.Text = "Grid Settings for {0} from {1}";
+            this.lblDgvColumns.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            // 
+            // lblDgvSettingsPath
+            // 
+            this.lblDgvSettingsPath.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.lblDgvSettingsPath.AutoSize = true;
+            this.tlpSettings_Wrapper.SetColumnSpan(this.lblDgvSettingsPath, 2);
+            this.lblDgvSettingsPath.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblDgvSettingsPath.Location = new System.Drawing.Point(187, 29);
+            this.lblDgvSettingsPath.Margin = new System.Windows.Forms.Padding(3);
+            this.lblDgvSettingsPath.Name = "lblDgvSettingsPath";
+            this.lblDgvSettingsPath.Padding = new System.Windows.Forms.Padding(3);
+            this.lblDgvSettingsPath.Size = new System.Drawing.Size(154, 20);
+            this.lblDgvSettingsPath.TabIndex = 24;
+            this.lblDgvSettingsPath.Text = "Load Grid Settings File:";
+            this.lblDgvSettingsPath.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.toolTip.SetToolTip(this.lblDgvSettingsPath, resources.GetString("lblDgvSettingsPath.ToolTip"));
+            // 
+            // cueDgvSettingsPath
+            // 
+            this.cueDgvSettingsPath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.cueDgvSettingsPath.Cue = "Click here to override the setttings selection and manually choose a grid setting" +
+                "s file to load and edit";
+            this.cueDgvSettingsPath.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
+            this.cueDgvSettingsPath.ForeColor = System.Drawing.Color.Gray;
+            this.cueDgvSettingsPath.Location = new System.Drawing.Point(347, 28);
+            this.cueDgvSettingsPath.Multiline = true;
+            this.cueDgvSettingsPath.Name = "cueDgvSettingsPath";
+            this.cueDgvSettingsPath.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.cueDgvSettingsPath.Size = new System.Drawing.Size(516, 19);
+            this.cueDgvSettingsPath.TabIndex = 25;
+            this.toolTip.SetToolTip(this.cueDgvSettingsPath, "The grid settings files are initially created\r\nwhen the matching tabmenu is selec" +
+                    "ted.\r\nSubsequently the grid settings file path\r\nwill then be available for selec" +
+                    "tion here.");
+            this.cueDgvSettingsPath.MouseClick += new System.Windows.Forms.MouseEventHandler(this.cueDgvSettingsPath_MouseClick);
+            // 
+            // rbCleanOnClosing
+            // 
+            this.rbCleanOnClosing.AutoSize = true;
+            this.tlpSettings_Wrapper.SetColumnSpan(this.rbCleanOnClosing, 2);
+            this.rbCleanOnClosing.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.rbCleanOnClosing.Location = new System.Drawing.Point(3, 336);
+            this.rbCleanOnClosing.Name = "rbCleanOnClosing";
+            this.rbCleanOnClosing.Padding = new System.Windows.Forms.Padding(9, 0, 0, 0);
+            this.rbCleanOnClosing.Size = new System.Drawing.Size(166, 19);
+            this.rbCleanOnClosing.TabIndex = 10;
+            this.rbCleanOnClosing.Text = "Reset CFSM On Closing";
+            this.rbCleanOnClosing.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.toolTip.SetToolTip(this.rbCleanOnClosing, resources.GetString("rbCleanOnClosing.ToolTip"));
+            this.rbCleanOnClosing.UseVisualStyleBackColor = true;
+            this.rbCleanOnClosing.Click += new System.EventHandler(this.rbCleanOnClosing_Click);
+            // 
+            // toolTip
+            // 
+            this.toolTip.AutomaticDelay = 200;
+            this.toolTip.AutoPopDelay = 12000;
+            this.toolTip.InitialDelay = 200;
+            this.toolTip.IsBalloon = true;
+            this.toolTip.ReshowDelay = 100;
+            // 
+            // dataGridViewCheckBoxColumn1
+            // 
+            this.dataGridViewCheckBoxColumn1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
+            this.dataGridViewCheckBoxColumn1.DataPropertyName = "Visible";
+            this.dataGridViewCheckBoxColumn1.HeaderText = "Visible";
+            this.dataGridViewCheckBoxColumn1.Name = "dataGridViewCheckBoxColumn1";
+            this.dataGridViewCheckBoxColumn1.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.dataGridViewCheckBoxColumn1.ToolTipText = "Click to Sort (Read/Write)";
+            this.dataGridViewCheckBoxColumn1.Width = 62;
+            // 
+            // dataGridViewTextBoxColumn1
+            // 
+            this.dataGridViewTextBoxColumn1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
+            this.dataGridViewTextBoxColumn1.DataPropertyName = "DisplayIndex";
+            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle7.Format = "N0";
+            dataGridViewCellStyle7.NullValue = null;
+            this.dataGridViewTextBoxColumn1.DefaultCellStyle = dataGridViewCellStyle7;
+            this.dataGridViewTextBoxColumn1.HeaderText = "DisplayIndex";
+            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
+            this.dataGridViewTextBoxColumn1.ToolTipText = "Click to Sort (Read/Write)\r\nEither manually edit \'DisplayIndex\', or\r\ndrag and dro" +
+                "p a \'HeaderText\' row\r\nto change grid column display order";
+            this.dataGridViewTextBoxColumn1.Width = 92;
+            // 
+            // dataGridViewTextBoxColumn2
+            // 
+            this.dataGridViewTextBoxColumn2.DataPropertyName = "Width";
+            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle8.Format = "N0";
+            dataGridViewCellStyle8.NullValue = null;
+            this.dataGridViewTextBoxColumn2.DefaultCellStyle = dataGridViewCellStyle8;
+            this.dataGridViewTextBoxColumn2.HeaderText = "Width";
+            this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
+            this.dataGridViewTextBoxColumn2.ToolTipText = "Click to Sort (Read/Write)";
+            this.dataGridViewTextBoxColumn2.Width = 80;
+            // 
+            // dataGridViewTextBoxColumn3
+            // 
+            this.dataGridViewTextBoxColumn3.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.dataGridViewTextBoxColumn3.DataPropertyName = "HeaderText";
+            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            this.dataGridViewTextBoxColumn3.DefaultCellStyle = dataGridViewCellStyle9;
+            this.dataGridViewTextBoxColumn3.HeaderText = "HeaderText";
+            this.dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
+            this.dataGridViewTextBoxColumn3.ReadOnly = true;
+            this.dataGridViewTextBoxColumn3.ToolTipText = "Click to Sort (Read Only)\r\nDrag and drop a \'HeaderText\' row\r\nto change grid colum" +
+                "n display order";
+            // 
+            // dataGridViewTextBoxColumn4
+            // 
+            this.dataGridViewTextBoxColumn4.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
+            this.dataGridViewTextBoxColumn4.DataPropertyName = "ColumnIndex";
+            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle10.Format = "N0";
+            dataGridViewCellStyle10.NullValue = null;
+            this.dataGridViewTextBoxColumn4.DefaultCellStyle = dataGridViewCellStyle10;
+            this.dataGridViewTextBoxColumn4.HeaderText = "ColumnIndex";
+            this.dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
+            this.dataGridViewTextBoxColumn4.ReadOnly = true;
+            this.dataGridViewTextBoxColumn4.ToolTipText = "Click to Sort\r\n(For Reference Only)";
+            this.dataGridViewTextBoxColumn4.Width = 93;
+            // 
+            // dataGridViewTextBoxColumn5
+            // 
+            this.dataGridViewTextBoxColumn5.DataPropertyName = "ColumnName";
+            this.dataGridViewTextBoxColumn5.HeaderText = "ColumnName";
+            this.dataGridViewTextBoxColumn5.Name = "dataGridViewTextBoxColumn5";
+            this.dataGridViewTextBoxColumn5.ReadOnly = true;
+            this.dataGridViewTextBoxColumn5.ToolTipText = "Click to Sort (Read Only)";
+            this.dataGridViewTextBoxColumn5.Visible = false;
+            this.dataGridViewTextBoxColumn5.Width = 98;
             // 
             // colVisible
             // 
@@ -561,73 +675,6 @@ namespace CustomsForgeSongManager.UControls
             this.colColumnName.Visible = false;
             this.colColumnName.Width = 98;
             // 
-            // lnkSelectAll
-            // 
-            this.lnkSelectAll.AutoSize = true;
-            this.lnkSelectAll.Location = new System.Drawing.Point(3, 5);
-            this.lnkSelectAll.Name = "lnkSelectAll";
-            this.lnkSelectAll.Size = new System.Drawing.Size(98, 13);
-            this.lnkSelectAll.TabIndex = 6;
-            this.lnkSelectAll.TabStop = true;
-            this.lnkSelectAll.Text = "Deselect/Select All";
-            this.lnkSelectAll.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkSelectAll_LinkClicked);
-            // 
-            // lblDgvColumns
-            // 
-            this.lblDgvColumns.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblDgvColumns.AutoSize = true;
-            this.lblDgvColumns.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblDgvColumns.Location = new System.Drawing.Point(119, 5);
-            this.lblDgvColumns.Name = "lblDgvColumns";
-            this.lblDgvColumns.Size = new System.Drawing.Size(169, 13);
-            this.lblDgvColumns.TabIndex = 1;
-            this.lblDgvColumns.Text = "Grid Settings for {0} from {1}";
-            this.lblDgvColumns.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            // 
-            // lblDgvSettingsPath
-            // 
-            this.lblDgvSettingsPath.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.lblDgvSettingsPath.AutoSize = true;
-            this.tlpSettings_Wrapper.SetColumnSpan(this.lblDgvSettingsPath, 2);
-            this.lblDgvSettingsPath.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblDgvSettingsPath.Location = new System.Drawing.Point(187, 29);
-            this.lblDgvSettingsPath.Margin = new System.Windows.Forms.Padding(3);
-            this.lblDgvSettingsPath.Name = "lblDgvSettingsPath";
-            this.lblDgvSettingsPath.Padding = new System.Windows.Forms.Padding(3);
-            this.lblDgvSettingsPath.Size = new System.Drawing.Size(154, 20);
-            this.lblDgvSettingsPath.TabIndex = 24;
-            this.lblDgvSettingsPath.Text = "Load Grid Settings File:";
-            this.lblDgvSettingsPath.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.toolTip.SetToolTip(this.lblDgvSettingsPath, resources.GetString("lblDgvSettingsPath.ToolTip"));
-            // 
-            // cueDgvSettingsPath
-            // 
-            this.cueDgvSettingsPath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.cueDgvSettingsPath.Cue = "Click here to override the setttings selection and manually choose a grid setting" +
-                "s file to load and edit";
-            this.cueDgvSettingsPath.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
-            this.cueDgvSettingsPath.ForeColor = System.Drawing.Color.Gray;
-            this.cueDgvSettingsPath.Location = new System.Drawing.Point(347, 28);
-            this.cueDgvSettingsPath.Multiline = true;
-            this.cueDgvSettingsPath.Name = "cueDgvSettingsPath";
-            this.cueDgvSettingsPath.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.cueDgvSettingsPath.Size = new System.Drawing.Size(516, 19);
-            this.cueDgvSettingsPath.TabIndex = 25;
-            this.toolTip.SetToolTip(this.cueDgvSettingsPath, "The grid settings files are initially created\r\nwhen the matching tabmenu is selec" +
-                    "ted.\r\nSubsequently the grid settings file path\r\nwill then be available for selec" +
-                    "tion here.");
-            this.cueDgvSettingsPath.MouseClick += new System.Windows.Forms.MouseEventHandler(this.cueDgvSettingsPath_MouseClick);
-            // 
-            // toolTip
-            // 
-            this.toolTip.AutomaticDelay = 200;
-            this.toolTip.AutoPopDelay = 12000;
-            this.toolTip.InitialDelay = 200;
-            this.toolTip.IsBalloon = true;
-            this.toolTip.ReshowDelay = 100;
-            // 
             // Settings
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -654,7 +701,6 @@ namespace CustomsForgeSongManager.UControls
         private Label lblSettingsRSDir;
         private CueTextBox cueRsDir;
         public CheckBox chkIncludeRS1CompSongs;
-        private CueTextBox txtCharterName;
         private RadioButton rbCleanOnClosing;
         private ToolTip toolTip;
         private Button btnEmptyLogs;
@@ -677,5 +723,11 @@ namespace CustomsForgeSongManager.UControls
         private DataGridViewTextBoxColumn colHeaderText;
         private DataGridViewTextBoxColumn colColumnIndex;
         private DataGridViewTextBoxColumn colColumnName;
+        private DataGridViewCheckBoxColumn dataGridViewCheckBoxColumn1;
+        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
+        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
+        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
+        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn4;
+        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn5;
     }
 }

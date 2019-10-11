@@ -295,24 +295,6 @@ three File IO related 'Actions'.</value>
   <metadata name="colDetailDDMax.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
-  <metadata name="colDetailKey.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <metadata name="colDetailPID.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <metadata name="colDetailArrangement.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <metadata name="colDetailTuning.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <metadata name="colDetailToneBase.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <metadata name="colDetailDDMax.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
   <metadata name="colShowDetail.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
@@ -490,6 +472,38 @@ three File IO related 'Actions'.</value>
   <metadata name="menuStrip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 10</value>
   </metadata>
+  <data name="tsmiRescanQuick.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAATNJREFUOE9j/P//
+        PwMIyEyWgjDQwIsTLxgkLCQYQPSfpf8YMRSADABh6UmS/4/+X4CBmaMYgdIQeRAbxofpA2tGNqTvQ9B/
+        EK667/E/9ZwdigaQISA5ZENQNINcANOcd9UJqwEhB0xRDEFxPrJmbAbAvLLhbz3cFSgGgJyNrBHdC8hh
+        1f7KH2wIPPBAtqPbii3QYIHd8MQb0wBsNiIHMohtuFnvP8gL5XfdMQ1AjyJ0zTDbYa7F8AK6ASANIIzs
+        d5Dmwhsu8BhCCQNsBoCiFtnmkluu/zMu2GPGAnLUoKfO7reB4LgH+Tv7suP/+JPWmAaAFIASCbIrYDa3
+        vvAFp0xQLCWdtsGdEtGTKcyA2kdeKP5GDlyMvADLNMgBB/N37HErDFeiGIDsd5BXkHMgLFGhJy4AhUFl
+        BYyb8vkAAAAASUVORK5CYII=
+</value>
+  </data>
+  <data name="tsmiRescanFull.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAAN1QAA
+        DdUBPdZY8QAAAxhJREFUOE9lkvtLU2EYx3ObGV2ktCxC+gsiAn+I0NCMLO2mWUGSgr+UUPRLhRlokmGo
+        IcpE8ZI/ZOrc9Wwu9Wibm3p2KTfn1G063UXNzdS8DM5Bxs7T+wqK5gtf3vd5+b6f8zzPecIA4MD2khKS
+        OC6X+wbFl1iWjeVwOPPobAyFQhX30zNNO8bdBwyQyMQ8mVxaRihktMGoY8fGR2F6ehLsDhuYzMMsvkcq
+        wz7s362tAD/uJrtox5QdFCp9sF6iZWrEg6EvcoohKUtw8Y8ffqj7tiD7AIgah7+AHzdK+jf5YspVLvpV
+        VEVY05q7rXltfSOTQpVpc31jA+Sdchr792SAHgtw2gq1IVgtHnIVCycSZPq51EH70h2hbu5mpcKZSAzZ
+        7XrrdBCVxMo7CcH/ALfNNg71Yg1TKjCUtGi8152+wMO/60yWbnIxHcdCrSOP0FroBd9vlAXh3gNAnQ/O
+        zXuhWqgNlQiGbwio2RSLZzXD4Qs8oCaW7wm0sym1PbZbQpU5tLKyDNi/B4CJLvcMNEgHmU/thmI+6Uju
+        MvtSSYv/Ni6lkZxObiFH8yRqE+31uvdngGsaG7eyfXprsE5GOQu/jcRXKx1Xm3q91/hdjuRS0cSVdtI4
+        pflpZS2jZvxL9/YAdxVB6I1AAFq+6zbrCWqyTmZ8+llkSmtQDj9rUeqd4l4dOzvnBYIQQlNBYt2+OcD/
+        V9WvolfX10BttAa/KofoJmIg1NpN0Sq9mfXOuqGvVwkjBhLa3p6n+dkRhduQrUHCE4YhOBNcDq7V71+A
+        mZkpMI8MszJZB/Q2vwRP12sIeCloL7iwA9kZSzTevIbG+ssIJiLkUg/uNppQj1gqEtW8im+oyeYFBj6c
+        A5fiOWx4BkDw7iLNz4nI3wKgdRDpKFJUdHR0TFJS0umMjIwzeMcxvv+YyS3hP+EFNO9jwCnOBRdZBDU5
+        h5Z2AyKR8RR+2NHRcZZhmFi84xjfIx2rfMwtqs3hBXryI6H1RRSDetG6uwQOMkVgI1J0eHj4SbQfRzqM
+        dATpBFJs4V1ORVUWd638EVeemxAW9Q+PJHKtAgrQ1gAAAABJRU5ErkJggg==
+</value>
+  </data>
   <data name="tsmiRescan.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
@@ -501,6 +515,62 @@ three File IO related 'Actions'.</value>
         y4GGoBhQRiDEL0HljwFdEAP03jIgnxcUC3JA7AHEwkBcD8TtRGBQjNmDNFMMAMK7Y7LorC+/AAAAAElF
         TkSuQmCC
 </value>
+  </data>
+  <data name="tsmiRepairsMastery.ToolTipText" xml:space="preserve">
+    <value>Mastery 100% Bug is repaired
+by default regardless of
+other selected options.
+
+Once the Mastery Bug is repaired
+the CDLC is considered to be
+'Remastered'.
+
+NOTE: If user fails to specify sub
+options for this repair then stats
+are preserved by default, i.e.
+the user will be stuck at 100%
+mastery.</value>
+  </data>
+  <data name="tsmiRepairsPreserveStats.ToolTipText" xml:space="preserve">
+    <value>If checked, preserves in-game stats.
+
+If unchecked, reset the song stats 
+and reduce the risk of in-game hangs.
+
+NOTE:  If you choose to preserve stats
+then make sure only one version of the
+CDLC is in the 'dlc' folder at a time 
+otherwise in-game hangs will happen.</value>
+  </data>
+  <data name="tsmiRepairsUsingOrg.ToolTipText" xml:space="preserve">
+    <value>Developers do not recommend use of this option.
+
+If selected, only files from the (org) folder
+are used for the selected repair options.
+This option may not be combined with
+the "Process 'downloads' Folder" button</value>
+  </data>
+  <data name="tsmiDLFolderProcess.ToolTipText" xml:space="preserve">
+    <value>Process new CDLC from 'Downloads' 
+folder and move them to 'dlc/downloads' 
+folder.  When selected, only the files in the 
+'Downloads' folder are processed/repaired.
+
+NOTE: The 'Downloads' folder location
+may be reset from the 'Settings' tab menu.</value>
+  </data>
+  <data name="tsmiDLFolderMonitor.ToolTipText" xml:space="preserve">
+    <value>If checked, automatically monitor the
+'Downloads' folder for new CDLC then
+process/repair any new CDLC and 
+move them to 'dlc/downloads' folder.
+
+Note: Must be unchecked before using
+the 'Run Selected Repair Options'.
+
+Make a donation at https://goo.gl/iTPfRU
+and show your support for this feature
+or just use the 'Click to Donate' button.</value>
   </data>
   <data name="tsmiRepairs.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -520,6 +590,110 @@ three File IO related 'Actions'.</value>
         9vb24yKRCLlc7vylvTGhUJtJtd04FDpbn72TFR8TCZuj2MDhcLxis9nAYDAgPz8fiPEmSUC3ssNrJnMP
         M5gsB5VqVWbH3ZYcjdZQZDCaio1GYznRTaIqk8l0mUQu1ul0RWq1+kxHR8chjUaTqNfr14BCoWCR4hGi
         bLVGc57sZUSC/0hIapeICmgIUQppJegX1ROhy2FVN2oAAAAASUVORK5CYII=
+</value>
+  </data>
+  <data name="tsmiModsChangeAppId.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAohJREFUOE99kk1I
+        FGEcxnPJREqEzClKAtvWNBJUOihBJRp5qOgQhAeLILBDBRHB1iUkLx3Cj6KD0GFdUNeLmrTbh8maNhJt
+        JJmzUiNzatmv2Z0ZZ2Ztd92n9113BjVr4GGGYZ7f83//z+RtW7ssRDtzz/+99dzM390Ubnn3WwhylqKi
+        a8bHpZIkIyqKiMXjiEsSJFmGrChQlpexTKWqUKQIYuwZPG2zYoJh4CksHDMAjBiLIRQOIxKNQtwCJMsS
+        op9a8fz+QZSVHUDHhby0s7xg2ATE49KamYCMCRQyAU1XSbr47QFe9lbBaj2E6+d3YMGZP9t83LLXBNCR
+        DTMd3TBquo44/wK+4ZOoPlaJi6d3gR+tQGOd5RQxF5gAmkaTs2aSqGkaEokElF9vIUxewon6GjTV74Hf
+        tQ9f2FEQYyVRngmgJtNMUqlZi84h/Lkd51oa0FBXhrn+Ysy8fga/308B+9fXxagkkY5tJOuyAPm7HVcu
+        N6K2uhyzfUXwjtjBsixkclxiZjYA6FkphCYn1BDUxQ7caW/B0Sor3vQUY8rVhvHxcQQCAayurv4N0IlR
+        JxBdJ51zdnTeO4sK22EMdpaAHWqGw+EAx3FIpVJIbwXIJhOJQQGv+tths9nQfZfB1+FadHU9gdfrRSQS
+        QTAYRDAUTpLxSzYcYWVlBVTCvBvsyA30ddSAHzuC3u7HcLvdWCDpH6an4fP5MoMu1+31DVAQQ80aaeKR
+        vRXeoavwTTnA/1zMLoymTryfBK3a7XE/3Gw2AX5uAc5+B2lCRTqdzi4rmUyC55cwM/Mx4/mHmQJK6YdU
+        2SXlzJlMhrxL4ceSkHQODNzaKtnYw3YKyXVL+90sujDzr1u/vD8g8iopeAoinwAAAABJRU5ErkJggg==
+</value>
+  </data>
+  <data name="tsmiCustomTitleTagPrefix.ToolTipText" xml:space="preserve">
+    <value>If this option is selected, Custom Title Tag will be used as a prefix ... 
+For example, if you tag a song named 'Heavy Rain' with tag 'Tagio', 
+it will end up as, 'Tagio Heavy Rain'.
+
+Conversely, select to remove a tag that was used as a prefix.</value>
+  </data>
+  <data name="tsmiCustomTitleTagSuffix.ToolTipText" xml:space="preserve">
+    <value>If this option is selected, Custom Title Tag will be used as a suffix ... 
+For example, if you tag a song named 'Heavy Rain' with tag 'Tagio', 
+it will end up as, 'Heavy Rain Tagio'.
+
+Conversely, select to remove a tag that was used as a suffix.</value>
+  </data>
+  <data name="tsmiCustomTitleTag.ToolTipText" xml:space="preserve">
+    <value>Add a Custom Title Tag to any selected song ... 
+As an example, for the song 'My Song', you can add the
+tag 'B Std' as a prefix, and it will end up as 'B Std My Song'.
+
+NOTE: in order to remove a tag, enter the tag in the 'Enter Title Tag'
+input box as you did when you added it, and then press 'Remove Tag'.</value>
+  </data>
+  <data name="tsmiModsPitchShifter.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAIAAACQkWg2AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAALEwAA
+        CxMBAJqcGAAAApFJREFUOE89Uk1IqlEQ/SrthxIU2kVCgvSnCbqwFhooCYIJ7VoEpr2IQhIUkhbWokUh
+        GAm10RZtogSF2qT9opJJRYJgGJJZmpWFCRFmBvHO19d7s7jce2fOzJkzU3F1dVVVVVVdXV1TU4MLrLKy
+        kjor/hnxY9/f3/gkEonEzc1NJpNJp9O3t7d3d3fZbPbx8fHhx3K53PPzcz6ff39///j4KJVKBKKTyeTh
+        4aHFYtFoNMPDw39+TKfTUfexsbHp6Wmv1/v6+koCkPLi4gKOwcHB1dXV+fn52dlZnAaDwel0Inp8fFwo
+        FCIX8n59fRH39/e7u7vd3d0ulwusIpHI+vr62dlZPB6fmZk5OTmBl8PhaLXaVCr1C1hbW5PJZAcHBwMD
+        A3Nzc2azeW9vz263KxSKp6en/f19Fou1sLAASuVymaSER19f38TEBJ/P1+v1k5OTQ0NDW1tboGSz2YxG
+        Y1NTE8oWi0USABpwiESi2tpaOp0OJUntCOK/srh3dXUBD8Dn5ycBBaPRKIq0trZiFDQaDWddXR3A9fX1
+        DAYDSDabjdYRRlYAy8vLS5PJpFQqt7e30cPS0pLD4YAG6ARqnp6eTk1NtbS0eDwesgLGtLGxIZfL4UOj
+        m5ub5+fnbrc7FosdHx+Pjo7u7Ow0NjZKJBKo8tvD8vIyj8dbWVkJh8MI8vv9gUAgFAqp1WqxWLy4uNjQ
+        0GC1WsGFrEA13d7ejtHCLZVKIXF/f79KpWIymc3NzQKBAE1T6UkAZMVjZGSEy+UC1tnZ2dHR0dbWhpq9
+        vb09PT0gg8FTU/vdpevra3SGHnw+H5YKdnR0FAwGsTL4x+yxhdAU0SQAG4Ii4Pfy8lIoFN7e3rCYcFO7
+        CQ6U4U79/AXdZq//g6WyEgAAAABJRU5ErkJggg==
+</value>
+  </data>
+  <data name="tsmiModsPitchShifter.ToolTipText" xml:space="preserve">
+    <value>Add additional options to Pitch Shifter if desired
+with check boxes before pressing Pitch Shifter.
+
+NOTE:  Pitch shifting is currently derived from
+Low E (String0) tuning and the arrangement will
+be accordingly changed to E Standard or Drop D.</value>
+  </data>
+  <data name="tsmiModsPreserveStats.ToolTipText" xml:space="preserve">
+    <value>If checked, preserves in-game stats.
+
+If unchecked, reset the song stats 
+and reduce the risk of in-game hangs.
+
+NOTE:  If you choose to preserve stats
+then make sure only one version of the
+CDLC is in the 'dlc' folder at a time 
+otherwise in-game hangs will happen.</value>
+  </data>
+  <data name="tsmiModsTagArtwork.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAAN1QAA
+        DdUBPdZY8QAAAaBJREFUOE+lU7FLAmEcVTszMcUhsE6IIGxqqKFyamoLbGq2rcCLaCnqoFykpEHcrM0Q
+        AomDMsEOJSEknM7W/gBBGlwEF8Hek/vgctAg4fF4732/53f3fWfv9/u2f/1QYAccfwDX2YZBYxZQgMMR
+        YL5p/smvEopVl8uljkMymTzB2m1gwrqLQQHeQcJEGvwC3JiaTE0/EYvFznq93i5mJkWJKEhhQcrtdt8r
+        inLscDg4dEemps+ciEQil91uN4oC9+AAzB1kEGaq1eoF9EI8Ho86nc4SmZo+c4FwOHzVbrcPkE2LgizC
+        rM/nu200GqcIZjqdzhqZmj5zK0KhULrZbB6JgjxCQvN6vTqGNzA8Raamb+ZiHflZluUnUVCAUcAzv6uq
+        uofhebysfTI1feYWVCRJesvlcjuioIywrGlaHENL9Xr9PBgMPpCp6TM38YEjr+i6voVMEgU1hDVs6bFY
+        LF57PJ4SNZmaPjXwCe/VMIx1DltPwUA4Dl9+v7/QarWWrZdJ7OAbBSMRCATyGFwcvs4skHkXxmAF+dzw
+        sHiEf32NPzvR4/4n1QC2AAAAAElFTkSuQmCC
+</value>
+  </data>
+  <data name="tsmiModsUntagArtwork.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAAN1QAA
+        DdUBPdZY8QAAAZtJREFUOE+Nk79LAmEcxjs9s8MUh8A6IYKwqaGGyqmpLbCp2bYCL6KlqIO6RUoaoq3a
+        CiGIOOiHYEeREBFO2tofIEiDi+Ai2PMcvnDI5XXw4cvzvM/73G+p0+kMuBwSPOJ1dAZY0IMPegzMgFkP
+        VLfNk7FY7Ban/vGC5c4Cf71en45Go4/Y+A0qXjgL5EqlMh8KhZ6x6Qt8qKp6VygUjuEVqTmp6VMTUSBb
+        lrUUDAZfYX6CF2KapoHAVLlc3o/H4zec1PRFxi7I5/Mrsiy/wWQBL9/G5/O967q+htB4u91e56SmLzJ2
+        AS7pHsYD4INzYobDYavZbC4gOMRJjYwpcnZBrVbbSiQSZzCvnEQikYtqtbqL0Ag2z3FS0xc58QyGG43G
+        RjKZPMLCuaBUKh0gMGEYRjoQCBQ5qemLjPMtKK1WK51KpQ6xeEoURbnWNG0b9/wEfclJTV9ker+DQTys
+        1Uwms4dAFvC2uPmkqzmp6XM921vAj8oPlnO53A5eq+6FWwFL+C8sAg1s9oHro24/Ez2pW8Syfkh/Ffzb
+        /wUk6+TrspQ9MgAAAABJRU5ErkJggg==
 </value>
   </data>
   <data name="tsmiFilesCleanDlc.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
@@ -600,215 +774,6 @@ are not renamed during restore operations.
         AABJRU5ErkJggg==
 </value>
   </data>
-  <data name="tsmiHelp.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAABOIAAA
-        TiABFn2Z3gAAAmxJREFUOE+VUl1r0mEU/2s3oy9gEX2AddEgYl2uLhSiW1EIZIEQ3nXTXTdBIkjdTDff
-        8F1x7kJEnZigwjZFZeIbytimMkFNnG91kSvU0zkPGGUFTTh4/g/P7+X8nsPjln42m22Nx+M94/P5aysr
-        K7cBgJtMJp+m02kRz8Nyuby8jGHfCFz1er2Bo6Ojq0ajMe/3+/PhcAiDwQA6nQ6Uy2WIRCLf7HZ7wGQy
-        rf5G4nQ6n+zv77dbrdZ8NBrBeDyG4+NjEAqFgBdhY2MD9vb24OzsDLLZLHg8np7RaHzMSBB8JxQKXfR6
-        vRkBF7W+vg4ymQyq1SojEQgEjICcJJNJcDgcXSS5y2Hz7vz8/OtCeUEgFotBoVBAt9tlBBKJBE5OTqBQ
-        KEAqlYJAIDBHgvecy+X6iDPOaF4i+bVofp1OB1KpFPL5PHOTy+Xg4OAAcGRAgiLndrtjzWZzSkqXl5cs
-        NCrq6Yysk21SLxaLkE6nIRaLgd/vJ4I6Z7VaTZVKZYIkgCFCu91mRT2d1Wo1BiYSCpbUw+Ew7O7uws7O
-        jpMzm80PcZ7R6enpDLOAer3OQNRTBlSlUolZPzw8hGg0Cj6fj9Sv9Hr9ffYSSPIaWT+jyozmpEJXDCwS
-        idjTLcBk3WKxfN/e3n75cxeUSiUfSTbR1kUikZhmMpk52cV/wMWCeDzObNMuoHJLq9U+RzDvj400GAwC
-        vPAKFaK4HzUM+AumPQ4Gg4CbOkHVNwi+9ddVXj5Uq9U3MaS3SNLBzaPnTKtUqhv/BV5cQsUX+EpTVAdU
-        /nAtMF1G0FPMBjDt4dbW1r1rE2g0mgdYcaxH/wL/AOVaF8U6tAoVAAAAAElFTkSuQmCC
-</value>
-  </data>
-  <data name="tsmiRescanQuick.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAATNJREFUOE9j/P//
-        PwMIyEyWgjDQwIsTLxgkLCQYQPSfpf8YMRSADABh6UmS/4/+X4CBmaMYgdIQeRAbxofpA2tGNqTvQ9B/
-        EK667/E/9ZwdigaQISA5ZENQNINcANOcd9UJqwEhB0xRDEFxPrJmbAbAvLLhbz3cFSgGgJyNrBHdC8hh
-        1f7KH2wIPPBAtqPbii3QYIHd8MQb0wBsNiIHMohtuFnvP8gL5XfdMQ1AjyJ0zTDbYa7F8AK6ASANIIzs
-        d5Dmwhsu8BhCCQNsBoCiFtnmkluu/zMu2GPGAnLUoKfO7reB4LgH+Tv7suP/+JPWmAaAFIASCbIrYDa3
-        vvAFp0xQLCWdtsGdEtGTKcyA2kdeKP5GDlyMvADLNMgBB/N37HErDFeiGIDsd5BXkHMgLFGhJy4AhUFl
-        BYyb8vkAAAAASUVORK5CYII=
-</value>
-  </data>
-  <data name="tsmiRescanFull.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAAN1QAA
-        DdUBPdZY8QAAAxhJREFUOE9lkvtLU2EYx3ObGV2ktCxC+gsiAn+I0NCMLO2mWUGSgr+UUPRLhRlokmGo
-        IcpE8ZI/ZOrc9Wwu9Wibm3p2KTfn1G063UXNzdS8DM5Bxs7T+wqK5gtf3vd5+b6f8zzPecIA4MD2khKS
-        OC6X+wbFl1iWjeVwOPPobAyFQhX30zNNO8bdBwyQyMQ8mVxaRihktMGoY8fGR2F6ehLsDhuYzMMsvkcq
-        wz7s362tAD/uJrtox5QdFCp9sF6iZWrEg6EvcoohKUtw8Y8ffqj7tiD7AIgah7+AHzdK+jf5YspVLvpV
-        VEVY05q7rXltfSOTQpVpc31jA+Sdchr792SAHgtw2gq1IVgtHnIVCycSZPq51EH70h2hbu5mpcKZSAzZ
-        7XrrdBCVxMo7CcH/ALfNNg71Yg1TKjCUtGi8152+wMO/60yWbnIxHcdCrSOP0FroBd9vlAXh3gNAnQ/O
-        zXuhWqgNlQiGbwio2RSLZzXD4Qs8oCaW7wm0sym1PbZbQpU5tLKyDNi/B4CJLvcMNEgHmU/thmI+6Uju
-        MvtSSYv/Ni6lkZxObiFH8yRqE+31uvdngGsaG7eyfXprsE5GOQu/jcRXKx1Xm3q91/hdjuRS0cSVdtI4
-        pflpZS2jZvxL9/YAdxVB6I1AAFq+6zbrCWqyTmZ8+llkSmtQDj9rUeqd4l4dOzvnBYIQQlNBYt2+OcD/
-        V9WvolfX10BttAa/KofoJmIg1NpN0Sq9mfXOuqGvVwkjBhLa3p6n+dkRhduQrUHCE4YhOBNcDq7V71+A
-        mZkpMI8MszJZB/Q2vwRP12sIeCloL7iwA9kZSzTevIbG+ssIJiLkUg/uNppQj1gqEtW8im+oyeYFBj6c
-        A5fiOWx4BkDw7iLNz4nI3wKgdRDpKFJUdHR0TFJS0umMjIwzeMcxvv+YyS3hP+EFNO9jwCnOBRdZBDU5
-        h5Z2AyKR8RR+2NHRcZZhmFi84xjfIx2rfMwtqs3hBXryI6H1RRSDetG6uwQOMkVgI1J0eHj4SbQfRzqM
-        dATpBFJs4V1ORVUWd638EVeemxAW9Q+PJHKtAgrQ1gAAAABJRU5ErkJggg==
-</value>
-  </data>
-  <data name="tsmiRepairsMastery.ToolTipText" xml:space="preserve">
-    <value>Mastery 100% Bug is repaired
-by default regardless of
-other selected options.
-
-Once the Mastery Bug is repaired
-the CDLC is considered to be
-'Remastered'.
-
-NOTE: If user fails to specify sub
-options for this repair then stats
-are preserved by default, i.e.
-the user will be stuck at 100%
-mastery.</value>
-  </data>
-  <data name="tsmiRepairsPreserveStats.ToolTipText" xml:space="preserve">
-    <value>If checked, preserves in-game stats.
-
-If unchecked, reset the song stats 
-and reduce the risk of in-game hangs.
-
-NOTE:  If you choose to preserve stats
-then make sure only one version of the
-CDLC is in the 'dlc' folder at a time 
-otherwise in-game hangs will happen.</value>
-  </data>
-  <data name="tsmiRepairsUsingOrg.ToolTipText" xml:space="preserve">
-    <value>Developers do not recommend use of this option.
-
-If selected, only files from the (org) folder
-are used for the selected repair options.
-This option may not be combined with
-the "Process 'downloads' Folder" button</value>
-  </data>
-  <data name="tsmiDLFolderProcess.ToolTipText" xml:space="preserve">
-    <value>Process new CDLC from 'Downloads' 
-folder and move them to 'dlc/downloads' 
-folder.  When selected, only the files in the 
-'Downloads' folder are processed/repaired.
-
-NOTE: The 'Downloads' folder location
-may be reset from the 'Settings' tab menu.</value>
-  </data>
-  <data name="tsmiDLFolderMonitor.ToolTipText" xml:space="preserve">
-    <value>If checked, automatically monitor the
-'Downloads' folder for new CDLC then
-process/repair any new CDLC and 
-move them to 'dlc/downloads' folder.
-
-Note: Must be unchecked before using
-the 'Run Selected Repair Options'.
-
-Make a donation at https://goo.gl/iTPfRU
-and show your support for this feature
-or just use the 'Click to Donate' button.</value>
-  </data>
-  <data name="tsmiModsChangeAppId.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAohJREFUOE99kk1I
-        FGEcxnPJREqEzClKAtvWNBJUOihBJRp5qOgQhAeLILBDBRHB1iUkLx3Cj6KD0GFdUNeLmrTbh8maNhJt
-        JJmzUiNzatmv2Z0ZZ2Ztd92n9113BjVr4GGGYZ7f83//z+RtW7ssRDtzz/+99dzM390Ubnn3WwhylqKi
-        a8bHpZIkIyqKiMXjiEsSJFmGrChQlpexTKWqUKQIYuwZPG2zYoJh4CksHDMAjBiLIRQOIxKNQtwCJMsS
-        op9a8fz+QZSVHUDHhby0s7xg2ATE49KamYCMCRQyAU1XSbr47QFe9lbBaj2E6+d3YMGZP9t83LLXBNCR
-        DTMd3TBquo44/wK+4ZOoPlaJi6d3gR+tQGOd5RQxF5gAmkaTs2aSqGkaEokElF9vIUxewon6GjTV74Hf
-        tQ9f2FEQYyVRngmgJtNMUqlZi84h/Lkd51oa0FBXhrn+Ysy8fga/308B+9fXxagkkY5tJOuyAPm7HVcu
-        N6K2uhyzfUXwjtjBsixkclxiZjYA6FkphCYn1BDUxQ7caW/B0Sor3vQUY8rVhvHxcQQCAayurv4N0IlR
-        JxBdJ51zdnTeO4sK22EMdpaAHWqGw+EAx3FIpVJIbwXIJhOJQQGv+tths9nQfZfB1+FadHU9gdfrRSQS
-        QTAYRDAUTpLxSzYcYWVlBVTCvBvsyA30ddSAHzuC3u7HcLvdWCDpH6an4fP5MoMu1+31DVAQQ80aaeKR
-        vRXeoavwTTnA/1zMLoymTryfBK3a7XE/3Gw2AX5uAc5+B2lCRTqdzi4rmUyC55cwM/Mx4/mHmQJK6YdU
-        2SXlzJlMhrxL4ceSkHQODNzaKtnYw3YKyXVL+90sujDzr1u/vD8g8iopeAoinwAAAABJRU5ErkJggg==
-</value>
-  </data>
-  <data name="tsmiCustomTitleTag.ToolTipText" xml:space="preserve">
-    <value>Add a Custom Title Tag to any selected song ... 
-As an example, for the song 'My Song', you can add the
-tag 'B Std' as a prefix, and it will end up as 'B Std My Song'.
-
-NOTE: in order to remove a tag, enter the tag in the 'Enter Title Tag'
-input box as you did when you added it, and then press 'Remove Tag'.</value>
-  </data>
-  <data name="tsmiCustomTitleTagPrefix.ToolTipText" xml:space="preserve">
-    <value>If this option is selected, Custom Title Tag will be used as a prefix ... 
-For example, if you tag a song named 'Heavy Rain' with tag 'Tagio', 
-it will end up as, 'Tagio Heavy Rain'.
-
-Conversely, select to remove a tag that was used as a prefix.</value>
-  </data>
-  <data name="tsmiCustomTitleTagSuffix.ToolTipText" xml:space="preserve">
-    <value>If this option is selected, Custom Title Tag will be used as a suffix ... 
-For example, if you tag a song named 'Heavy Rain' with tag 'Tagio', 
-it will end up as, 'Heavy Rain Tagio'.
-
-Conversely, select to remove a tag that was used as a suffix.</value>
-  </data>
-  <data name="tsmiModsPitchShifter.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAIAAACQkWg2AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAALEwAA
-        CxMBAJqcGAAAApFJREFUOE89Uk1IqlEQ/SrthxIU2kVCgvSnCbqwFhooCYIJ7VoEpr2IQhIUkhbWokUh
-        GAm10RZtogSF2qT9opJJRYJgGJJZmpWFCRFmBvHO19d7s7jce2fOzJkzU3F1dVVVVVVdXV1TU4MLrLKy
-        kjor/hnxY9/f3/gkEonEzc1NJpNJp9O3t7d3d3fZbPbx8fHhx3K53PPzcz6ff39///j4KJVKBKKTyeTh
-        4aHFYtFoNMPDw39+TKfTUfexsbHp6Wmv1/v6+koCkPLi4gKOwcHB1dXV+fn52dlZnAaDwel0Inp8fFwo
-        FCIX8n59fRH39/e7u7vd3d0ulwusIpHI+vr62dlZPB6fmZk5OTmBl8PhaLXaVCr1C1hbW5PJZAcHBwMD
-        A3Nzc2azeW9vz263KxSKp6en/f19Fou1sLAASuVymaSER19f38TEBJ/P1+v1k5OTQ0NDW1tboGSz2YxG
-        Y1NTE8oWi0USABpwiESi2tpaOp0OJUntCOK/srh3dXUBD8Dn5ycBBaPRKIq0trZiFDQaDWddXR3A9fX1
-        DAYDSDabjdYRRlYAy8vLS5PJpFQqt7e30cPS0pLD4YAG6ARqnp6eTk1NtbS0eDwesgLGtLGxIZfL4UOj
-        m5ub5+fnbrc7FosdHx+Pjo7u7Ow0NjZKJBKo8tvD8vIyj8dbWVkJh8MI8vv9gUAgFAqp1WqxWLy4uNjQ
-        0GC1WsGFrEA13d7ejtHCLZVKIXF/f79KpWIymc3NzQKBAE1T6UkAZMVjZGSEy+UC1tnZ2dHR0dbWhpq9
-        vb09PT0gg8FTU/vdpevra3SGHnw+H5YKdnR0FAwGsTL4x+yxhdAU0SQAG4Ii4Pfy8lIoFN7e3rCYcFO7
-        CQ6U4U79/AXdZq//g6WyEgAAAABJRU5ErkJggg==
-</value>
-  </data>
-  <data name="tsmiModsPitchShifter.ToolTipText" xml:space="preserve">
-    <value>Add additional options to Pitch Shifter if desired
-with check boxes before pressing Pitch Shifter.
-
-NOTE:  Pitch shifting is currently derived from
-Low E (String0) tuning and the arrangement will
-be accordingly changed to E Standard or Drop D.</value>
-  </data>
-  <data name="tsmiModsPreserveStats.ToolTipText" xml:space="preserve">
-    <value>If checked, preserves in-game stats.
-
-If unchecked, reset the song stats 
-and reduce the risk of in-game hangs.
-
-NOTE:  If you choose to preserve stats
-then make sure only one version of the
-CDLC is in the 'dlc' folder at a time 
-otherwise in-game hangs will happen.</value>
-  </data>
-  <data name="tsmiModsTagArtwork.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAAN1QAA
-        DdUBPdZY8QAAAaBJREFUOE+lU7FLAmEcVTszMcUhsE6IIGxqqKFyamoLbGq2rcCLaCnqoFykpEHcrM0Q
-        AomDMsEOJSEknM7W/gBBGlwEF8Hek/vgctAg4fF4732/53f3fWfv9/u2f/1QYAccfwDX2YZBYxZQgMMR
-        YL5p/smvEopVl8uljkMymTzB2m1gwrqLQQHeQcJEGvwC3JiaTE0/EYvFznq93i5mJkWJKEhhQcrtdt8r
-        inLscDg4dEemps+ciEQil91uN4oC9+AAzB1kEGaq1eoF9EI8Ho86nc4SmZo+c4FwOHzVbrcPkE2LgizC
-        rM/nu200GqcIZjqdzhqZmj5zK0KhULrZbB6JgjxCQvN6vTqGNzA8Raamb+ZiHflZluUnUVCAUcAzv6uq
-        uofhebysfTI1feYWVCRJesvlcjuioIywrGlaHENL9Xr9PBgMPpCp6TM38YEjr+i6voVMEgU1hDVs6bFY
-        LF57PJ4SNZmaPjXwCe/VMIx1DltPwUA4Dl9+v7/QarWWrZdJ7OAbBSMRCATyGFwcvs4skHkXxmAF+dzw
-        sHiEf32NPzvR4/4n1QC2AAAAAElFTkSuQmCC
-</value>
-  </data>
-  <data name="tsmiModsUntagArtwork.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAAN1QAA
-        DdUBPdZY8QAAAZtJREFUOE+Nk79LAmEcxjs9s8MUh8A6IYKwqaGGyqmpLbCp2bYCL6KlqIO6RUoaoq3a
-        CiGIOOiHYEeREBFO2tofIEiDi+Ai2PMcvnDI5XXw4cvzvM/73G+p0+kMuBwSPOJ1dAZY0IMPegzMgFkP
-        VLfNk7FY7Ban/vGC5c4Cf71en45Go4/Y+A0qXjgL5EqlMh8KhZ6x6Qt8qKp6VygUjuEVqTmp6VMTUSBb
-        lrUUDAZfYX6CF2KapoHAVLlc3o/H4zec1PRFxi7I5/Mrsiy/wWQBL9/G5/O967q+htB4u91e56SmLzJ2
-        AS7pHsYD4INzYobDYavZbC4gOMRJjYwpcnZBrVbbSiQSZzCvnEQikYtqtbqL0Ag2z3FS0xc58QyGG43G
-        RjKZPMLCuaBUKh0gMGEYRjoQCBQ5qemLjPMtKK1WK51KpQ6xeEoURbnWNG0b9/wEfclJTV9ker+DQTys
-        1Uwms4dAFvC2uPmkqzmp6XM921vAj8oPlnO53A5eq+6FWwFL+C8sAg1s9oHro24/Ez2pW8Syfkh/Ffzb
-        /wUk6+TrspQ9MgAAAABJRU5ErkJggg==
-</value>
-  </data>
   <data name="tsmiHelpGeneral.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
@@ -844,6 +809,23 @@ otherwise in-game hangs will happen.</value>
         CxMBAJqcGAAAAF1JREFUOE9jYEAF/9H42LgYakACMEFkGiaOTIMMRFcDFkA3BJtmXGpQDMCnEZccdQwg
         IuywKgGHB3KoEusFmGkYBpDqklEXQCOAmFjAFbjUjwVSohGeN4hNPFhzJwAf7oN9Gr13fQAAAABJRU5E
         rkJggg==
+</value>
+  </data>
+  <data name="tsmiHelp.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAABOIAAA
+        TiABFn2Z3gAAAmxJREFUOE+VUl1r0mEU/2s3oy9gEX2AddEgYl2uLhSiW1EIZIEQ3nXTXTdBIkjdTDff
+        8F1x7kJEnZigwjZFZeIbytimMkFNnG91kSvU0zkPGGUFTTh4/g/P7+X8nsPjln42m22Nx+M94/P5aysr
+        K7cBgJtMJp+m02kRz8Nyuby8jGHfCFz1er2Bo6Ojq0ajMe/3+/PhcAiDwQA6nQ6Uy2WIRCLf7HZ7wGQy
+        rf5G4nQ6n+zv77dbrdZ8NBrBeDyG4+NjEAqFgBdhY2MD9vb24OzsDLLZLHg8np7RaHzMSBB8JxQKXfR6
+        vRkBF7W+vg4ymQyq1SojEQgEjICcJJNJcDgcXSS5y2Hz7vz8/OtCeUEgFotBoVBAt9tlBBKJBE5OTqBQ
+        KEAqlYJAIDBHgvecy+X6iDPOaF4i+bVofp1OB1KpFPL5PHOTy+Xg4OAAcGRAgiLndrtjzWZzSkqXl5cs
+        NCrq6Yysk21SLxaLkE6nIRaLgd/vJ4I6Z7VaTZVKZYIkgCFCu91mRT2d1Wo1BiYSCpbUw+Ew7O7uws7O
+        jpMzm80PcZ7R6enpDLOAer3OQNRTBlSlUolZPzw8hGg0Cj6fj9Sv9Hr9ffYSSPIaWT+jyozmpEJXDCwS
+        idjTLcBk3WKxfN/e3n75cxeUSiUfSTbR1kUikZhmMpk52cV/wMWCeDzObNMuoHJLq9U+RzDvj400GAwC
+        vPAKFaK4HzUM+AumPQ4Gg4CbOkHVNwi+9ddVXj5Uq9U3MaS3SNLBzaPnTKtUqhv/BV5cQsUX+EpTVAdU
+        /nAtMF1G0FPMBjDt4dbW1r1rE2g0mgdYcaxH/wL/AOVaF8U6tAoVAAAAAElFTkSuQmCC
 </value>
   </data>
   <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">

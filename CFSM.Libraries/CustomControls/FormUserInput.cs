@@ -74,6 +74,11 @@ namespace CustomControls
 
         private void FormUserInput_Load(object sender, EventArgs e)
         {
+            SetHeightWidth();
+        }
+
+        public void SetHeightWidth()
+        {
             // auto adjust the width and height of the UserInput form
             //int lineCount = 1;
             //int len = lblCustomInput.Text.Length;
@@ -98,7 +103,7 @@ namespace CustomControls
             Graphics g = Graphics.FromImage(b);
             SizeF sizeOfInput = new SizeF();
             sizeOfInput = g.MeasureString(lblCustomInput.Text, f);
-            
+
             SizeF sizeOfHeader = new SizeF();
             sizeOfHeader = g.MeasureString(this.Text, f);
             if (sizeOfHeader.Width > sizeOfInput.Width)

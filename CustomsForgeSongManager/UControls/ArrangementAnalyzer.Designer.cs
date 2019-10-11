@@ -235,8 +235,8 @@ namespace CustomsForgeSongManager.UControls
             this.lnkClearSearch.TabIndex = 3;
             this.lnkClearSearch.TabStop = true;
             this.lnkClearSearch.Text = "Clear Filters/Search";
-            this.toolTip.SetToolTip(this.lnkClearSearch, "HINT:\r\nQuickly clears any Filters, \r\nas well as, any Search, \r\nand preserves exis" +
-                    "ting sort.");
+            this.toolTip.SetToolTip(this.lnkClearSearch, "Quickly clears any Filters, \r\nas well as, any Search, \r\nand preserves existing so" +
+                    "rt.");
             this.lnkClearSearch.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkClearSearch_LinkClicked);
             // 
             // lbl_Search
