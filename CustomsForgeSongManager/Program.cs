@@ -10,7 +10,7 @@ using DLogNet;
 using DataGridViewTools;
 using Mutex = System.Threading.Mutex;
 using System.Threading;
-using RocksmithToolkitLib;
+
 
 #if WINDOWS
 

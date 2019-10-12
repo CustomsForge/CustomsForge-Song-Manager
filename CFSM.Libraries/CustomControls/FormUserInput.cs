@@ -103,9 +103,9 @@ namespace CustomControls
             Graphics g = Graphics.FromImage(b);
             SizeF sizeOfInput = new SizeF();
             sizeOfInput = g.MeasureString(lblCustomInput.Text, f);
-
             SizeF sizeOfHeader = new SizeF();
             sizeOfHeader = g.MeasureString(this.Text, f);
+
             if (sizeOfHeader.Width > sizeOfInput.Width)
                 sizeOfInput.Width = sizeOfHeader.Width;
 

@@ -23,6 +23,7 @@ using System.Data;
 using System.Threading;
 using RocksmithToolkitLib.Extensions;
 using System.Configuration;
+using System.Globalization;
 
 // NOTE: the app is designed for default user screen resolution of 1024x768
 // dev screen resolution should be set to this when designing forms and controls
@@ -159,13 +160,15 @@ namespace CustomsForgeSongManager.Forms
                 appConfigStatus = "Load Successful";
 
             // log application runtime environment
-            Globals.Log("+ " + Constants.AppTitle);
-            Globals.Log("+ RocksmithToolkitLib (v" + ToolkitVersion.RSTKLibVersion() + ")");
-            Globals.Log("+ Dynamic Difficulty Creator (v" + FileVersionInfo.GetVersionInfo(Path.Combine(ExternalApps.TOOLKIT_ROOT, ExternalApps.APP_DDC)).ProductVersion + ")");
-            Globals.Log("+ .NET Framework (v" + SysExtensions.DotNetVersion + ")");
-            Globals.Log("+ App.config Status (" + appConfigStatus + ")");
-            Globals.Log("+ System Display DPI Setting (" + GeneralExtension.GetDisplayDpi(this) + ")");
-            Globals.Log("+ System Display Screen Scale Factor (" + GeneralExtension.GetDisplayScalingFactor(this) * 100 + "%)");
+            Globals.Log(String.Format("+ {0}", Constants.AppTitle));
+            Globals.Log(String.Format("+ OS: {0} ({1} bit)", Environment.OSVersion, Environment.Is64BitOperatingSystem ? "64" : "32"));
+            Globals.Log(String.Format("+ CultureInfo: {0}", CultureInfo.CurrentCulture.ToString()));
+            Globals.Log(String.Format("+ .NET Framework (v{0})", SysExtensions.DotNetVersion));
+            Globals.Log(String.Format("+ RocksmithToolkitLib (v{0})", ToolkitVersion.RSTKLibVersion()));
+            Globals.Log(String.Format("+ Dynamic Difficulty Creator (v{0})", FileVersionInfo.GetVersionInfo(Path.Combine(ExternalApps.TOOLKIT_ROOT, ExternalApps.APP_DDC)).ProductVersion));
+            Globals.Log(String.Format("+ App.config Status ({0})", appConfigStatus));
+            Globals.Log(String.Format("+ System Display DPI Setting ({0})", GeneralExtension.GetDisplayDpi(this)));
+            Globals.Log(String.Format("+ System Display Screen Scale Factor ({0}%)", GeneralExtension.GetDisplayScalingFactor(this) * 100));
 
             if (!ToolkitVersion.IsRSTKLibValid())
                 throw new ApplicationException(Environment.NewLine + "<WARNING> This version of CFSM has expired." + Environment.NewLine + "Please download and install the latest version.");

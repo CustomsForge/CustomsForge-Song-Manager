@@ -1131,7 +1131,7 @@ namespace CustomsForgeSongManager.UControls
 
         private void tsmiModsMyCDLC_Click(object sender, EventArgs e)
         {
-            // using click instead of check(state)changed to prevent double calling
+            // using Click instead of CheckedChanged or CheckStateChanged to prevent double calling
             if (tsmiModsMyCDLC.Checked)
             {
                 using (var userInput = new FormUserInput(false))

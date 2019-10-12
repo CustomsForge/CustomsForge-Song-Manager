@@ -14,11 +14,15 @@ until you can confirm it is safe by working directly with your AV provider.
 
 CFSM Release Notes
 
+1.5.6.0
+- added OS, and CultureInfo to log
+- updated RocksmithToolkitLib.dll to latest
+
 1.5.5.9
-- discontinued support for legacy version D3DX9_42.dll file
-- simplified custom exception messages to encourage users to reads them completely
+- discontinued support for legacy version D3DX9_42.dll
+- simplified custom exception messages to encourage users to read them
 - added toolkit library validation check
-- fixed SongManager 'Show My CDLC' checkbox and accept local entry of Charter's Name
+- fixed SongManager 'Show My CDLC' checkbox, and accept local input of Charter's Name
 - removed now redundant 'Enter a CDLC Charter's Name' from Settings tabmenu
 
 1.5.5.8

@@ -387,7 +387,7 @@ namespace CustomsForgeSongManager.DataObjects
             Instance.EnableAutoUpdate = false; // let user decide
             Instance.EnableNotifications = false; // false for fewer notfication issues
             Instance.MacMode = false; // true for testing Mac dev
-            Instance.ValidateD3D = false; // false until D3DX9_42.dll is stable
+            Instance.ValidateD3D = false; // avoid replacement of stable D3DX9_42.dll
             Instance.CleanOnClosing = false;
             Instance.ShowLogWindow = Constants.DebugMode;
             Instance.RepairOptions = new RepairOptions();

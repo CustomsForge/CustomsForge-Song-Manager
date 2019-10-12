@@ -133,7 +133,8 @@ namespace CustomsForgeSongManager.UControls
                 return false;
             }
 
-            // validates either legacy or remastered version of D3DX9_42.dll
+            // validate remastered version of D3DX9_42.dll
+            // discountinued support for legacy version of D3DX9_42.dll (commented out)
             var luaPath = Path.Combine(AppSettings.Instance.RSInstalledDir, "lua5.1.dll");
             var steamClientPath = Path.Combine(AppSettings.Instance.RSInstalledDir, "Steamclient.dll");
             var d3dPath = Path.Combine(AppSettings.Instance.RSInstalledDir, "D3DX9_42.dll");
