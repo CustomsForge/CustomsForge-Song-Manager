@@ -929,7 +929,7 @@ namespace CustomsForgeSongManager.UControls
             var coreCount = SysExtensions.GetCoreCount();
             var secsPerSong = (float)Math.Round(psarcFactor / (processorSpeed * coreCount * osMajor), 2);
             var songsCount = Globals.MasterCollection.Count;
-            var secsEPT = songsCount * secsPerSong; // estimated pasing time (secs)
+            var secsEPT = songsCount == 0 ? "???" : (songsCount * secsPerSong).ToString(); // estimated pasing time (secs)
             var songsCountAsString = songsCount == 0 ? "all" : songsCount.ToString();
             var diaMsg = "You are about to run a full rescan of (" + songsCountAsString + ") songs." + Environment.NewLine +
                          "Operation will take approximately (" + secsEPT + ") seconds  " + Environment.NewLine +
