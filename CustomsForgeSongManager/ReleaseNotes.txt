@@ -14,9 +14,12 @@ until you can confirm it is safe by working directly with your AV provider.
 
 CFSM Release Notes
 
+1.5.6.3
+- added additional DateTime info to log for debugging
+
 1.5.6.2
 1.5.6.1
-- regional DateTime fix 
+- hotfixes
 
 1.5.6.0
 - added OS, and CultureInfo to log
