@@ -92,7 +92,7 @@ namespace CustomsForgeSongManager.UControls
 
             if (Globals.RescanSetlistManager)
             {
-                Globals.RescanSetlistManager = false;
+                Settings.ToogleRescan(false);
                 Rescan();
                 PopulateSetlistManager();
             }
@@ -1448,10 +1448,10 @@ namespace CustomsForgeSongManager.UControls
                 var _fileName = grid.Rows[row].Cells["colSongPackFileName"].Value.ToString().ToLower();
                 if (_fileName.ToLower().EndsWith(Constants.BASESONGS) ||
                     _fileName.ToLower().EndsWith(Constants.BASESONGSDISABLED))
-                    //||
-                    //_fileName.ToLower().Contains(Constants.RS1COMP) ||
-                    //_fileName.ToLower().Contains(Constants.SONGPACK) ||
-                    //_fileName.ToLower().Contains(Constants.ABVSONGPACK))
+                //||
+                //_fileName.ToLower().Contains(Constants.RS1COMP) ||
+                //_fileName.ToLower().Contains(Constants.SONGPACK) ||
+                //_fileName.ToLower().Contains(Constants.ABVSONGPACK))
                 {
                     var diaMsg = "Base Songs should be enabled/disabled using the" + Environment.NewLine +
                                  "Song Packs tabmenu to add/remove them from in game." + Environment.NewLine +

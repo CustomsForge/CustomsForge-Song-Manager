@@ -71,7 +71,7 @@ namespace CustomsForgeSongManager.UControls
 
             if (Globals.RescanArrangements && AppSettings.Instance.IncludeArrangementData)
             {
-                Globals.RescanArrangements = false;
+                Settings.ToogleRescan(false);
                 Rescan(true);
                 PopulateArrangementManager();
             }

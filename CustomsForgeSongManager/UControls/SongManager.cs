@@ -255,6 +255,7 @@ namespace CustomsForgeSongManager.UControls
             ro.AdjustScrollSpeed = tsmiAdjustScrollSpeed.Checked;
             ro.ScrollSpeed = tsmiNudScrollSpeed.DecimalValue;
             ro.FixLowBass = tsmiFixLowBass.Checked;
+            ro.FixAppId = tsmiFixAppId.Checked;
             ro.DLFolderProcess = tsmiDLFolderProcess.Checked;
             ro.DLFolderMonitor = tsmiDLFolderMonitor.Checked;
 
@@ -267,7 +268,7 @@ namespace CustomsForgeSongManager.UControls
             chkIncludeSubfolders.Checked = AppSettings.Instance.IncludeSubfolders;
             chkProtectODLC.Checked = AppSettings.Instance.ProtectODLC;
             cueSearch.Text = AppSettings.Instance.SearchString;
-  
+
             // save settings incase user made any changes to grid
             if (Globals.RescanSongManager || Globals.ReloadSongManager)
                 Globals.Settings.SaveSettingsToFile(dgvSongsMaster);
@@ -275,7 +276,7 @@ namespace CustomsForgeSongManager.UControls
             if (Globals.RescanSongManager)
             {
                 // full rescan of song collection
-                Globals.RescanSongManager = false;
+                Settings.ToogleRescan(false);
                 Rescan(true);
                 PopulateSongManager();
             }
@@ -433,6 +434,7 @@ namespace CustomsForgeSongManager.UControls
             tsmiNudScrollSpeed.DecimalValue = AppSettings.Instance.RepairOptions.ScrollSpeed;
             tsmiRemoveSections.Checked = AppSettings.Instance.RepairOptions.RemoveSections;
             tsmiFixLowBass.Checked = AppSettings.Instance.RepairOptions.FixLowBass;
+            tsmiFixAppId.Checked = AppSettings.Instance.RepairOptions.FixAppId;
             tsmiDLFolderProcess.Checked = AppSettings.Instance.RepairOptions.DLFolderProcess;
             tsmiRepairsAddDD.Checked = AppSettings.Instance.RepairOptions.AddDD;
             tsmiOverwriteDD.Checked = AppSettings.Instance.RepairOptions.OverwriteDD;
@@ -2481,7 +2483,7 @@ namespace CustomsForgeSongManager.UControls
                 return;
             }
 
-            // preserve stats if the user fails to select tsmiRepairsMastery
+            // set minimum default repair option and preserve stats
             if (!tsmiRepairsMastery.Checked)
             {
                 tsmiRepairsMastery.Checked = true;

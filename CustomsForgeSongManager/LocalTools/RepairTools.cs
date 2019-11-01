@@ -134,7 +134,7 @@ namespace CustomsForgeSongManager.LocalTools
                 // XML, JSON and SNG's must be regenerated
                 // ArrangementIDs are stored in multiple place and all need to be updated
                 // therefore we are going to unpack, apply repair, and repack
-                Globals.Log(" - Extracting CDLC artifacts");
+                Globals.Log(" - Extracting CDLC Artifacts");
                 GenExtensions.InvokeIfRequired(Globals.TsProgressBar_Main.GetCurrentParent(), delegate
                 {
                     Globals.TsProgressBar_Main.Value = 35;
@@ -247,15 +247,28 @@ namespace CustomsForgeSongManager.LocalTools
                     packageData = packageData.AddPackageComment(Constants.TKI_DDC);
 
                 if (options.RepairMaxFive && fixedMax5)
+                {
                     packageData = packageData.AddPackageComment(Constants.TKI_MAX5);
+                    Globals.Log(" - Applied MaxFive Repairs");
+                }
 
                 // add default package version if missing
                 if (String.IsNullOrEmpty(packageData.ToolkitInfo.PackageVersion))
+                {
                     packageData.ToolkitInfo.PackageVersion = "1";
+                    Globals.Log(" - Fixed Missing PackageVersion");
+                }
                 else
                     packageData.ToolkitInfo.PackageVersion = packageData.ToolkitInfo.PackageVersion.GetValidVersion();
 
-                // validate packageData (important)
+                // apply default Cherub Rock AppId
+                if (options.FixAppId)
+                {
+                    packageData.AppId = "248750";
+                    Globals.Log(" - Applied Default AppId");
+                }
+
+                // validate packageData.Name (important)
                 packageData.Name = packageData.Name.GetValidKey(); // DLC Key                 
 
                 // log repair status
@@ -285,9 +298,9 @@ namespace CustomsForgeSongManager.LocalTools
                     Globals.Log(" - Used [" + Constants.EXT_ORG + "] File");
 
                 if (!ddError)
-                    Globals.Log(" - Repair was successful");
+                    Globals.Log(" - Repair was successful ...");
                 else
-                    Globals.Log(" - Repair was successful, but DD could not be applied");
+                    Globals.Log(" - Repair was successful, but DD could not be applied ...");
 
                 if (!options.DLFolderProcess)
                 {
@@ -632,6 +645,7 @@ namespace CustomsForgeSongManager.LocalTools
         private int _phraseLen = 8;
         private string _rampUpPath;
         private decimal _scrollSpeed = 1.3m;
+        private bool _fixAppId = true; // default repair startup value
 
         public bool SkipRemastered { get; set; }
         public bool UsingOrgFiles { get; set; }
@@ -680,6 +694,11 @@ namespace CustomsForgeSongManager.LocalTools
         //
         public bool RemoveSections { get; set; }
         public bool FixLowBass { get; set; }
+        public bool FixAppId // { get; set; }
+        {
+            get { return _fixAppId; }
+            set { _fixAppId = value; }
+        }
         //
         public bool DLFolderProcess { get; set; }
         public bool DLFolderMonitor { get; set; }

@@ -192,7 +192,7 @@ namespace CustomsForgeSongManager.UControls
 
             if (Globals.RescanDuplicates)
             {
-                Globals.RescanDuplicates = false;
+                Settings.ToogleRescan(false);
                 Rescan();
                 PopulateDuplicates(dupPidSelected);
             }

@@ -93,7 +93,7 @@ namespace CustomsForgeSongManager.UControls
             }
         }
 
-        private void ToogleRescan(bool rescan)
+        public static void ToogleRescan(bool rescan)
         {
             // speed up load process
             if (AppSettings.Instance.FirstRun)
@@ -107,7 +107,7 @@ namespace CustomsForgeSongManager.UControls
             Globals.ReloadSongPacks = rescan;
         }
 
-        private void ToogleReload(bool reload)
+        public static void ToogleReload(bool reload)
         {
             // speed up load process
             if (AppSettings.Instance.FirstRun)

@@ -23,6 +23,8 @@ using System.Globalization;
 using System.Windows.Forms;
 using RocksmithToolkitLib.DLCPackage.Manifest2014.Header;
 using RocksmithToolkitLib.PSARC;
+using MiscUtil.IO;
+using RocksmithToolkitLib.Ogg;
 
 
 namespace CustomsForgeSongManager.LocalTools
@@ -80,6 +82,7 @@ namespace CustomsForgeSongManager.LocalTools
 
             var songsData = new List<SongData>();
             var fInfo = new FileInfo(_filePath);
+            Platform platform = _filePath.GetPlatform();
             var toolkitVersion = String.Empty;
             var packageAuthor = String.Empty;
             var packageVersion = String.Empty;
@@ -170,7 +173,7 @@ namespace CustomsForgeSongManager.LocalTools
                 var strippedName = xblockEntry.Name.Replace(".xblock", "").Replace("gamexblocks/nsongs", "");
                 if (strippedName.Contains("_fcp_dlc"))
                     strippedName = strippedName.Replace("fcp_dlc", "");
-        
+
                 var jsonEntries = _archive.TOC.Where(x => x.Name.StartsWith("manifests/songs") && x.Name.EndsWith(".json") && x.Name.Contains(strippedName)).OrderBy(x => x.Name).ToList();
                 // may be it is a songpack file
                 if (jsonEntries.Count > 6) // Remastered CDLC max with vocals
@@ -220,7 +223,6 @@ namespace CustomsForgeSongManager.LocalTools
                             // try to get SongVolume from main audio bnk file 
                             if (song.SongVolume == null && !song.IsRsCompPack && !song.IsSongPack && !song.IsSongsPsarc)
                             {
-                                Platform platform = _filePath.GetPlatform();
                                 var bnkEntry = _archive.TOC.FirstOrDefault(x => x.Name.StartsWith("audio/") && x.Name.EndsWith(".bnk") && !x.Name.EndsWith("_preview.bnk"));
                                 if (bnkEntry == null)
                                     throw new Exception("Could not find valid bnk file : " + _filePath);
@@ -237,6 +239,43 @@ namespace CustomsForgeSongManager.LocalTools
                                 song.SongVolume = SoundBankGenerator2014.ReadVolumeFactor(bnkPath, platform);
                                 File.Delete(bnkPath);
                             }
+
+                            // get main wem audio bitrate (kbps)
+                            var wems = _archive.TOC.Where(entry => entry.Name.StartsWith("audio/") && entry.Name.EndsWith(".wem")).ToList();
+                            if (wems.Count > 1)
+                            {
+                                wems.Sort((e1, e2) =>
+                                    {
+                                        if (e1.Length < e2.Length)
+                                            return 1;
+                                        if (e1.Length > e2.Length)
+                                            return -1;
+                                        return 0;
+                                    });
+                            }
+
+                            // assumes main audio is larger wem file (may not always be correct)
+                            if (wems.Count > 0)
+                            {
+                                var top = wems[0];
+                                _archive.InflateEntry(top);
+                                top.Data.Position = 0;
+                                var wemSize = top.Data.Length;
+                                
+                                // slow actual kbps
+                                // WemFile wemFile = new WemFile(top.Data, platform);
+                                // var kbpsActual = (int)wemFile.AverageBytesPerSecond * 8 / 1000;
+                                
+                                // fast approximate kbps (very close)
+                                var kbpsApprox = (int)(wemSize * 8 / song.SongLength / 1000);
+                                song.AudioBitRate = kbpsApprox;
+                            }
+
+                            // does the CDLC have a CustomFont
+                            var hasCustomFont = _archive.TOC.Any(x => x.Name.Contains("/lyrics_") && x.Name.EndsWith(".dds"));
+                            song.HasCustomFont = hasCustomFont;
+
+                            // REM - the above is done only 1X for max speed
                         }
                         catch (Exception ex) // CDLC may still be usable
                         {
@@ -291,8 +330,6 @@ namespace CustomsForgeSongManager.LocalTools
                         // parse Arrangment Analyzer data (slow process, only done if requested by user)
                         if (AppSettings.Instance.IncludeArrangementData)
                         {
-                            Platform platform = _filePath.GetPlatform();
-
                             // quick load HSAN file data to get SongDifficulty
                             var hsanEntries = new ManifestHeader2014<AttributesHeader2014>(platform);
                             var hsanEntry = _archive.TOC.FirstOrDefault(x => x.Name.StartsWith("manifests/songs") && x.Name.EndsWith(".hsan"));
@@ -570,7 +607,7 @@ namespace CustomsForgeSongManager.LocalTools
 
                     Globals.Log(String.Format(" + Parsed Song Pack: {0};{1}", _fileName, song.ArtistTitleAlbumDate));
                 }
-            
+
                 song.Arrangements2D = arrangements;
                 songsData.Add(song);
             }
@@ -653,9 +690,13 @@ namespace CustomsForgeSongManager.LocalTools
                     }
                 }
             }
+
             return result;
         }
 
         #endregion
+
+
+
     }
 }

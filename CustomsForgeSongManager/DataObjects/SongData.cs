@@ -56,7 +56,7 @@ namespace CustomsForgeSongManager.DataObjects
     {
         // version 0 - 9: recyclable version number
         // incrementing version forces songInfo.xml and appSettings.xml to reset/update to defaults
-        public const string SongDataVersion = "7"; // Devs change when needed to force user update
+        public const string SongDataVersion = "9"; // Devs change when needed to force user update
 
         // Unique Song Key
         public string DLCKey { get; set; }
@@ -90,6 +90,9 @@ namespace CustomsForgeSongManager.DataObjects
         public SongDataStatus Status { get; set; }
         public SongTaggerStatus Tagged { get; set; }
         public RepairStatus RepairStatus { get; set; }
+
+        public bool HasCustomFont { get; set; }
+        public int AudioBitRate { get; set; }       
         public bool NeedsUpdate { get; set; }
 
         // used by detail table

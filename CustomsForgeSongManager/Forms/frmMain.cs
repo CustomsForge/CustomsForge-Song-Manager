@@ -159,16 +159,26 @@ namespace CustomsForgeSongManager.Forms
             if (Convert.ToBoolean(ConfigurationSettings.AppSettings["key"]))
                 appConfigStatus = "Load Successful";
 
+            var assembly = Assembly.LoadFile(typeof(RocksmithToolkitLib.ToolkitVersion).Assembly.Location);
+            var assemblyConfiguration = assembly.GetCustomAttributes(typeof(AssemblyConfigurationAttribute), false).Cast<AssemblyConfigurationAttribute>().FirstOrDefault().Configuration.ToString() ?? "";
+            DateTime dtuLib = new DateTime();
+
+            try
+            {
+                dtuLib = DateTime.Parse(assemblyConfiguration, CultureInfo.InvariantCulture, DateTimeStyles.AdjustToUniversal);
+            }
+            catch
+            {
+                // exception returns [1/1/0001 12:00:00 AM] 
+            }
+
             // log application runtime environment
             Globals.Log(String.Format("+ {0}", Constants.AppTitle));
             Globals.Log(String.Format("+ OS {0} ({1} bit)", Environment.OSVersion, Environment.Is64BitOperatingSystem ? "64" : "32"));
             Globals.Log(String.Format("+ .NET Framework (v{0})", SysExtensions.DotNetVersion));
             Globals.Log(String.Format("+ CultureInfo ({0})", CultureInfo.CurrentCulture.ToString()));
-            Globals.Log(String.Format("+ Local DateTime [{0}]", DateTime.Now.ToString()));
-            Globals.Log(String.Format("+ UTC DateTime [{0}]", DateTime.UtcNow.ToString()));
-            var assembly = Assembly.LoadFile(typeof(RocksmithToolkitLib.ToolkitVersion).Assembly.Location);
-            var assemblyConfiguration = assembly.GetCustomAttributes(typeof(AssemblyConfigurationAttribute), false).Cast<AssemblyConfigurationAttribute>().FirstOrDefault().Configuration.ToString() ?? "";
-            var dtuLib = DateTime.Parse(assemblyConfiguration, CultureInfo.InvariantCulture, DateTimeStyles.AdjustToUniversal);
+            Globals.Log(String.Format("+ Current Local DateTime [{0}]", DateTime.Now.ToString()));
+            Globals.Log(String.Format("+ Current UTC DateTime [{0}]", DateTime.UtcNow.ToString()));
             Globals.Log(String.Format("+ RocksmithToolkitLib (v{0}) [{1}]", ToolkitVersion.RSTKLibVersion(), dtuLib));
             Globals.Log(String.Format("+ Dynamic Difficulty Creator (v{0})", FileVersionInfo.GetVersionInfo(Path.Combine(ExternalApps.TOOLKIT_ROOT, ExternalApps.APP_DDC)).ProductVersion));
             Globals.Log(String.Format("+ App.config Status ({0})", appConfigStatus));
