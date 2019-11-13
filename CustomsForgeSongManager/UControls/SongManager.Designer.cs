@@ -1655,7 +1655,7 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiFixAppId.RadioButtonGroupName = "FixAppId";
             this.tsmiFixAppId.Size = new System.Drawing.Size(246, 22);
             this.tsmiFixAppId.Text = "Apply Default AppId";
-            this.tsmiFixAppId.ToolTipText = "If selected, apply default \r\nAppId for Cherub Rock";
+            this.tsmiFixAppId.ToolTipText = "If selected, apply the default AppId\r\nfor Cherub Rock to the CDLC";
             this.tsmiFixAppId.Click += new System.EventHandler(this.RepairsButton_Click);
             // 
             // toolStripSeparator10

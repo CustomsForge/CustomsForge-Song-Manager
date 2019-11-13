@@ -14,9 +14,14 @@ until you can confirm it is safe by working directly with your AV provider.
 
 CFSM Release Notes
 
+1.5.6.6
+- added some missing fields for UpdateXml in SongEditor
+- fixed SongEditor handling of CDLC that have custom fonts
+- added additional exception handling to Settings tabmenu
+
 1.5.6.5
 - added Audio (~kbps) column to SongManager
-- added HasCustomFont (True/False for Lyrics Texture DDS) column to SongManager 
+- added HasCustomFont (True/False for Lyrics Texture Artwork) column to SongManager 
   use Settings tabmenu or Ctrl+Right Click on columns headers to enable the new columns
 - added Apply Default AppId to Repair Options
 - improved non-primary grid loading speeds after Settings tabmenu changes

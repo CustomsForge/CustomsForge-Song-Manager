@@ -923,7 +923,7 @@ namespace CustomsForgeSongManager.UControls
         {
             // just for fun ... estimate parsing time
             // based on machine specs (speed, cores and OS) (P4 2500 C1 5) (i7 3500 C4 10)           
-            const float psarcFactor = 41000.0f; // adjust as needed (lower factor => less time)
+            const float psarcFactor = 21000.0f; // adjust as needed (lower factor => less time)
             var osMajor = Environment.OSVersion.Version.Major;
             var processorSpeed = SysExtensions.GetProcessorSpeed();
             var coreCount = SysExtensions.GetCoreCount();

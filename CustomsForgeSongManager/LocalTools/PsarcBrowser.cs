@@ -125,7 +125,6 @@ namespace CustomsForgeSongManager.LocalTools
             foreach (var xblockEntry in xblockEntries)
             {
                 var arrangements = new List<Arrangement>();
-                bool gotSongInfo = false;
                 var song = new SongData
                 {
                     ToolkitVersion = toolkitVersion,
@@ -196,7 +195,7 @@ namespace CustomsForgeSongManager.LocalTools
                     var attributes = manifest2014.Entries.ToArray()[0].Value.ToArray()[0].Value;
 
                     // speed hack - these don't change so skip after first pass
-                    if (!gotSongInfo)
+                    if (song.DLCKey == null)
                     {
                         song.DLCKey = attributes.SongKey;
                         song.Artist = attributes.ArtistName;
@@ -261,17 +260,17 @@ namespace CustomsForgeSongManager.LocalTools
                                 _archive.InflateEntry(top);
                                 top.Data.Position = 0;
                                 var wemSize = top.Data.Length;
-                                
+
                                 // slow actual kbps
                                 // WemFile wemFile = new WemFile(top.Data, platform);
                                 // var kbpsActual = (int)wemFile.AverageBytesPerSecond * 8 / 1000;
-                                
+
                                 // fast approximate kbps (very close)
                                 var kbpsApprox = (int)(wemSize * 8 / song.SongLength / 1000);
                                 song.AudioBitRate = kbpsApprox;
                             }
 
-                            // does the CDLC have a CustomFont
+                            // does the CDLC have a CustomFont lyrics texture artifact
                             var hasCustomFont = _archive.TOC.Any(x => x.Name.Contains("/lyrics_") && x.Name.EndsWith(".dds"));
                             song.HasCustomFont = hasCustomFont;
 
@@ -284,8 +283,6 @@ namespace CustomsForgeSongManager.LocalTools
                             Globals.Log(" - " + Path.GetFileName(_filePath));
                             Globals.Log(" - This CDLC may still be usable but it should be updated if a newer version is available ...");
                         }
-
-                        gotSongInfo = true;
                     }
 
                     var arr = new Arrangement(song);

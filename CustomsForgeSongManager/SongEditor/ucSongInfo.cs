@@ -149,7 +149,7 @@ namespace CustomsForgeSongManager.SongEditor
         {
             if (!Dirty)
                 return;
-
+           
             SongData.Name = txtKey.Text;
             SongData.AppId = txtAppId.Text;
             SongData.Volume = Convert.ToSingle(cmbSongVolume.Value);

@@ -333,13 +333,27 @@ namespace CustomsForgeSongManager.SongEditor
             // D:\Documents and Settings\Administrator\Local Settings\Temp\Three Days Grace_One X_vNA_BLRV_RS2014_Pc\EOF\threedaysgrace_bass.xml
             var songXml = Song2014.LoadFromFile(arr.SongXml.File);
             arr.ClearCache();
+
             songXml.AlbumName = info.SongInfo.Album;
-            songXml.AlbumYear = info.SongInfo.SongYear.ToString();
+            songXml.AlbumNameSort = info.SongInfo.AlbumSort;
             songXml.ArtistName = info.SongInfo.Artist;
             songXml.ArtistNameSort = info.SongInfo.ArtistSort;
-            songXml.AverageTempo = info.SongInfo.AverageTempo;
             songXml.Title = info.SongInfo.SongDisplayName;
+            songXml.SongNameSort = info.SongInfo.SongDisplayNameSort;
+            songXml.AlbumYear = info.SongInfo.SongYear.ToString();
+            songXml.AverageTempo = info.SongInfo.AverageTempo;
             songXml.Tuning = arr.TuningStrings;
+
+            // add optional properties
+            if (!String.IsNullOrEmpty(info.SongInfo.JapaneseSongName) || !String.IsNullOrEmpty(info.SongInfo.JapaneseArtistName))
+            {
+                songXml.OptionalProperties = new OptionalProperties()
+                {
+                    JapaneseArtistName = info.SongInfo.JapaneseArtistName,
+                    JapaneseSongName = info.SongInfo.JapaneseSongName
+                };
+            }
+
             if (!String.IsNullOrEmpty(arr.ToneBase)) songXml.ToneBase = arr.ToneBase;
             if (!String.IsNullOrEmpty(arr.ToneA)) songXml.ToneA = arr.ToneA;
             if (!String.IsNullOrEmpty(arr.ToneB)) songXml.ToneB = arr.ToneB;

@@ -584,7 +584,11 @@ namespace CustomsForgeSongManager.UControls
             catch (Exception ex)
             {
                 // failsafe ... delete My Documents/CFSM folder and files with option not to delete
-                var diaMsg = "A fatal CFSM application error has occured." + Environment.NewLine + "You are about to delete all work files created" + Environment.NewLine + "by CFSM, including any backups of CDLC files." + Environment.NewLine + "Deletion is permenant and can not be undone." + Environment.NewLine + "Do you want to continue?";
+                var diaMsg = "A fatal CFSM application error has occured." + Environment.NewLine + 
+                    "You are about to delete all work files created" + Environment.NewLine + 
+                    "by CFSM, including any backups of CDLC files." + Environment.NewLine + 
+                    "Deletion is permenant and can not be undone." + Environment.NewLine + 
+                    "Do you want to continue?";
 
                 if (DialogResult.No == BetterDialog2.ShowDialog(diaMsg, "Delete 'My Documents/CFSM' ...", null, "Yes", "No", Bitmap.FromHicon(SystemIcons.Warning.Handle), "Warning", 0, 150))
                 {
@@ -2504,9 +2508,9 @@ namespace CustomsForgeSongManager.UControls
         {
             // just for fun ... estimate parsing time
             // based on machine specs (speed, cores and OS) (P4 2500 C1 5) (i7 3500 C4 10)                       
-            float psarcFactor = 4100.0f; // adjust as needed (lower factor => less time)
+            float psarcFactor = 7000.0f; // adjust as needed (lower factor => less time)
             if (AppSettings.Instance.IncludeArrangementData)
-                psarcFactor = 41000.0f;
+                psarcFactor = 21000.0f;
 
             var osMajor = Environment.OSVersion.Version.Major;
             var processorSpeed = SysExtensions.GetProcessorSpeed();

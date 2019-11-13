@@ -729,67 +729,76 @@ namespace CustomsForgeSongManager.UControls
 
         private void dgvColumns_DragDrop(object sender, DragEventArgs e)
         {
-            // The mouse locations are relative to the screen, so they must be
-            // converted to client coordinates.
-            Point clientPoint = dgvColumns.PointToClient(new Point(e.X, e.Y));
-
-            // Get the row index of the item the mouse is below.
-            rowIndexOfItemUnderMouseToDrop = dgvColumns.HitTest(clientPoint.X, clientPoint.Y).RowIndex;
-            // Get the column index of the item the mouse is below.
-            colIndexOfItemUnderMouseToDrop = dgvColumns.HitTest(clientPoint.X, clientPoint.Y).ColumnIndex;
-
-            // If the drag operation was a move then remove and insert the row.
-            if (e.Effect == DragDropEffects.Move)
+            try
             {
-                // check if grid is properly sorted
-                if (dgvColumns.SortedColumn.Index != dgvColumns.Columns["colDisplayIndex"].Index ||
-                    (dgvColumns.SortedColumn.Index == dgvColumns.Columns["colDisplayIndex"].Index && dgvColumns.SortOrder != SortOrder.Ascending))
+                // The mouse locations are relative to the screen, so they must be
+                // converted to client coordinates.
+                Point clientPoint = dgvColumns.PointToClient(new Point(e.X, e.Y));
+
+                // Get the row index of the item the mouse is below.
+                rowIndexOfItemUnderMouseToDrop = dgvColumns.HitTest(clientPoint.X, clientPoint.Y).RowIndex;
+                // Get the column index of the item the mouse is below.
+                colIndexOfItemUnderMouseToDrop = dgvColumns.HitTest(clientPoint.X, clientPoint.Y).ColumnIndex;
+
+                // If the drag operation was a move then remove and insert the row.
+                if (e.Effect == DragDropEffects.Move)
                 {
-                    var diaMsg = "Sort on DisplayIndex (ascending) before" + Environment.NewLine + "using the drag and drop feature ...";
-                    BetterDialog2.ShowDialog(diaMsg, "Settings ...", null, null, "Ok", Bitmap.FromHicon(SystemIcons.Warning.Handle), "ReadMe", 0, 150);
-                    return;
+                    // check if grid is properly sorted
+                    if (dgvColumns.SortedColumn.Index != dgvColumns.Columns["colDisplayIndex"].Index ||
+                        (dgvColumns.SortedColumn.Index == dgvColumns.Columns["colDisplayIndex"].Index && dgvColumns.SortOrder != SortOrder.Ascending))
+                    {
+                        var diaMsg = "Sort on DisplayIndex (ascending) before" + Environment.NewLine + "using the drag and drop feature ...";
+                        BetterDialog2.ShowDialog(diaMsg, "Settings ...", null, null, "Ok", Bitmap.FromHicon(SystemIcons.Warning.Handle), "ReadMe", 0, 150);
+                        return;
+                    }
+
+                    if (colIndexFromMouseDown == dgvColumns.Columns["colHeaderText"].Index)
+                    {
+                        // use this method for unbound grids
+                        //DataGridViewRow rowToMove = e.Data.GetData(typeof(DataGridViewRow)) as DataGridViewRow;
+                        //dgvColumns.Rows.RemoveAt(rowIndexFromMouseDown);
+                        //dgvColumns.Rows.Insert(rowIndexOfItemUnderMouseToDrop, rowToMove);
+
+                        // use this method for bound grids
+                        dynamic list = dgvColumns.DataSource;
+                        var item = list[rowIndexFromMouseDown];
+                        list.RemoveAt(rowIndexFromMouseDown);
+
+                        if (rowIndexOfItemUnderMouseToDrop == -1)
+                            list.Add(item);
+                        else
+                            list.Insert(rowIndexOfItemUnderMouseToDrop, item);
+
+                        // refresh row placement in grid
+                        dgvColumns.Invalidate();
+                        dgvColumns.Refresh();
+
+                        // renumber display index according to the new row position
+                        for (int i = 0; i < dgvColumns.Rows.Count; i++)
+                            dgvColumns.Rows[i].Cells["colDisplayIndex"].Value = i;
+
+                        // prevent user from making any manual changes to DisplayIndex                    
+                        colDisplayIndex.ReadOnly = true;
+                        colDisplayIndex.ToolTipText = "Click to Sort (Read Only)";
+                        dgvColumns.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+                        dgvColumns.ClearSelection();
+                    }
+
+                    // reset drag/drop variables
+                    dragBoxFromMouseDown = new Rectangle();
+                    rowIndexFromMouseDown = -1;
+                    colIndexFromMouseDown = -1;
+                    rowIndexOfItemUnderMouseToDrop = -1;
+                    colIndexOfItemUnderMouseToDrop = -1;
                 }
-
-                if (colIndexFromMouseDown == dgvColumns.Columns["colHeaderText"].Index)
-                {
-                    // use this method for unbound grids
-                    //DataGridViewRow rowToMove = e.Data.GetData(typeof(DataGridViewRow)) as DataGridViewRow;
-                    //dgvColumns.Rows.RemoveAt(rowIndexFromMouseDown);
-                    //dgvColumns.Rows.Insert(rowIndexOfItemUnderMouseToDrop, rowToMove);
-
-                    // use this method for bound grids
-                    dynamic list = dgvColumns.DataSource;
-                    var item = list[rowIndexFromMouseDown];
-                    list.RemoveAt(rowIndexFromMouseDown);
-
-                    if (rowIndexOfItemUnderMouseToDrop == -1)
-                        list.Add(item);
-                    else
-                        list.Insert(rowIndexOfItemUnderMouseToDrop, item);
-
-                    // refresh row placement in grid
-                    dgvColumns.Invalidate();
-                    dgvColumns.Refresh();
-
-                    // renumber display index according to the new row position
-                    for (int i = 0; i < dgvColumns.Rows.Count; i++)
-                        dgvColumns.Rows[i].Cells["colDisplayIndex"].Value = i;
-
-                    // prevent user from making any manual changes to DisplayIndex                    
-                    colDisplayIndex.ReadOnly = true;
-                    colDisplayIndex.ToolTipText = "Click to Sort (Read Only)";
-                    dgvColumns.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-                    dgvColumns.ClearSelection();
-                }
-
-                // reset drag/drop variables
-                dragBoxFromMouseDown = new Rectangle();
-                rowIndexFromMouseDown = -1;
-                colIndexFromMouseDown = -1;
-                rowIndexOfItemUnderMouseToDrop = -1;
-                colIndexOfItemUnderMouseToDrop = -1;
+            }
+            catch (Exception ex)
+            {
+                // DO NOTHING
+                Debug.WriteLine("dgvColumns_DragDrop Exception: " + ex.Message);
             }
         }
+
 
         #endregion
 
