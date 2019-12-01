@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -436,7 +437,7 @@ namespace CustomsForgeSongManager.LocalTools
                     }
                 }
 
-                // remaster the CDLC file
+                // REMASTER the CDLC file
                 if (!isSkipped)
                 {
                     var result = RemasterSong(srcFilePath);
@@ -514,7 +515,7 @@ namespace CustomsForgeSongManager.LocalTools
             else
                 Globals.Log("No CDLC were repaired ...");
 
-            return sbErrors;
+              return sbErrors;
         }
 
         public static void ViewErrorLog()

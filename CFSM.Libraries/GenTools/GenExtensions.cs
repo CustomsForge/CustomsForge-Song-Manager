@@ -304,6 +304,9 @@ namespace GenTools
 
         public static bool DeleteDirectory(string dirPath, bool includeSubDirs = true)
         {
+            if (!Directory.Exists(dirPath))
+                return false;
+
             const int magicDust = 10;
             for (var gnomes = 1; gnomes <= magicDust; gnomes++)
             {

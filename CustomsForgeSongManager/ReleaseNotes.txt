@@ -14,6 +14,11 @@ until you can confirm it is safe by working directly with your AV provider.
 
 CFSM Release Notes
 
+1.5.6.7
+- force error log viewer to auto display any error results
+- fixed some Mac SongPack path and file naming issues
+- added custom inlays to Duplicates finder
+
 1.5.6.6
 - added some missing fields for UpdateXml in SongEditor
 - fixed SongEditor handling of CDLC that have custom fonts

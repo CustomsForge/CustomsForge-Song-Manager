@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Drawing;
 using CustomControls;
+using System.Text;
 
 //
 // Reusable generic background worker class
@@ -124,6 +125,8 @@ namespace CustomsForgeSongManager.LocalTools
         {
             if (!bWorker.CancellationPending)
             {
+                var workerResults = String.Empty;
+
                 var coreCount = SysExtensions.GetCoreCount();
                 if (coreCount == null || coreCount == 0)
                     coreCount = 1;
@@ -133,10 +136,10 @@ namespace CustomsForgeSongManager.LocalTools
                 {
                     var diaMsg = ".NET Framework reports that you have a (" + coreCount + ") core processor ..." + Environment.NewLine +
                                  "Would you like to try running the CFSM repair options using" + Environment.NewLine +
-                                 "the new multicore support feature?" + Environment.NewLine + Environment.NewLine +
+                                 "the new multi-core support feature?" + Environment.NewLine + Environment.NewLine +
                                  "Repairs can be made using the old method if you answer 'No'" + Environment.NewLine +
                                  "Please send your feedback and 'debug.log' file to Cozy1." + Environment.NewLine + Environment.NewLine +
-                                 "Threading seletion can be reset in 'Settings' tabmenu";
+                                 "Threading selection can be reset in 'Settings' tabmenu";
 
                     if (DialogResult.Yes == BetterDialog2.ShowDialog(diaMsg, "Multicore Processor Beta Test ...", null, "Yes", "No", Bitmap.FromHicon(SystemIcons.Hand.Handle), "ReadMe", 0, 150))
                         AppSettings.Instance.MultiThread = 1;
@@ -145,7 +148,6 @@ namespace CustomsForgeSongManager.LocalTools
 
                     Globals.Settings.SaveSettingsToFile(Globals.DgvCurrent);
                 }
-
 
                 if (AppSettings.Instance.MultiThread == 1)
                 {
@@ -167,7 +169,7 @@ namespace CustomsForgeSongManager.LocalTools
                             {
                                 var result = RepairTools.RepairSongs(songsSubLists[ndxLocal], repairOptionsLocal).ToString();
                                 if (!String.IsNullOrEmpty(result))
-                                    Globals.Log("<ERROR> " + result);
+                                    workerResults += result;
                             });
                         });
 
@@ -193,8 +195,12 @@ namespace CustomsForgeSongManager.LocalTools
                 else // single core processor
                 {
                     Globals.Log("Using legacy single thread rescan method ...");
-                    RepairTools.RepairSongs(WorkParm1, WorkParm2);
+                    workerResults = RepairTools.RepairSongs(WorkParm1, WorkParm2).ToString();
                 }
+
+                // workaround for not being able to throw an exception from inside worker
+                if (!String.IsNullOrEmpty(workerResults))
+                    RepairTools.ViewErrorLog();
             }
         }
 
@@ -224,8 +230,8 @@ namespace CustomsForgeSongManager.LocalTools
 
         private void WorkerTagTitles(object sender, DoWorkEventArgs e)
         {
-            if(!bWorker.CancellationPending)
-               Globals.Tagger.TagSongTitles(WorkParm1, WorkParm2, WorkParm3, WorkParm4);
+            if (!bWorker.CancellationPending)
+                Globals.Tagger.TagSongTitles(WorkParm1, WorkParm2, WorkParm3, WorkParm4);
         }
 
         [SuppressMessage("Microsoft.Usage", "CA2213:DisposableFieldsShouldBeDisposed", MessageId = "bWorker")]

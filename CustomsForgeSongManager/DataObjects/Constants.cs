@@ -147,15 +147,33 @@ namespace CustomsForgeSongManager.DataObjects
         public static string Rs2CfsmFolder { get { return Path.Combine(AppSettings.Instance.RSInstalledDir, "cfsm"); } }
 
         public static string Rs2OriginalsFolder { get { return Path.Combine(AppSettings.Instance.RSInstalledDir, "originals"); } }
-        public static string Rs1DiscPsarcBackupPath { get { return Path.Combine(Rs2OriginalsFolder, "rs1compatibilitydisc_p.org.psarc"); } }
-        public static string Rs1DlcPsarcBackupPath { get { return Path.Combine(Rs2OriginalsFolder, "rs1compatibilitydlc_p.org.psarc"); } }
+        public static string Rs1DiscPsarcBackupPath
+        {
+            get
+            {
+                if(OnMac)
+                    return Path.Combine(Rs2OriginalsFolder, "rs1compatibilitydisc_m.org.psarc");
+   
+                return Path.Combine(Rs2OriginalsFolder, "rs1compatibilitydisc_p.org.psarc");
+            }
+        }
+        public static string Rs1DlcPsarcBackupPath
+        {
+            get
+            {
+                if (OnMac)
+                return Path.Combine(Rs2OriginalsFolder, "rs1compatibilitydlc_m.org.psarc");
+                
+                return Path.Combine(Rs2OriginalsFolder, "rs1compatibilitydlc_p.org.psarc");
+            }
+        }
         public static string CachePsarcBackupPath { get { return Path.Combine(Rs2OriginalsFolder, "cache.org.psarc"); } }
         public static string ExtractedSongsHsanPath { get { return Path.Combine(SongPacksFolder, "songs.hsan"); } }
         public static string ExtractedRs1DiscHsanPath { get { return Path.Combine(SongPacksFolder, "songs_rs1disc.hsan"); } }
         public static string ExtractedRs1DlcHsanPath { get { return Path.Combine(SongPacksFolder, "songs_rs1dlc.hsan"); } }
         // TODO: address Mac unpacked directory, i.e., cache.psarc_RS2014_Mac
-        public static string Cache7zPath { get { return Path.Combine(SongPacksFolder, "cache.psarc_RS2014_Pc", "cache7.7z"); } }
-        public static string CachePcPath { get { return Path.Combine(SongPacksFolder, "cache.psarc_RS2014_Pc"); } }
+        public static string Cache7zPath { get { return Path.Combine(SongPacksFolder, "cache_psarc_RS2014_Pc", "cache7.7z"); } }
+        public static string CachePcPath { get { return Path.Combine(SongPacksFolder, "cache_psarc_RS2014_Pc"); } }
         // cache7.7z internal paths uses back slashes (normal path mode)
         public static string SongsHsanInternalPath { get { return Path.Combine("manifests", "songs", "songs.hsan"); } }
         // this is not a mistake archive internal paths use forward slashes (internal path mode)

@@ -53,26 +53,11 @@ namespace CustomsForgeSongManager.UControls
             // dev testing new menu item
             //if (!Constants.DebugMode)
             //    tsmiDuplicateType.Visible = false;
-
-            // test for duplicate DLCKey
-            dupPidSelected = false;
-            PopulateDuplicates(dupPidSelected);
-
-            // test for duplicate PID
-            if (!duplicateList.Any())
-            {
-                dupPidSelected = true;
-                PopulateDuplicates(dupPidSelected);
-
-                // switch back
-                if (!duplicateList.Any())
-                    dupPidSelected = false;
-            }
-        }
+         }
 
         // TODO: make method generic to find any Type of Duplicate
         public void PopulateDuplicates(bool findDupPIDs = false)
-        {
+        {            
             // remove all previous selections
             foreach (var song in Globals.MasterCollection)
                 song.Selected = false;
@@ -93,7 +78,7 @@ namespace CustomsForgeSongManager.UControls
 
             if (findDupPIDs) // NOTE: duplicate PID cause in-game lockup
             {
-                Globals.Log("Showing CDLC with duplicate PID (GAME CRASHERS) ...");
+                Globals.Log("Showing songs and inlays with duplicate PID (GAME CRASHERS) ...");
                 var pidList = new List<SongData>();
 
                 // assuming every song has at least one arrangement
@@ -130,7 +115,7 @@ namespace CustomsForgeSongManager.UControls
             }
             else
             {
-                Globals.Log("Showing CDLC with either duplicate DLCKey or duplicate ArtistTitleAlbum (case insensitive) ...");
+                Globals.Log("Showing songs and inlays with either duplicate DLCKey or duplicate ArtistTitleAlbum (case insensitive) ...");
                 // use case insensitive duplicate detection
                 var dupDlcKey = Globals.MasterCollection.GroupBy(x => x.DLCKey.ToUpperInvariant()).Where(g => g.Count() > 1).SelectMany(g => g);
                 // move short words like 'the', expand abbreviations, and strip non-alphanumeric characters and whitespace
@@ -188,6 +173,7 @@ namespace CustomsForgeSongManager.UControls
 
         public void UpdateToolStrip()
         {
+            dupPidSelected = false; // first test for dup ATA/DLCKey
             chkIncludeSubfolders.Checked = AppSettings.Instance.IncludeSubfolders;
 
             if (Globals.RescanDuplicates)
@@ -204,6 +190,17 @@ namespace CustomsForgeSongManager.UControls
             // for safety subfolders are always included when checking for duplicates
             else if (chkIncludeSubfolders.Visible && chkIncludeSubfolders.Checked)
                 IncludeSubfolders();
+
+            // now double check for duplicate PID (GAME CRASHERS)
+            if (!duplicateList.Any())
+            {
+                dupPidSelected = true;
+                PopulateDuplicates(dupPidSelected);
+
+                // switch back
+                if (!duplicateList.Any())
+                    dupPidSelected = false;
+            }
 
             if (!duplicateList.Any())
             {
@@ -936,6 +933,11 @@ namespace CustomsForgeSongManager.UControls
 
         public void TabLeave()
         {
+            // quick remove inlays without rescanning
+            Globals.IncludeInlays = false;
+            var noInlays = Globals.MasterCollection.ToList().Where(fi => !fi.FileName.ToLower().Contains("inlay")).ToList();
+            Globals.MasterCollection = new BindingList<SongData>(noInlays);
+
             statusDuplicates.SaveSorting(Globals.DgvCurrent);
             GetGrid().ResetBindings(); // force grid data to rebind/refresh
 
@@ -1023,7 +1025,6 @@ namespace CustomsForgeSongManager.UControls
             if (Globals.ReloadDuplicates)
                 UpdateToolStrip();
         }
-
 
     }
 }

@@ -25,7 +25,7 @@ namespace CustomsForgeSongManager.UControls
     public partial class SongPacks : UserControl, IDataGridViewHolder, INotifyTabChanged
     {
         // TODO: Impliment Safe Threading for long duration processes
-        // HINT: search for occurences of 'this.Enabled = false;'
+        // HINT: search for occurences of ToggleUI(false); or ToggleUI(false);
 
         private RSDataJsonDictionary<RS2SongsData> CacheDisabledEntireCollection = new RSDataJsonDictionary<RS2SongsData>();
         private RSDataJsonDictionary<RS2SongsData> CacheDisabledSongCollection = new RSDataJsonDictionary<RS2SongsData>();
@@ -265,6 +265,7 @@ namespace CustomsForgeSongManager.UControls
 
         private bool ExtractSongsHsan()
         {
+            // TODO: Monitor this when in Mac Mode
             if (File.Exists(Constants.ExtractedSongsHsanPath))
                 File.Delete(Constants.ExtractedSongsHsanPath);
 
@@ -275,6 +276,7 @@ namespace CustomsForgeSongManager.UControls
                     return true;
             }
 
+            Globals.Log("<ERROR> Extracting song cache ...");
             MessageBox.Show("<ERROR> Extracting song cache ... FAILED", "Extraction Failed", MessageBoxButtons.OK, MessageBoxIcon.Stop);
             return false;
         }
@@ -303,7 +305,7 @@ namespace CustomsForgeSongManager.UControls
             // provides for complete fresh reload of tabpage
             InitializeComponent();
             Globals.TsLabel_StatusMsg.Click += lnkShowAll_Click;
-            this.Enabled = true;
+            ToggleUI(true);
             Globals.ReloadSongPacks = false;
             InitializeSongPacksCombo();
             PopulateSongPacks();
@@ -530,7 +532,7 @@ namespace CustomsForgeSongManager.UControls
                     txtFileName.Text = "cache.psarc";
                     LoadSongPackList(CacheSongCollection, CacheDisabledSongCollection);
                     break;
-                case 1: // rs1compatibilitydisc_p.psarc
+                case 1: // rs1compatibilitydisc_p.psarc or rs1compatibilitydisc_m.psarc
                     txtFileName.Text = " rs1compatibilitydisc" + Constants.EnabledExtension;
                     songPackDir = Constants.Rs2DlcFolder;
                     songPackFileEnabled = Path.GetFileName(Constants.Rs1DlcPsarcPath);
@@ -546,7 +548,7 @@ namespace CustomsForgeSongManager.UControls
 
                     LoadSongPackList(Rs1DiscSongCollection, Rs1DiscDisabledSongCollection);
                     break;
-                case 2: // rs1compatibilitydlc_p.psarc
+                case 2: // rs1compatibilitydlc_p.psarc or rs1compatibilitydlc_m.psarc
                     txtFileName.Text = "rs1compatibilitydlc" + Constants.EnabledExtension;
                     songPackDir = Constants.Rs2DlcFolder;
                     songPackFileEnabled = Path.GetFileName(Constants.Rs1DlcPsarcPath);
@@ -618,24 +620,26 @@ namespace CustomsForgeSongManager.UControls
                 {
                     Globals.TsProgressBar_Main.Value = 20;
 
+                    // delete disabled file
                     if (File.Exists(Constants.Rs1DiscPsarcPath.Replace(Constants.EnabledExtension, Constants.DisabledExtension)))
                         File.Delete(Constants.Rs1DiscPsarcPath.Replace(Constants.EnabledExtension, Constants.DisabledExtension));
 
                     File.Copy(Constants.Rs1DiscPsarcBackupPath, Constants.Rs1DiscPsarcPath, true);
                     File.SetAttributes(Constants.Rs1DiscPsarcPath, FileAttributes.Normal);
-                    Globals.Log("rs1compatibilitydisc_p.psarc backup restored ...");
+                    Globals.Log("rs1compatibilitydisc" + Constants.EnabledExtension + " backup restored ...");
                 }
 
                 if (File.Exists(Constants.Rs1DlcPsarcBackupPath))
                 {
                     Globals.TsProgressBar_Main.Value = 40;
 
-                    if (File.Exists(Constants.Rs1DlcPsarcPath.Replace("_p.", "_p.disabled.")))
-                        File.Delete(Constants.Rs1DlcPsarcPath.Replace("_p.", "_p.disabled."));
+                    // delete disabled file
+                    if (File.Exists(Constants.Rs1DlcPsarcPath.Replace(Constants.EnabledExtension, Constants.DisabledExtension)))
+                        File.Delete(Constants.Rs1DiscPsarcPath.Replace(Constants.EnabledExtension, Constants.DisabledExtension));
 
                     File.Copy(Constants.Rs1DlcPsarcBackupPath, Constants.Rs1DlcPsarcPath, true);
                     File.SetAttributes(Constants.Rs1DlcPsarcPath, FileAttributes.Normal);
-                    Globals.Log("rs1compatibilitydlc_p.psarc backup restored ...");
+                    Globals.Log("rs1compatibilitydlc" + Constants.EnabledExtension + " backup restored ...");
                 }
 
                 if (File.Exists(Constants.CachePsarcBackupPath))
@@ -828,12 +832,12 @@ namespace CustomsForgeSongManager.UControls
                 // avoid checking condition in ValidateRsDir() to give greater app flexibility
                 if (!File.Exists(Constants.CachePsarcPath))
                 {
-                    this.Enabled = false; // any further user entry could hang app
+                    ToggleUI(false); // any further user entry could hang app
                     MessageBox.Show("Could not find required file: cache.psarc" + Environment.NewLine + "inside the Rocksmith Installation Directory.  ", "Required files missing!", MessageBoxButtons.OK, MessageBoxIcon.Stop);
                     return false;
                 }
 
-                this.Enabled = false;
+                ToggleUI(false);
                 Globals.TsProgressBar_Main.Value = 50;
                 var unpackedDir = Packer.Unpack(Constants.CachePsarcPath, Constants.SongPacksFolder);
                 Globals.TsProgressBar_Main.Value = 75;
@@ -887,7 +891,7 @@ namespace CustomsForgeSongManager.UControls
             }
             finally
             {
-                this.Enabled = true;
+                ToggleUI(true);
             }
         }
 
@@ -975,12 +979,14 @@ namespace CustomsForgeSongManager.UControls
                 });
         }
 
-        private void btnRestoreBackup_Click(object sender, EventArgs e)
+        private void btnRestoreBackups_Click(object sender, EventArgs e)
         {
-            this.Enabled = false;
+            ToggleUI(false);
+            GenExtensions.DeleteDirectory(Constants.SongPacksFolder);
             RestoreOriginalSongBackups();
             PopulateSongPacks();
-            this.Enabled = true;
+            ToggleUI(true);
+            Globals.Log("Restored Song Pack Original Backups ...");
         }
 
         private void btnSaveSongs_Click(object sender, EventArgs e)
@@ -988,7 +994,7 @@ namespace CustomsForgeSongManager.UControls
             Globals.Log("Saving " + cmbSongPacks.Text + " ...");
             Globals.TsProgressBar_Main.Value = 0;
             Cursor = Cursors.WaitCursor;
-            this.Enabled = false;
+            ToggleUI(false);
             string songPackDir;
             string songPackFileEnabled;
             string songPackFileDisabled;
@@ -1078,7 +1084,7 @@ namespace CustomsForgeSongManager.UControls
             Globals.ReloadSongManager = true;
             Globals.TsProgressBar_Main.Value = 100;
             Globals.Log("Songpack repackaging was sucessful...");
-            this.Enabled = true;
+            ToggleUI(true);
             Cursor = Cursors.Default;
         }
 
@@ -1259,9 +1265,11 @@ namespace CustomsForgeSongManager.UControls
 
         private void lnkRefreshAll_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            UnpackPsarcFiles();
-            PopulateSongLists();
-            dgvSongPacks.Refresh();
+            ToggleUI(false);
+            GenExtensions.DeleteDirectory(Constants.SongPacksFolder);
+            InitializeSongPacksCombo();
+            PopulateSongPacks();
+            ToggleUI(true);
             Globals.Log("GUI Refreshed ...");
         }
 
@@ -1306,5 +1314,27 @@ namespace CustomsForgeSongManager.UControls
 
             Globals.Log("SongPacks GUI Deactivated ...");
         }
+
+        private void ToggleControls(Control container, bool enable)
+        {
+            foreach (Control c in container.Controls)
+            {
+                if (c.Controls.Count > 0)
+                {
+                    if (c is FlowLayoutPanel)
+                        Debug.WriteLine("Ignoring FlowLayoutPanel Controls");
+                    else
+                        ToggleControls(c, enable);
+                }
+                else if (c is Button || c is CheckBox || c is RadioButton || c is TextBox || c is ListView || c is ComboBox || c is LinkLabel)
+                    c.Enabled = enable;
+            }
+        }
+
+        private void ToggleUI(bool enable)
+        {
+            ToggleControls(this, enable);
+        }
+
     }
 }

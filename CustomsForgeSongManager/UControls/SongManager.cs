@@ -472,6 +472,9 @@ namespace CustomsForgeSongManager.UControls
             if (tsmiModsMyCDLC.Checked)
                 songList = (songList.Where(x => x.PackageAuthor == AppSettings.Instance.CharterName).ToList());
 
+            //// remove inlays
+            //songList = songList.Where(fi => !fi.FileName.ToLower().Contains("inlay")).ToList();
+
             LoadFilteredBindingList(songList);
         }
 
@@ -584,10 +587,10 @@ namespace CustomsForgeSongManager.UControls
             catch (Exception ex)
             {
                 // failsafe ... delete My Documents/CFSM folder and files with option not to delete
-                var diaMsg = "A fatal CFSM application error has occured." + Environment.NewLine + 
-                    "You are about to delete all work files created" + Environment.NewLine + 
-                    "by CFSM, including any backups of CDLC files." + Environment.NewLine + 
-                    "Deletion is permenant and can not be undone." + Environment.NewLine + 
+                var diaMsg = "A fatal CFSM application error has occured." + Environment.NewLine +
+                    "You are about to delete all work files created" + Environment.NewLine +
+                    "by CFSM, including any backups of CDLC files." + Environment.NewLine +
+                    "Deletion is permenant and can not be undone." + Environment.NewLine +
                     "Do you want to continue?";
 
                 if (DialogResult.No == BetterDialog2.ShowDialog(diaMsg, "Delete 'My Documents/CFSM' ...", null, "Yes", "No", Bitmap.FromHicon(SystemIcons.Warning.Handle), "Warning", 0, 150))
@@ -804,6 +807,7 @@ namespace CustomsForgeSongManager.UControls
 
             // this is done here in case user decided to manually delete songs
             List<string> filesList = Worker.FilesList(Constants.Rs2DlcFolder, AppSettings.Instance.IncludeRS1CompSongs, AppSettings.Instance.IncludeRS2BaseSongs, AppSettings.Instance.IncludeCustomPacks);
+
             // remove inlays
             filesList = filesList.Where(fi => !fi.ToLower().Contains("inlay")).ToList();
 

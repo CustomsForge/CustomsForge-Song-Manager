@@ -331,9 +331,9 @@ namespace GenTools
             }
         }
 
-        public static void RemoveReadOnlyAttribute(string dir)
+        public static void RemoveReadOnlyAttribute(string dirPath)
         {
-            string[] files = Directory.GetFiles(dir, "*.*", SearchOption.AllDirectories);
+            string[] files = Directory.GetFiles(dirPath, "*.*", SearchOption.AllDirectories);
             foreach (string file in files)
             {
                 FileAttributes attribute = File.GetAttributes(file);
@@ -350,6 +350,7 @@ namespace GenTools
             {
                 try
                 {
+                    RemoveReadOnlyAttribute(dirPath);
                     Directory.Delete(dirPath, includeSubDirs);
                 }
                 catch (DirectoryNotFoundException)

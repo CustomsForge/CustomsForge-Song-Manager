@@ -168,10 +168,10 @@ when the matching tabmenu is selected.
 Subsequently the grid settings file path
 will then be available for selection here.</value>
   </data>
-  <data name="rbCleanOnClosing.ToolTip" xml:space="preserve">
+  <data name="chkCleanOnClosing.ToolTip" xml:space="preserve">
     <value>NOTE:
 -------
-This is a resettable toggle button, i.e.
+This is an auto resettable checkbox, i.e.
 the reset action occurs only one time.
 
 - Removes working directories and files 

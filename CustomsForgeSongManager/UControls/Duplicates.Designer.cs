@@ -52,6 +52,19 @@ namespace CustomsForgeSongManager.UControls
             this.lnkLblSelectAll = new System.Windows.Forms.LinkLabel();
             this.lnklblToggle = new System.Windows.Forms.LinkLabel();
             this.txtNoDuplicates = new System.Windows.Forms.TextBox();
+            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.cmsDuplicates = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.cmsEnableDisable = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuStrip = new System.Windows.Forms.MenuStrip();
+            this.tsmiRescan = new CustomControls.ToolStripEnhancedMenuItem();
+            this.tsmiRescanAll = new CustomControls.ToolStripEnhancedMenuItem();
+            this.tsmiShowEnabledDisabled = new CustomControls.ToolStripEnhancedMenuItem();
+            this.tsmiDuplicateType = new CustomControls.ToolStripEnhancedMenuItem();
+            this.tsmiDuplicateTypeDLCKeyATA = new CustomControls.ToolStripEnhancedMenuItem();
+            this.tsmiDuplicateTypePID = new CustomControls.ToolStripEnhancedMenuItem();
+            this.tsmiHelp = new CustomControls.ToolStripEnhancedMenuItem();
             this.dgvDuplicates = new DataGridViewTools.RADataGridView();
             this.colPID = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
             this.colPIDArrangement = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
@@ -84,30 +97,17 @@ namespace CustomsForgeSongManager.UControls
             this.colIgnitionAuthor = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
             this.colArtistTitleAlbum = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
             this.colArtistTitleAlbumDate = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
-            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
-            this.cmsDuplicates = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.cmsActions = new CustomControls.ToolStripEnhancedMenuItem();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.cmsEdit = new CustomControls.ToolStripEnhancedMenuItem();
-            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.cmsShowSongInfo = new CustomControls.ToolStripEnhancedMenuItem();
             this.cmsOpenLocation = new CustomControls.ToolStripEnhancedMenuItem();
-            this.cmsEnableDisable = new System.Windows.Forms.ToolStripMenuItem();
             this.cmsDelete = new CustomControls.ToolStripEnhancedMenuItem();
             this.cmsMove = new CustomControls.ToolStripEnhancedMenuItem();
-            this.menuStrip = new System.Windows.Forms.MenuStrip();
-            this.tsmiRescan = new CustomControls.ToolStripEnhancedMenuItem();
-            this.tsmiRescanAll = new CustomControls.ToolStripEnhancedMenuItem();
-            this.tsmiShowEnabledDisabled = new CustomControls.ToolStripEnhancedMenuItem();
-            this.tsmiDuplicateType = new CustomControls.ToolStripEnhancedMenuItem();
-            this.tsmiDuplicateTypeDLCKeyATA = new CustomControls.ToolStripEnhancedMenuItem();
-            this.tsmiDuplicateTypePID = new CustomControls.ToolStripEnhancedMenuItem();
-            this.tsmiHelp = new CustomControls.ToolStripEnhancedMenuItem();
             this.cmsDuplicateColumns.SuspendLayout();
             this.gbResults.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvDuplicates)).BeginInit();
             this.cmsDuplicates.SuspendLayout();
             this.menuStrip.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvDuplicates)).BeginInit();
             this.SuspendLayout();
             // 
             // cmsDuplicateColumns
@@ -233,6 +233,144 @@ namespace CustomsForgeSongManager.UControls
             this.txtNoDuplicates.Text = "\r\nGood News ...\r\nNo Duplicates Found";
             this.txtNoDuplicates.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.txtNoDuplicates.Visible = false;
+            // 
+            // toolTip
+            // 
+            this.toolTip.AutomaticDelay = 200;
+            this.toolTip.AutoPopDelay = 12000;
+            this.toolTip.InitialDelay = 200;
+            this.toolTip.IsBalloon = true;
+            this.toolTip.ReshowDelay = 100;
+            // 
+            // cmsDuplicates
+            // 
+            this.cmsDuplicates.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.cmsActions,
+            this.toolStripSeparator1,
+            this.cmsEdit,
+            this.toolStripSeparator2,
+            this.cmsShowSongInfo,
+            this.cmsOpenLocation,
+            this.cmsEnableDisable,
+            this.cmsDelete,
+            this.cmsMove});
+            this.cmsDuplicates.Name = "contextMenuStrip_MainManager";
+            this.cmsDuplicates.Size = new System.Drawing.Size(190, 170);
+            this.cmsDuplicates.Closing += new System.Windows.Forms.ToolStripDropDownClosingEventHandler(this.cmsDuplicates_Closing);
+            this.cmsDuplicates.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.cmsDuplicates_ItemClicked);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(186, 6);
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(186, 6);
+            // 
+            // cmsEnableDisable
+            // 
+            this.cmsEnableDisable.Image = global::CustomsForgeSongManager.Properties.Resources.enabledisable;
+            this.cmsEnableDisable.Name = "cmsEnableDisable";
+            this.cmsEnableDisable.Size = new System.Drawing.Size(189, 22);
+            this.cmsEnableDisable.Text = "Enable/Disable Songs";
+            this.cmsEnableDisable.Click += new System.EventHandler(this.cmsEnableDisable_Click);
+            // 
+            // menuStrip
+            // 
+            this.menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmiRescan,
+            this.tsmiDuplicateType,
+            this.tsmiHelp});
+            this.menuStrip.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip.Name = "menuStrip";
+            this.menuStrip.Size = new System.Drawing.Size(872, 24);
+            this.menuStrip.TabIndex = 17;
+            this.menuStrip.Text = "menuStrip1";
+            // 
+            // tsmiRescan
+            // 
+            this.tsmiRescan.AssociatedEnumValue = null;
+            this.tsmiRescan.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmiRescanAll,
+            this.tsmiShowEnabledDisabled});
+            this.tsmiRescan.Image = ((System.Drawing.Image)(resources.GetObject("tsmiRescan.Image")));
+            this.tsmiRescan.Name = "tsmiRescan";
+            this.tsmiRescan.RadioButtonGroupName = null;
+            this.tsmiRescan.Size = new System.Drawing.Size(70, 20);
+            this.tsmiRescan.Text = "Rescan";
+            // 
+            // tsmiRescanAll
+            // 
+            this.tsmiRescanAll.AssociatedEnumValue = null;
+            this.tsmiRescanAll.Image = ((System.Drawing.Image)(resources.GetObject("tsmiRescanAll.Image")));
+            this.tsmiRescanAll.Name = "tsmiRescanAll";
+            this.tsmiRescanAll.RadioButtonGroupName = null;
+            this.tsmiRescanAll.Size = new System.Drawing.Size(196, 22);
+            this.tsmiRescanAll.Text = "Show All Duplicates";
+            this.tsmiRescanAll.ToolTipText = "Rescan songs for all duplcates";
+            this.tsmiRescanAll.Click += new System.EventHandler(this.tsmiRescanAll_Click);
+            // 
+            // tsmiShowEnabledDisabled
+            // 
+            this.tsmiShowEnabledDisabled.AssociatedEnumValue = null;
+            this.tsmiShowEnabledDisabled.Image = ((System.Drawing.Image)(resources.GetObject("tsmiShowEnabledDisabled.Image")));
+            this.tsmiShowEnabledDisabled.Name = "tsmiShowEnabledDisabled";
+            this.tsmiShowEnabledDisabled.RadioButtonGroupName = null;
+            this.tsmiShowEnabledDisabled.Size = new System.Drawing.Size(196, 22);
+            this.tsmiShowEnabledDisabled.Text = "Show Enabled/Disabled";
+            this.tsmiShowEnabledDisabled.ToolTipText = "Toggles showing enabled or disabled duplicates";
+            this.tsmiShowEnabledDisabled.Click += new System.EventHandler(this.tsmiShowEnabledDisabled_Click);
+            // 
+            // tsmiDuplicateType
+            // 
+            this.tsmiDuplicateType.AssociatedEnumValue = null;
+            this.tsmiDuplicateType.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmiDuplicateTypeDLCKeyATA,
+            this.tsmiDuplicateTypePID});
+            this.tsmiDuplicateType.Name = "tsmiDuplicateType";
+            this.tsmiDuplicateType.RadioButtonGroupName = null;
+            this.tsmiDuplicateType.Size = new System.Drawing.Size(90, 20);
+            this.tsmiDuplicateType.Text = "Duplicate Type";
+            this.tsmiDuplicateType.ToolTipText = "Show duplicates, select a type ...";
+            // 
+            // tsmiDuplicateTypeDLCKeyATA
+            // 
+            this.tsmiDuplicateTypeDLCKeyATA.AssociatedEnumValue = null;
+            this.tsmiDuplicateTypeDLCKeyATA.CheckMarkDisplayStyle = CustomControls.CheckMarkDisplayStyle.RadioButton;
+            this.tsmiDuplicateTypeDLCKeyATA.CheckOnClick = true;
+            this.tsmiDuplicateTypeDLCKeyATA.Name = "tsmiDuplicateTypeDLCKeyATA";
+            this.tsmiDuplicateTypeDLCKeyATA.RadioButtonGroupName = null;
+            this.tsmiDuplicateTypeDLCKeyATA.Size = new System.Drawing.Size(283, 22);
+            this.tsmiDuplicateTypeDLCKeyATA.Text = "DLC Key or Artist, Title, Album Duplicates";
+            this.tsmiDuplicateTypeDLCKeyATA.ToolTipText = "Show CDLC that have duplicate DLC Key, or\r\nduplicate Artist, Title, and Album inf" +
+                "ormation.\r\n\r\nNOTE: The search is not case sensitive and \r\nignores any non-alphnu" +
+                "meric characters.";
+            this.tsmiDuplicateTypeDLCKeyATA.Click += new System.EventHandler(this.tsmiDuplicateTypeDLCKeyATA_Click);
+            // 
+            // tsmiDuplicateTypePID
+            // 
+            this.tsmiDuplicateTypePID.AssociatedEnumValue = null;
+            this.tsmiDuplicateTypePID.CheckMarkDisplayStyle = CustomControls.CheckMarkDisplayStyle.RadioButton;
+            this.tsmiDuplicateTypePID.CheckOnClick = true;
+            this.tsmiDuplicateTypePID.Name = "tsmiDuplicateTypePID";
+            this.tsmiDuplicateTypePID.RadioButtonGroupName = null;
+            this.tsmiDuplicateTypePID.Size = new System.Drawing.Size(283, 22);
+            this.tsmiDuplicateTypePID.Text = "Persistent ID Duplicates (Game Crashers)";
+            this.tsmiDuplicateTypePID.ToolTipText = "Show CDLC that are reusing Persistent IDs.\r\nThese cause in-game hangs and need to" +
+                " be deleted!";
+            this.tsmiDuplicateTypePID.Click += new System.EventHandler(this.tsmiDuplicateTypePID_Click);
+            // 
+            // tsmiHelp
+            // 
+            this.tsmiHelp.AssociatedEnumValue = null;
+            this.tsmiHelp.Image = ((System.Drawing.Image)(resources.GetObject("tsmiHelp.Image")));
+            this.tsmiHelp.Name = "tsmiHelp";
+            this.tsmiHelp.RadioButtonGroupName = null;
+            this.tsmiHelp.Size = new System.Drawing.Size(56, 20);
+            this.tsmiHelp.Text = "Help";
+            this.tsmiHelp.Click += new System.EventHandler(this.tsmiHelp_Click);
             // 
             // dgvDuplicates
             // 
@@ -594,31 +732,6 @@ namespace CustomsForgeSongManager.UControls
             this.colArtistTitleAlbumDate.HeaderText = "ArtistTitleAlbumDate";
             this.colArtistTitleAlbumDate.Name = "colArtistTitleAlbumDate";
             // 
-            // toolTip
-            // 
-            this.toolTip.AutomaticDelay = 200;
-            this.toolTip.AutoPopDelay = 12000;
-            this.toolTip.InitialDelay = 200;
-            this.toolTip.IsBalloon = true;
-            this.toolTip.ReshowDelay = 100;
-            // 
-            // cmsDuplicates
-            // 
-            this.cmsDuplicates.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.cmsActions,
-            this.toolStripSeparator1,
-            this.cmsEdit,
-            this.toolStripSeparator2,
-            this.cmsShowSongInfo,
-            this.cmsOpenLocation,
-            this.cmsEnableDisable,
-            this.cmsDelete,
-            this.cmsMove});
-            this.cmsDuplicates.Name = "contextMenuStrip_MainManager";
-            this.cmsDuplicates.Size = new System.Drawing.Size(190, 192);
-            this.cmsDuplicates.Closing += new System.Windows.Forms.ToolStripDropDownClosingEventHandler(this.cmsDuplicates_Closing);
-            this.cmsDuplicates.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.cmsDuplicates_ItemClicked);
-            // 
             // cmsActions
             // 
             this.cmsActions.AssociatedEnumValue = null;
@@ -631,11 +744,6 @@ namespace CustomsForgeSongManager.UControls
                 "and \'Move Songs\'.\n\nFor safety, the column \'Select\' checkbox\nmust be checked to p" +
                 "erform File I/O \nrelated \'Actions\'.";
             // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(186, 6);
-            // 
             // cmsEdit
             // 
             this.cmsEdit.AssociatedEnumValue = null;
@@ -647,11 +755,6 @@ namespace CustomsForgeSongManager.UControls
             this.cmsEdit.ToolTipText = "<CAUTION> For Expert User Use Only\r\nData revisions have limited or no validation!" +
                 "";
             this.cmsEdit.Click += new System.EventHandler(this.cmsEdit_Click);
-            // 
-            // toolStripSeparator2
-            // 
-            this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(186, 6);
             // 
             // cmsShowSongInfo
             // 
@@ -672,14 +775,6 @@ namespace CustomsForgeSongManager.UControls
             this.cmsOpenLocation.Size = new System.Drawing.Size(189, 22);
             this.cmsOpenLocation.Text = "Open Song Location";
             this.cmsOpenLocation.Click += new System.EventHandler(this.cmsOpenLocation_Click);
-            // 
-            // cmsEnableDisable
-            // 
-            this.cmsEnableDisable.Image = global::CustomsForgeSongManager.Properties.Resources.enabledisable;
-            this.cmsEnableDisable.Name = "cmsEnableDisable";
-            this.cmsEnableDisable.Size = new System.Drawing.Size(189, 22);
-            this.cmsEnableDisable.Text = "Enable/Disable Songs";
-            this.cmsEnableDisable.Click += new System.EventHandler(this.cmsEnableDisable_Click);
             // 
             // cmsDelete
             // 
@@ -703,101 +798,6 @@ namespace CustomsForgeSongManager.UControls
             this.cmsMove.ToolTipText = "Select must be checked.\r\nSee Log for moved file location.";
             this.cmsMove.Click += new System.EventHandler(this.cmsMove_Click);
             // 
-            // menuStrip
-            // 
-            this.menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tsmiRescan,
-            this.tsmiDuplicateType,
-            this.tsmiHelp});
-            this.menuStrip.Location = new System.Drawing.Point(0, 0);
-            this.menuStrip.Name = "menuStrip";
-            this.menuStrip.Size = new System.Drawing.Size(872, 24);
-            this.menuStrip.TabIndex = 17;
-            this.menuStrip.Text = "menuStrip1";
-            // 
-            // tsmiRescan
-            // 
-            this.tsmiRescan.AssociatedEnumValue = null;
-            this.tsmiRescan.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tsmiRescanAll,
-            this.tsmiShowEnabledDisabled});
-            this.tsmiRescan.Image = ((System.Drawing.Image)(resources.GetObject("tsmiRescan.Image")));
-            this.tsmiRescan.Name = "tsmiRescan";
-            this.tsmiRescan.RadioButtonGroupName = null;
-            this.tsmiRescan.Size = new System.Drawing.Size(70, 20);
-            this.tsmiRescan.Text = "Rescan";
-            // 
-            // tsmiRescanAll
-            // 
-            this.tsmiRescanAll.AssociatedEnumValue = null;
-            this.tsmiRescanAll.Image = ((System.Drawing.Image)(resources.GetObject("tsmiRescanAll.Image")));
-            this.tsmiRescanAll.Name = "tsmiRescanAll";
-            this.tsmiRescanAll.RadioButtonGroupName = null;
-            this.tsmiRescanAll.Size = new System.Drawing.Size(196, 22);
-            this.tsmiRescanAll.Text = "Show All Duplicates";
-            this.tsmiRescanAll.ToolTipText = "Rescan songs for all duplcates";
-            this.tsmiRescanAll.Click += new System.EventHandler(this.tsmiRescanAll_Click);
-            // 
-            // tsmiShowEnabledDisabled
-            // 
-            this.tsmiShowEnabledDisabled.AssociatedEnumValue = null;
-            this.tsmiShowEnabledDisabled.Image = ((System.Drawing.Image)(resources.GetObject("tsmiShowEnabledDisabled.Image")));
-            this.tsmiShowEnabledDisabled.Name = "tsmiShowEnabledDisabled";
-            this.tsmiShowEnabledDisabled.RadioButtonGroupName = null;
-            this.tsmiShowEnabledDisabled.Size = new System.Drawing.Size(196, 22);
-            this.tsmiShowEnabledDisabled.Text = "Show Enabled/Disabled";
-            this.tsmiShowEnabledDisabled.ToolTipText = "Toggles showing enabled or disabled duplicates";
-            this.tsmiShowEnabledDisabled.Click += new System.EventHandler(this.tsmiShowEnabledDisabled_Click);
-            // 
-            // tsmiDuplicateType
-            // 
-            this.tsmiDuplicateType.AssociatedEnumValue = null;
-            this.tsmiDuplicateType.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tsmiDuplicateTypeDLCKeyATA,
-            this.tsmiDuplicateTypePID});
-            this.tsmiDuplicateType.Name = "tsmiDuplicateType";
-            this.tsmiDuplicateType.RadioButtonGroupName = null;
-            this.tsmiDuplicateType.Size = new System.Drawing.Size(90, 20);
-            this.tsmiDuplicateType.Text = "Duplicate Type";
-            this.tsmiDuplicateType.ToolTipText = "Show duplicates, select a type ...";
-            // 
-            // tsmiDuplicateTypeDLCKeyATA
-            // 
-            this.tsmiDuplicateTypeDLCKeyATA.AssociatedEnumValue = null;
-            this.tsmiDuplicateTypeDLCKeyATA.CheckMarkDisplayStyle = CustomControls.CheckMarkDisplayStyle.RadioButton;
-            this.tsmiDuplicateTypeDLCKeyATA.CheckOnClick = true;
-            this.tsmiDuplicateTypeDLCKeyATA.Name = "tsmiDuplicateTypeDLCKeyATA";
-            this.tsmiDuplicateTypeDLCKeyATA.RadioButtonGroupName = null;
-            this.tsmiDuplicateTypeDLCKeyATA.Size = new System.Drawing.Size(283, 22);
-            this.tsmiDuplicateTypeDLCKeyATA.Text = "DLC Key or Artist, Title, Album Duplicates";
-            this.tsmiDuplicateTypeDLCKeyATA.ToolTipText = "Show CDLC that have duplicate DLC Key, or\r\nduplicate Artist, Title, and Album inf" +
-                "ormation.\r\n\r\nNOTE: The search is not case sensitive and \r\nignores any non-alphnu" +
-                "meric characters.";
-            this.tsmiDuplicateTypeDLCKeyATA.Click += new System.EventHandler(this.tsmiDuplicateTypeDLCKeyATA_Click);
-            // 
-            // tsmiDuplicateTypePID
-            // 
-            this.tsmiDuplicateTypePID.AssociatedEnumValue = null;
-            this.tsmiDuplicateTypePID.CheckMarkDisplayStyle = CustomControls.CheckMarkDisplayStyle.RadioButton;
-            this.tsmiDuplicateTypePID.CheckOnClick = true;
-            this.tsmiDuplicateTypePID.Name = "tsmiDuplicateTypePID";
-            this.tsmiDuplicateTypePID.RadioButtonGroupName = null;
-            this.tsmiDuplicateTypePID.Size = new System.Drawing.Size(283, 22);
-            this.tsmiDuplicateTypePID.Text = "Persistent ID Duplicates (Game Crashers)";
-            this.tsmiDuplicateTypePID.ToolTipText = "Show CDLC that are reusing Persistent IDs.\r\nThese cause in-game hangs and need to" +
-                " be deleted!";
-            this.tsmiDuplicateTypePID.Click += new System.EventHandler(this.tsmiDuplicateTypePID_Click);
-            // 
-            // tsmiHelp
-            // 
-            this.tsmiHelp.AssociatedEnumValue = null;
-            this.tsmiHelp.Image = ((System.Drawing.Image)(resources.GetObject("tsmiHelp.Image")));
-            this.tsmiHelp.Name = "tsmiHelp";
-            this.tsmiHelp.RadioButtonGroupName = null;
-            this.tsmiHelp.Size = new System.Drawing.Size(56, 20);
-            this.tsmiHelp.Text = "Help";
-            this.tsmiHelp.Click += new System.EventHandler(this.tsmiHelp_Click);
-            // 
             // Duplicates
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -809,10 +809,10 @@ namespace CustomsForgeSongManager.UControls
             this.cmsDuplicateColumns.ResumeLayout(false);
             this.gbResults.ResumeLayout(false);
             this.gbResults.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvDuplicates)).EndInit();
             this.cmsDuplicates.ResumeLayout(false);
             this.menuStrip.ResumeLayout(false);
             this.menuStrip.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvDuplicates)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 

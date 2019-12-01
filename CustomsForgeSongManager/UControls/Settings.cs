@@ -46,7 +46,7 @@ namespace CustomsForgeSongManager.UControls
                 chkEnableQuarantine.Checked = AppSettings.Instance.EnableQuarantine;
                 chkValidateD3D.Checked = AppSettings.Instance.ValidateD3D;
                 chkMacMode.Checked = AppSettings.Instance.MacMode;
-                rbCleanOnClosing.Checked = AppSettings.Instance.CleanOnClosing;
+                chkCleanOnClosing.Checked = AppSettings.Instance.CleanOnClosing;
 
                 // check validation only on startup
                 if (dgvCurrent == null)
@@ -347,12 +347,18 @@ namespace CustomsForgeSongManager.UControls
         {
             if (chkMacMode.Checked)
             {
-                MessageBox.Show("Switching to Mac Compatibility Mode ...  " + Environment.NewLine + "CFSM will automatically restart!", "Mac Mode Enabled ...", MessageBoxButtons.OK, MessageBoxIcon.Hand);
+                MessageBox.Show("Switching to Mac Compatibility Mode ...  " + Environment.NewLine +
+                    "CFSM will automatically restart!" + Environment.NewLine + Environment.NewLine +
+                    "Perform a full rescan on restart if any songs are missing.",
+                    "Mac Mode Enabled ...", MessageBoxButtons.OK, MessageBoxIcon.Hand);
                 Globals.Log("Switched to Mac Compatibility Mode ...");
             }
             else
             {
-                MessageBox.Show("Switching to PC Compatibility Mode ...  " + Environment.NewLine + "CFSM will automatically restart!", "PC Mode Enabled ...", MessageBoxButtons.OK, MessageBoxIcon.Hand);
+                MessageBox.Show("Switching to PC Compatibility Mode ...  " + Environment.NewLine +
+                    "CFSM will automatically restart!" + Environment.NewLine + Environment.NewLine +
+                    "Perform a full rescan on restart if any songs are missing.",
+                    "PC Mode Enabled ...", MessageBoxButtons.OK, MessageBoxIcon.Hand);
                 Globals.Log("Switched to PC Compatibility Mode ...");
             }
 
@@ -414,9 +420,9 @@ namespace CustomsForgeSongManager.UControls
             }
         }
 
-        private void rbCleanOnClosing_Click(object sender, EventArgs e)
+        private void chkCleanOnClosing_Click(object sender, EventArgs e)
         {
-            AppSettings.Instance.CleanOnClosing = rbCleanOnClosing.Checked;
+            AppSettings.Instance.CleanOnClosing = chkCleanOnClosing.Checked;
         }
 
         private void btnResetThreading_Click(object sender, EventArgs e)

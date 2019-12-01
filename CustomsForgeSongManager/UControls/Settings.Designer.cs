@@ -36,14 +36,14 @@ namespace CustomsForgeSongManager.UControls
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Settings));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
             this.tlpSettings_Wrapper = new System.Windows.Forms.TableLayoutPanel();
             this.cueRsDir = new CustomControls.CueTextBox();
             this.lblSettingsRSDir = new System.Windows.Forms.Label();
@@ -63,11 +63,17 @@ namespace CustomsForgeSongManager.UControls
             this.btnSettingsSave = new System.Windows.Forms.Button();
             this.panel5 = new System.Windows.Forms.Panel();
             this.dgvColumns = new System.Windows.Forms.DataGridView();
+            this.colVisible = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.colDisplayIndex = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colWidth = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colHeaderText = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colColumnIndex = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colColumnName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.lnkSelectAll = new System.Windows.Forms.LinkLabel();
             this.lblDgvColumns = new System.Windows.Forms.Label();
             this.lblDgvSettingsPath = new System.Windows.Forms.Label();
             this.cueDgvSettingsPath = new CustomControls.CueTextBox();
-            this.rbCleanOnClosing = new System.Windows.Forms.RadioButton();
+            this.chkCleanOnClosing = new System.Windows.Forms.CheckBox();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.dataGridViewCheckBoxColumn1 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -75,12 +81,6 @@ namespace CustomsForgeSongManager.UControls
             this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colVisible = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.colDisplayIndex = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colWidth = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colHeaderText = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colColumnIndex = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colColumnName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tlpSettings_Wrapper.SuspendLayout();
             this.panel5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvColumns)).BeginInit();
@@ -111,7 +111,7 @@ namespace CustomsForgeSongManager.UControls
             this.tlpSettings_Wrapper.Controls.Add(this.panel5, 2, 2);
             this.tlpSettings_Wrapper.Controls.Add(this.lblDgvSettingsPath, 0, 1);
             this.tlpSettings_Wrapper.Controls.Add(this.cueDgvSettingsPath, 2, 1);
-            this.tlpSettings_Wrapper.Controls.Add(this.rbCleanOnClosing, 0, 12);
+            this.tlpSettings_Wrapper.Controls.Add(this.chkCleanOnClosing, 0, 12);
             this.tlpSettings_Wrapper.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tlpSettings_Wrapper.Location = new System.Drawing.Point(0, 0);
             this.tlpSettings_Wrapper.Name = "tlpSettings_Wrapper";
@@ -448,161 +448,6 @@ namespace CustomsForgeSongManager.UControls
             this.dgvColumns.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvColumns_CellEndEdit);
             this.dgvColumns.CellValidating += new System.Windows.Forms.DataGridViewCellValidatingEventHandler(this.dgvColumns_CellValidating);
             // 
-            // lnkSelectAll
-            // 
-            this.lnkSelectAll.AutoSize = true;
-            this.lnkSelectAll.Location = new System.Drawing.Point(3, 5);
-            this.lnkSelectAll.Name = "lnkSelectAll";
-            this.lnkSelectAll.Size = new System.Drawing.Size(98, 13);
-            this.lnkSelectAll.TabIndex = 6;
-            this.lnkSelectAll.TabStop = true;
-            this.lnkSelectAll.Text = "Deselect/Select All";
-            this.lnkSelectAll.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkSelectAll_LinkClicked);
-            // 
-            // lblDgvColumns
-            // 
-            this.lblDgvColumns.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblDgvColumns.AutoSize = true;
-            this.lblDgvColumns.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblDgvColumns.Location = new System.Drawing.Point(119, 5);
-            this.lblDgvColumns.Name = "lblDgvColumns";
-            this.lblDgvColumns.Size = new System.Drawing.Size(169, 13);
-            this.lblDgvColumns.TabIndex = 1;
-            this.lblDgvColumns.Text = "Grid Settings for {0} from {1}";
-            this.lblDgvColumns.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            // 
-            // lblDgvSettingsPath
-            // 
-            this.lblDgvSettingsPath.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.lblDgvSettingsPath.AutoSize = true;
-            this.tlpSettings_Wrapper.SetColumnSpan(this.lblDgvSettingsPath, 2);
-            this.lblDgvSettingsPath.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblDgvSettingsPath.Location = new System.Drawing.Point(187, 29);
-            this.lblDgvSettingsPath.Margin = new System.Windows.Forms.Padding(3);
-            this.lblDgvSettingsPath.Name = "lblDgvSettingsPath";
-            this.lblDgvSettingsPath.Padding = new System.Windows.Forms.Padding(3);
-            this.lblDgvSettingsPath.Size = new System.Drawing.Size(154, 20);
-            this.lblDgvSettingsPath.TabIndex = 24;
-            this.lblDgvSettingsPath.Text = "Load Grid Settings File:";
-            this.lblDgvSettingsPath.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.toolTip.SetToolTip(this.lblDgvSettingsPath, resources.GetString("lblDgvSettingsPath.ToolTip"));
-            // 
-            // cueDgvSettingsPath
-            // 
-            this.cueDgvSettingsPath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.cueDgvSettingsPath.Cue = "Click here to override the setttings selection and manually choose a grid setting" +
-                "s file to load and edit";
-            this.cueDgvSettingsPath.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
-            this.cueDgvSettingsPath.ForeColor = System.Drawing.Color.Gray;
-            this.cueDgvSettingsPath.Location = new System.Drawing.Point(347, 28);
-            this.cueDgvSettingsPath.Multiline = true;
-            this.cueDgvSettingsPath.Name = "cueDgvSettingsPath";
-            this.cueDgvSettingsPath.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.cueDgvSettingsPath.Size = new System.Drawing.Size(516, 19);
-            this.cueDgvSettingsPath.TabIndex = 25;
-            this.toolTip.SetToolTip(this.cueDgvSettingsPath, "The grid settings files are initially created\r\nwhen the matching tabmenu is selec" +
-                    "ted.\r\nSubsequently the grid settings file path\r\nwill then be available for selec" +
-                    "tion here.");
-            this.cueDgvSettingsPath.MouseClick += new System.Windows.Forms.MouseEventHandler(this.cueDgvSettingsPath_MouseClick);
-            // 
-            // rbCleanOnClosing
-            // 
-            this.rbCleanOnClosing.AutoSize = true;
-            this.tlpSettings_Wrapper.SetColumnSpan(this.rbCleanOnClosing, 2);
-            this.rbCleanOnClosing.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.rbCleanOnClosing.Location = new System.Drawing.Point(3, 336);
-            this.rbCleanOnClosing.Name = "rbCleanOnClosing";
-            this.rbCleanOnClosing.Padding = new System.Windows.Forms.Padding(9, 0, 0, 0);
-            this.rbCleanOnClosing.Size = new System.Drawing.Size(166, 19);
-            this.rbCleanOnClosing.TabIndex = 10;
-            this.rbCleanOnClosing.Text = "Reset CFSM On Closing";
-            this.rbCleanOnClosing.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.toolTip.SetToolTip(this.rbCleanOnClosing, resources.GetString("rbCleanOnClosing.ToolTip"));
-            this.rbCleanOnClosing.UseVisualStyleBackColor = true;
-            this.rbCleanOnClosing.Click += new System.EventHandler(this.rbCleanOnClosing_Click);
-            // 
-            // toolTip
-            // 
-            this.toolTip.AutomaticDelay = 200;
-            this.toolTip.AutoPopDelay = 12000;
-            this.toolTip.InitialDelay = 200;
-            this.toolTip.IsBalloon = true;
-            this.toolTip.ReshowDelay = 100;
-            // 
-            // dataGridViewCheckBoxColumn1
-            // 
-            this.dataGridViewCheckBoxColumn1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
-            this.dataGridViewCheckBoxColumn1.DataPropertyName = "Visible";
-            this.dataGridViewCheckBoxColumn1.HeaderText = "Visible";
-            this.dataGridViewCheckBoxColumn1.Name = "dataGridViewCheckBoxColumn1";
-            this.dataGridViewCheckBoxColumn1.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.dataGridViewCheckBoxColumn1.ToolTipText = "Click to Sort (Read/Write)";
-            this.dataGridViewCheckBoxColumn1.Width = 62;
-            // 
-            // dataGridViewTextBoxColumn1
-            // 
-            this.dataGridViewTextBoxColumn1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
-            this.dataGridViewTextBoxColumn1.DataPropertyName = "DisplayIndex";
-            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle7.Format = "N0";
-            dataGridViewCellStyle7.NullValue = null;
-            this.dataGridViewTextBoxColumn1.DefaultCellStyle = dataGridViewCellStyle7;
-            this.dataGridViewTextBoxColumn1.HeaderText = "DisplayIndex";
-            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
-            this.dataGridViewTextBoxColumn1.ToolTipText = "Click to Sort (Read/Write)\r\nEither manually edit \'DisplayIndex\', or\r\ndrag and dro" +
-                "p a \'HeaderText\' row\r\nto change grid column display order";
-            this.dataGridViewTextBoxColumn1.Width = 92;
-            // 
-            // dataGridViewTextBoxColumn2
-            // 
-            this.dataGridViewTextBoxColumn2.DataPropertyName = "Width";
-            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle8.Format = "N0";
-            dataGridViewCellStyle8.NullValue = null;
-            this.dataGridViewTextBoxColumn2.DefaultCellStyle = dataGridViewCellStyle8;
-            this.dataGridViewTextBoxColumn2.HeaderText = "Width";
-            this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
-            this.dataGridViewTextBoxColumn2.ToolTipText = "Click to Sort (Read/Write)";
-            this.dataGridViewTextBoxColumn2.Width = 80;
-            // 
-            // dataGridViewTextBoxColumn3
-            // 
-            this.dataGridViewTextBoxColumn3.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.dataGridViewTextBoxColumn3.DataPropertyName = "HeaderText";
-            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            this.dataGridViewTextBoxColumn3.DefaultCellStyle = dataGridViewCellStyle9;
-            this.dataGridViewTextBoxColumn3.HeaderText = "HeaderText";
-            this.dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
-            this.dataGridViewTextBoxColumn3.ReadOnly = true;
-            this.dataGridViewTextBoxColumn3.ToolTipText = "Click to Sort (Read Only)\r\nDrag and drop a \'HeaderText\' row\r\nto change grid colum" +
-                "n display order";
-            // 
-            // dataGridViewTextBoxColumn4
-            // 
-            this.dataGridViewTextBoxColumn4.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
-            this.dataGridViewTextBoxColumn4.DataPropertyName = "ColumnIndex";
-            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle10.Format = "N0";
-            dataGridViewCellStyle10.NullValue = null;
-            this.dataGridViewTextBoxColumn4.DefaultCellStyle = dataGridViewCellStyle10;
-            this.dataGridViewTextBoxColumn4.HeaderText = "ColumnIndex";
-            this.dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
-            this.dataGridViewTextBoxColumn4.ReadOnly = true;
-            this.dataGridViewTextBoxColumn4.ToolTipText = "Click to Sort\r\n(For Reference Only)";
-            this.dataGridViewTextBoxColumn4.Width = 93;
-            // 
-            // dataGridViewTextBoxColumn5
-            // 
-            this.dataGridViewTextBoxColumn5.DataPropertyName = "ColumnName";
-            this.dataGridViewTextBoxColumn5.HeaderText = "ColumnName";
-            this.dataGridViewTextBoxColumn5.Name = "dataGridViewTextBoxColumn5";
-            this.dataGridViewTextBoxColumn5.ReadOnly = true;
-            this.dataGridViewTextBoxColumn5.ToolTipText = "Click to Sort (Read Only)";
-            this.dataGridViewTextBoxColumn5.Visible = false;
-            this.dataGridViewTextBoxColumn5.Width = 98;
-            // 
             // colVisible
             // 
             this.colVisible.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
@@ -675,6 +520,158 @@ namespace CustomsForgeSongManager.UControls
             this.colColumnName.Visible = false;
             this.colColumnName.Width = 98;
             // 
+            // lnkSelectAll
+            // 
+            this.lnkSelectAll.AutoSize = true;
+            this.lnkSelectAll.Location = new System.Drawing.Point(3, 5);
+            this.lnkSelectAll.Name = "lnkSelectAll";
+            this.lnkSelectAll.Size = new System.Drawing.Size(98, 13);
+            this.lnkSelectAll.TabIndex = 6;
+            this.lnkSelectAll.TabStop = true;
+            this.lnkSelectAll.Text = "Deselect/Select All";
+            this.lnkSelectAll.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkSelectAll_LinkClicked);
+            // 
+            // lblDgvColumns
+            // 
+            this.lblDgvColumns.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblDgvColumns.AutoSize = true;
+            this.lblDgvColumns.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblDgvColumns.Location = new System.Drawing.Point(119, 5);
+            this.lblDgvColumns.Name = "lblDgvColumns";
+            this.lblDgvColumns.Size = new System.Drawing.Size(169, 13);
+            this.lblDgvColumns.TabIndex = 1;
+            this.lblDgvColumns.Text = "Grid Settings for {0} from {1}";
+            this.lblDgvColumns.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            // 
+            // lblDgvSettingsPath
+            // 
+            this.lblDgvSettingsPath.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.lblDgvSettingsPath.AutoSize = true;
+            this.tlpSettings_Wrapper.SetColumnSpan(this.lblDgvSettingsPath, 2);
+            this.lblDgvSettingsPath.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblDgvSettingsPath.Location = new System.Drawing.Point(187, 29);
+            this.lblDgvSettingsPath.Margin = new System.Windows.Forms.Padding(3);
+            this.lblDgvSettingsPath.Name = "lblDgvSettingsPath";
+            this.lblDgvSettingsPath.Padding = new System.Windows.Forms.Padding(3);
+            this.lblDgvSettingsPath.Size = new System.Drawing.Size(154, 20);
+            this.lblDgvSettingsPath.TabIndex = 24;
+            this.lblDgvSettingsPath.Text = "Load Grid Settings File:";
+            this.lblDgvSettingsPath.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.toolTip.SetToolTip(this.lblDgvSettingsPath, resources.GetString("lblDgvSettingsPath.ToolTip"));
+            // 
+            // cueDgvSettingsPath
+            // 
+            this.cueDgvSettingsPath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.cueDgvSettingsPath.Cue = "Click here to override the setttings selection and manually choose a grid setting" +
+                "s file to load and edit";
+            this.cueDgvSettingsPath.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
+            this.cueDgvSettingsPath.ForeColor = System.Drawing.Color.Gray;
+            this.cueDgvSettingsPath.Location = new System.Drawing.Point(347, 28);
+            this.cueDgvSettingsPath.Multiline = true;
+            this.cueDgvSettingsPath.Name = "cueDgvSettingsPath";
+            this.cueDgvSettingsPath.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.cueDgvSettingsPath.Size = new System.Drawing.Size(516, 19);
+            this.cueDgvSettingsPath.TabIndex = 25;
+            this.toolTip.SetToolTip(this.cueDgvSettingsPath, "The grid settings files are initially created\r\nwhen the matching tabmenu is selec" +
+                    "ted.\r\nSubsequently the grid settings file path\r\nwill then be available for selec" +
+                    "tion here.");
+            this.cueDgvSettingsPath.MouseClick += new System.Windows.Forms.MouseEventHandler(this.cueDgvSettingsPath_MouseClick);
+            // 
+            // chkCleanOnClosing
+            // 
+            this.chkCleanOnClosing.AutoSize = true;
+            this.tlpSettings_Wrapper.SetColumnSpan(this.chkCleanOnClosing, 2);
+            this.chkCleanOnClosing.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.chkCleanOnClosing.Location = new System.Drawing.Point(3, 336);
+            this.chkCleanOnClosing.Name = "chkCleanOnClosing";
+            this.chkCleanOnClosing.Padding = new System.Windows.Forms.Padding(9, 0, 0, 0);
+            this.chkCleanOnClosing.Size = new System.Drawing.Size(167, 19);
+            this.chkCleanOnClosing.TabIndex = 10;
+            this.chkCleanOnClosing.Text = "Reset CFSM On Closing";
+            this.chkCleanOnClosing.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.toolTip.SetToolTip(this.chkCleanOnClosing, resources.GetString("chkCleanOnClosing.ToolTip"));
+            this.chkCleanOnClosing.UseVisualStyleBackColor = true;
+            this.chkCleanOnClosing.Click += new System.EventHandler(this.chkCleanOnClosing_Click);
+            // 
+            // toolTip
+            // 
+            this.toolTip.AutomaticDelay = 200;
+            this.toolTip.AutoPopDelay = 12000;
+            this.toolTip.InitialDelay = 200;
+            this.toolTip.IsBalloon = true;
+            this.toolTip.ReshowDelay = 100;
+            // 
+            // dataGridViewCheckBoxColumn1
+            // 
+            this.dataGridViewCheckBoxColumn1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
+            this.dataGridViewCheckBoxColumn1.DataPropertyName = "Visible";
+            this.dataGridViewCheckBoxColumn1.HeaderText = "Visible";
+            this.dataGridViewCheckBoxColumn1.Name = "dataGridViewCheckBoxColumn1";
+            this.dataGridViewCheckBoxColumn1.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.dataGridViewCheckBoxColumn1.ToolTipText = "Click to Sort (Read/Write)";
+            // 
+            // dataGridViewTextBoxColumn1
+            // 
+            this.dataGridViewTextBoxColumn1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
+            this.dataGridViewTextBoxColumn1.DataPropertyName = "DisplayIndex";
+            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle7.Format = "N0";
+            dataGridViewCellStyle7.NullValue = null;
+            this.dataGridViewTextBoxColumn1.DefaultCellStyle = dataGridViewCellStyle7;
+            this.dataGridViewTextBoxColumn1.HeaderText = "DisplayIndex";
+            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
+            this.dataGridViewTextBoxColumn1.ToolTipText = "Click to Sort (Read/Write)\r\nEither manually edit \'DisplayIndex\', or\r\ndrag and dro" +
+                "p a \'HeaderText\' row\r\nto change grid column display order";
+            // 
+            // dataGridViewTextBoxColumn2
+            // 
+            this.dataGridViewTextBoxColumn2.DataPropertyName = "Width";
+            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle8.Format = "N0";
+            dataGridViewCellStyle8.NullValue = null;
+            this.dataGridViewTextBoxColumn2.DefaultCellStyle = dataGridViewCellStyle8;
+            this.dataGridViewTextBoxColumn2.HeaderText = "Width";
+            this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
+            this.dataGridViewTextBoxColumn2.ToolTipText = "Click to Sort (Read/Write)";
+            this.dataGridViewTextBoxColumn2.Width = 80;
+            // 
+            // dataGridViewTextBoxColumn3
+            // 
+            this.dataGridViewTextBoxColumn3.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.dataGridViewTextBoxColumn3.DataPropertyName = "HeaderText";
+            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            this.dataGridViewTextBoxColumn3.DefaultCellStyle = dataGridViewCellStyle9;
+            this.dataGridViewTextBoxColumn3.HeaderText = "HeaderText";
+            this.dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
+            this.dataGridViewTextBoxColumn3.ReadOnly = true;
+            this.dataGridViewTextBoxColumn3.ToolTipText = "Click to Sort (Read Only)\r\nDrag and drop a \'HeaderText\' row\r\nto change grid colum" +
+                "n display order";
+            // 
+            // dataGridViewTextBoxColumn4
+            // 
+            this.dataGridViewTextBoxColumn4.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
+            this.dataGridViewTextBoxColumn4.DataPropertyName = "ColumnIndex";
+            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle10.Format = "N0";
+            dataGridViewCellStyle10.NullValue = null;
+            this.dataGridViewTextBoxColumn4.DefaultCellStyle = dataGridViewCellStyle10;
+            this.dataGridViewTextBoxColumn4.HeaderText = "ColumnIndex";
+            this.dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
+            this.dataGridViewTextBoxColumn4.ReadOnly = true;
+            this.dataGridViewTextBoxColumn4.ToolTipText = "Click to Sort\r\n(For Reference Only)";
+            // 
+            // dataGridViewTextBoxColumn5
+            // 
+            this.dataGridViewTextBoxColumn5.DataPropertyName = "ColumnName";
+            this.dataGridViewTextBoxColumn5.HeaderText = "ColumnName";
+            this.dataGridViewTextBoxColumn5.Name = "dataGridViewTextBoxColumn5";
+            this.dataGridViewTextBoxColumn5.ReadOnly = true;
+            this.dataGridViewTextBoxColumn5.ToolTipText = "Click to Sort (Read Only)";
+            this.dataGridViewTextBoxColumn5.Visible = false;
+            this.dataGridViewTextBoxColumn5.Width = 98;
+            // 
             // Settings
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -701,7 +698,7 @@ namespace CustomsForgeSongManager.UControls
         private Label lblSettingsRSDir;
         private CueTextBox cueRsDir;
         public CheckBox chkIncludeRS1CompSongs;
-        private RadioButton rbCleanOnClosing;
+        private CheckBox chkCleanOnClosing;
         private ToolTip toolTip;
         private Button btnEmptyLogs;
         public CheckBox chkEnableAutoUpdate;

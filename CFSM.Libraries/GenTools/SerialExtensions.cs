@@ -36,7 +36,7 @@ namespace GenTools
         }
 
         public static T DeserializeXml<T>(this Stream stream)
-        {
+        {            
             XmlSerializer serializer = new XmlSerializer(typeof(T));
             return (T)serializer.Deserialize(stream);
         }

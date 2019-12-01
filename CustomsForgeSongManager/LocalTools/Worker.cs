@@ -117,8 +117,13 @@ namespace CustomsForgeSongManager.LocalTools
         {
             Globals.IsScanning = true;
             List<string> filesList = FilesList(Constants.Rs2DlcFolder, AppSettings.Instance.IncludeRS1CompSongs, AppSettings.Instance.IncludeRS2BaseSongs, AppSettings.Instance.IncludeCustomPacks);
+
             // remove inlays
-            filesList = filesList.Where(fi => !fi.ToLower().Contains("inlay")).ToList();
+            if (!Globals.IncludeInlays)
+                filesList = filesList.Where(fi => !fi.ToLower().Contains("inlay")).ToList();
+            else
+                Globals.Log("Duplicates scan includes any custom inlays ...");
+
 
             // initialization
             bwSongCollection = Globals.MasterCollection.ToList();
@@ -175,7 +180,7 @@ namespace CustomsForgeSongManager.LocalTools
 
             int removed = Math.Abs(bwSongCollection.Count() - oldCount);
             if (removed > 0)
-                Globals.Log(String.Format("Removed ({0}) obsolete songs from songsInfo.xml ...", removed));
+                Globals.Log(String.Format("Removed ({0}) obsolete songs/inlays from songsInfo.xml ...", removed));
 
             Globals.DebugLog("Parsing files ...");
             foreach (string file in filesList)

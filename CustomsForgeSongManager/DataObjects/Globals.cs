@@ -261,6 +261,7 @@ namespace CustomsForgeSongManager.DataObjects
         public static bool PrfldbNeedsUpdate { get; set; }
         public static bool PackageRatingNeedsUpdate { get; set; }
         public static bool UpdateInProgress { get; set; }
+        public static bool IncludeInlays { get; set; }
 
     }
 }

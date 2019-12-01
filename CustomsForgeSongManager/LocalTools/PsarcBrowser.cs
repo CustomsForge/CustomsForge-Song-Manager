@@ -17,6 +17,7 @@ using RocksmithToolkitLib.Sng2014HSL;
 using RocksmithToolkitLib.DLCPackage.Manifest2014;
 using Newtonsoft.Json;
 using Arrangement = CustomsForgeSongManager.DataObjects.Arrangement;
+using StringExtensions = RocksmithToolkitLib.Extensions.StringExtensions;
 using System.Threading;
 using GenTools;
 using System.Globalization;
@@ -76,6 +77,11 @@ namespace CustomsForgeSongManager.LocalTools
             sw = new Stopwatch();
             sw.Restart();
 
+            // custom inlays get special treatment
+            var isInlay = false;
+            if (Globals.IncludeInlays && _filePath.ToLower().Contains("inlay"))
+                isInlay = true;
+
             // speed hack and fix for tuning 'Other' issue
             if (Globals.TuningXml == null || Globals.TuningXml.Count == 0)
                 Globals.TuningXml = TuningDefinitionRepository.Instance.LoadTuningDefinitions(GameVersion.RS2014);
@@ -113,7 +119,11 @@ namespace CustomsForgeSongManager.LocalTools
             }
 
             // every song contains gamesxblock but may not contain showlights.xml
+            //var xblockEntries = _archive.TOC.Where(x => x.Name.StartsWith("gamexblocks/nsongs") && x.Name.EndsWith(".xblock")).ToList();
             var xblockEntries = _archive.TOC.Where(x => x.Name.StartsWith("gamexblocks/nsongs") && x.Name.EndsWith(".xblock")).ToList();
+            if (isInlay)
+                xblockEntries = _archive.TOC.Where(x => x.Name.StartsWith("gamexblocks/nguitars") && x.Name.EndsWith(".xblock")).ToList();
+
             if (!xblockEntries.Any())
                 throw new Exception("Could not find valid xblock file : " + _filePath);
 
@@ -174,6 +184,12 @@ namespace CustomsForgeSongManager.LocalTools
                     strippedName = strippedName.Replace("fcp_dlc", "");
 
                 var jsonEntries = _archive.TOC.Where(x => x.Name.StartsWith("manifests/songs") && x.Name.EndsWith(".json") && x.Name.Contains(strippedName)).OrderBy(x => x.Name).ToList();
+                if (isInlay)
+                    jsonEntries = _archive.TOC.Where(x => x.Name.StartsWith("manifests/") && x.Name.EndsWith(".json")).OrderBy(x => x.Name).ToList();
+
+                if (!jsonEntries.Any())
+                    throw new Exception("Could not find valid manifest file : " + _filePath);
+
                 // may be it is a songpack file
                 if (jsonEntries.Count > 6) // Remastered CDLC max with vocals
                     Debug.WriteLine("<WARNING> Manifest Count > 6 : " + _filePath);
@@ -186,6 +202,29 @@ namespace CustomsForgeSongManager.LocalTools
                 // looping through song multiple times gathering each arrangement
                 foreach (var jsonEntry in jsonEntries)
                 {
+                    if (isInlay) // KISS
+                    {
+                        var iManifest2014 = new Manifest2014<InlayAttributes2014>();
+                        // get song attributes from json entry
+                        using (var ms = ExtractEntryData(x => x.Name.Equals(jsonEntry.Name)))
+                        using (var readerJson = new StreamReader(ms, new UTF8Encoding(), true, 65536)) //4Kb is default alloc sise for windows.. 64Kb is default PSARC alloc
+                            iManifest2014 = JsonConvert.DeserializeObject<Manifest2014<InlayAttributes2014>>(readerJson.ReadToEnd());
+
+                        var iAttributes = iManifest2014.Entries.ToArray()[0].Value.ToArray()[0].Value;
+
+                        song.DLCKey = iAttributes.Name;
+                        song.Title = StringExtensions.SplitCamelCase(iAttributes.LocName);
+                        song.Artist = "Inlay";
+                        song.Album = "Decorative Inlays";
+                        var arrInlay = new Arrangement(song);
+                        arrInlay.PersistentID = iAttributes.PersistentID;
+                        arrInlay.ArrangementName = "Inlay";
+                        arrangements.Add(arrInlay);
+                        song.Arrangements2D = arrangements;
+                        songsData.Add(song);
+                        break;
+                    }
+
                     var manifest2014 = new Manifest2014<Attributes2014>();
                     // get song attributes from json entry
                     using (var ms = ExtractEntryData(x => x.Name.Equals(jsonEntry.Name)))

@@ -66,6 +66,7 @@ namespace CustomsForgeSongManager.Forms
         public frmMain(DLogNet.DLogger myLog)
         {
             InitializeComponent();
+            Globals.MyLog = myLog;
 
             // verify application directory structure
             FileTools.VerifyCfsmFolders();
@@ -90,7 +91,6 @@ namespace CustomsForgeSongManager.Forms
 
             SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.UserPaint | ControlStyles.DoubleBuffer, true);
 
-            Globals.MyLog = myLog;
             Globals.Notifier = this.notifyIcon_Main;
             Globals.TsProgressBar_Main = this.tsProgressBar_Main;
             Globals.TsLabel_MainMsg = this.tsLabel_MainMsg;
@@ -392,6 +392,11 @@ namespace CustomsForgeSongManager.Forms
                     currentControl = Globals.ArrangementAnalyzer;
                     break;
                 case "Duplicates":
+                    // force Duplicates check of Custom Inlays
+                    Globals.IncludeInlays = true;
+                    // force full rescan on load
+                    Globals.RescanDuplicates = true;
+
                     this.tpDuplicates.Controls.Clear();
                     this.tpDuplicates.Controls.Add(Globals.Duplicates);
                     Globals.Duplicates.Dock = DockStyle.Fill;
