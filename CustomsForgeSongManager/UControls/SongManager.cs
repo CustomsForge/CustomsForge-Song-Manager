@@ -178,10 +178,6 @@ namespace CustomsForgeSongManager.UControls
             if (!LoadSongCollectionFromFile())
                 return;
 
-            // bind datasource to grid            
-            //IncludeSubfolders(); // this kills search
-            //ProtectODLC();
-
             // Worker actually does the sorting after parsing, this is just to tell the grid that it is sorted.
             if (!String.IsNullOrEmpty(AppSettings.Instance.SortColumn))
             {
@@ -297,13 +293,6 @@ namespace CustomsForgeSongManager.UControls
                 SearchCDLC(AppSettings.Instance.SearchString);
                 Thread.Sleep(200); // debounce search
                 dgvSongsMaster.AllowUserToAddRows = false; // corrects initial Song Count
-
-                // commented out ... some speedster typist who are prone to mistakes :)
-                //if (dgvSongsMaster.Rows.Count == 0)
-                //{
-                //    IncludeSubfolders(true); // search killer
-                //    Globals.Log(" - CFSM cleared a search that returns no songs ...");
-                //}
             }
 
             if (!AppSettings.Instance.IncludeArrangementData)
@@ -327,12 +316,12 @@ namespace CustomsForgeSongManager.UControls
         {
             // part of ContextMenuStrip action
             GenExtensions.InvokeIfRequired(dgvSongsMaster, delegate
+            {
+                if (dgvSongsMaster.SelectedRows.Count > 0)
                 {
-                    if (dgvSongsMaster.SelectedRows.Count > 0)
-                    {
-                        CheckRowForUpdate(dgvSongsMaster.SelectedRows[0]);
-                    }
-                });
+                    CheckRowForUpdate(dgvSongsMaster.SelectedRows[0]);
+                }
+            });
         }
 
         private void CheckRowForUpdate(DataGridViewRow dataGridViewRow)
@@ -472,8 +461,8 @@ namespace CustomsForgeSongManager.UControls
             if (tsmiModsMyCDLC.Checked)
                 songList = (songList.Where(x => x.PackageAuthor == AppSettings.Instance.CharterName).ToList());
 
-            //// remove inlays
-            //songList = songList.Where(fi => !fi.FileName.ToLower().Contains("inlay")).ToList();
+            // remove inlays JIC
+            songList = songList.Where(fi => !fi.FileName.ToLower().Contains("inlay")).ToList();
 
             LoadFilteredBindingList(songList);
         }
@@ -535,7 +524,7 @@ namespace CustomsForgeSongManager.UControls
                 }
 
                 // smart scan
-                if (correctVersion)
+                if (correctVersion && !AppSettings.Instance.FirstRun)
                 {
                     Globals.Log("Performing quick rescan of song collection ...");
                     Rescan(false);

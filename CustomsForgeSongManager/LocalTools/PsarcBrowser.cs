@@ -187,8 +187,9 @@ namespace CustomsForgeSongManager.LocalTools
                 if (isInlay)
                     jsonEntries = _archive.TOC.Where(x => x.Name.StartsWith("manifests/") && x.Name.EndsWith(".json")).OrderBy(x => x.Name).ToList();
 
+                // song.psarc
                 if (!jsonEntries.Any())
-                    throw new Exception("Could not find valid manifest file : " + _filePath);
+                    Debug.WriteLine("<WARNING> Could not find valid manifest file : " + _filePath);
 
                 // may be it is a songpack file
                 if (jsonEntries.Count > 6) // Remastered CDLC max with vocals
@@ -215,7 +216,7 @@ namespace CustomsForgeSongManager.LocalTools
                         song.DLCKey = iAttributes.Name;
                         song.Title = StringExtensions.SplitCamelCase(iAttributes.LocName);
                         song.Artist = "Inlay";
-                        song.Album = "Decorative Inlays";
+                        song.Album = "Decorative Guitar Inlays";
                         var arrInlay = new Arrangement(song);
                         arrInlay.PersistentID = iAttributes.PersistentID;
                         arrInlay.ArrangementName = "Inlay";

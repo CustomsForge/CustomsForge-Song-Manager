@@ -364,6 +364,7 @@ namespace CustomsForgeSongManager.UControls
 
             GenExtensions.DeleteFile(Constants.SongsInfoPath);
             AppSettings.Instance.MacMode = chkMacMode.Checked;
+            AppSettings.Instance.FirstRun = true;
 
             // restart new instance of application and shutdown original
             Application.Restart(); // this triggers frmMain_FormClosing method

@@ -53,11 +53,11 @@ namespace CustomsForgeSongManager.UControls
             // dev testing new menu item
             //if (!Constants.DebugMode)
             //    tsmiDuplicateType.Visible = false;
-         }
+        }
 
         // TODO: make method generic to find any Type of Duplicate
         public void PopulateDuplicates(bool findDupPIDs = false)
-        {            
+        {
             // remove all previous selections
             foreach (var song in Globals.MasterCollection)
                 song.Selected = false;
@@ -996,6 +996,14 @@ namespace CustomsForgeSongManager.UControls
             var sd = DgvExtensions.GetObjectFromRow<SongData>(dgvDuplicates.SelectedRows[0]);
             if (sd.IsODLC || sd.IsRsCompPack || sd.IsSongsPsarc)
                 return;
+
+            if (sd.Artist == "Inlay")
+            {
+                var diaMsg = "Decorative guitar inlays can " + Environment.NewLine +
+                             "not be edited with CFSM ...";
+                BetterDialog2.ShowDialog(diaMsg, "Decorative Guitar Inlay ...", null, null, "Ok", Bitmap.FromHicon(SystemIcons.Warning.Handle), "ReadMe", 0, 150);
+                return;
+            }
 
             // DO NOT edit/modify/repair disabled CDLC
             if (sd.Enabled != "Yes")
