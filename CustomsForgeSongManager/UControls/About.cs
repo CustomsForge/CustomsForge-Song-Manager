@@ -356,6 +356,11 @@ namespace CustomsForgeSongManager.UControls
         {
             Process.Start(Constants.IgnitionURL);
         }
+
+        private void lnkOfficialGuide_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            Process.Start(Constants.CustomsForgeURL + "/index.php/topic/51771-customsforge-song-manager-official-guide-2019/#entry309449");
+        }
     }
 }
 

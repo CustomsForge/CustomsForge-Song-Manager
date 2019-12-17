@@ -1169,7 +1169,7 @@ namespace CustomsForgeSongManager.UControls
             // toolTip
             // 
             this.toolTip.AutomaticDelay = 200;
-            this.toolTip.AutoPopDelay = 12000;
+            this.toolTip.AutoPopDelay = 15000;
             this.toolTip.InitialDelay = 200;
             this.toolTip.IsBalloon = true;
             this.toolTip.ReshowDelay = 100;

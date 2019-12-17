@@ -14,6 +14,12 @@ until you can confirm it is safe by working directly with your AV provider.
 
 CFSM Release Notes
 
+1.5.6.9
+- added a weblink in Settings tabmenu to the Official CFSM Guide
+- added customizable user notes to CDLC PackageComments
+  usage: SongManager>EditSongInfo>UserNotes (add/edit note), then Save
+- added ablity to edit tagged CDLC songs info without first having to untag
+
 1.5.6.8
 - hotfix
 

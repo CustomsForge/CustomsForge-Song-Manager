@@ -662,7 +662,7 @@ namespace GenTools
 
             // remove forward slashes from a directory name, e.g. AC/DC becomes ACDC
             string invalidRegStr = String.Format(@"([{0}]*\.+$)|([{0}/]+)", Regex.Escape(invalidChars));
-
+            
             return Regex.Replace(dirName, invalidRegStr, replaceWith);
         }
 

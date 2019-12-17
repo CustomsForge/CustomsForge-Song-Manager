@@ -43,6 +43,9 @@
     </AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Antlr3.Runtime">
+      <HintPath>lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
     <Reference Include="CFSM.NCalc">
       <HintPath>lib\CFSM.NCalc.dll</HintPath>
     </Reference>
@@ -119,6 +122,9 @@
       <Project>{41EA9CF7-BF72-4243-98A8-5BF16BCD90AD}</Project>
       <Name>GenTools</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ReadMe.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

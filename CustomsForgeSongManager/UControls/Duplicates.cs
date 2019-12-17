@@ -1014,19 +1014,14 @@ namespace CustomsForgeSongManager.UControls
                 return;
             }
 
-            // DO NOT edit/modify/repair tagged CDLC - artifact data will be lost
-            if (sd.Tagged == SongTaggerStatus.True)
-            {
-                var diaMsg = "Tagged CDLC may not be edited ..." + Environment.NewLine +
-                             "Please untag the CLDC and then edit it." + Environment.NewLine;
-                BetterDialog2.ShowDialog(diaMsg, "Tagged CDLC ...", null, null, "Ok", Bitmap.FromHicon(SystemIcons.Warning.Handle), "ReadMe", 0, 150);
-                return;
-            }
-
             var filePath = sd.FilePath;
             using (var songEditor = new frmSongEditor(filePath))
             {
+                // position songEditor at top/center of mainForm to avoid having to reposition later
+                songEditor.Location = new Point((this.Width - songEditor.Width) / 2, this.ParentForm.Location.Y);
                 songEditor.Text = String.Format("{0}{1}", "Song Editor ... Loaded: ", Path.GetFileName(filePath));
+                songEditor.IsTagged = sd.Tagged == SongTaggerStatus.True ? true : false;
+                
                 songEditor.ShowDialog();
             }
 

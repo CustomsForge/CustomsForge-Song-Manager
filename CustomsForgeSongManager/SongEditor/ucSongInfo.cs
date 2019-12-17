@@ -5,7 +5,9 @@ using System.Windows.Forms;
 using CustomsForgeSongManager.DataObjects;
 using RocksmithToolkitLib;
 using RocksmithToolkitLib.Extensions;
+using RocksmithToolkitLib.Sng;
 using RocksmithToolkitLib.XmlRepository;
+using System.Text.RegularExpressions;
 
 namespace CustomsForgeSongManager.SongEditor
 {
@@ -18,11 +20,6 @@ namespace CustomsForgeSongManager.SongEditor
 
         public override void DoInit()
         {
-            // this will throw exception if SongFilePath not found
-            var song = Globals.MasterCollection.First(x => x.FilePath == FilePath);
-
-            cbLowBass.Visible = song.ArrangementsInitials.Contains('B');
-
             // validate on-load to address some old CDLC issues
             txtKey.Text = SongData.Name.GetValidKey();
             txtArtist.Text = SongData.SongInfo.Artist.GetValidAtaSpaceName();
@@ -37,7 +34,9 @@ namespace CustomsForgeSongManager.SongEditor
             txtAvgTempo.Text = SongData.SongInfo.AverageTempo.ToString().GetValidTempo();
             cmbSongVolume.Value = Convert.ToDecimal(SongData.Volume);
             cmbPreviewVolume.Value = Convert.ToDecimal(SongData.PreviewVolume);
-            txtCharter.Text = song.PackageAuthor;
+            txtCharter.Text = SongData.ToolkitInfo.PackageAuthor;
+            txtNote.Text = ExtractUserNote(SongData.ToolkitInfo.PackageComment);
+            cbLowBass.Visible = SongData.Arrangements.Any(x => x.ArrangementType == ArrangementType.Bass);
 
             //set up events
             PopulateAppIdCombo(SongData.AppId, GameVersion.RS2014);
@@ -54,9 +53,10 @@ namespace CustomsForgeSongManager.SongEditor
             txtVersion.Validating += ValidateVersion;
             txtYear.Validating += ValidateYear;
             txtAvgTempo.Validating += ValidateTempo;
-            txtCharter.Validating += ValidateName;
             cmbSongVolume.Validating += ValidateText;
             cmbPreviewVolume.Validating += ValidateText;
+            txtCharter.Validating += ValidateName;
+            txtNote.Validating += ValidateText;
             cbLowBass.Validating += ValidateText;
         }
 
@@ -149,7 +149,7 @@ namespace CustomsForgeSongManager.SongEditor
         {
             if (!Dirty)
                 return;
-           
+
             SongData.Name = txtKey.Text;
             SongData.AppId = txtAppId.Text;
             SongData.Volume = Convert.ToSingle(cmbSongVolume.Value);
@@ -164,8 +164,9 @@ namespace CustomsForgeSongManager.SongEditor
             SongData.SongInfo.SongYear = Convert.ToInt32(txtYear.Text);
             SongData.SongInfo.AverageTempo = Convert.ToInt32(txtAvgTempo.Text);
             // many CDLC authors do not enter their charter name so permit user to edit the name
-            SongData.ToolkitInfo.PackageAuthor = txtCharter.Text;
             SongData.ToolkitInfo.PackageVersion = txtVersion.Text;
+            SongData.ToolkitInfo.PackageAuthor = txtCharter.Text;
+            SongData.ToolkitInfo.PackageComment = CreatePackageComment(SongData.ToolkitInfo.PackageComment, txtNote.Text);
 
             base.Save();
         }
@@ -205,5 +206,76 @@ namespace CustomsForgeSongManager.SongEditor
             }
         }
 
- }
+        /// <summary>
+        /// given a full toolkit PackageComment string with user's Note
+        /// <para>return just the user note portion [xxxx]</para>
+        /// </summary>
+        /// <param name="tkPackageComment"></param>
+        private string ExtractUserNote(string tkPackageComment)
+        {
+            var packageNote = String.Empty;
+            if (String.IsNullOrEmpty(tkPackageComment))
+                return packageNote;
+
+            var bonIndex = tkPackageComment.IndexOf("["); // BeginingOfNote
+            var eonIndex = tkPackageComment.IndexOf("]"); // EndOfNote
+            if (bonIndex < 0 || eonIndex < 0)
+                return packageNote;
+
+            packageNote = tkPackageComment.Substring(bonIndex + 1, eonIndex - 1);
+            return packageNote;
+        }
+
+        /// <summary>
+        /// given a full toolkit PackageComment string including any notes [xxxx]
+        /// <para>return only the original comment portion</para>
+        /// </summary>
+        /// <param name="tkPackageComment"></param>
+        private string ExtractCommentOnly(string tkPackageComment)
+        {
+            if (String.IsNullOrEmpty(ExtractUserNote(tkPackageComment)))
+                return tkPackageComment;
+
+            var packageNote = String.Format("[{0}]", ExtractUserNote(tkPackageComment));
+            var packageComment = tkPackageComment.Replace(packageNote, "").Trim();
+            return packageComment;
+        }
+
+        /// <summary>
+        /// given an existing toolkit PackageComment string
+        /// <para>inject the new user's note [xxxx]</para>
+        /// <para>overwrites any existing note</para>
+        /// </summary>
+        /// <param name="srcText"></param>
+        private string CreatePackageComment(string tkPackageComment, string newCustomNote)
+        {
+            if (String.IsNullOrEmpty(newCustomNote))
+                return ExtractCommentOnly(tkPackageComment);
+
+            // remove toolkit reserved characters ':[]' from the user's note that sneaked through
+            const string pattern = @"[\:\]\[]";
+            newCustomNote = Regex.Replace(newCustomNote, pattern, "", RegexOptions.IgnoreCase);
+            var commentOnly = ExtractCommentOnly(tkPackageComment);
+            var commentNote = String.Format("[{0}] {1}", newCustomNote, commentOnly);
+
+            return commentNote;
+        }
+
+        private void txtNote_TextChanged(object sender, EventArgs e)
+        {
+            // get current note and cursor postion
+            var text = txtNote.Text;
+            var position = txtNote.SelectionStart;
+            // remove reserved characters ':[]' from text
+            const string pattern = @"[\:\]\[]";
+            text = Regex.Replace(text, pattern, "", RegexOptions.IgnoreCase);
+            if (text != txtNote.Text)
+            {
+                txtNote.Text = text;
+                txtNote.SelectionStart = position - 1;
+                Globals.Log(" - <WARNING> System reserved charaters ':[]' may not be used in user note ...");
+            }
+        }
+
+    }
 }

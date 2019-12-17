@@ -364,7 +364,7 @@ namespace CustomsForgeSongManager.LocalTools
                 try
                 {
                     string songPath = song.FilePath;
-                    using (PSARC archive = new PSARC())
+                    using (PSARC archive = new PSARC(true))
                     {
                         using (var fs = File.OpenRead(songPath))
                             archive.Read(fs);
@@ -431,8 +431,8 @@ namespace CustomsForgeSongManager.LocalTools
                         archive.AddEntry("tagger.org", orginalArtStream);
                         songPath = song.FilePath;
 
-                        using (var FS = File.Create(songPath))
-                            archive.Write(FS, true);
+                        using (var fs = File.Create(songPath))
+                            archive.Write(fs, true);
 
                         song.FilePath = songPath;
                         song.FileDate = File.GetLastWriteTime(song.FilePath);

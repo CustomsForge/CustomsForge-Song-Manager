@@ -52,9 +52,9 @@
             this.tsMsg,
             this.tslExit});
             this.statusStripMain.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow;
-            this.statusStripMain.Location = new System.Drawing.Point(0, 459);
+            this.statusStripMain.Location = new System.Drawing.Point(0, 428);
             this.statusStripMain.Name = "statusStripMain";
-            this.statusStripMain.Size = new System.Drawing.Size(745, 23);
+            this.statusStripMain.Size = new System.Drawing.Size(642, 23);
             this.statusStripMain.SizingGrip = false;
             this.statusStripMain.TabIndex = 4;
             this.statusStripMain.Text = "statusStrip1";
@@ -123,7 +123,7 @@
             this.tcMain.Location = new System.Drawing.Point(8, 12);
             this.tcMain.Name = "tcMain";
             this.tcMain.SelectedIndex = 0;
-            this.tcMain.Size = new System.Drawing.Size(725, 431);
+            this.tcMain.Size = new System.Drawing.Size(622, 400);
             this.tcMain.TabIndex = 5;
             this.tcMain.SelectedIndexChanged += new System.EventHandler(this.tcMain_SelectedIndexChanged);
             // 
@@ -132,7 +132,7 @@
             this.tpSongInfo.Location = new System.Drawing.Point(4, 25);
             this.tpSongInfo.Margin = new System.Windows.Forms.Padding(0);
             this.tpSongInfo.Name = "tpSongInfo";
-            this.tpSongInfo.Size = new System.Drawing.Size(717, 402);
+            this.tpSongInfo.Size = new System.Drawing.Size(614, 371);
             this.tpSongInfo.TabIndex = 6;
             this.tpSongInfo.Text = "Song Info";
             this.tpSongInfo.UseVisualStyleBackColor = true;
@@ -171,14 +171,14 @@
             // frmSongEditor
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.ClientSize = new System.Drawing.Size(745, 482);
+            this.ClientSize = new System.Drawing.Size(642, 451);
             this.Controls.Add(this.statusStripMain);
             this.Controls.Add(this.tcMain);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "frmSongEditor";
             this.ShowInTaskbar = false;
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "frmSongEditor";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmSongEditor_FormClosing);
             this.statusStripMain.ResumeLayout(false);

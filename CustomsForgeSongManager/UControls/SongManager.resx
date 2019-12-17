@@ -129,7 +129,11 @@ of the data (more inclusive, and slower).
 
 This checkbox is interactive, i.e. you may
 see different results when it is toggled if
-a search criterion has been entered.</value>
+a search criterion has been entered.
+
+Give column filtering a try, if Search 
+doesn't find what you are looking for. 
+Click on a column header filter icon.</value>
   </data>
   <metadata name="cmsSongManager.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>132, 12</value>

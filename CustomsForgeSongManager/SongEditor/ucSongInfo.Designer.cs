@@ -29,7 +29,10 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ucSongInfo));
             this.gbSongInfo = new System.Windows.Forms.GroupBox();
+            this.lblNote = new System.Windows.Forms.Label();
+            this.txtNote = new System.Windows.Forms.TextBox();
             this.txtAlbumSort = new System.Windows.Forms.TextBox();
             this.label16 = new System.Windows.Forms.Label();
             this.cbLowBass = new System.Windows.Forms.CheckBox();
@@ -69,6 +72,8 @@
             // 
             // gbSongInfo
             // 
+            this.gbSongInfo.Controls.Add(this.lblNote);
+            this.gbSongInfo.Controls.Add(this.txtNote);
             this.gbSongInfo.Controls.Add(this.txtAlbumSort);
             this.gbSongInfo.Controls.Add(this.label16);
             this.gbSongInfo.Controls.Add(this.cbLowBass);
@@ -104,10 +109,35 @@
             this.gbSongInfo.Location = new System.Drawing.Point(17, 16);
             this.gbSongInfo.Name = "gbSongInfo";
             this.gbSongInfo.Padding = new System.Windows.Forms.Padding(0);
-            this.gbSongInfo.Size = new System.Drawing.Size(515, 348);
+            this.gbSongInfo.Size = new System.Drawing.Size(515, 337);
             this.gbSongInfo.TabIndex = 0;
             this.gbSongInfo.TabStop = false;
             this.gbSongInfo.Text = "Song Information";
+            // 
+            // lblNote
+            // 
+            this.lblNote.AutoSize = true;
+            this.lblNote.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblNote.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.lblNote.Location = new System.Drawing.Point(38, 293);
+            this.lblNote.Margin = new System.Windows.Forms.Padding(3);
+            this.lblNote.Name = "lblNote";
+            this.lblNote.Size = new System.Drawing.Size(58, 13);
+            this.lblNote.TabIndex = 86;
+            this.lblNote.Text = "User Note:";
+            this.lblNote.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // txtNote
+            // 
+            this.txtNote.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtNote.Location = new System.Drawing.Point(102, 290);
+            this.txtNote.Multiline = true;
+            this.txtNote.Name = "txtNote";
+            this.txtNote.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.txtNote.Size = new System.Drawing.Size(387, 26);
+            this.txtNote.TabIndex = 85;
+            this.toolTip.SetToolTip(this.txtNote, resources.GetString("txtNote.ToolTip"));
+            this.txtNote.TextChanged += new System.EventHandler(this.txtNote_TextChanged);
             // 
             // txtAlbumSort
             // 
@@ -132,13 +162,13 @@
             // 
             this.cbLowBass.AutoSize = true;
             this.cbLowBass.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cbLowBass.Location = new System.Drawing.Point(102, 301);
+            this.cbLowBass.Location = new System.Drawing.Point(306, 151);
             this.cbLowBass.Name = "cbLowBass";
             this.cbLowBass.Size = new System.Drawing.Size(124, 17);
             this.cbLowBass.TabIndex = 14;
             this.cbLowBass.Text = "Fix Low Bass Tuning";
-            this.toolTip.SetToolTip(this.cbLowBass, "Try using the Rockmith Toolkit program  if you have \r\nmultiple songs that need th" +
-                    "e low bass tuning fix.");
+            this.toolTip.SetToolTip(this.cbLowBass, "Try using CSFM>SongManager>Repairs if you have \r\nmultiple songs that need the low" +
+                    " bass tuning fix.");
             this.cbLowBass.UseVisualStyleBackColor = true;
             // 
             // label14
@@ -486,17 +516,18 @@
             // 
             // toolTip
             // 
-            this.toolTip.AutomaticDelay = 100;
-            this.toolTip.AutoPopDelay = 10000;
-            this.toolTip.InitialDelay = 100;
-            this.toolTip.ReshowDelay = 100;
+            this.toolTip.AutomaticDelay = 200;
+            this.toolTip.AutoPopDelay = 15000;
+            this.toolTip.InitialDelay = 200;
+            this.toolTip.IsBalloon = true;
+            this.toolTip.ReshowDelay = 200;
             // 
             // ucSongInfo
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.Controls.Add(this.gbSongInfo);
             this.Name = "ucSongInfo";
-            this.Size = new System.Drawing.Size(550, 385);
+            this.Size = new System.Drawing.Size(550, 369);
             this.gbSongInfo.ResumeLayout(false);
             this.gbSongInfo.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.cmbPreviewVolume)).EndInit();
@@ -540,5 +571,7 @@
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.TextBox txtAlbumSort;
         private System.Windows.Forms.ToolTip toolTip;
+        private System.Windows.Forms.Label lblNote;
+        private System.Windows.Forms.TextBox txtNote;
     }
 }

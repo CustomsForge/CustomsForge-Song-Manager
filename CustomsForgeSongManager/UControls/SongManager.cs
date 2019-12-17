@@ -300,6 +300,13 @@ namespace CustomsForgeSongManager.UControls
             else
                 colSongAverageTempo.ToolTipText = "";
 
+            // force rescan in case user deleted songInfo.xml or switched from MacMode
+            if (dgvSongsMaster.Rows.Count == 0 && String.IsNullOrEmpty(cueSearch.Text))
+            {
+                Globals.RescanSongManager = true;
+                UpdateToolStrip();
+            }
+
             Globals.TsLabel_MainMsg.Text = String.Format("Rocksmith Song Count: {0}", dgvSongsMaster.Rows.Count);
             Globals.TsLabel_MainMsg.Visible = true;
             numberOfDisabledDLC = songList.Where(song => song.Enabled == "No").ToList().Count();
@@ -884,10 +891,11 @@ namespace CustomsForgeSongManager.UControls
                     x.Tunings1D.ToLower().Contains(lowerCriteria) ||
                     x.Arrangements1D.ToLower().Contains(lowerCriteria) ||
                     x.PackageAuthor.ToLower().Contains(lowerCriteria) ||
-                    (x.IgnitionAuthor != null && x.IgnitionAuthor.ToLower().Contains(lowerCriteria) ||
+                    (x.IgnitionAuthor != null && x.IgnitionAuthor.ToLower().Contains(lowerCriteria)) ||
                     (x.IgnitionID != null && x.IgnitionID.ToLower().Contains(lowerCriteria)) ||
                     x.SongYear.ToString().Contains(criteria) ||
-                    x.FilePath.ToLower().Contains(lowerCriteria))).ToList();
+                    x.PackageComment.ToLower().Contains(criteria) ||
+                    x.FilePath.ToLower().Contains(lowerCriteria)).ToList();
             else
                 results = songList.Where(x => x.ArtistTitleAlbum.ToLower().Contains(lowerCriteria)).ToList();
 
@@ -1355,19 +1363,14 @@ namespace CustomsForgeSongManager.UControls
                 return;
             }
 
-            // DO NOT edit/modify/repair tagged CDLC - artifact data will be lost
-            if (sd.Tagged == SongTaggerStatus.True)
-            {
-                var diaMsg = "Tagged CDLC may not be edited ..." + Environment.NewLine +
-                             "Please untag the CLDC and then edit it." + Environment.NewLine;
-                BetterDialog2.ShowDialog(diaMsg, "Tagged CDLC ...", null, null, "Ok", Bitmap.FromHicon(SystemIcons.Warning.Handle), "ReadMe", 0, 150);
-                return;
-            }
-
             var filePath = sd.FilePath;
             using (var songEditor = new frmSongEditor(filePath))
             {
+                // position songEditor at top/center of mainForm to avoid having to reposition later
+                songEditor.Location = new Point((this.Width - songEditor.Width) / 2, this.ParentForm.Location.Y);
                 songEditor.Text = String.Format("{0}{1}", "Song Editor ... Loaded: ", Path.GetFileName(filePath));
+                songEditor.IsTagged = sd.Tagged == SongTaggerStatus.True ? true : false;
+
                 songEditor.ShowDialog();
             }
 
@@ -1460,7 +1463,6 @@ namespace CustomsForgeSongManager.UControls
             statusSongsMaster.SaveSorting(dgvSongsMaster);
             ResetDetail();
             SearchCDLC(cueSearch.Text);
-
             UpdateToolStrip();
             // restore current sort
             statusSongsMaster.RestoreSorting(dgvSongsMaster);

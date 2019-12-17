@@ -27,14 +27,16 @@ namespace DataGridViewTools
             // instantiate an instance of the object from the dataObject's remote assembly
             var dataObj = dataObject.ToString();
             var moduleName = dataObject.GetType().GetProperty("Module").GetValue(dataObject, null);
-            var remoteAssembly = Assembly.LoadFrom(moduleName.ToString());
+            var appPath = AppDomain.CurrentDomain.BaseDirectory;
+            var modulePath = Path.Combine(appPath, moduleName.ToString());
+            var remoteAssembly = Assembly.LoadFrom(modulePath);
             var handle = Activator.CreateInstance(remoteAssembly.ToString(), dataObj);
             var obj = handle.Unwrap();
 
             string s = String.Empty;
-            if (frmCustomFilter.EditCustomFilter(ref s,
-                obj.GetType().GetProperty(ColumnName)))
+            if (frmCustomFilter.EditCustomFilter(ref s, obj.GetType().GetProperty(ColumnName)))
                 return "Expression:" + s;
+
             return string.Empty;
         }
 

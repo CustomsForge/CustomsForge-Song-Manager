@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using System.Collections.Generic;
@@ -15,14 +16,16 @@ using Arrangement = RocksmithToolkitLib.DLCPackage.Arrangement;
 using RocksmithToolkitLib.PSARC;
 using CustomsForgeSongManager.LocalTools;
 
+
 namespace CustomsForgeSongManager.SongEditor
 {
     public partial class frmSongEditor : Form
     {
         private DLCPackageData packageData;
         private string filePath;
-
         private List<DLCPackageEditorControlBase> editorControls = new List<DLCPackageEditorControlBase>();
+
+        public bool IsTagged { get; set; }
 
         public frmSongEditor()
         {
@@ -39,15 +42,14 @@ namespace CustomsForgeSongManager.SongEditor
                 Globals.Log("Loading song information from: " + Path.GetFileName(songPath));
                 Cursor.Current = Cursors.WaitCursor;
                 Globals.TsProgressBar_Main.Value = 10;
-                Globals.TsProgressBar_Main.Value = 20;
 
                 InitializeComponent();
+
                 this.Icon = Properties.Resources.cfsm_48x48;
                 tslExit.Alignment = ToolStripItemAlignment.Right;
-
+                Globals.TsProgressBar_Main.Value = 20;
                 var psarc = new PsarcPackager();
                 packageData = psarc.ReadPackage(songPath);
-
                 filePath = songPath;
                 Globals.TsProgressBar_Main.Value = 80;
                 LoadSongInfo();
@@ -88,7 +90,7 @@ namespace CustomsForgeSongManager.SongEditor
 
             try
             {
-                // update SongData
+                // update (only dirty) SongData
                 editorControls.ForEach(ec => { if (ec.Dirty) ec.Save(); });
 
                 //Generate metronome arrangemnts here
@@ -100,10 +102,7 @@ namespace CustomsForgeSongManager.SongEditor
                 packageData.Arrangements.AddRange(mArr);
                 packageData.DefaultShowlights = true;
 
-                var msg = "The song information has been changed." + Environment.NewLine +
-                    "Do you want to update the 'Persistent ID'?" + Environment.NewLine +
-                    "Answering 'Yes' will reduce the risk of CDLC" + Environment.NewLine +
-                    "in game hanging and song stats will be reset.  ";
+                var msg = "The song information has been changed." + Environment.NewLine + "Do you want to update the 'Persistent ID'?" + Environment.NewLine + "Answering 'Yes' will reduce the risk of CDLC" + Environment.NewLine + "in game hanging and song stats will be reset.  ";
                 //only ask if it's a new filename.
                 bool updateArrangementID = (destPath != filePath) ? MessageBox.Show(msg, "Song Editor ...", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes : false;
                 this.Refresh();
@@ -131,15 +130,40 @@ namespace CustomsForgeSongManager.SongEditor
 
                         if (!isCommented)
                             Song2014.WriteXmlComments(arr.SongXml.File, commentNodes, customComment: cfsmComment);
+                        else
+                            Song2014.WriteXmlComments(arr.SongXml.File, commentNodes);
                     }
                 }
 
-                tsProgressBar.Value = 60;
-
-                using (var psarc = new PsarcPackager(true))
+                tsProgressBar.Value = 50;
+                // write edited packageData
+                using (var psarc = new PsarcPackager())
                     psarc.WritePackage(destPath, packageData, srcPath);
 
-                // hack for replacing images
+                // write tagger.org to destPath
+                if (IsTagged)
+                {
+                    var unpackedDir = Path.GetDirectoryName(Path.GetDirectoryName(packageData.AlbumArtPath));
+                    var orgArtwork = Path.Combine(unpackedDir, "Toolkit", "album_org_256.dds");
+                    if (File.Exists(orgArtwork))
+                    {
+                        tsProgressBar.Value = 70;
+                        using (PSARC archive = new PSARC(true))
+                        {
+                            using (var fs = File.OpenRead(destPath))
+                                archive.Read(fs);
+
+                            using (var fs = File.Create(destPath))
+                            using (var fsArt = File.OpenRead(orgArtwork))
+                            {
+                                archive.AddEntry("tagger.org", fsArt);
+                                archive.Write(fs, true);
+                            }
+                        }
+                    }
+                }
+
+                // hack for replacing artwork
                 var x = editorControls.Where(e => e.NeedsAfterSave());
                 if (x.Count() > 0)
                 {
@@ -147,19 +171,22 @@ namespace CustomsForgeSongManager.SongEditor
                         destPath += Constants.EnabledExtension;
 
                     tsProgressBar.Value = 80;
-                    var p = new PSARC();
-                    using (var fs = File.OpenRead(destPath))
-                        p.Read(fs);
-                    bool needsSave = false;
-                    foreach (var ec in x)
+                    using (PSARC archive = new PSARC(true))
                     {
-                        if (ec.AfterSave(p))
-                            needsSave = true;
-                    }
-                    if (needsSave)
-                    {
-                        using (var fs = File.Create(destPath))
-                            p.Write(fs, true);
+                        using (var fs = File.OpenRead(destPath))
+                            archive.Read(fs);
+
+                        bool needsSave = false;
+                        foreach (var ec in x)
+                        {
+                            if (ec.AfterSave(archive))
+                                needsSave = true;
+                        }
+                        if (needsSave)
+                        {
+                            using (var fs = File.Create(destPath))
+                                archive.Write(fs, true);
+                        }
                     }
                 }
 
@@ -171,7 +198,7 @@ namespace CustomsForgeSongManager.SongEditor
             {
                 statusStripMain.Refresh();
                 Cursor.Current = Cursors.Default;
-                 // force reload of CDLC
+                // force reload of CDLC
                 Globals.ReloadSongManager = true;
                 Globals.ReloadArrangements = true;
                 Globals.ReloadDuplicates = true;
