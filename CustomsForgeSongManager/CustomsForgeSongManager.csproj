@@ -532,6 +532,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\christmas.png" />
     <Content Include="VersionInfo.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

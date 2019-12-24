@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
@@ -18,6 +19,11 @@ namespace CustomsForgeSongManager.UControls
         {
             InitializeComponent();
             PopulateAbout(); // only done one time
+
+            // display Christmas logo in December and January
+            int dtMonth = DateTime.Now.Month;
+            if (dtMonth == 12 || dtMonth == 1)
+                this.picCF.Image = CustomsForgeSongManager.Properties.Resources.christmas;
         }
 
         public void PopulateAbout()
@@ -245,7 +251,7 @@ namespace CustomsForgeSongManager.UControls
                 if (urlLinks.Any())
                 {
                     // TODO: manually update beta version number here
-                   // var downloadLink = urlLinks.FirstOrDefault(url => url.ToLower().Contains("rstoolkit-2.9.2.0-") && url.ToLower().Contains("-win.zip"));
+                    // var downloadLink = urlLinks.FirstOrDefault(url => url.ToLower().Contains("rstoolkit-2.9.2.0-") && url.ToLower().Contains("-win.zip"));
                     var downloadLink = urlLinks.FirstOrDefault(url => url.ToLower().EndsWith("latest_test.zip"));
 
                     if (downloadLink == null)
@@ -361,6 +367,8 @@ namespace CustomsForgeSongManager.UControls
         {
             Process.Start(Constants.CustomsForgeURL + "/index.php/topic/51771-customsforge-song-manager-official-guide-2019/#entry309449");
         }
+
+
     }
 }
 

@@ -215,6 +215,13 @@ namespace CustomsForgeSongManager.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap christmas {
+            get {
+                object obj = ResourceManager.GetObject("christmas", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap clear {
             get {
                 object obj = ResourceManager.GetObject("clear", resourceCulture);

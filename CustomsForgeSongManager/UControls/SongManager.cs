@@ -300,12 +300,13 @@ namespace CustomsForgeSongManager.UControls
             else
                 colSongAverageTempo.ToolTipText = "";
 
-            // force rescan in case user deleted songInfo.xml or switched from MacMode
-            if (dgvSongsMaster.Rows.Count == 0 && String.IsNullOrEmpty(cueSearch.Text))
-            {
-                Globals.RescanSongManager = true;
-                UpdateToolStrip();
-            }
+            // there is a periodic issue where the datagrid is empty
+            // force rescan in case user deleted songInfo.xml or switch to/from MacMode
+            // if (dgvSongsMaster.Rows.Count == 0 && String.IsNullOrEmpty(cueSearch.Text) && !AppSettings.Instance.FirstRun)
+            // {
+            //     Globals.RescanSongManager = true;
+            //     UpdateToolStrip();
+            // }
 
             Globals.TsLabel_MainMsg.Text = String.Format("Rocksmith Song Count: {0}", dgvSongsMaster.Rows.Count);
             Globals.TsLabel_MainMsg.Visible = true;

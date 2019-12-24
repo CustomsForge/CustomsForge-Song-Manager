@@ -140,7 +140,7 @@ namespace CustomsForgeSongManager.SongEditor
                 using (var psarc = new PsarcPackager())
                     psarc.WritePackage(destPath, packageData, srcPath);
 
-                // write tagger.org to destPath
+                // re-write tagger.org to destPath
                 if (IsTagged)
                 {
                     var unpackedDir = Path.GetDirectoryName(Path.GetDirectoryName(packageData.AlbumArtPath));

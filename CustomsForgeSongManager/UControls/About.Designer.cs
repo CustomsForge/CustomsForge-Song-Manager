@@ -31,6 +31,7 @@ namespace CustomsForgeSongManager.UControls
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(About));
             this.tlpAbout = new System.Windows.Forms.TableLayoutPanel();
             this.linkLabel4 = new System.Windows.Forms.LinkLabel();
             this.gbCFLinks = new System.Windows.Forms.GroupBox();
@@ -69,14 +70,14 @@ namespace CustomsForgeSongManager.UControls
             this.picCF = new System.Windows.Forms.PictureBox();
             this.lnkReleaseNotes = new System.Windows.Forms.LinkLabel();
             this.lnkHelp = new System.Windows.Forms.LinkLabel();
+            this.lnkForum = new System.Windows.Forms.LinkLabel();
+            this.lnkOfficialGuide = new System.Windows.Forms.LinkLabel();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.lnkDeployCGT = new System.Windows.Forms.LinkLabel();
             this.lnkDeployRSTK = new System.Windows.Forms.LinkLabel();
             this.lnkDeployEOF = new System.Windows.Forms.LinkLabel();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
-            this.lnkOfficialGuide = new System.Windows.Forms.LinkLabel();
-            this.lnkForum = new System.Windows.Forms.LinkLabel();
             this.tlpAbout.SuspendLayout();
             this.gbCFLinks.SuspendLayout();
             this.tableLayoutPanel_CFQuicklinks.SuspendLayout();
@@ -720,10 +721,10 @@ namespace CustomsForgeSongManager.UControls
             // 
             this.picCF.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.tableLayoutPanel2.SetColumnSpan(this.picCF, 2);
-            this.picCF.Image = global::CustomsForgeSongManager.Properties.Resources.logo_black;
-            this.picCF.Location = new System.Drawing.Point(106, 15);
+            this.picCF.Image = ((System.Drawing.Image)(resources.GetObject("picCF.Image")));
+            this.picCF.Location = new System.Drawing.Point(107, 15);
             this.picCF.Name = "picCF";
-            this.picCF.Size = new System.Drawing.Size(252, 56);
+            this.picCF.Size = new System.Drawing.Size(251, 56);
             this.picCF.TabIndex = 3;
             this.picCF.TabStop = false;
             this.picCF.Click += new System.EventHandler(this.picCF_Click);
@@ -760,6 +761,40 @@ namespace CustomsForgeSongManager.UControls
             this.lnkHelp.Text = "General Help";
             this.lnkHelp.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.lnkHelp.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkHelp_LinkClicked);
+            // 
+            // lnkForum
+            // 
+            this.lnkForum.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.lnkForum.AutoSize = true;
+            this.lnkForum.Font = new System.Drawing.Font("Trebuchet MS", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lnkForum.LinkColor = System.Drawing.SystemColors.ActiveCaption;
+            this.lnkForum.Location = new System.Drawing.Point(235, 87);
+            this.lnkForum.Name = "lnkForum";
+            this.lnkForum.Size = new System.Drawing.Size(227, 35);
+            this.lnkForum.TabIndex = 11;
+            this.lnkForum.TabStop = true;
+            this.lnkForum.Text = "Song Manager Forum";
+            this.lnkForum.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lnkForum.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkForum_LinkClicked);
+            // 
+            // lnkOfficialGuide
+            // 
+            this.lnkOfficialGuide.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.lnkOfficialGuide.AutoSize = true;
+            this.lnkOfficialGuide.Font = new System.Drawing.Font("Trebuchet MS", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lnkOfficialGuide.LinkColor = System.Drawing.SystemColors.ActiveCaption;
+            this.lnkOfficialGuide.Location = new System.Drawing.Point(3, 87);
+            this.lnkOfficialGuide.Name = "lnkOfficialGuide";
+            this.lnkOfficialGuide.Size = new System.Drawing.Size(226, 35);
+            this.lnkOfficialGuide.TabIndex = 12;
+            this.lnkOfficialGuide.TabStop = true;
+            this.lnkOfficialGuide.Text = "Song Manager Official Guide";
+            this.lnkOfficialGuide.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lnkOfficialGuide.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkOfficialGuide_LinkClicked);
             // 
             // groupBox1
             // 
@@ -844,40 +879,6 @@ namespace CustomsForgeSongManager.UControls
             this.toolTip.SetToolTip(this.lnkDeployEOF, "The latest version of \r\nEditor on Fire will be deployed \r\nto \'Start menu, \'Progra" +
                     "ms\' folder.");
             this.lnkDeployEOF.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkDeployEOF_LinkClicked);
-            // 
-            // lnkOfficialGuide
-            // 
-            this.lnkOfficialGuide.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.lnkOfficialGuide.AutoSize = true;
-            this.lnkOfficialGuide.Font = new System.Drawing.Font("Trebuchet MS", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lnkOfficialGuide.LinkColor = System.Drawing.SystemColors.ActiveCaption;
-            this.lnkOfficialGuide.Location = new System.Drawing.Point(3, 87);
-            this.lnkOfficialGuide.Name = "lnkOfficialGuide";
-            this.lnkOfficialGuide.Size = new System.Drawing.Size(226, 35);
-            this.lnkOfficialGuide.TabIndex = 12;
-            this.lnkOfficialGuide.TabStop = true;
-            this.lnkOfficialGuide.Text = "Song Manager Official Guide";
-            this.lnkOfficialGuide.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.lnkOfficialGuide.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkOfficialGuide_LinkClicked);
-            // 
-            // lnkForum
-            // 
-            this.lnkForum.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.lnkForum.AutoSize = true;
-            this.lnkForum.Font = new System.Drawing.Font("Trebuchet MS", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lnkForum.LinkColor = System.Drawing.SystemColors.ActiveCaption;
-            this.lnkForum.Location = new System.Drawing.Point(235, 87);
-            this.lnkForum.Name = "lnkForum";
-            this.lnkForum.Size = new System.Drawing.Size(227, 35);
-            this.lnkForum.TabIndex = 11;
-            this.lnkForum.TabStop = true;
-            this.lnkForum.Text = "Song Manager Forum";
-            this.lnkForum.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.lnkForum.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkForum_LinkClicked);
             // 
             // About
             // 
