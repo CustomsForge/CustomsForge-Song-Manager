@@ -14,6 +14,9 @@ until you can confirm it is safe by working directly with your AV provider.
 
 CFSM Release Notes
 
+1.5.7.1
+- updated website url links in About menu
+
 1.5.7.0 (Christmas Edition)
 - fixed SongEditor>AlbumArt editor so that code retreives the correct image
 
