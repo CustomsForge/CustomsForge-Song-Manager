@@ -125,7 +125,7 @@ namespace CustomsForgeSongManager.UControls
             this.linkLabel4.Size = new System.Drawing.Size(489, 24);
             this.linkLabel4.TabIndex = 10;
             this.linkLabel4.TabStop = true;
-            this.linkLabel4.Text = "Copyright 2017 - 2019, CustomsForge Song Manager";
+            this.linkLabel4.Text = "Copyright 2017 - 2020, CustomsForge Song Manager";
             this.linkLabel4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.linkLabel4.VisitedLinkColor = System.Drawing.Color.Black;
             // 

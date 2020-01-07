@@ -3,6 +3,7 @@ using System.Drawing;
 using System.IO;
 using System.Reflection;
 using System.Windows.Forms;
+using GenTools;
 
 namespace CustomsForgeSongManager.Forms
 {
@@ -11,6 +12,14 @@ namespace CustomsForgeSongManager.Forms
         public frmNoteViewer()
         {
             InitializeComponent();
+
+            // display Christmas stocking hat icon
+            if (DateTimeExtensions.TisTheSeason())
+            {
+                this.BackgroundImage = CustomsForgeSongManager.Properties.Resources.hat;
+                var bm = CustomsForgeSongManager.Properties.Resources.hat;
+                this.Icon = Icon.FromHandle(bm.GetHicon());
+            }
         }
 
         public void PopulateText(string notes2View, bool wordWrap = true)

@@ -533,6 +533,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\christmas.png" />
+    <None Include="Resources\hat.png" />
     <Content Include="VersionInfo.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

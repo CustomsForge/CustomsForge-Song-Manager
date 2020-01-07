@@ -1599,7 +1599,7 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiNudScrollSpeed.Name = "tsmiNudScrollSpeed";
             this.tsmiNudScrollSpeed.NumBackColor = System.Drawing.SystemColors.Window;
             this.tsmiNudScrollSpeed.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.tsmiNudScrollSpeed.Size = new System.Drawing.Size(53, 22);
+            this.tsmiNudScrollSpeed.Size = new System.Drawing.Size(53, 23);
             this.tsmiNudScrollSpeed.Text = "(Default 1.3)";
             this.tsmiNudScrollSpeed.TextVisible = false;
             // 

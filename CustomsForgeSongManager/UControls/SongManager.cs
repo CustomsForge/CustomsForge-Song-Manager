@@ -59,7 +59,7 @@ namespace CustomsForgeSongManager.UControls
         public SongManager()
         {
             InitializeComponent();
-            //  hard coded these because an VS IDE bug keeps deleting them
+            // hard coded these because a VS IDE bug keeps deleting them
             this.tsmiAddDDNumericUpDown.Text = "Phrase Length";
             this.tsmiAddDDNumericUpDown.TextVisible = true;
             this.tsmiNudScrollSpeed.Text = "(Default 1.3)";
@@ -302,11 +302,11 @@ namespace CustomsForgeSongManager.UControls
 
             // there is a periodic issue where the datagrid is empty
             // force rescan in case user deleted songInfo.xml or switch to/from MacMode
-            // if (dgvSongsMaster.Rows.Count == 0 && String.IsNullOrEmpty(cueSearch.Text) && !AppSettings.Instance.FirstRun)
-            // {
-            //     Globals.RescanSongManager = true;
-            //     UpdateToolStrip();
-            // }
+            if (dgvSongsMaster.Rows.Count == 0 && String.IsNullOrEmpty(cueSearch.Text) && !AppSettings.Instance.FirstRun)
+            {
+                Globals.RescanSongManager = true;
+                UpdateToolStrip();
+            }
 
             Globals.TsLabel_MainMsg.Text = String.Format("Rocksmith Song Count: {0}", dgvSongsMaster.Rows.Count);
             Globals.TsLabel_MainMsg.Visible = true;

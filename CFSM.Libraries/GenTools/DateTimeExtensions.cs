@@ -39,5 +39,21 @@ namespace GenTools
             CultureInfo cultureInfo = new CultureInfo("en-US");
             return DateTime.Parse(lastConversionDateTime, cultureInfo, DateTimeStyles.NoCurrentDateDefault);
         }
+
+        /// <summary>
+        /// Tis The Season - returns true/false
+        /// </summary>
+        /// <param name="elfnDays before and after Christmas"></param>
+        public static bool TisTheSeason(int elfnDays = 20)
+        {
+            int dtDayOfYear = DateTime.Now.DayOfYear;
+            // display elfnDays before and after Christmas
+            if (dtDayOfYear > 359 - elfnDays || dtDayOfYear < elfnDays - (365 - 359))
+                return true;
+
+            return false;
+        }
+
+
     }
 }
