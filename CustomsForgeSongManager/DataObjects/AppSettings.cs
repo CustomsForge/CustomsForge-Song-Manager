@@ -50,6 +50,7 @@ namespace CustomsForgeSongManager.DataObjects
         private int _multiThread = -1; // tristate int, 1 use multi, 0 use single, -1 not set
         private DateTime _lastODLCCheckDate;
         private RepairOptions _repairOptions;
+        private AudioOptions _audioOptions;
 
         [Browsable(false)]
         public string LogFilePath { get; set; }
@@ -301,6 +302,11 @@ namespace CustomsForgeSongManager.DataObjects
             set { _repairOptions = value; }
         }
 
+        public AudioOptions AudioOptions
+        {
+            get { return _audioOptions ?? (_audioOptions = new AudioOptions()); }
+            set { _audioOptions = value; }
+        }
 
         //property template
         //public type PropName { get { return propName; } set { SetPropertyField("PropName", ref propName, value); } }
@@ -391,6 +397,7 @@ namespace CustomsForgeSongManager.DataObjects
             Instance.CleanOnClosing = false;
             Instance.ShowLogWindow = Constants.DebugMode;
             Instance.RepairOptions = new RepairOptions();
+            Instance.AudioOptions = new AudioOptions();
             Instance.OneTime = false;
             Instance.FirstRun = true;
             Instance.MultiThread = -1; // tristate

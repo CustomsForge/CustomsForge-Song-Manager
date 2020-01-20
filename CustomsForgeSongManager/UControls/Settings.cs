@@ -254,7 +254,7 @@ namespace CustomsForgeSongManager.UControls
         private void btnResetDownloads_Click(object sender, EventArgs e)
         {
             AppSettings.Instance.DownloadsDir = String.Empty;
-            Globals.Log("CDLC 'Downloads' folder path was reset ...");
+            Globals.Log("CDLC downloads folder path was reset ...");
         }
 
         private void btnSettingsLoad_Click(object sender, EventArgs e)

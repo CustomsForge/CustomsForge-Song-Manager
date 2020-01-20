@@ -37,6 +37,7 @@ namespace CustomsForgeSongManager.DataObjects
         public static string GWORKER_TAG = "tagging";
         public static string GWORKER_UNTAG = "untagging";
         public static string GWORKER_TITLETAG = "tagging title";
+        public static string GWORKER_NORMALIZE = "normalizing";
 
         public static readonly string BASESONGS = "songs.psarc";
         public static readonly string BASESONGSDISABLED = "songs.disabled.psarc";
@@ -191,6 +192,7 @@ namespace CustomsForgeSongManager.DataObjects
         public static string RemasteredOrgFolder { get { return Path.Combine(RemasteredFolder, "original"); } }
         public static string RemasteredMaxFolder { get { return Path.Combine(RemasteredFolder, "maxfive"); } }
         public static string QuarantineFolder { get { return Path.Combine(Constants.WorkFolder, "Quarantine"); } }
+        public static string FfmpegLogPath { get { return Path.Combine(WorkFolder, "ffmpeg.log"); } }
 
         #region URL constants
 
@@ -198,7 +200,7 @@ namespace CustomsForgeSongManager.DataObjects
         public const string CustomsForgeURL = "http://customsforge.com/";
         public const string CustomsForgeUserURL_Format = CustomsForgeURL + "user/{0}/";
         public const string EOFURL = IgnitionURL + "/eof";
-        public const string RequestURL = "http://requests.customsforge.com/"; // discontinued
+        public const string RequestURL = Constants.CustomsForgeURL + "topic/45859-cdlc-requests/?hl=request";
         public const string DefaultCFSongUrl = CustomsForgeURL + "page/customsforge_rs_2014_cdlc.html/_/pc-enabled-rs-2014-cdlc/";
         // TODO: update these 
         public const string IgnitionURL = "http://ignition.customsforge.com/"; // valid link to ignition search page

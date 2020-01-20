@@ -59,12 +59,43 @@ namespace CustomsForgeSongManager.UControls
         public SongManager()
         {
             InitializeComponent();
-            // hard coded these because a VS IDE bug keeps deleting them
+            // TODO: fix custom control ToolStripNumUpDown.cs
+            // hard coded these because a NumericUpDown Control bug keeps deleting settings in VS IDE
             this.tsmiAddDDNumericUpDown.Text = "Phrase Length";
             this.tsmiAddDDNumericUpDown.TextVisible = true;
             this.tsmiNudScrollSpeed.Text = "(Default 1.3)";
             this.tsmiNudScrollSpeed.TextVisible = true;
-
+            // POC audio volume adjustment variables (workaround prevents IDE changes)
+            tsmiCorrectionFactor.DecimalValue = 1.0m;
+            tsmiCorrectionFactor.Increment = 0.1m;
+            tsmiCorrectionFactor.Maximum = 1.0m;
+            tsmiCorrectionFactor.Minimum = -1.0m;
+            //
+            tsmiCorrectionMultiplier.DecimalValue = -1.0m;
+            tsmiCorrectionMultiplier.Increment = 0.1m;
+            tsmiCorrectionMultiplier.Maximum = 5.0m;
+            tsmiCorrectionMultiplier.Minimum = -5.0m;
+            //
+            tsmiTargetAudioVolume.DecimalValue = -7.0m;
+            tsmiTargetAudioVolume.Increment = 0.1m;
+            tsmiTargetAudioVolume.Maximum = 30.0m;
+            tsmiTargetAudioVolume.Minimum = -30.0m;
+            //
+            tsmiTargetPreviewVolume.DecimalValue = -5.0m;
+            tsmiTargetPreviewVolume.Increment = 0.1m;
+            tsmiTargetPreviewVolume.Maximum = 30.0m;
+            tsmiTargetPreviewVolume.Minimum = -30.0m;
+            //
+            tsmiTargetToneVolume.DecimalValue = -20.0m;
+            tsmiTargetToneVolume.Increment = 0.1m;
+            tsmiTargetToneVolume.Maximum = 30.0m;
+            tsmiTargetToneVolume.Minimum = -30.0m;
+            //
+            tsmiTargetLUFS.DecimalValue = -16.0m;
+            tsmiTargetLUFS.Increment = 0.1m;
+            tsmiTargetLUFS.Maximum = 30.0m;
+            tsmiTargetLUFS.Minimum = -30.0m;
+            //
             dgvSongsDetail.Visible = false;
             // TODO: future get Ignition based API data
             cmsCheckForUpdate.Visible = GeneralExtension.IsInDesignMode ? true : false;
@@ -80,6 +111,12 @@ namespace CustomsForgeSongManager.UControls
             UserSupport();
             this.TabEnter();
             Globals.TsLabel_StatusMsg.Click += lnkShowAll_Click;
+
+            // POC Audio Volume Correction Validation Event Handlers
+            //tsmiCorrectionFactor.KeyUp += new KeyEventHandler(tsmiAudio_KeyUp);
+            //tsmiCorrectionFactor.MouseUp += new MouseEventHandler(tsmiAudio_MouseUp);
+            //tsmiCorrectionMultiplier.KeyUp += new KeyEventHandler(tsmiAudio_KeyUp);
+            //tsmiCorrectionMultiplier.MouseUp += new MouseEventHandler(tsmiAudio_MouseUp);
 
             // developer sandbox
             tsmiDevUseOnly.Visible = GeneralExtension.IsInDesignMode ? true : false;
@@ -287,12 +324,21 @@ namespace CustomsForgeSongManager.UControls
             IncludeSubfolders(false);
             ProtectODLC();
 
-            // apply saved search (filters can not be applied the same way)
-            if (!String.IsNullOrEmpty(AppSettings.Instance.SearchString))
+            try
             {
-                SearchCDLC(AppSettings.Instance.SearchString);
-                Thread.Sleep(200); // debounce search
-                dgvSongsMaster.AllowUserToAddRows = false; // corrects initial Song Count
+                // apply saved search (filters can not be applied the same way)
+                if (!String.IsNullOrEmpty(AppSettings.Instance.SearchString))
+                {
+                    SearchCDLC(AppSettings.Instance.SearchString);
+                    Thread.Sleep(200); // debounce search
+                    dgvSongsMaster.AllowUserToAddRows = false; // corrects initial Song Count
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("<ERROR> Saved Search: " + ex.Message);
+                Globals.Log("<ERROR> Save Search caused exception ...");
+                ClearSearch();
             }
 
             if (!AppSettings.Instance.IncludeArrangementData)
@@ -477,6 +523,9 @@ namespace CustomsForgeSongManager.UControls
 
         private void InitializeRepairMenu()
         {
+            // restore saved audio options (POC)
+            GetAudioOptions();
+
             // restore saved repair options
             GetRepairOptions();
 
@@ -1103,7 +1152,7 @@ namespace CustomsForgeSongManager.UControls
 
         private void UserSupport()
         {
-            // support request is shown only one time
+            // request for support is shown only one time
             if (!AppSettings.Instance.OneTime && AppSettings.Instance.RepairOptions.DLFolderMonitor)
             {
                 // message only shown if the users is actively using the feature
@@ -1958,6 +2007,11 @@ namespace CustomsForgeSongManager.UControls
 
         private void lnkClearSearch_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
+            ClearSearch();
+        }
+
+        private void ClearSearch()
+        {
             tsmiModsMyCDLC.Checked = false;
             cueSearch.Text = String.Empty;
             cueSearch.Cue = "Type characters to search for then hit return ...";
@@ -2074,6 +2128,7 @@ namespace CustomsForgeSongManager.UControls
         private void tsmiDevUseOnly_Click(object sender, EventArgs e)
         {
             // developer sandbox area for testing new methods
+            UserSupport();
 
             // For Devoper Use Only
             // this updates the embedded resource OfficialSongs.json
@@ -2434,7 +2489,7 @@ namespace CustomsForgeSongManager.UControls
 
             if (tsmiDLFolderProcess.Checked && !FileTools.ValidateDownloadsDir())
             {
-                var diaMsg = "Please select a valid 'Downloads' folder and try again." + Environment.NewLine;
+                var diaMsg = "Please select a valid downloads folder and try again." + Environment.NewLine;
                 BetterDialog2.ShowDialog(diaMsg, "Repair Options ...", null, null, "Ok", Bitmap.FromHicon(SystemIcons.Warning.Handle), "ReadMe", 0, 150);
                 return;
             }
@@ -2561,7 +2616,8 @@ namespace CustomsForgeSongManager.UControls
         {
             statusSongsMaster.SaveSorting(Globals.DgvCurrent);
             GetGrid().ResetBindings(); // force grid data to rebind/refresh
-            SetRepairOptions(); // saves current repair options
+            SetRepairOptions(); // saves current repair options   
+            SetAudioOptions(); // saves current audio options
 
             // save new filter
             if (!String.IsNullOrEmpty(DataGridViewAutoFilterColumnHeaderCell.SavedColumnFilter) && DataGridViewAutoFilterColumnHeaderCell.SavedColumnFilter != AppSettings.Instance.SongManagerFilter)
@@ -2621,6 +2677,86 @@ namespace CustomsForgeSongManager.UControls
         {
             SearchCDLC(cueSearch.Text);
         }
+
+        private void tsmiNormalizeAudio_Click(object sender, EventArgs e)
+        {
+            // Proof of Concept (POC) 
+            // extract audio
+            // convert audio to usable format
+            // measure audio LUFS
+            // calculate corrected toolkit LF
+            // inject corrected toolkit LF
+
+            // note it may be necessary to similary adjust toolkit tone volumes as well
+
+            var selection = DgvExtensions.GetObjectsFromRows<SongData>(dgvSongsMaster);
+            if (!selection.Any())
+            {
+                var diaMsg = "Please select some CDLC to Normalize Audio using the 'Select' column." + Environment.NewLine;
+                BetterDialog2.ShowDialog(diaMsg, "Custom Mods ...", null, null, "Ok", Bitmap.FromHicon(SystemIcons.Warning.Handle), "ReadMe", 0, 150);
+                return;
+            }
+
+            tsmiMods.HideDropDown();
+            DoWork(Constants.GWORKER_NORMALIZE, selection, SetAudioOptions());
+        }
+
+        public AudioOptions SetAudioOptions()
+        {
+            AudioOptions audioOptions = new AudioOptions()
+            {
+                CorrectionFactor = Convert.ToSingle(tsmiCorrectionFactor.DecimalValue),
+                CorrectionMultiplier = Convert.ToSingle(tsmiCorrectionMultiplier.DecimalValue),
+                TargetAudioVolume = Convert.ToSingle(tsmiTargetAudioVolume.DecimalValue),
+                TargetPreviewVolume = Convert.ToSingle(tsmiTargetPreviewVolume.DecimalValue),
+                TargetToneVolume = Convert.ToSingle(tsmiTargetToneVolume.DecimalValue),
+                TargetLUFS = Convert.ToSingle(tsmiTargetLUFS.DecimalValue)
+            };
+
+            AppSettings.Instance.AudioOptions = audioOptions;
+            return audioOptions;
+        }
+
+        private void GetAudioOptions()
+        {
+            tsmiCorrectionFactor.DecimalValue = Convert.ToDecimal(AppSettings.Instance.AudioOptions.CorrectionFactor);
+            tsmiCorrectionMultiplier.DecimalValue = Convert.ToDecimal(AppSettings.Instance.AudioOptions.CorrectionMultiplier);
+            tsmiTargetAudioVolume.DecimalValue = Convert.ToDecimal(AppSettings.Instance.AudioOptions.TargetAudioVolume);
+            tsmiTargetPreviewVolume.DecimalValue = Convert.ToDecimal(AppSettings.Instance.AudioOptions.TargetPreviewVolume);
+            tsmiTargetToneVolume.DecimalValue = Convert.ToDecimal(AppSettings.Instance.AudioOptions.TargetToneVolume);
+            tsmiTargetLUFS.DecimalValue = Convert.ToDecimal(AppSettings.Instance.AudioOptions.TargetLUFS);
+        }
+
+        private void tsmiAudio_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (tsmiCorrectionFactor.DecimalValue == 0)
+            {
+                tsmiCorrectionFactor.DecimalValue = (decimal)0.1;
+                Globals.Log("<WARNING> Correction Factor must be non-zero ...");
+            }
+
+            if (tsmiCorrectionMultiplier.DecimalValue == 0)
+            {
+                tsmiCorrectionMultiplier.DecimalValue = (decimal)0.1;
+                Globals.Log("<WARNING> Correction Multiplier must be non-zero ...");
+            }
+        }
+
+        private void tsmiAudio_MouseUp(object sender, MouseEventArgs e)
+        {
+            if (tsmiCorrectionFactor.DecimalValue == 0)
+            {
+                tsmiCorrectionFactor.DecimalValue = (decimal)0.1;
+                Globals.Log("<WARNING> Correction Factor must be non-zero ...");
+            }
+
+            if (tsmiCorrectionMultiplier.DecimalValue == 0)
+            {
+                tsmiCorrectionMultiplier.DecimalValue = (decimal)0.1;
+                Globals.Log("<WARNING> Correction Multiplier must be non-zero ...");
+            }
+        }
+
 
     }
 }

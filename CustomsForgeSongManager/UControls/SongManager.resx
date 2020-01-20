@@ -190,6 +190,15 @@ three File IO related 'Actions'.</value>
         CXIAAAAASUVORK5CYII=
 </value>
   </data>
+  <data name="cmsGetCharterName.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAH9JREFUOE+1UkEK
+        wDAI657gF/aA/WP/f5CdgpKVSg5uhYAFE2ObQ1VH65hAByVZRNRg4livw+j0EKlc9gXO6x4PFGD3FEYH
+        u14kv+qwvAjEoOz1aYBsIALpOMi4gtXVCujAuZ0VnFs58P+PDES9fUSWwv9zUDn4LMpsRRplJjABrds8
+        FX0rZkQAAAAASUVORK5CYII=
+</value>
+  </data>
   <data name="cmsPlaySelected.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
@@ -225,6 +234,20 @@ three File IO related 'Actions'.</value>
         2SXlzJlMhrxL4ceSkHQODNzaKtnYw3YKyXVL+90sujDzr1u/vD8g8iopeAoinwAAAABJRU5ErkJggg==
 </value>
   </data>
+  <data name="cmsTaggerPreview.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAAN1QAA
+        DdUBPdZY8QAAAaBJREFUOE+lU7FLAmEcVTszMcUhsE6IIGxqqKFyamoLbGq2rcCLaCnqoFykpEHcrM0Q
+        AomDMsEOJSEknM7W/gBBGlwEF8Hek/vgctAg4fF4732/53f3fWfv9/u2f/1QYAccfwDX2YZBYxZQgMMR
+        YL5p/smvEopVl8uljkMymTzB2m1gwrqLQQHeQcJEGvwC3JiaTE0/EYvFznq93i5mJkWJKEhhQcrtdt8r
+        inLscDg4dEemps+ciEQil91uN4oC9+AAzB1kEGaq1eoF9EI8Ho86nc4SmZo+c4FwOHzVbrcPkE2LgizC
+        rM/nu200GqcIZjqdzhqZmj5zK0KhULrZbB6JgjxCQvN6vTqGNzA8Raamb+ZiHflZluUnUVCAUcAzv6uq
+        uofhebysfTI1feYWVCRJesvlcjuioIywrGlaHENL9Xr9PBgMPpCp6TM38YEjr+i6voVMEgU1hDVs6bFY
+        LF57PJ4SNZmaPjXwCe/VMIx1DltPwUA4Dl9+v7/QarWWrZdJ7OAbBSMRCATyGFwcvs4skHkXxmAF+dzw
+        sHiEf32NPzvR4/4n1QC2AAAAAElFTkSuQmCC
+</value>
+  </data>
   <data name="cmsShowSongInfo.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
@@ -241,6 +264,26 @@ three File IO related 'Actions'.</value>
         cLAhKAZ8e5T2//MNYzAm4AKYPKoB359k/f9y2wIsiewdXGyIOmgsgDg/XpaANSO7BOYiZBokD/MGRhjA
         DPr20PU/LgyzCCMMQJr/fO3///tTJk4Mkoc5HasBpPgd3QD0hIQvJjDTASXJmeK8AACpu7WMtPg+dgAA
         AABJRU5ErkJggg==
+</value>
+  </data>
+  <data name="cmsEnableDisable.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAxlJREFUOE990VtM
+        k2cYB/B/qa7Tcuz30XBYZwzqEkMs0XBnHLuZE7OOMSep0mwJrQzWSvBAgcxgliUQnQOzDdjKBmSbnIrV
+        EVnCjVMJOm8E1sCKgNCkBsIFofSryaz+97ZdQhYXL35PnudN3n/eg+rNj4H15GR14NmTZJXqqUqzGdi8
+        CdiUACSoARWA58+ByDPg76ingJyYjUM5BcEL1l8ieMOWoO4e6+j9tM+2Vt5jCdr7LcHqQUvwrMcSrL0e
+        F+2ja/Y+S7D8ipivVq213/p6YIcVamRUJkilncfW2n9vZ1TrUCvbfm2L9S9j7S4LplkhQ7Yi/dDlt9eb
+        fmtii6eFU9NTnPhrgtH5ZSyu0lDaR9BDEuWtCwfWG/sbOe2b5szcDJuHm1nTVxPjHHCybrDuBSWtJaHU
+        48iATpTDTe+EfDM++v1+eqe8vDl6k3fu3uHoH6McuT3C6t5qVvxc8R/Fl4uVlBJkIloKLx4MzfvnubCw
+        wNmFWY4/Guekf5LegJf3F++zbKCM5m4zzT8ILjNLO0pZ9NV7SmIxsiFK1q7TOYqty0bfvC92hYqfKljY
+        U8jC/jhTn4muERdb3C0suFTA3IZcSuVp4S0mvAZtEbJTrFsVnADzv8zn3OM53pu9x3RXOvVdespdMpPa
+        k+j2ubm6usr6znqqT6iZUpYYfvUwDLEAuTxJQSWIWnBn204ae43Ej+D277bT+L2RxlYj93+7nw8ePuCi
+        f5G1rlrqbakbAZmVqQpOioBzwiWhA9x2bRtDSoiRSCRGURQuLy/HHnplZYXmi+9vBLzu0CmoEhsbhGah
+        E1R71DR7zXQ8dNAx6aB91M6xP8e4tLTEofEh7j5l2AjIqZJeOAH6RdANYVhwg2eun2EgEKBnwkNtjZY7
+        TkrxAH2JJmuv0xB/gzqhUfhG6BJ6/tUNDnoH6Z50U3teS9jB3FOZSqJJfGPWEc0rBxvybuxz6pW8eimc
+        d044L4WNnwtfSOE9UdG+QQ7v+UxwSuF9NRnKrk/kYd270AB7AV0RNPJR8RsfwhBzBAbpgzjd/8tOM4nN
+        +cA/eh/+8bS96jsAAAAASUVORK5CYII=
 </value>
   </data>
   <data name="cmsDelete.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
@@ -558,20 +601,34 @@ otherwise in-game hangs will happen.</value>
 If selected, only files from the (org) folder
 are used for the selected repair options.
 This option may not be combined with
-the "Process 'downloads' Folder" button</value>
+the "Process Downloads Folder" button</value>
   </data>
   <data name="tsmiDLFolderProcess.ToolTipText" xml:space="preserve">
-    <value>Process new CDLC from 'Downloads' 
+    <value>Process new CDLC from downloads 
 folder and move them to 'dlc/downloads' 
 folder.  When selected, only the files in the 
-'Downloads' folder are processed/repaired.
+downloads folder are processed/repaired.
 
-NOTE: The 'Downloads' folder location
+NOTE: The CDLC downloads folder location
 may be reset from the 'Settings' tab menu.</value>
+  </data>
+  <data name="tsmiDLFolderSupport.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAIAAACQkWg2AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAZ9JREFUOE+VkTFI
+        w0AUhlU6SXEqnUIHKQ5SOkhwkKNDySRHhxIcJHSQ4CDFQTpJcJDiVBwkdCiZSsbgUA6HEhxKJjk6lNCh
+        HB3C4RQ6OUmxviOatNQOHsfxuHvfvfe/f3uxWGz9awEQLz6kbOwv36zHW0n22Kd91x/5TsdmQ0YHnt21
+        NgKka3s9ks9JcDau61I2Ix/mlbLyN0B6xGlb0I9aUXAZQRI6liEAcmMF48bY1DoP+PKT0ECHNL2Xrtc0
+        NvFhe303DLj36todk09YlA3aokAAbMJQCUk5qXGp1atYP1cBnn/NtVMFFQv6lWgMADYV8M+U6BsIwHoV
+        N2oqnKmdFB35PGAwBvlIjv52+24CiDpTzoIQPg5nIT5TC0UZ4uadwd9DeG09tpKWosh5JnbXgaT1DcLi
+        iSXGAQPS9QudDujHTJQS+3POx0wrIfJrYgKADHSCMtk0iNYqWIF4N4PLGLDWgxEPd6UCOIhFqlw4kEA3
+        wGC21ba0ihpbsQJEIyYvxOpY5pNp3BoA5PclkL4RWDYVDDXbZvPe8Ec0vv8GwoYx8pAbPAgAAAAASUVO
+        RK5CYII=
+</value>
   </data>
   <data name="tsmiDLFolderMonitor.ToolTipText" xml:space="preserve">
     <value>If checked, automatically monitor the
-'Downloads' folder for new CDLC then
+downloads folder for new CDLC then
 process/repair any new CDLC and 
 move them to 'dlc/downloads' folder.
 
@@ -704,6 +761,51 @@ otherwise in-game hangs will happen.</value>
         RjKZPMLCuaBUKh0gMGEYRjoQCBQ5qemLjPMtKK1WK51KpQ6xeEoURbnWNG0b9/wEfclJTV9ker+DQTys
         1Uwms4dAFvC2uPmkqzmp6XM921vAj8oPlnO53A5eq+6FWwFL+C8sAg1s9oHro24/Ez2pW8Syfkh/Ffzb
         /wUk6+TrspQ9MgAAAABJRU5ErkJggg==
+</value>
+  </data>
+  <data name="tsmiModsTheMover.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAH9JREFUOE+1UkEK
+        wDAI657gF/aA/WP/f5CdgpKVSg5uhYAFE2ObQ1VH65hAByVZRNRg4livw+j0EKlc9gXO6x4PFGD3FEYH
+        u14kv+qwvAjEoOz1aYBsIALpOMi4gtXVCujAuZ0VnFs58P+PDES9fUSWwv9zUDn4LMpsRRplJjABrds8
+        FX0rZkQAAAAASUVORK5CYII=
+</value>
+  </data>
+  <data name="tsmiAutoAdjustVolume.ToolTipText" xml:space="preserve">
+    <value>SELECT some CDLC then CLICK to run ...
+
+User adjustable CDLC volume 
+variables for POC testing only.
+
+Please report any combinations that
+produce CDLC volumes comparable
+with ODLC to Developers.
+
+These variables will be locked after
+POC testing is completed in order 
+to produce consistent results.
+
+HINT: reset all defaults in Settings menu</value>
+  </data>
+  <data name="tsmiFilesCheckODLC.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAAN1QAA
+        DdUBPdZY8QAAAxhJREFUOE9lkvtLU2EYx3ObGV2ktCxC+gsiAn+I0NCMLO2mWUGSgr+UUPRLhRlokmGo
+        IcpE8ZI/ZOrc9Wwu9Wibm3p2KTfn1G063UXNzdS8DM5Bxs7T+wqK5gtf3vd5+b6f8zzPecIA4MD2khKS
+        OC6X+wbFl1iWjeVwOPPobAyFQhX30zNNO8bdBwyQyMQ8mVxaRihktMGoY8fGR2F6ehLsDhuYzMMsvkcq
+        wz7s362tAD/uJrtox5QdFCp9sF6iZWrEg6EvcoohKUtw8Y8ffqj7tiD7AIgah7+AHzdK+jf5YspVLvpV
+        VEVY05q7rXltfSOTQpVpc31jA+Sdchr792SAHgtw2gq1IVgtHnIVCycSZPq51EH70h2hbu5mpcKZSAzZ
+        7XrrdBCVxMo7CcH/ALfNNg71Yg1TKjCUtGi8152+wMO/60yWbnIxHcdCrSOP0FroBd9vlAXh3gNAnQ/O
+        zXuhWqgNlQiGbwio2RSLZzXD4Qs8oCaW7wm0sym1PbZbQpU5tLKyDNi/B4CJLvcMNEgHmU/thmI+6Uju
+        MvtSSYv/Ni6lkZxObiFH8yRqE+31uvdngGsaG7eyfXprsE5GOQu/jcRXKx1Xm3q91/hdjuRS0cSVdtI4
+        pflpZS2jZvxL9/YAdxVB6I1AAFq+6zbrCWqyTmZ8+llkSmtQDj9rUeqd4l4dOzvnBYIQQlNBYt2+OcD/
+        V9WvolfX10BttAa/KofoJmIg1NpN0Sq9mfXOuqGvVwkjBhLa3p6n+dkRhduQrUHCE4YhOBNcDq7V71+A
+        mZkpMI8MszJZB/Q2vwRP12sIeCloL7iwA9kZSzTevIbG+ssIJiLkUg/uNppQj1gqEtW8im+oyeYFBj6c
+        A5fiOWx4BkDw7iLNz4nI3wKgdRDpKFJUdHR0TFJS0umMjIwzeMcxvv+YyS3hP+EFNO9jwCnOBRdZBDU5
+        h5Z2AyKR8RR+2NHRcZZhmFi84xjfIx2rfMwtqs3hBXryI6H1RRSDetG6uwQOMkVgI1J0eHj4SbQfRzqM
+        dATpBFJs4V1ORVUWd638EVeemxAW9Q+PJHKtAgrQ1gAAAABJRU5ErkJggg==
 </value>
   </data>
   <data name="tsmiFilesCleanDlc.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">

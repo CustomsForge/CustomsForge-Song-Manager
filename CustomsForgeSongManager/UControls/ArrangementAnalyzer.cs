@@ -84,20 +84,30 @@ namespace CustomsForgeSongManager.UControls
 
             IncludeSubfolders(false);
 
-            // apply saved search (filters can not be applied the same way)
-            if (!String.IsNullOrEmpty(AppSettings.Instance.SearchString))
+            try
             {
-                SearchCDLC(AppSettings.Instance.SearchString);
-                Thread.Sleep(200); // debounce search
-                dgvArrangements.AllowUserToAddRows = false; // corrects initial Song Count
+                // apply saved search (filters can not be applied the same way)
+                if (!String.IsNullOrEmpty(AppSettings.Instance.SearchString))
+                {
+                    SearchCDLC(AppSettings.Instance.SearchString);
+                    Thread.Sleep(200); // debounce search
+                    dgvArrangements.AllowUserToAddRows = false; // corrects initial Song Count
 
-                // commented out ... some speedster typist who are prone to mistakes :)
-                //if (dgvArrangements.Rows.Count == 0)
-                //{
-                //    IncludeSubfolders(true); // search killer
-                //    Globals.Log(" - CFSM cleared a search that returns no songs ...");
-                //}
+                    // commented out ... some speedster typist who are prone to mistakes :)
+                    //if (dgvArrangements.Rows.Count == 0)
+                    //{
+                    //    IncludeSubfolders(true); // search killer
+                    //    Globals.Log(" - CFSM cleared a search that returns no songs ...");
+                    //}
+                }
             }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("<ERROR> Saved Search: " + ex.Message);
+                Globals.Log("<ERROR> Save Search caused exception ...");
+                ClearSearch();
+            }
+
 
             Globals.TsLabel_MainMsg.Text = String.Format("Rocksmith Arrangements Count: {0}", dgvArrangements.Rows.Count);
             Globals.TsLabel_MainMsg.Visible = true;
@@ -849,6 +859,11 @@ namespace CustomsForgeSongManager.UControls
         }
 
         private void lnkClearSearch_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            ClearSearch();
+        }
+
+        private void ClearSearch()
         {
             cueSearch.Text = String.Empty;
             cueSearch.Cue = "Type characters to search for then hit return ...";

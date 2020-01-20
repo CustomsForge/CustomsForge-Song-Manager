@@ -260,7 +260,8 @@ namespace CustomsForgeSongManager.UControls
             this.cueSearch.Name = "cueSearch";
             this.cueSearch.Size = new System.Drawing.Size(396, 20);
             this.cueSearch.TabIndex = 1;
-            this.toolTip.SetToolTip(this.cueSearch, "Performs a quick search of the\r\nArtistTitleAlbum column.");
+            this.toolTip.SetToolTip(this.cueSearch, "Performs a quick search of the\r\nArtistTitleAlbum column.\r\n\r\nNote: Hit return to r" +
+                    "un the search.");
             this.cueSearch.KeyUp += new System.Windows.Forms.KeyEventHandler(this.cueSearch_KeyUp);
             // 
             // gb_Main_Search

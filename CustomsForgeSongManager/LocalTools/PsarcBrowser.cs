@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System.Data;
+using System.Diagnostics;
 using CFSM.AudioTools;
 using CustomsForgeSongManager.DataObjects;
 using DataGridViewTools;
@@ -246,12 +247,21 @@ namespace CustomsForgeSongManager.LocalTools
                         {
                             song.TitleSort = attributes.SongNameSort;
                             song.ArtistSort = attributes.ArtistNameSort;
-                            // permafix for LastConversionDateTime string to DateTime conversion
-                            // LastConversionDateTime stored as string in en-US format, e.g. 08-15-13 16:13
-                            // convert to culture independent DateTime {8/15/2013 4:13:00 PM}             
-                            CultureInfo cultureInfo = new CultureInfo("en-US");
-                            DateTime dt = DateTime.Parse(attributes.LastConversionDateTime, cultureInfo, DateTimeStyles.NoCurrentDateDefault);
-                            song.LastConversionDateTime = dt;
+                            try
+                            {
+                                // permafix for LastConversionDateTime string to DateTime conversion
+                                // LastConversionDateTime stored as string in en-US format, e.g. 08-15-13 16:13
+                                // convert to culture independent DateTime {8/15/2013 4:13:00 PM}             
+                                CultureInfo cultureInfo = new CultureInfo("en-US");
+                                DateTime dt = DateTime.Parse(attributes.LastConversionDateTime, cultureInfo, DateTimeStyles.AdjustToUniversal);
+                                song.LastConversionDateTime = dt;
+                            }
+                            catch (Exception ex)
+                            {
+                                // TODO: fix this error condition
+                                throw new DataException("<ERROR> " + _filePath + " " + attributes.LastConversionDateTime + ex.Message + Environment.NewLine + "Send a copy of the CDLC file, the 'debug.log' file, and this full error message to the developers" + Environment.NewLine);
+                            }
+
                             song.SongYear = attributes.SongYear;
                             song.SongLength = (double)attributes.SongLength;
                             song.SongAverageTempo = attributes.SongAverageTempo;
@@ -680,8 +690,7 @@ namespace CustomsForgeSongManager.LocalTools
             if (String.IsNullOrEmpty(audioName))
                 return false;
 
-            Globals.Log("Extracting Audio ...");
-            Globals.Log("Please wait ...");
+            Globals.Log(" - Extracting Audio ...");
 
             // get contents of archive
             using (var archive = new PSARC(true))

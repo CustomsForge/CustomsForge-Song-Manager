@@ -14,6 +14,17 @@ until you can confirm it is safe by working directly with your AV provider.
 
 CFSM Release Notes
 
+1.5.7.2
+- CDLC auto volume adjustment POC (Proof of Concept) 
+  See Song Manager>Custom Mods>Auto Adjust CDLC Volume
+  This feature is still in POC testing phase so be sure to report your 
+  results/settings to the Developers.
+  Be sure to read and follow the tooltip popups and the Log messages.
+- added tooltips to CustomControl ToolStripNumUpDown
+- improved Saved Search exception handling to auto clear search errors
+- minor improvements to 'Process Downloads Folder' feature
+- Song Manager>Repairs use main audio as preview audio if preview is missing from CDLC
+    
 1.5.7.1
 - updated website url links in About menu
 
@@ -491,11 +502,11 @@ EXTENSIVE REVISIONS AND ADDITIONS (Let the devs know if you find any bugs!)
 
 1.4.6.6
 - restored ThumbCount to Analyzer
-- improved continuous monitoring of 'Downloads' folder
+- improved continuous monitoring of downloads folder
 - ensure prompt overwrite message box is always raised topmost
 
 1.4.6.5
-- added continuous monitoring and processing of 'Downloads' folder
+- added continuous monitoring and processing of downloads folder
 
 1.4.6.4
 - improved duplicate CDLC finder (initial check for duplicate DLCKey and duplicate PID)
@@ -557,10 +568,10 @@ EXTENSIVE REVISIONS AND ADDITIONS (Let the devs know if you find any bugs!)
   whenever a new SongData version is issued.
 
 1.4.4.8
-- fixed 'Repairs' 'Process Downloads Folder' ('Downloads' folder location can
+- fixed 'Repairs' 'Process Downloads Folder' (downloads folder location can
   be reset in 'Settings' tab menu)
 - added a user requested checkbox 'Auto Monitor Downloads Folder' to 'Repairs' menu
-  which will start automatic monitoring of a user selected 'Downloads' folder which
+  which will start automatic monitoring of a user selected downloads folder which
   is used for incoming downloads, CFSM will apply auto repairs to the downloaded CDLC
   and then auto move the repaired files to the Rocksmith 'dlc/downloads' folder.
 - improved user prompts for 'Repairs' 'Run Selected Repair Optons'.
@@ -871,7 +882,7 @@ Merged earlier work to develop branch
 
 1.3.2.0
 - analyzer can now output song arr. data in JSON format
-- if 'cdlc' folder exists in the 'dlc' folder, CDLCs will be moved to that folder from the download folder when "Process 'Downloads' folder" option is used in the repair process
+- if 'cdlc' folder exists in the 'dlc' folder, CDLCs will be moved to that folder from the download folder when "Process Downloads Folder" option is used in the repair process
 
 1.3.1.9
 - analyzer now only exports songs currently shown in the main data table
@@ -972,7 +983,7 @@ Merged earlier work to develop branch
 - fixed handling and removal of corrupt CDLC and dgv refreshing
 
 1.2.9.6
-- move new CDLC from the 'Downloads' folder that have been previously repaired
+- move new CDLC from the downloads folder that have been previously repaired
 
 1.2.9.5
 - fixed Select All/None and Toggle Selection action so ODLC does not appear to be selected

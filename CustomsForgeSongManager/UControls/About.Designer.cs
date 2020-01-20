@@ -226,7 +226,7 @@ namespace CustomsForgeSongManager.UControls
             this.lnkDonations.Size = new System.Drawing.Size(308, 36);
             this.lnkDonations.TabIndex = 13;
             this.lnkDonations.TabStop = true;
-            this.lnkDonations.Text = "Support CustomsForge";
+            this.lnkDonations.Text = "CustomsForge Donate";
             this.lnkDonations.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.lnkDonations.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkDonations_LinkClicked);
             // 

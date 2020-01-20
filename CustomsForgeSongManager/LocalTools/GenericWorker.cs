@@ -66,6 +66,8 @@ namespace CustomsForgeSongManager.LocalTools
                 bWorker.DoWork += WorkerTagUntagSongs;
             else if (WorkDescription.Equals(Constants.GWORKER_TITLETAG))
                 bWorker.DoWork += WorkerTagTitles;
+            else if (WorkDescription.Equals(Constants.GWORKER_NORMALIZE))
+                bWorker.DoWork += WorkerNormalizeAudio;
             else
                 throw new Exception("I'm not that kind of worker ...");
 
@@ -232,6 +234,17 @@ namespace CustomsForgeSongManager.LocalTools
         {
             if (!bWorker.CancellationPending)
                 Globals.Tagger.TagSongTitles(WorkParm1, WorkParm2, WorkParm3, WorkParm4);
+        }
+
+        private void WorkerNormalizeAudio(object sender, DoWorkEventArgs e)
+        {
+            if (!bWorker.CancellationPending)
+            {
+                var workerResults = AudioNormalizer.NormalizeSongs(WorkParm1, WorkParm2).ToString();
+
+                if (!String.IsNullOrEmpty(workerResults))
+                    RepairTools.ViewErrorLog();
+            }
         }
 
         [SuppressMessage("Microsoft.Usage", "CA2213:DisposableFieldsShouldBeDisposed", MessageId = "bWorker")]

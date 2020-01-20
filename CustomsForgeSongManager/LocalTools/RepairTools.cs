@@ -36,19 +36,6 @@ namespace CustomsForgeSongManager.LocalTools
         private static ProgressStatus repairStatus;
         private static StringBuilder sbErrors;
 
-        public static void DoRepairs(object sender, List<SongData> songs, RepairOptions repairOptions)
-        {
-            options = repairOptions;
-            // run new generic worker
-            using (var gWorker = new GenericWorker())
-            {
-                gWorker.WorkDescription = "repairing songs";
-                gWorker.BackgroundProcess(sender);
-                while (Globals.WorkerFinished == Globals.Tristate.False)
-                    Application.DoEvents();
-            }
-        }
-
         public static void InitRepairTools()
         {
             GenericWorker.InitReportProgress();
@@ -284,6 +271,15 @@ namespace CustomsForgeSongManager.LocalTools
                     Globals.TsProgressBar_Main.Value = 70;
                 });
 
+                // use main audio as the preview audio (quick fix old school method if preview is missing)
+                if (packageData.OggPreviewPath == null || !File.Exists(packageData.OggPreviewPath))
+                {
+                    var previewPath = String.Format(Path.Combine(Path.GetDirectoryName(packageData.OggPath), Path.GetFileNameWithoutExtension(packageData.OggPath)) + "_preview.wem");
+                    File.Copy(packageData.OggPath, previewPath);
+                    packageData.OggPreviewPath = previewPath;
+                    Globals.Log(" - Fixed missing preview audio");
+                }
+
                 try
                 {
                     // regenerates repaired XML, JSON, and SNG files and repackages               
@@ -396,7 +392,7 @@ namespace CustomsForgeSongManager.LocalTools
                         .ToList();
                 }
                 else
-                    Globals.Log("<ERROR> 'Downloads' folder path is not set properly ...");
+                    Globals.Log("<ERROR> Downloads folder path is not set properly ...");
             }
             else
                 srcFilePaths = FileTools.SongFilePaths(songs);
@@ -460,7 +456,7 @@ namespace CustomsForgeSongManager.LocalTools
                     }
                 }
 
-                // move new CDLC from the 'Downloads' folder to the 'dlc/downloads' folder
+                // move new CDLC from the downloads folder to the 'dlc/downloads' folder
                 if (options.DLFolderProcess)
                 {
                     var downloadsFolder = Path.Combine(Constants.Rs2DlcFolder, "downloads");
@@ -472,7 +468,7 @@ namespace CustomsForgeSongManager.LocalTools
                     Globals.Log(" - Moved new CDLC to: " + downloadsFolder);
                     Globals.ReloadSongManager = true; // set quick reload flag
 
-                    // add new repaired 'Downloads' CDLC to the SongCollection
+                    // add new repaired downloads CDLC to the SongCollection
                     using (var browser = new PsarcBrowser(destFilePath))
                     {
                         var songInfo = browser.GetSongData();
@@ -515,7 +511,7 @@ namespace CustomsForgeSongManager.LocalTools
             else
                 Globals.Log("No CDLC were repaired ...");
 
-              return sbErrors;
+            return sbErrors;
         }
 
         public static void ViewErrorLog()
@@ -541,9 +537,9 @@ namespace CustomsForgeSongManager.LocalTools
             }
         }
 
-        #region Watch 'Downloads' Folder
+        #region Watch Downloads Folder
 
-        // Watch user specified 'Downloads' Folder, Auto Repair, and Move to 'dlc' folder          
+        // Watch a user specified Downloads Folder, Auto Repair, and Move to 'dlc' folder          
         public static void DLFolderWatcher(RepairOptions repairOptions)
         {
             if (repairOptions.DLFolderMonitor)
@@ -570,7 +566,8 @@ namespace CustomsForgeSongManager.LocalTools
 
                 // Begin watching
                 watcher.EnableRaisingEvents = true;
-                Globals.Log(" - Started watching 'Downloads' folder for new incomming '*.psarc' files ...");
+                Globals.Log(" - Started watching downloads folder for new incomming '*.psarc' files ...");
+                Globals.Log(" - Downloads Folder: " + AppSettings.Instance.DownloadsDir);
             }
             else
             {
@@ -582,7 +579,7 @@ namespace CustomsForgeSongManager.LocalTools
                     watcher = null;
                 }
 
-                Globals.Log(" - Stopped watching 'Downloads' folder ...");
+                Globals.Log(" - Stopped watching downloads folder ...");
             }
         }
 

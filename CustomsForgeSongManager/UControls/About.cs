@@ -357,7 +357,7 @@ namespace CustomsForgeSongManager.UControls
 
         private void lnkRequests_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            Process.Start(Constants.RequestURL + "/?b");
+            Process.Start(Constants.RequestURL);
         }
 
         private void lnkUserProfile_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)

@@ -562,7 +562,7 @@ namespace CustomsForgeSongManager.LocalTools
                 {
                     // set valid initial default speical folder path
                     fbd.SelectedPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-                    fbd.Description = "Select the folder where new CDLC 'Downloads' are stored.";
+                    fbd.Description = "Select the folder where new CDLC downloads are stored.";
 
                     if (fbd.ShowDialog() != DialogResult.OK)
                         return false;

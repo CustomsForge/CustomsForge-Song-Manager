@@ -74,6 +74,7 @@ Source: "{#BuildPath}tools\*"; DestDir: "{app}\tools"; Flags: ignoreversion recu
 Source: "{#BuildPath}ddc\*"; DestDir: "{app}\ddc"; Flags: ignoreversion recursesubdirs createallsubdirs; Permissions: everyone-full
 Source: {srcexe}; DestDir: {app}; DestName: {#InstallerName}.exe; Flags: ignoreversion external; Permissions: everyone-full
 Source: unrar.exe; DestDir: {tmp}; Flags: dontcopy
+Source: "{#BuildPath}ffmpeg\ffmpeg.exe"; DestDir: "{app}\ffmpeg"; Flags: ignoreversion recursesubdirs createallsubdirs; Permissions: everyone-full
 ; alternate method of checking for a running process if CheckForMutexes does not work
 ; Source: processviewer.exe; DestDir: {tmp}; Flags: dontcopy
 
