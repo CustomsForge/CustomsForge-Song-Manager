@@ -14,6 +14,9 @@ until you can confirm it is safe by working directly with your AV provider.
 
 CFSM Release Notes
 
+1.5.7.3
+- Improved CFSM version validation
+
 1.5.7.2
 - CDLC auto volume adjustment POC (Proof of Concept) 
   See Song Manager>Custom Mods>Auto Adjust CDLC Volume

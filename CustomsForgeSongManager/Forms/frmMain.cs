@@ -186,7 +186,15 @@ namespace CustomsForgeSongManager.Forms
             Globals.Log(String.Format("+ System Display Screen Scale Factor ({0}%)", GeneralExtension.GetDisplayScalingFactor(this) * 100));
 
             if (!ToolkitVersion.IsRSTKLibValid())
-                throw new ApplicationException(Environment.NewLine + "<WARNING> This version of CFSM has expired." + Environment.NewLine + "Please download and install the latest version.");
+            {
+                // throw new ApplicationException(Environment.NewLine + "<WARNING> This version of CFSM has expired." + Environment.NewLine + "Please download and install the latest version.");
+                AppSettings.Instance.EnableAutoUpdate = true;
+                Globals.Settings.SaveSettingsToFile(Globals.DgvCurrent);
+
+                var diaMsg = "This version of CFSM is no longer supported.  Please close now" + Environment.NewLine +
+                             "and restart to automatically update to the latest supported version.";
+                CustomControls.BetterDialog2.ShowDialog(diaMsg, "Time To Update ...", null, null, "Ok", Bitmap.FromHicon(SystemIcons.Warning.Handle), "WARNING ...", 0, 150);
+            }
 
             if (AppSettings.Instance.FirstRun)
             {

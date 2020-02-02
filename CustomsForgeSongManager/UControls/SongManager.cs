@@ -29,6 +29,7 @@ using UserProfileLib;
 using System.Resources;
 using System.Reflection;
 using Newtonsoft.Json.Linq;
+using RocksmithToolkitLib;
 
 // TODO: convert SongManager, Duplicates, SetlistManager to use a common bound FilterBindingList<SongData>() dataset.
 // TODO: use binding source filtering to show/hide data
