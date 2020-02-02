@@ -36,7 +36,7 @@ using System.Globalization;
 // NOTE: for Mac compatiblity use absolute paths ... do not use generic/relative @"./" paths 
 //
 namespace CustomsForgeSongManager.Forms
-{
+{ 
     public partial class frmMain : Form, IMainForm //,ThemedForm
     {
         private static Point UCLocation = new Point(5, 10);

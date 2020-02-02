@@ -33,7 +33,7 @@ using RocksmithToolkitLib;
 
 // TODO: convert SongManager, Duplicates, SetlistManager to use a common bound FilterBindingList<SongData>() dataset.
 // TODO: use binding source filtering to show/hide data
-
+ 
 namespace CustomsForgeSongManager.UControls
 {
     public partial class SongManager : UserControl, IDataGridViewHolder, INotifyTabChanged
