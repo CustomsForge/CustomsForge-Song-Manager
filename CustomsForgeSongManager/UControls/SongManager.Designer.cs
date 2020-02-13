@@ -1985,6 +1985,7 @@ namespace CustomsForgeSongManager.UControls
             // tsmiAutoAdjustVolume
             // 
             this.tsmiAutoAdjustVolume.AssociatedEnumValue = null;
+            this.tsmiAutoAdjustVolume.BackColor = System.Drawing.Color.Goldenrod;
             this.tsmiAutoAdjustVolume.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsmiCorrectionFactor,
             this.tsmiCorrectionMultiplier,
@@ -2030,8 +2031,8 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiCorrectionFactor.Size = new System.Drawing.Size(150, 23);
             this.tsmiCorrectionFactor.Text = "Correction Factor";
             this.tsmiCorrectionFactor.TextVisible = false;
-            this.tsmiCorrectionFactor.ToolTipText = "Louder??? (negative values)\r\nNo Correction (1.0 default)\r\nSofter??? (positive values)\r\n" +
-                "\r\nNote: zero (0) effectively \r\neliminates LUF correction";
+            this.tsmiCorrectionFactor.ToolTipText = "Louder??? (negative values)\r\nNo Correction (1.0 default)\r\nSofter??? (positive val" +
+                "ues)\r\n\r\nNote: zero (0) effectively \r\neliminates LUF correction";
             // 
             // tsmiCorrectionMultiplier
             // 
@@ -2063,8 +2064,8 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiCorrectionMultiplier.Size = new System.Drawing.Size(161, 23);
             this.tsmiCorrectionMultiplier.Text = "Correction Multiplier";
             this.tsmiCorrectionMultiplier.TextVisible = false;
-            this.tsmiCorrectionMultiplier.ToolTipText = "Increases or reduces the\r\nCorrection Factor effect\r\n(default -1.0)\r\n\r\nNote: zero (" +
-                "0) effectively \r\neliminates LUF correction";
+            this.tsmiCorrectionMultiplier.ToolTipText = "Increases or reduces the\r\nCorrection Factor effect\r\n(default -1.0)\r\n\r\nNote: zero " +
+                "(0) effectively \r\neliminates LUF correction";
             // 
             // tsmiTargetAudioVolume
             // 

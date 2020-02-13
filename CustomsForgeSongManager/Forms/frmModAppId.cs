@@ -52,7 +52,7 @@ namespace CustomsForgeSongManager.Forms
             // social engineering code
             if (newID.Equals("221680"))
                 throw new InvalidDataException("<WARNING> Sentinel has detected futile human resistance ..." + Environment.NewLine +
-                    "Buy Cherub Rock and you wont have to bother changing AppId's.");
+                    "Buy Cherub Rock and you wont have to mess around changing AppId's.");
 
             foreach (var song in DataFiles)
             {

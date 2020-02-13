@@ -58,6 +58,7 @@ namespace CustomsForgeSongManager.Forms
             // cmbAppId
             // 
             this.cmbAppId.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbAppId.DropDownWidth = 420;
             this.cmbAppId.FormattingEnabled = true;
             this.cmbAppId.Location = new System.Drawing.Point(15, 24);
             this.cmbAppId.Margin = new System.Windows.Forms.Padding(2);
