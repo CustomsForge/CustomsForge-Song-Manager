@@ -14,8 +14,13 @@ until you can confirm it is safe by working directly with your AV provider.
 
 CFSM Release Notes
 
+1.5.7.5
+- removed ffmpeg.exe from CFSM Inno Setup to save space
+  (ffmpeg.exe is available from CGT website as needed)
+- fixed AppId dash delimiter validation issue
+
 1.5.7.4
-- updated RocksmithToolkitLib.SongAppId.xml dlc AppIDs
+- updated RocksmithToolkitLib.SongAppId.xml dlc AppIds
 - improved auto repair of some old toolkit multitone exceptions
   usage: CFSM>Repairs>Prevent Multitone Exceptions 
 

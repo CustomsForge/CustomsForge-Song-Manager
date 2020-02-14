@@ -34,19 +34,25 @@ namespace CustomsForgeSongManager.LocalTools
         private static ProgressStatus normalizerStatus;
         private static StringBuilder sbErrors;
 
-        private static void InitNormalizer()
+        public static bool ValidateFfmpeg()
         {
             // validate ffmpeg installation
-            var ffmpegLibPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            var ffmpegExePath = Path.Combine(ffmpegLibPath, "ffmpeg", "ffmpeg.exe");
-            if (!File.Exists(ffmpegExePath))
-                throw new FileNotFoundException("You need to download FFmpegSetup.rar from http://goo.gl/i9jXEZ" + Environment.NewLine +
-                    "and install FFmpegSetup.exe for Audiosmith before continuing");
+            var assemblyDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            var ffmpegDir = Path.Combine(assemblyDir, "ffmpeg");
+            var ffmpegExePath = Path.Combine(ffmpegDir, "ffmpeg.exe");
 
-            GenericWorker.InitReportProgress();
-            sbErrors = new StringBuilder();
-            normalizerStatus = new ProgressStatus();
-            FileTools.VerifyCfsmFolders();
+            if (File.Exists(ffmpegExePath))
+                return true;
+
+            if (!Directory.Exists(ffmpegDir))
+                Directory.CreateDirectory(ffmpegDir);
+
+            var diaMsg = "To use the 'Auto Adjust CDLC Volume' feature, please download FFmpegSetup.rar" + Environment.NewLine +
+                         "from http://goo.gl/i9jXEZ and install the 'ffmpeg.exe' file into the subfolder" + Environment.NewLine +
+                         "'" + ffmpegDir + "' ...";
+            Globals.Log("<WARNING> " + diaMsg);
+            BetterDialog2.ShowDialog(diaMsg, "Required File Not Found ...", null, null, "Ok", Bitmap.FromHicon(SystemIcons.Warning.Handle), "README", 0, 150);
+            return false;
         }
 
         private static frmNoteViewer cmdWin;
@@ -244,7 +250,10 @@ namespace CustomsForgeSongManager.LocalTools
         // CAREFUL ... this is called from a background worker ... threading issues
         public static StringBuilder NormalizeSongs(List<SongData> songs, AudioOptions audioOptions)
         {
-            InitNormalizer();
+            GenericWorker.InitReportProgress();
+            sbErrors = new StringBuilder();
+            normalizerStatus = new ProgressStatus();
+            FileTools.VerifyCfsmFolders();
             GenExtensions.DeleteFile(Constants.FfmpegLogPath);
             FileTools.CleanDlcFolder();
             Globals.Log("Auto Adjusting CDLC Volume ...");

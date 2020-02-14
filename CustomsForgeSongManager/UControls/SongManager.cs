@@ -33,7 +33,7 @@ using RocksmithToolkitLib;
 
 // TODO: convert SongManager, Duplicates, SetlistManager to use a common bound FilterBindingList<SongData>() dataset.
 // TODO: use binding source filtering to show/hide data
- 
+
 namespace CustomsForgeSongManager.UControls
 {
     public partial class SongManager : UserControl, IDataGridViewHolder, INotifyTabChanged
@@ -2699,7 +2699,9 @@ namespace CustomsForgeSongManager.UControls
             }
 
             tsmiMods.HideDropDown();
-            DoWork(Constants.GWORKER_NORMALIZE, selection, SetAudioOptions());
+
+            if (AudioNormalizer.ValidateFfmpeg())
+                DoWork(Constants.GWORKER_NORMALIZE, selection, SetAudioOptions());
         }
 
         public AudioOptions SetAudioOptions()

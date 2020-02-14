@@ -65,7 +65,7 @@ namespace CustomsForgeSongManager.Forms
             this.cmbAppId.Name = "cmbAppId";
             this.cmbAppId.Size = new System.Drawing.Size(279, 21);
             this.cmbAppId.TabIndex = 84;
-            this.cmbAppId.SelectedIndexChanged += new System.EventHandler(this.cmbAppId_SelectedIndexChanged);
+            this.cmbAppId.SelectedValueChanged += new System.EventHandler(this.cmbAppId_SelectedValueChanged);
             // 
             // lblAppID
             // 

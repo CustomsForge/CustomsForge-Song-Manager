@@ -905,12 +905,7 @@ rem if $(ConfigurationName This line will throw an error for post build debuggin
     <PreBuildEvent>XCOPY /Y /D "$(SolutionDir)libs\*.xml" "$(TargetDir)*.xml"
 XCOPY /Y /E /D "$(SolutionDir)libs\tools\*.*" "$(TargetDir)tools\*.*"
 XCOPY /Y /E /D "$(SolutionDir)libs\ddc\*.*" "$(TargetDir)ddc\*.*"
-
-REM if $(ConfigurationName) == Debug (   
-
-   XCOPY /Y /E /D "$(SolutionDir)libs\ffmpeg\*.*"  "$(TargetDir)ffmpeg\*.*" 
-
-REM )
+XCOPY /Y /E /D "$(SolutionDir)libs\ffmpeg\*.*"  "$(TargetDir)ffmpeg\*.*" 
 
 REM if $(ConfigurationName This line will throw an error for debugging</PreBuildEvent>
   </PropertyGroup>
