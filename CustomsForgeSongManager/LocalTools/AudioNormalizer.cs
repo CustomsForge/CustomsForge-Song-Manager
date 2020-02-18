@@ -41,8 +41,8 @@ namespace CustomsForgeSongManager.LocalTools
             var ffmpegDir = Path.Combine(assemblyDir, "ffmpeg");
             var ffmpegExePath = Path.Combine(ffmpegDir, "ffmpeg.exe");
 
-            //if (File.Exists(ffmpegExePath))
-            //    return true;
+            if (File.Exists(ffmpegExePath))
+                return true;
 
             if (!Directory.Exists(ffmpegDir))
                 Directory.CreateDirectory(ffmpegDir);
