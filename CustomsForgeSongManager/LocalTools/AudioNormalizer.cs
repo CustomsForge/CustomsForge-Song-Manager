@@ -41,17 +41,16 @@ namespace CustomsForgeSongManager.LocalTools
             var ffmpegDir = Path.Combine(assemblyDir, "ffmpeg");
             var ffmpegExePath = Path.Combine(ffmpegDir, "ffmpeg.exe");
 
-            if (File.Exists(ffmpegExePath))
-                return true;
+            //if (File.Exists(ffmpegExePath))
+            //    return true;
 
             if (!Directory.Exists(ffmpegDir))
                 Directory.CreateDirectory(ffmpegDir);
 
-            var diaMsg = "To use the 'Auto Adjust CDLC Volume' feature, please download FFmpegSetup.rar" + Environment.NewLine +
-                         "from http://goo.gl/i9jXEZ and install the 'ffmpeg.exe' file into the subfolder" + Environment.NewLine +
-                         "'" + ffmpegDir + "' ...";
-            Globals.Log("<WARNING> " + diaMsg);
-            BetterDialog2.ShowDialog(diaMsg, "Required File Not Found ...", null, null, "Ok", Bitmap.FromHicon(SystemIcons.Warning.Handle), "README", 0, 150);
+            Globals.Log("<WARNING> To use the 'Auto Adjust CDLC Volume' feature, " +
+                        "please download FFmpegSetup.rar from http://goo.gl/i9jXEZ ...");
+            frmNoteViewer.ViewExternalFile("ffmpeg/ReadMe.txt", "Auto Adjust CDLC Volume");
+
             return false;
         }
 
