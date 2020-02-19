@@ -13,6 +13,8 @@ using RocksmithToolkitLib.XML;
 using RocksmithToolkitLib.XmlRepository;
 using RocksmithToolkitLib;
 using RocksmithToolkitLib.PSARC;
+using System.Drawing;
+using CustomControls;
 
 namespace CustomsForgeSongManager.LocalTools
 {
@@ -85,11 +87,12 @@ namespace CustomsForgeSongManager.LocalTools
                     arr.Tuning = TuningDefinitionRepository.Instance.Detect(arr.TuningStrings, GameVersion.RS2014, false).UIName;
 
                 // TODO: see customsforge.com/topic/41503-1416-pitch-shifter-mod-wrong-pitch-for-drop-tuning/#entry268144
+                // determine that this actually works as intended (i.e. a song in D Std. gets shifted for 2 half steps up to E Std, a Drop C song to Drop D, etc.)
                 if (!arr.Tuning.Contains("Bonus") && arr.ArrangementType != ArrangementType.Bass)
-                    gitShift = arr.TuningStrings.String0;
+                    gitShift = arr.TuningStrings.String5;
 
                 if (!arr.Tuning.Contains("Bonus") && arr.ArrangementType == ArrangementType.Bass)
-                    bassShift = arr.TuningStrings.String0;
+                    bassShift = arr.TuningStrings.String5;
 
                 // option to force tuning to E Standard (prevents having to retune)
                 if (arr.Tuning.Contains("Standard") || forceStdTuning)
@@ -251,6 +254,8 @@ namespace CustomsForgeSongManager.LocalTools
 
                 if (!Constants.DebugMode)
                     GenExtensions.CleanLocalTemp();
+
+                BetterDialog2.ShowDialog("Finished pitch shifting tones in the selected songs, please report back on CF forum/Discord/Reddit whether it works as expected.\nThank you!", "Feedback required", null, null, "Ok", Bitmap.FromHicon(SystemIcons.Information.Handle), "Feedback pls", 0, 150);
             }
             else
             {
