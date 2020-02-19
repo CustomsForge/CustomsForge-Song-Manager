@@ -114,7 +114,7 @@ namespace CustomsForgeSongManager.SongEditor
         private void Tone_Volume_Tip(object sender, EventArgs f)
         {
             ToolTip tvt = new ToolTip() {IsBalloon = true, InitialDelay = 0, ShowAlways = true};
-            tvt.SetToolTip(volumeBox, "LOWEST 0,-1,-2,-3,..., AVERAGE -12 ,...,-20,-21 HIGHER");
+            tvt.SetToolTip(volumeBox, "0.0 Soft, -20.0 (Default), -30.0 Loud");
         }
 
         private void UpdateToneDescription(ComboBox combo)

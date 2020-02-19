@@ -2679,8 +2679,9 @@ namespace CustomsForgeSongManager.UControls
             SearchCDLC(cueSearch.Text);
         }
 
-        private void tsmiNormalizeAudio_Click(object sender, EventArgs e)
+        private void tsmiAutoAdjustVolume_MouseUp(object sender, MouseEventArgs e)
         {
+
             // Proof of Concept (POC) 
             // extract audio
             // convert audio to usable format
@@ -2689,6 +2690,12 @@ namespace CustomsForgeSongManager.UControls
             // inject corrected toolkit LF
 
             // note it may be necessary to similary adjust toolkit tone volumes as well
+
+            if (e.Button == MouseButtons.Right)
+            {
+                frmNoteViewer.ViewExternalFile("ffmpeg/ReadMe.txt", "Auto Adjust CDLC Volume", 17, 0);
+                return;
+            }
 
             var selection = DgvExtensions.GetObjectsFromRows<SongData>(dgvSongsMaster);
             if (!selection.Any())

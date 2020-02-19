@@ -452,12 +452,12 @@
             65536});
             this.cmbPreviewVolume.Location = new System.Drawing.Point(306, 188);
             this.cmbPreviewVolume.Maximum = new decimal(new int[] {
-            30,
+            45,
             0,
             0,
             0});
             this.cmbPreviewVolume.Minimum = new decimal(new int[] {
-            30,
+            45,
             0,
             0,
             -2147483648});
@@ -465,6 +465,7 @@
             this.cmbPreviewVolume.Size = new System.Drawing.Size(60, 20);
             this.cmbPreviewVolume.TabIndex = 9;
             this.cmbPreviewVolume.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.toolTip.SetToolTip(this.cmbPreviewVolume, "0.0 Soft, -5.0 (Default), -30.0 Loud");
             this.cmbPreviewVolume.Value = new decimal(new int[] {
             5,
             0,
@@ -483,12 +484,12 @@
             65536});
             this.cmbSongVolume.Location = new System.Drawing.Point(102, 188);
             this.cmbSongVolume.Maximum = new decimal(new int[] {
-            30,
+            45,
             0,
             0,
             0});
             this.cmbSongVolume.Minimum = new decimal(new int[] {
-            30,
+            45,
             0,
             0,
             -2147483648});
@@ -496,6 +497,7 @@
             this.cmbSongVolume.Size = new System.Drawing.Size(60, 20);
             this.cmbSongVolume.TabIndex = 8;
             this.cmbSongVolume.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.toolTip.SetToolTip(this.cmbSongVolume, "0.0 Soft, -7.0 (Default), -30.0 Loud");
             this.cmbSongVolume.Value = new decimal(new int[] {
             7,
             0,
