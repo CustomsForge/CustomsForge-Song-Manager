@@ -6,7 +6,6 @@ using System.Windows.Forms.Design;
 using System.Diagnostics;
 
 // FIXME: IDE does not display properties or event handlers in the dropdown
-
 namespace CustomControls
 {
     [ToolStripItemDesignerAvailability(ToolStripItemDesignerAvailability.MenuStrip | ToolStripItemDesignerAvailability.ToolStrip | ToolStripItemDesignerAvailability.ContextMenuStrip)]
@@ -90,21 +89,21 @@ namespace CustomControls
             }
         }
 
-        // [DefaultValue(typeof(decimal), "100")]
+        [DefaultValue(typeof(decimal), "100")]
         public decimal Maximum
         {
             get { return this.num.Maximum; }
             set { this.num.Maximum = value; }
         }
 
-        // [DefaultValue(typeof(decimal), "0")]
+        [DefaultValue(typeof(decimal), "0")]
         public decimal Minimum
         {
             get { return this.num.Minimum; }
             set { this.num.Minimum = value; }
         }
 
-        // [DefaultValue(typeof(decimal), "0.0")]
+        [DefaultValue(typeof(decimal), "0")]
         public decimal DecimalValue
         {
             get { return this.num.Value; }
@@ -119,14 +118,14 @@ namespace CustomControls
             }
         }
 
-        // [DefaultValue(0)]
+        [DefaultValue(0)]
         public int DecimalPlaces
         {
             get { return this.num.DecimalPlaces; }
             set { this.num.DecimalPlaces = value; }
         }
 
-        // [DefaultValue(typeof(decimal), "1")]
+        [DefaultValue(typeof(decimal), "1")]
         public decimal Increment
         {
             get { return this.num.Increment; }
@@ -230,12 +229,16 @@ namespace CustomControls
             this.controlPanel.WrapContents = false;
             this.controlPanel.AutoSize = true;
             this.controlPanel.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            // permafix for Win7 thru Win10 BUG moves the negative sign to rightside of the number
+            this.controlPanel.RightToLeft = RightToLeft.Yes;
+            this.controlPanel.Padding = new Padding(1, 1, 1, 1);
 
             // Add child controls.
             this.num = new NumericUpDown();
+            this.num.Font = new Font("Tohoma", 7, FontStyle.Bold);
             this.num.Width = 50;
             this.num.Height = this.num.PreferredHeight;
-            this.num.Margin = new Padding(0, 1, 3, 1);
+            this.num.Margin = new Padding(1, 0, 1, 0);
             this.num.Value = 0;
             this.num.Minimum = 0;
             this.num.Maximum = 100;
@@ -243,13 +246,16 @@ namespace CustomControls
             this.num.Increment = 1;
             this.num.Hexadecimal = false;
             this.num.TextAlign = HorizontalAlignment.Center;
+            // permafix for Win7 thru Win10 BUG moves the negative sign to rightside of the number
+            this.num.RightToLeft = RightToLeft.No;
             this.num.Visible = true;
 
             this.txt = new Label();
             this.txt.Text = "NumericUpDown";
+            this.num.Margin = new Padding(1, 0, 1, 0);
             this.txt.TextAlign = ContentAlignment.MiddleRight;
             this.txt.AutoSize = true;
-            this.txt.Dock = DockStyle.Left;
+            this.txt.Anchor = AnchorStyles.Left;
             this.txt.Visible = true;
 
             this.controlPanel.Controls.Add(this.txt);
@@ -377,6 +383,7 @@ namespace CustomControls
         }
 
         #endregion
+
 
     }
 }

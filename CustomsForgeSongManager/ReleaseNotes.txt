@@ -14,6 +14,9 @@ until you can confirm it is safe by working directly with your AV provider.
 
 CFSM Release Notes
 
+1.5.5.8
+- fixed negative sign alignment issue with Auto Adjust CDLC Volume variables 
+
 1.5.7.7
  - hotfix enabled CFSM>Custom Mods>Auto Adjust CDLC Volume
   

@@ -67,35 +67,35 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiNudScrollSpeed.Text = "(Default 1.3)";
             this.tsmiNudScrollSpeed.TextVisible = true;
             // POC audio volume adjustment variables (workaround prevents IDE changes)
-            tsmiCorrectionFactor.DecimalValue = 1.0m;
-            tsmiCorrectionFactor.Increment = 0.1m;
-            tsmiCorrectionFactor.Maximum = 1.0m;
-            tsmiCorrectionFactor.Minimum = -1.0m;
+            tsmiCorrectionFactor.DecimalValue = (decimal)1.0;
+            tsmiCorrectionFactor.Increment = (decimal)0.1;
+            tsmiCorrectionFactor.Maximum = (decimal)1.0;
+            tsmiCorrectionFactor.Minimum = (decimal)-1.0;
             //
-            tsmiCorrectionMultiplier.DecimalValue = -1.0m;
-            tsmiCorrectionMultiplier.Increment = 0.1m;
-            tsmiCorrectionMultiplier.Maximum = 5.0m;
-            tsmiCorrectionMultiplier.Minimum = -5.0m;
+            tsmiCorrectionMultiplier.DecimalValue = (decimal) -1.0;
+            tsmiCorrectionMultiplier.Increment = (decimal) 0.1;
+            tsmiCorrectionMultiplier.Maximum = (decimal) 5.0;
+            tsmiCorrectionMultiplier.Minimum = (decimal) -5.0;
             //
-            tsmiTargetAudioVolume.DecimalValue = -7.0m;
-            tsmiTargetAudioVolume.Increment = 0.1m;
-            tsmiTargetAudioVolume.Maximum = 30.0m;
-            tsmiTargetAudioVolume.Minimum = -30.0m;
+            tsmiTargetAudioVolume.DecimalValue = (decimal) -7.0;
+            tsmiTargetAudioVolume.Increment = (decimal) 0.1;
+            tsmiTargetAudioVolume.Maximum = (decimal) 30.0;
+            tsmiTargetAudioVolume.Minimum = (decimal) -30.0;
             //
-            tsmiTargetPreviewVolume.DecimalValue = -5.0m;
-            tsmiTargetPreviewVolume.Increment = 0.1m;
-            tsmiTargetPreviewVolume.Maximum = 30.0m;
-            tsmiTargetPreviewVolume.Minimum = -30.0m;
+            tsmiTargetPreviewVolume.DecimalValue = (decimal) -5.0;
+            tsmiTargetPreviewVolume.Increment = (decimal) 0.1;
+            tsmiTargetPreviewVolume.Maximum = (decimal) 30.0;
+            tsmiTargetPreviewVolume.Minimum = (decimal) -30.0;
             //
-            tsmiTargetToneVolume.DecimalValue = -20.0m;
-            tsmiTargetToneVolume.Increment = 0.1m;
-            tsmiTargetToneVolume.Maximum = 30.0m;
-            tsmiTargetToneVolume.Minimum = -30.0m;
+            tsmiTargetToneVolume.DecimalValue = (decimal) -20.0;
+            tsmiTargetToneVolume.Increment = (decimal) 0.1;
+            tsmiTargetToneVolume.Maximum = (decimal) 30.0;
+            tsmiTargetToneVolume.Minimum = (decimal) -30.0;
             //
-            tsmiTargetLUFS.DecimalValue = -16.0m;
-            tsmiTargetLUFS.Increment = 0.1m;
-            tsmiTargetLUFS.Maximum = 30.0m;
-            tsmiTargetLUFS.Minimum = -30.0m;
+            tsmiTargetLUFS.DecimalValue = (decimal) -16.0;
+            tsmiTargetLUFS.Increment = (decimal) 0.1;
+            tsmiTargetLUFS.Maximum = (decimal) 30.0;
+            tsmiTargetLUFS.Minimum = (decimal) -30.0;
             //
             dgvSongsDetail.Visible = false;
             // TODO: future get Ignition based API data
@@ -2767,6 +2767,11 @@ namespace CustomsForgeSongManager.UControls
             }
         }
 
+        private void tsmiPocText_MouseUp(object sender, MouseEventArgs e)
+        {
+            tsmiMods.ShowDropDown();
+            tsmiAutoAdjustVolume.ShowDropDown();
+        }
 
     }
 }
