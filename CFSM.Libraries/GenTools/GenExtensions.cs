@@ -677,7 +677,7 @@ namespace GenTools
             return Regex.Replace(fileName, invalidRegStr, replaceWith);
         }
 
-        public static bool MoveFile(string fileFrom, string fileTo, bool overWrite, bool verbose = true)
+        public static bool MoveFile(string fileFrom, string fileTo, bool overWrite, bool verbose = true, bool skipDuplicates=false)
         {
             if (!File.Exists(fileFrom))
                 return false;
@@ -686,7 +686,7 @@ namespace GenTools
             {
                 if (!verbose)
                     File.Delete(fileTo);
-                else if (!PromptOverwrite(fileTo))
+                else if (!skipDuplicates && !PromptOverwrite(fileTo))
                     return false;
                 else
                     File.Delete(fileTo);

@@ -13,8 +13,12 @@ until you can confirm it is safe by working directly with your AV provider.
 ========================================================================
 
 CFSM Release Notes
+1.5.7.9
+- updated the AppId list ( final RS2014 ODLC list :( )
+- updated the DLL check with the new version of the DLL (DLL with custom song list names)
+- added an option to skip files that already exist in the DLC folder when using the 'Process Downloads folder' function
 
-1.5.5.8
+1.5.7.8
 - fixed negative sign alignment issue with Auto Adjust CDLC Volume variables 
 
 1.5.7.7

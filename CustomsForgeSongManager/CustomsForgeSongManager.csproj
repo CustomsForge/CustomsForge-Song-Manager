@@ -156,6 +156,7 @@
       <HintPath>..\libs\SevenZipSharp.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Management" />
@@ -848,7 +849,7 @@ if $(ConfigurationName) == InnoBuild (
    CD "$(SolutionDir)ThirdParty\CFSM_Setup\"   
    COPY /Y "$(TargetDir)ReleaseNotes.txt" "ReleaseNotes.txt"
    COPY /Y "$(TargetDir)VersionInfo.txt" "VersionInfo.txt"
-   "D:\Program Files\WinRAR\WinRar.exe" a -r "CFSMSetup.rar" "CFSMSetup.exe" "ReleaseNotes.txt" "VersionInfo.txt"
+   "C:\Program Files\WinRAR\WinRar.exe" a -r "CFSMSetup.rar" "CFSMSetup.exe" "ReleaseNotes.txt" "VersionInfo.txt"
 )
 
 REM  depricated InnoRelease Post-build Events
@@ -872,7 +873,7 @@ CD "$(SolutionDir)ThirdParty\Inno_bin\"
 CD "$(SolutionDir)ThirdParty\CFSM_Setup_Release\"   
 COPY /Y "$(TargetDir)ReleaseNotes.txt" "ReleaseNotes.txt"
 COPY /Y "$(TargetDir)VersionInfo.txt" "VersionInfo.txt"
-"D:\Program Files\WinRAR\WinRar.exe" a -r "CFSMSetupRelease.rar" "CFSMSetup.exe" "ReleaseNotes.txt"
+"C:\Program Files\WinRAR\WinRar.exe" a -r "CFSMSetupRelease.rar" "CFSMSetup.exe" "ReleaseNotes.txt"
 )
 
 REM  depricated InnoBeta Post-build Events

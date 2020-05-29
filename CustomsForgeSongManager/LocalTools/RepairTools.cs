@@ -464,7 +464,7 @@ namespace CustomsForgeSongManager.LocalTools
                         Directory.CreateDirectory(downloadsFolder);
 
                     var destFilePath = Path.Combine(downloadsFolder, Path.GetFileName(srcFilePath));
-                    GenExtensions.MoveFile(srcFilePath, destFilePath, false, true);
+                    GenExtensions.MoveFile(srcFilePath, destFilePath, false, true, repairOptions.SkipDuplicateFilesFromFolder);
                     Globals.Log(" - Moved new CDLC to: " + downloadsFolder);
                     Globals.ReloadSongManager = true; // set quick reload flag
 
@@ -700,7 +700,7 @@ namespace CustomsForgeSongManager.LocalTools
         //
         public bool DLFolderProcess { get; set; }
         public bool DLFolderMonitor { get; set; }
-
+        public bool SkipDuplicateFilesFromFolder { get; set; }
     }
 
 }

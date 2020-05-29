@@ -167,8 +167,10 @@ namespace CustomsForgeSongManager.UControls
                 var d3dFileMD5 = GenExtensions.GetMD5Hash(d3dPath);
                 var d3dNewMD5 = GenExtensions.GetMD5Hash(Path.Combine(Constants.ApplicationFolder, "D3DX9_42.dll.new"));
                 var d3dOldMD5 = GenExtensions.GetMD5Hash(Path.Combine(Constants.ApplicationFolder, "D3DX9_42.dll.old"));
+                var d3dBasicModsMD5 = GenExtensions.GetMD5Hash(Path.Combine(Constants.ApplicationFolder, "D3DX9_42.dll.basic_mods")); //for the basic (custom song lists only) version of the modded DLL
+                //var d3dExtraModsMD5 = GenExtensions.GetMD5Hash(Constants.ApplicationFolder, "D3X9_42.dll.extra_mods"); //for a future modded DLL
 
-                if (((File.Exists(luaPath) || File.Exists(steamClientPath)) && d3dFileMD5 != d3dOldMD5) || ((!File.Exists(luaPath) && !File.Exists(steamClientPath)) && d3dFileMD5 != d3dNewMD5))
+                if (((File.Exists(luaPath) || File.Exists(steamClientPath)) && d3dFileMD5 != d3dOldMD5) || ((!File.Exists(luaPath) && !File.Exists(steamClientPath)) && d3dFileMD5 != d3dNewMD5 && d3dFileMD5 != d3dBasicModsMD5))
                 {
                     var dlgMsg1 = "The installed 'D3DX9_42.dll' file MD5 hash value is invalid. Would you like CFSM to update the dll file that is required to play CDLC files?";
                     var dlgMsg2 = "Note: If your CDLC are working fine then answer 'No' and then disable future validation checks in the 'Settings' tab menu.";

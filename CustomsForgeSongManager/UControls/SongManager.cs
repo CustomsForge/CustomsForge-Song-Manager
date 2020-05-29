@@ -292,6 +292,7 @@ namespace CustomsForgeSongManager.UControls
             ro.FixAppId = tsmiFixAppId.Checked;
             ro.DLFolderProcess = tsmiDLFolderProcess.Checked;
             ro.DLFolderMonitor = tsmiDLFolderMonitor.Checked;
+            ro.SkipDuplicateFilesFromFolder = tsmiSkipDuplicatesFromDLFolder.Checked;
 
             AppSettings.Instance.RepairOptions = ro;
             return ro;
