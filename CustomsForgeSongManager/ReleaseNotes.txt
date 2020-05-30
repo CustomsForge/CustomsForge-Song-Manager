@@ -13,6 +13,10 @@ until you can confirm it is safe by working directly with your AV provider.
 ========================================================================
 
 CFSM Release Notes
+1.5.8.0
+- monitoring DL folders can now be used on multiple folders
+- also CDLC found in those folders will be moved by a location specified by the user  
+
 1.5.7.9
 - updated the AppId list ( final RS2014 ODLC list :( )
 - updated the DLL check with the new version of the DLL (DLL with custom song list names)

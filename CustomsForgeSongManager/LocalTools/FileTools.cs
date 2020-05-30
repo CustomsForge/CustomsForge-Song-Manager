@@ -8,6 +8,7 @@ using GenTools;
 using RocksmithToolkitLib.DLCPackage;
 using RocksmithToolkitLib.Extensions;
 using System.Drawing;
+using CustomsForgeSongManager.Forms;
 using DataGridViewTools;
 using CustomsForgeSongManager.UControls;
 using RocksmithToolkitLib.PSARC;
@@ -552,28 +553,31 @@ namespace CustomsForgeSongManager.LocalTools
             return srcFilePaths;
         }
 
-        public static bool ValidateDownloadsDir()
+        public static void SetDLDestinationFolder()
         {
-            var dlDirectory = AppSettings.Instance.DownloadsDir;
-
-            if (String.IsNullOrEmpty(dlDirectory) || !Directory.Exists(dlDirectory))
+            using (var fbd = new FolderBrowserDialog())
             {
-                using (var fbd = new FolderBrowserDialog())
-                {
-                    // set valid initial default speical folder path
-                    fbd.SelectedPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-                    fbd.Description = "Select the folder where new CDLC downloads are stored.";
+                fbd.SelectedPath = Constants.Rs2DlcFolder;
+                fbd.Description = "Select the folder where new CDLC downloads will be moved to.";
+                if (fbd.ShowDialog() != DialogResult.OK)
+                    return;
 
-                    if (fbd.ShowDialog() != DialogResult.OK)
-                        return false;
-
-                    dlDirectory = fbd.SelectedPath;
-                    AppSettings.Instance.DownloadsDir = dlDirectory;
-                    Globals.Settings.SaveSettingsToFile(Globals.DgvCurrent);
-                }
+                AppSettings.Instance.DLMonitorDesinationFolder = fbd.SelectedPath;
+                Globals.Log("- Downloads monitoring folder set to: " + fbd.SelectedPath);
+                Globals.Settings.SaveSettingsToFile(Globals.DgvCurrent);
             }
+        }
 
-            Globals.Log("Validated Downloads Directory: " + dlDirectory + " ...");
+        public static bool ValidateDownloadsDirs()
+        {
+            var dlDirectories = AppSettings.Instance.MonitoredFolders;
+
+            if (dlDirectories.Count() == 0)
+            {
+                frmMonitoredFolders frmMonitoredFolders = new frmMonitoredFolders();
+                frmMonitoredFolders.ShowDialog();
+            }
+            
             return true;
         }
 

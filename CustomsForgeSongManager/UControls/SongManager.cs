@@ -498,6 +498,7 @@ namespace CustomsForgeSongManager.UControls
 
             // starts/stops DL folder monitoring
             tsmiDLFolderMonitor.Checked = AppSettings.Instance.RepairOptions.DLFolderMonitor;
+            tsmiSkipDuplicatesFromDLFolder.Checked = AppSettings.Instance.RepairOptions.SkipDuplicateFilesFromFolder;
         }
 
         private void IncludeSubfolders(bool clearSearchBox = true)
@@ -2118,6 +2119,7 @@ namespace CustomsForgeSongManager.UControls
 
             tsmiRepairs.HideDropDown();
             AppSettings.Instance.RepairOptions.DLFolderMonitor = tsmiDLFolderMonitor.Checked;
+
             RepairTools.DLFolderWatcher(SetRepairOptions());
             Globals.Log(" - Please donate at https://goo.gl/iTPfRU to support user requested special features like this ...");
         }
@@ -2489,12 +2491,15 @@ namespace CustomsForgeSongManager.UControls
                 return;
             }
 
-            if (tsmiDLFolderProcess.Checked && !FileTools.ValidateDownloadsDir())
+            if (tsmiDLFolderProcess.Checked && !FileTools.ValidateDownloadsDirs())
             {
                 var diaMsg = "Please select a valid downloads folder and try again." + Environment.NewLine;
                 BetterDialog2.ShowDialog(diaMsg, "Repair Options ...", null, null, "Ok", Bitmap.FromHicon(SystemIcons.Warning.Handle), "ReadMe", 0, 150);
                 return;
             }
+
+            if (tsmiDLFolderMonitor.Checked && Directory.Exists(AppSettings.Instance.DLMonitorDesinationFolder))
+                FileTools.SetDLDestinationFolder();
 
             var selection = DgvExtensions.GetObjectsFromRows<SongData>(dgvSongsMaster);
             if (!selection.Any() && !tsmiDLFolderProcess.Checked)
@@ -2772,6 +2777,17 @@ namespace CustomsForgeSongManager.UControls
         {
             tsmiMods.ShowDropDown();
             tsmiAutoAdjustVolume.ShowDropDown();
+        }
+
+        private void tsmiChangeMonitoredFolders_Click(object sender, EventArgs e)
+        {
+            frmMonitoredFolders frmMonitoredFolders = new frmMonitoredFolders();
+            frmMonitoredFolders.Show();
+        }
+
+        private void tsmiChangeDestinationFolder_Click(object sender, EventArgs e)
+        {
+            FileTools.SetDLDestinationFolder();
         }
 
     }

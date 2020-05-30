@@ -197,6 +197,12 @@
     <Compile Include="Forms\frmCODLCReplacements.Designer.cs">
       <DependentUpon>frmCODLCReplacements.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\frmMonitoredFolders.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmMonitoredFolders.Designer.cs">
+      <DependentUpon>frmMonitoredFolders.cs</DependentUpon>
+    </Compile>
     <Compile Include="LocalTools\AudioNormalizer.cs" />
     <Compile Include="LocalTools\FileTools.cs" />
     <Compile Include="LocalTools\DynamicDifficulty.cs" />
@@ -419,6 +425,9 @@
     <EmbeddedResource Include="Forms\frmCODLCReplacements.resx">
       <DependentUpon>frmCODLCReplacements.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmMonitoredFolders.resx">
+      <DependentUpon>frmMonitoredFolders.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmProfileBackups.resx">
       <DependentUpon>frmProfileBackups.cs</DependentUpon>

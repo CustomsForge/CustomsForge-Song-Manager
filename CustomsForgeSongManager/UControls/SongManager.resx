@@ -335,6 +335,24 @@ three File IO related 'Actions'.</value>
   <metadata name="colDetailDDMax.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
+  <metadata name="colDetailKey.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="colDetailPID.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="colDetailArrangement.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="colDetailTuning.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="colDetailToneBase.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="colDetailDDMax.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
   <metadata name="colShowDetail.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
@@ -518,37 +536,6 @@ three File IO related 'Actions'.</value>
   <metadata name="menuStrip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 10</value>
   </metadata>
-  <data name="tsmiRescanQuick.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6
-        JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAABB0lEQVQ4T2P4//8/GEtPkvyPDTNHMcJp
-        mFpkDGeAFB39vwADwzTCDEE3CM4AYZCivg9BYFx13+N/6jk7FA0weWQxFM0gG2Ga8646YTUg5IApiiE4
-        NWMzAKZ2w9967Aag24zLAJDa9lf+YDkU29FtBdG4DGh44o1pADYb0bHhZj2wF8rvumMaQEgzumsJGgCS
-        A2EYG6au8IYL3LUEDQDJIaspueX6P+OCPVwtXCFy1MAwTGP320CwZpC/sy87/o8/aY1pAEgBKJEgGwIz
-        oPWFLzyKk07boKhBsQ3dGzADah95ofgbJg/CcAYIgzSAMEwRzACYv2OPW2G4EsUAGIYZAqOxYYja/wwA
-        unV8D+rHIG0AAAAASUVORK5CYII=
-</value>
-  </data>
-  <data name="tsmiRescanFull.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6
-        JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAACXBIWXMAAA3VAAAN1QE91ljxAAAC/UlE
-        QVQ4T22S60vTYRTHzc2MLlJaFiH9BRFBr0JDM7K0q3SBJAXflFD0psAMNMkwshBlQ9k0X7TUuetvc6k/
-        bdOpv13KXZy6i9NdtJym5mXw+yFjOz2PlG3ai+/zcA7nfDjf8zxxALAlqVxyhlDKhUheGSEN4RvHOB9d
-        F63NAxWw5QrZW1RMG4y6yNj4KExNucDhtIPJPBLBeaS3uO6/ANzcTXbRzkkHKNX6EE+qZbiSofAHBcWQ
-        lDW08HMevmj6NiE7AH/G3mxukvZvcCSUp0b8raKOsOW1dNtK2vosLpHatLG2vg6KTgW93U4cahbisZUa
-        Q6heMuypFE1kyPWzuUOOxWsi3ezlWqU7kxh2OPS2qRCyFFF0EsLtAK/dPg48yQBTLTRUCQb8F92B4J1f
-        a0yBzrVwE8cirbOE0FrpucAPNAXhjQHgbc9+90O9SBuuEo5cElIzOVbfSr4zELxNTSzdEGpnchp67FdE
-        anN4eXkJcH0MABM93mngy4aYN+2GSg7pzO4yB3JJ6/xVbKWJnMoWkKMlUo2J9vu9OyfAnsbGbZE+vS3U
-        KKfc5Z8s6fUq5/nmXv8FTpczu1o8ca6dNE4OfLVFrKNm/KSxO8BbRRB6PRgEwWfdBo+gXI1y44P3YlMe
-        XzXyUKDSuyW9usjMrB8IQgTNZZmNMQB84PdV96vplbVV0BhtoY+qYbqZGAy3dlO0Wm+O+Ge80NerAouB
-        hLbnJ2lOYWJ5DAD/MAzBk2A72Ov8/BxMT0+C2TISkcs7oLflCfi6nkHQT0F72aktyL9R4uLY/CbeWQQT
-        EwqZD28b/VCfRCYWc5+m87mF7ODgqxPgUT6Cdd8gCF+cpjlFiaV/m3cj7UdKTklJSc3Kyjqan59/DN84
-        xvnXt1hVnPvs4MDLVHBLisFDVgC3aM9iNCAJ6Qhu7OjoOM4wTBq+cYzzSAdq77EqGorYwZ7SJGh9nMwg
-        G63RFuKREnEhUkpCQsJhdB9E2ou0D+kQUlr59fh3dQWs1Zq7LEVxxq7k3wnYkGJfFq8nAAAAAElFTkSu
-        QmCC
-</value>
-  </data>
   <data name="tsmiRescan.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6
@@ -603,19 +590,6 @@ downloads folder are processed/repaired.
 NOTE: The CDLC downloads folder location
 may be reset from the 'Settings' tab menu.</value>
   </data>
-  <data name="tsmiDLFolderSupport.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAIAAACQkWg2AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6
-        JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAABpklEQVQ4T5WRP0jDQBTGRZykOJVOoYMU
-        BykdJDhI6FAyydGhBAcJHSQ4SHGQThIcpDgVBwkdSqaSsTiU4FCCQ+kkR4cSOpSjQzmcQicnKdYvzdk/
-        Fgc/juPl3vvl7ntva/ZPrQG8R9nAFx9/aAnwgU/bnt/3m3WH9RjtdJ2GLXIrEoDbcLotN5WUsJevS1Ii
-        Lh+m1JwaZVcVAm7LbdZsvEfLqySn4EQ5lhGAnNesSdxg3phRsCk+5iKaKwRoj8b2YqWizoY+VrftBWPe
-        ffWcusWHLKqDtygIATZkSlaRklL5Ui8ViHGuAZ5+TfVTVcmkjavwYQDYKITFk+gbDBCjQMpFDfvO9g7t
-        +3zM0Ab5SI5qvLaHXQAQG3E2DvDjYBKQMy2dkRFX7kz+HiBbfaxGZUug+ew6jSaKNheMLTq2BCBYNy4M
-        2qEfk/CqcH1O+YDpWcX9GeISgA3lRIknYjCt54mKeDdOcgRY9cFcNHftBkyQhKVy+kCCb8AYtl2z9bwm
-        Kn4BEFrsvrh23baeLPPWBJDal2BdpDeBVWGgVs2q3Jt+n4qj2ewbgANexJEBUR8AAAAASUVORK5CYII=
-</value>
-  </data>
   <data name="tsmiDLFolderMonitor.ToolTipText" xml:space="preserve">
     <value>If checked, automatically monitor the
 downloads folder for new CDLC then
@@ -649,6 +623,76 @@ or just use the 'Click to Donate' button.</value>
         hYQ3CK8QZhIeVygUgX8A1ROhyz3IC5sAAAAASUVORK5CYII=
 </value>
   </data>
+  <data name="tsmiFiles.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6
+        JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAArklEQVQ4T2P4//8/RRirICkYqyApGKsg
+        KRhMnFpsDsL/kTBMDC9GNgBILYJjEB8Pxm7Ar/cN/3+8DAVjEBsXRjYExYBvj9L+f75hDMZQRYQwqgHf
+        n2T9/3LbAiyJ7B1cGKIOyYAfL0vAgsguwYZB8iB1QIzqApj/QAZ9e+iKE8MswjAAhP987f//+1MmTgyS
+        B6mD6sE0AJtf0TEuA+CGEIFh6hEGUIKxChKP/zMAANUl4l77fa9/AAAAAElFTkSuQmCC
+</value>
+  </data>
+  <data name="tsmiHelp.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6
+        JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAACXBIWXMAAE4gAABOIAEWfZneAAACYklE
+        QVQ4T41Sy4uSURT/ql3/gEH0B0yLgghbWgsH2otCILWK2bVpU22CRJDazPgW38r4gGFQZzBBBR1FZYYZ
+        RxTxyQgq4rsWzRTq6ZzrJwwThAcOXs93f49z7uFuhs1me2y32z86nU6f3+9P+ny+JP73mc3mDxaL5RF/
+        7d9A4IbX6w0cHR1dNZvNxXA4XIzHYxiNRtDtdqFQKEA4HP6NZAGTybTBw5aBai8ODg467XZ7MZlMYDqd
+        wvHxMYjFYsDPIBKJAJ1AtVqFXC4Hu7u7faPR+HwFvh8KhS76/f6cgKsUCoUgl8uhVCoxEoFAwAjISSqV
+        AofD0UOSBxwevtRqtV8r5VVKJBLY2tqCXq/HCKRSKZTLZTg7O4N0Og2BQGCBBF85l8v1HXucU79Ecj2p
+        f51OBzKZDE5PT5mbk5MTSCQSgC0DEuQ5t9sdbbVaM1IaDAYMRElnqpF1sk3q+XweMpkMRKNR2N/fJ4IG
+        Z7VaTcVi8RJJAIcInU6HJZ2pVq/XGZhIaLCkfnh4CB6PB7RarZPD932K/UwqlcocZwGNRoOB6EwzoDw/
+        P2fWk8kkRCIR2NvbI/UrvV6/3AskeY+sP1BlTn1SoisG3tzcZE+3ApN1XKg/Go3mLQNTKBSK20jyGm1d
+        xOPxWTabXZBd/AVcLIjFYsw27QIqt9Vq9SuE3Vqir4XBYBDghXeoEMH9qOOAf+K0p8FgEHBTL1H1E4Lv
+        8df/HyqV6i4O6TOSdHHz6DkzSqXyDv95vUDFN/hKM1QHVP7Gl9cPBL3E2QBOe7y9vf2QL68fOzs7TzBj
+        mM/40o3guL8w2hsR0h+KvgAAAABJRU5ErkJggg==
+</value>
+  </data>
+  <data name="tsmiRescanQuick.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6
+        JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAABB0lEQVQ4T2P4//8/GEtPkvyPDTNHMcJp
+        mFpkDGeAFB39vwADwzTCDEE3CM4AYZCivg9BYFx13+N/6jk7FA0weWQxFM0gG2Ga8646YTUg5IApiiE4
+        NWMzAKZ2w9967Aag24zLAJDa9lf+YDkU29FtBdG4DGh44o1pADYb0bHhZj2wF8rvumMaQEgzumsJGgCS
+        A2EYG6au8IYL3LUEDQDJIaspueX6P+OCPVwtXCFy1MAwTGP320CwZpC/sy87/o8/aY1pAEgBKJEgGwIz
+        oPWFLzyKk07boKhBsQ3dGzADah95ofgbJg/CcAYIgzSAMEwRzACYv2OPW2G4EsUAGIYZAqOxYYja/wwA
+        unV8D+rHIG0AAAAASUVORK5CYII=
+</value>
+  </data>
+  <data name="tsmiRescanFull.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6
+        JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAACXBIWXMAAA3VAAAN1QE91ljxAAAC/UlE
+        QVQ4T22S60vTYRTHzc2MLlJaFiH9BRFBr0JDM7K0q3SBJAXflFD0psAMNMkwshBlQ9k0X7TUuetvc6k/
+        bdOpv13KXZy6i9NdtJym5mXw+yFjOz2PlG3ai+/zcA7nfDjf8zxxALAlqVxyhlDKhUheGSEN4RvHOB9d
+        F63NAxWw5QrZW1RMG4y6yNj4KExNucDhtIPJPBLBeaS3uO6/ANzcTXbRzkkHKNX6EE+qZbiSofAHBcWQ
+        lDW08HMevmj6NiE7AH/G3mxukvZvcCSUp0b8raKOsOW1dNtK2vosLpHatLG2vg6KTgW93U4cahbisZUa
+        Q6heMuypFE1kyPWzuUOOxWsi3ezlWqU7kxh2OPS2qRCyFFF0EsLtAK/dPg48yQBTLTRUCQb8F92B4J1f
+        a0yBzrVwE8cirbOE0FrpucAPNAXhjQHgbc9+90O9SBuuEo5cElIzOVbfSr4zELxNTSzdEGpnchp67FdE
+        anN4eXkJcH0MABM93mngy4aYN+2GSg7pzO4yB3JJ6/xVbKWJnMoWkKMlUo2J9vu9OyfAnsbGbZE+vS3U
+        KKfc5Z8s6fUq5/nmXv8FTpczu1o8ca6dNE4OfLVFrKNm/KSxO8BbRRB6PRgEwWfdBo+gXI1y44P3YlMe
+        XzXyUKDSuyW9usjMrB8IQgTNZZmNMQB84PdV96vplbVV0BhtoY+qYbqZGAy3dlO0Wm+O+Ge80NerAouB
+        hLbnJ2lOYWJ5DAD/MAzBk2A72Ov8/BxMT0+C2TISkcs7oLflCfi6nkHQT0F72aktyL9R4uLY/CbeWQQT
+        EwqZD28b/VCfRCYWc5+m87mF7ODgqxPgUT6Cdd8gCF+cpjlFiaV/m3cj7UdKTklJSc3Kyjqan59/DN84
+        xvnXt1hVnPvs4MDLVHBLisFDVgC3aM9iNCAJ6Qhu7OjoOM4wTBq+cYzzSAdq77EqGorYwZ7SJGh9nMwg
+        G63RFuKREnEhUkpCQsJhdB9E2ou0D+kQUlr59fh3dQWs1Zq7LEVxxq7k3wnYkGJfFq8nAAAAAElFTkSu
+        QmCC
+</value>
+  </data>
+  <data name="tsmiDLFolderSupport.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAIAAACQkWg2AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6
+        JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAABpklEQVQ4T5WRP0jDQBTGRZykOJVOoYMU
+        BykdJDhI6FAyydGhBAcJHSQ4SHGQThIcpDgVBwkdSqaSsTiU4FCCQ+kkR4cSOpSjQzmcQicnKdYvzdk/
+        Fgc/juPl3vvl7ntva/ZPrQG8R9nAFx9/aAnwgU/bnt/3m3WH9RjtdJ2GLXIrEoDbcLotN5WUsJevS1Ii
+        Lh+m1JwaZVcVAm7LbdZsvEfLqySn4EQ5lhGAnNesSdxg3phRsCk+5iKaKwRoj8b2YqWizoY+VrftBWPe
+        ffWcusWHLKqDtygIATZkSlaRklL5Ui8ViHGuAZ5+TfVTVcmkjavwYQDYKITFk+gbDBCjQMpFDfvO9g7t
+        +3zM0Ab5SI5qvLaHXQAQG3E2DvDjYBKQMy2dkRFX7kz+HiBbfaxGZUug+ew6jSaKNheMLTq2BCBYNy4M
+        2qEfk/CqcH1O+YDpWcX9GeISgA3lRIknYjCt54mKeDdOcgRY9cFcNHftBkyQhKVy+kCCb8AYtl2z9bwm
+        Kn4BEFrsvrh23baeLPPWBJDal2BdpDeBVWGgVs2q3Jt+n4qj2ewbgANexJEBUR8AAAAASUVORK5CYII=
+</value>
+  </data>
   <data name="tsmiModsChangeAppId.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6
@@ -666,6 +710,14 @@ or just use the 'Click to Donate' button.</value>
         c8fNAwP3aC4rzNpFLiHzZrOZF5YF1ul+A6JeKgWmgfTGAAAAAElFTkSuQmCC
 </value>
   </data>
+  <data name="tsmiCustomTitleTag.ToolTipText" xml:space="preserve">
+    <value>Add a Custom Title Tag to any selected song ... 
+As an example, for the song 'My Song', you can add the
+tag 'B Std' as a prefix, and it will end up as 'B Std My Song'.
+
+NOTE: in order to remove a tag, enter the tag in the 'Enter Title Tag'
+input box as you did when you added it, and then press 'Remove Tag'.</value>
+  </data>
   <data name="tsmiCustomTitleTagPrefix.ToolTipText" xml:space="preserve">
     <value>If this option is selected, Custom Title Tag will be used as a prefix ... 
 For example, if you tag a song named 'Heavy Rain' with tag 'Tagio', 
@@ -679,14 +731,6 @@ For example, if you tag a song named 'Heavy Rain' with tag 'Tagio',
 it will end up as, 'Heavy Rain Tagio'.
 
 Conversely, select to remove a tag that was used as a suffix.</value>
-  </data>
-  <data name="tsmiCustomTitleTag.ToolTipText" xml:space="preserve">
-    <value>Add a Custom Title Tag to any selected song ... 
-As an example, for the song 'My Song', you can add the
-tag 'B Std' as a prefix, and it will end up as 'B Std My Song'.
-
-NOTE: in order to remove a tag, enter the tag in the 'Enter Title Tag'
-input box as you did when you added it, and then press 'Remove Tag'.</value>
   </data>
   <data name="tsmiModsPitchShifter.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -864,15 +908,6 @@ were created using Setlist Manager.  Songs
 are not renamed during restore operations.
 </value>
   </data>
-  <data name="tsmiFiles.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6
-        JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAArklEQVQ4T2P4//8/RRirICkYqyApGKsg
-        KRhMnFpsDsL/kTBMDC9GNgBILYJjEB8Pxm7Ar/cN/3+8DAVjEBsXRjYExYBvj9L+f75hDMZQRYQwqgHf
-        n2T9/3LbAiyJ7B1cGKIOyYAfL0vAgsguwYZB8iB1QIzqApj/QAZ9e+iKE8MswjAAhP987f//+1MmTgyS
-        B6mD6sE0AJtf0TEuA+CGEIFh6hEGUIKxChKP/zMAANUl4l77fa9/AAAAAElFTkSuQmCC
-</value>
-  </data>
   <data name="tsmiHelpGeneral.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6
@@ -907,23 +942,6 @@ are not renamed during restore operations.
         JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAZElE
         QVQ4T6WMCw7AIAhDvf+lt5StphP8wF5SqUXbBq53rnBvEDDUGQnoNE8zLmYCn7teKgrDjJ6jiCtg607E
         vAZZXAH8iYh5DbK4AvgTEfMaZHEF8JFm2G71YMevAvzrBUW1dgMf7oN9XDTy9QAAAABJRU5ErkJggg==
-</value>
-  </data>
-  <data name="tsmiHelp.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6
-        JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAACXBIWXMAAE4gAABOIAEWfZneAAACYklE
-        QVQ4T41Sy4uSURT/ql3/gEH0B0yLgghbWgsH2otCILWK2bVpU22CRJDazPgW38r4gGFQZzBBBR1FZYYZ
-        RxTxyQgq4rsWzRTq6ZzrJwwThAcOXs93f49z7uFuhs1me2y32z86nU6f3+9P+ny+JP73mc3mDxaL5RF/
-        7d9A4IbX6w0cHR1dNZvNxXA4XIzHYxiNRtDtdqFQKEA4HP6NZAGTybTBw5aBai8ODg467XZ7MZlMYDqd
-        wvHxMYjFYsDPIBKJAJ1AtVqFXC4Hu7u7faPR+HwFvh8KhS76/f6cgKsUCoUgl8uhVCoxEoFAwAjISSqV
-        AofD0UOSBxwevtRqtV8r5VVKJBLY2tqCXq/HCKRSKZTLZTg7O4N0Og2BQGCBBF85l8v1HXucU79Ecj2p
-        f51OBzKZDE5PT5mbk5MTSCQSgC0DEuQ5t9sdbbVaM1IaDAYMRElnqpF1sk3q+XweMpkMRKNR2N/fJ4IG
-        Z7VaTcVi8RJJAIcInU6HJZ2pVq/XGZhIaLCkfnh4CB6PB7RarZPD932K/UwqlcocZwGNRoOB6EwzoDw/
-        P2fWk8kkRCIR2NvbI/UrvV6/3AskeY+sP1BlTn1SoisG3tzcZE+3ApN1XKg/Go3mLQNTKBSK20jyGm1d
-        xOPxWTabXZBd/AVcLIjFYsw27QIqt9Vq9SuE3Vqir4XBYBDghXeoEMH9qOOAf+K0p8FgEHBTL1H1E4Lv
-        8df/HyqV6i4O6TOSdHHz6DkzSqXyDv95vUDFN/hKM1QHVP7Gl9cPBL3E2QBOe7y9vf2QL68fOzs7TzBj
-        mM/40o3guL8w2hsR0h+KvgAAAABJRU5ErkJggg==
 </value>
   </data>
   <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">

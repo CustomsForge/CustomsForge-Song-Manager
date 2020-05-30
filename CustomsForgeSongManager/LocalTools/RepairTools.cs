@@ -27,7 +27,7 @@ namespace CustomsForgeSongManager.LocalTools
 {
     public class RepairTools
     {
-        private static FileSystemWatcher watcher;
+        private static List<FileSystemWatcher> watchers = new List<FileSystemWatcher>();
         private static bool addedDD;
         private static bool ddError;
         private static bool fixedMax5;
@@ -353,6 +353,16 @@ namespace CustomsForgeSongManager.LocalTools
             return true;
         }
 
+        private static List<string> GetSongListForAFolder(string dirPath)
+        {
+                return Directory.EnumerateFiles(dirPath, "*.psarc", SearchOption.TopDirectoryOnly)
+                .Where(fi => !fi.ToLower().Contains(Constants.RS1COMP) && // ignore compatibility packs
+                             !fi.ToLower().Contains(Constants.SONGPACK) && // ignore songpacks
+                             !fi.ToLower().Contains(Constants.ABVSONGPACK) && // ignore _sp_
+                             !fi.ToLower().Contains("inlay")) // ignore inlays
+                .ToList();
+        }
+
         // CAREFUL ... this is called from a background worker ... threading issues
         public static StringBuilder RepairSongs(List<SongData> songs, RepairOptions repairOptions)
         {
@@ -380,19 +390,11 @@ namespace CustomsForgeSongManager.LocalTools
             {
                 // TODO: maybe make sure new CDLC have been unzipped/unrar'd first
                 // AppSettings.Instance.DownloadsDir is (must be) validated before being used by the bWorker
-                var dlDirPath = AppSettings.Instance.DownloadsDir;
-                if (!String.IsNullOrEmpty(dlDirPath))
+                foreach(var dlDirPath in AppSettings.Instance.MonitoredFolders)
                 {
                     Globals.Log("Repairing CDLC files from: " + dlDirPath + " ...");
-                    srcFilePaths = Directory.EnumerateFiles(dlDirPath, "*.psarc", SearchOption.TopDirectoryOnly)
-                        .Where(fi => !fi.ToLower().Contains(Constants.RS1COMP) && // ignore compatibility packs
-                        !fi.ToLower().Contains(Constants.SONGPACK) && // ignore songpacks
-                        !fi.ToLower().Contains(Constants.ABVSONGPACK) && // ignore _sp_
-                        !fi.ToLower().Contains("inlay")) // ignore inlays
-                        .ToList();
+                    srcFilePaths.AddRange(GetSongListForAFolder(dlDirPath));
                 }
-                else
-                    Globals.Log("<ERROR> Downloads folder path is not set properly ...");
             }
             else
                 srcFilePaths = FileTools.SongFilePaths(songs);
@@ -459,13 +461,17 @@ namespace CustomsForgeSongManager.LocalTools
                 // move new CDLC from the downloads folder to the 'dlc/downloads' folder
                 if (options.DLFolderProcess)
                 {
-                    var downloadsFolder = Path.Combine(Constants.Rs2DlcFolder, "downloads");
-                    if (!Directory.Exists(downloadsFolder))
-                        Directory.CreateDirectory(downloadsFolder);
+                    string downloadsDestFolder = AppSettings.Instance.DLMonitorDesinationFolder;
 
-                    var destFilePath = Path.Combine(downloadsFolder, Path.GetFileName(srcFilePath));
+                    if (String.IsNullOrEmpty(downloadsDestFolder))
+                        downloadsDestFolder = Path.Combine(Constants.Rs2CdlcFolder, "downloads");
+
+                    if(!Directory.Exists(downloadsDestFolder))
+                        Directory.CreateDirectory(downloadsDestFolder);
+
+                    var destFilePath = Path.Combine(downloadsDestFolder, Path.GetFileName(srcFilePath));
                     GenExtensions.MoveFile(srcFilePath, destFilePath, false, true, repairOptions.SkipDuplicateFilesFromFolder);
-                    Globals.Log(" - Moved new CDLC to: " + downloadsFolder);
+                    Globals.Log(" - Moved new CDLC to: " + downloadsDestFolder);
                     Globals.ReloadSongManager = true; // set quick reload flag
 
                     // add new repaired downloads CDLC to the SongCollection
@@ -544,40 +550,48 @@ namespace CustomsForgeSongManager.LocalTools
         {
             if (repairOptions.DLFolderMonitor)
             {
-                if (!FileTools.ValidateDownloadsDir())
+                if (!FileTools.ValidateDownloadsDirs())
                     return;
 
-                // Create a new FileSystemWatcher and set its properties
-                watcher = new FileSystemWatcher();
-                watcher.Path = AppSettings.Instance.DownloadsDir;
-                // Watch for changes in LastAccess and LastWrite times and the renaming of files or directories ...
-                watcher.NotifyFilter = NotifyFilters.LastAccess | NotifyFilters.LastWrite
-                   | NotifyFilters.FileName | NotifyFilters.DirectoryName;
-                // Only watch psarc files.
-                watcher.Filter = "*.psarc";
-                // include subdirectories
-                watcher.IncludeSubdirectories = true;
+                foreach (string folder in AppSettings.Instance.MonitoredFolders)
+                {
+                    // Create a new FileSystemWatcher and set its properties
+                    var currentWatcher = new FileSystemWatcher();
+                    currentWatcher.Path = folder;
+                    // Watch for changes in LastAccess and LastWrite times and the renaming of files or directories ...
+                    currentWatcher.NotifyFilter = NotifyFilters.LastAccess | NotifyFilters.LastWrite
+                                                                           | NotifyFilters.FileName | NotifyFilters.DirectoryName;
+                    // Only watch psarc files.
+                    currentWatcher.Filter = "*.psarc";
+                    // include subdirectories
+                    currentWatcher.IncludeSubdirectories = true;
 
-                // Add event handlers
-                // watcher.Changed += new FileSystemEventHandler(OnChanged);
-                watcher.Created += new FileSystemEventHandler(OnChanged);
-                // watcher.Deleted += new FileSystemEventHandler(OnChanged);
-                // watcher.Renamed += new RenamedEventHandler(OnRenamed);
+                    // Add event handlers
+                    // watcher.Changed += new FileSystemEventHandler(OnChanged);
+                    currentWatcher.Created += new FileSystemEventHandler(OnChanged);
+                    // watcher.Deleted += new FileSystemEventHandler(OnChanged);
+                    // watcher.Renamed += new RenamedEventHandler(OnRenamed);
 
-                // Begin watching
-                watcher.EnableRaisingEvents = true;
-                Globals.Log(" - Started watching downloads folder for new incomming '*.psarc' files ...");
-                Globals.Log(" - Downloads Folder: " + AppSettings.Instance.DownloadsDir);
+                    // Begin watching
+                    currentWatcher.EnableRaisingEvents = true;
+                    watchers.Add(currentWatcher);
+
+                    Globals.Log(" - Started watching downloads folder for new incomming '*.psarc' files ...");
+                    Globals.Log(" - Folder: " + folder);
+                }
             }
             else
             {
-                if (watcher != null)
+                foreach (var watcher in watchers)
                 {
-                    watcher.EnableRaisingEvents = false;
-                    watcher.Created -= new FileSystemEventHandler(OnChanged);
-                    watcher.Dispose();
-                    watcher = null;
-                }
+                    if (watcher != null)
+                    {
+                        watcher.EnableRaisingEvents = false;
+                        watcher.Created -= new FileSystemEventHandler(OnChanged);
+                        watcher.Dispose();
+                        //watcher = null;
+                    }
+                }  
 
                 Globals.Log(" - Stopped watching downloads folder ...");
             }

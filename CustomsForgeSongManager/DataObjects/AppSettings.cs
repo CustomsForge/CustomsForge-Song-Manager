@@ -17,6 +17,7 @@ namespace CustomsForgeSongManager.DataObjects
         private string _rsProfileDir = String.Empty;
         private string _rsProfilePath = String.Empty;
         private string _downloadsDir = String.Empty;
+        private string _dlMonitorDesinationFolder = String.Empty;
         private bool _includeRS1CompSongs;
         private bool _includeRS2BaseSongs;
         private bool _includeCustomPacks;
@@ -51,7 +52,7 @@ namespace CustomsForgeSongManager.DataObjects
         private DateTime _lastODLCCheckDate;
         private RepairOptions _repairOptions;
         private AudioOptions _audioOptions;
-
+        
         [Browsable(false)]
         public string LogFilePath { get; set; }
 
@@ -77,6 +78,16 @@ namespace CustomsForgeSongManager.DataObjects
         {
             get { return _downloadsDir; }
             set { SetPropertyField("DownloadsDir", ref _downloadsDir, value); }
+        }
+
+        [XmlArray("MonitoredFolders")] 
+        [XmlArrayItem("Folder")]
+        public List<string> MonitoredFolders { get; set; }
+
+        public string DLMonitorDesinationFolder
+        {
+            get { return _dlMonitorDesinationFolder; }
+            set { SetPropertyField("DLMonitorDesinationFolder", ref _dlMonitorDesinationFolder, value); }
         }
 
         public bool IncludeRS1CompSongs
