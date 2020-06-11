@@ -563,7 +563,7 @@ namespace CustomsForgeSongManager.LocalTools
                     return;
 
                 AppSettings.Instance.DLMonitorDesinationFolder = fbd.SelectedPath;
-                Globals.Log("- Downloads monitoring folder set to: " + fbd.SelectedPath);
+                Globals.Log("- Downloads destination folder set to: " + fbd.SelectedPath);
                 Globals.Settings.SaveSettingsToFile(Globals.DgvCurrent);
             }
         }

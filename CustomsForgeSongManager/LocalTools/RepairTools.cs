@@ -393,7 +393,10 @@ namespace CustomsForgeSongManager.LocalTools
                 foreach(var dlDirPath in AppSettings.Instance.MonitoredFolders)
                 {
                     Globals.Log("Repairing CDLC files from: " + dlDirPath + " ...");
-                    srcFilePaths.AddRange(GetSongListForAFolder(dlDirPath));
+                    if(Directory.Exists(dlDirPath))
+                        srcFilePaths.AddRange(GetSongListForAFolder(dlDirPath));
+                    else
+                        Globals.Log("Folder: " + dlDirPath + " does not currently exist.");
                 }
             }
             else
@@ -470,7 +473,7 @@ namespace CustomsForgeSongManager.LocalTools
                         Directory.CreateDirectory(downloadsDestFolder);
 
                     var destFilePath = Path.Combine(downloadsDestFolder, Path.GetFileName(srcFilePath));
-                    GenExtensions.MoveFile(srcFilePath, destFilePath, false, true, repairOptions.SkipDuplicateFilesFromFolder);
+                    GenExtensions.MoveFile(srcFilePath, destFilePath, false, true, repairOptions.SkipDupes);
                     Globals.Log(" - Moved new CDLC to: " + downloadsDestFolder);
                     Globals.ReloadSongManager = true; // set quick reload flag
 
@@ -555,6 +558,9 @@ namespace CustomsForgeSongManager.LocalTools
 
                 foreach (string folder in AppSettings.Instance.MonitoredFolders)
                 {
+                    if (!Directory.Exists(folder)) //If the folder does not currently exist (i.e. if it's maybe a network folder that's not connected), FSW will throw an Argument Exception
+                        continue;
+
                     // Create a new FileSystemWatcher and set its properties
                     var currentWatcher = new FileSystemWatcher();
                     currentWatcher.Path = folder;
@@ -714,7 +720,7 @@ namespace CustomsForgeSongManager.LocalTools
         //
         public bool DLFolderProcess { get; set; }
         public bool DLFolderMonitor { get; set; }
-        public bool SkipDuplicateFilesFromFolder { get; set; }
+        public bool SkipDupes { get; set; }
     }
 
 }

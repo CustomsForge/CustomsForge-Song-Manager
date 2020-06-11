@@ -346,6 +346,12 @@ namespace CustomsForgeSongManager.LocalTools
 
                 if (AppSettings.Instance.EnableQuarantine)
                 {
+                    if (ex.Message.Contains("xblock file"))
+                    {
+                        Globals.Log("Assuming the current file is not a song psarc, skipping the quarantine process...");
+                        return;
+                    }
+                        
                     var corFileName = String.Format("{0}{1}", Path.GetFileName(filePath), ".cor");
                     var corFilePath = Path.Combine(Constants.QuarantineFolder, corFileName);
 

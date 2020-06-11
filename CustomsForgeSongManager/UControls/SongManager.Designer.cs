@@ -166,7 +166,9 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiFixAppId = new CustomControls.ToolStripEnhancedMenuItem();
             this.toolStripSeparator10 = new System.Windows.Forms.ToolStripSeparator();
             this.tsmiDLFolderProcess = new CustomControls.ToolStripEnhancedMenuItem();
-            this.tsmiSkipDuplicatesFromDLFolder = new CustomControls.ToolStripEnhancedMenuItem();
+            this.tsmiChangeMonitoredFolders = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiChangeDestinationFolder = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiSkipDupes = new CustomControls.ToolStripEnhancedMenuItem();
             this.tsmiDLFolderMonitor = new CustomControls.ToolStripEnhancedMenuItem();
             this.tsmiDLFolderSupport = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator13 = new System.Windows.Forms.ToolStripSeparator();
@@ -229,8 +231,6 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiHelpRepairs = new CustomControls.ToolStripEnhancedMenuItem();
             this.tsmiHelpErrorLog = new CustomControls.ToolStripEnhancedMenuItem();
             this.tsmiDevUseOnly = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmiChangeMonitoredFolders = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmiChangeDestinationFolder = new System.Windows.Forms.ToolStripMenuItem();
             this.panelSearch.SuspendLayout();
             this.gb_Main_Search.SuspendLayout();
             this.cmsSongManager.SuspendLayout();
@@ -1272,7 +1272,7 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiDLFolderProcess,
             this.tsmiChangeMonitoredFolders,
             this.tsmiChangeDestinationFolder,
-            this.tsmiSkipDuplicatesFromDLFolder,
+            this.tsmiSkipDupes,
             this.tsmiDLFolderMonitor,
             this.toolStripSeparator13,
             this.tsmiRepairsRun});
@@ -1693,15 +1693,29 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiDLFolderProcess.ToolTipText = resources.GetString("tsmiDLFolderProcess.ToolTipText");
             this.tsmiDLFolderProcess.Click += new System.EventHandler(this.RepairsButton_Click);
             // 
-            // tsmiSkipDuplicatesFromDLFolder
+            // tsmiChangeMonitoredFolders
             // 
-            this.tsmiSkipDuplicatesFromDLFolder.AssociatedEnumValue = null;
-            this.tsmiSkipDuplicatesFromDLFolder.CheckOnClick = true;
-            this.tsmiSkipDuplicatesFromDLFolder.Name = "tsmiSkipDuplicatesFromDLFolder";
-            this.tsmiSkipDuplicatesFromDLFolder.RadioButtonGroupName = null;
-            this.tsmiSkipDuplicatesFromDLFolder.Size = new System.Drawing.Size(251, 22);
-            this.tsmiSkipDuplicatesFromDLFolder.Text = "Skip Duplicates From DL Folder";
-            this.tsmiSkipDuplicatesFromDLFolder.CheckStateChanged += new System.EventHandler(this.Repairs_CheckStateChanged);
+            this.tsmiChangeMonitoredFolders.Name = "tsmiChangeMonitoredFolders";
+            this.tsmiChangeMonitoredFolders.Size = new System.Drawing.Size(251, 22);
+            this.tsmiChangeMonitoredFolders.Text = "Change Monitored Folders";
+            this.tsmiChangeMonitoredFolders.Click += new System.EventHandler(this.tsmiChangeMonitoredFolders_Click);
+            // 
+            // tsmiChangeDestinationFolder
+            // 
+            this.tsmiChangeDestinationFolder.Name = "tsmiChangeDestinationFolder";
+            this.tsmiChangeDestinationFolder.Size = new System.Drawing.Size(251, 22);
+            this.tsmiChangeDestinationFolder.Text = "Change Destination Folder";
+            this.tsmiChangeDestinationFolder.Click += new System.EventHandler(this.tsmiChangeDestinationFolder_Click);
+            // 
+            // tsmiSkipDupes
+            // 
+            this.tsmiSkipDupes.AssociatedEnumValue = null;
+            this.tsmiSkipDupes.CheckOnClick = true;
+            this.tsmiSkipDupes.Name = "tsmiSkipDupes";
+            this.tsmiSkipDupes.RadioButtonGroupName = "ProcessDLFolder";
+            this.tsmiSkipDupes.Size = new System.Drawing.Size(251, 22);
+            this.tsmiSkipDupes.Text = "Skip Duplicates From DL Folder";
+            this.tsmiSkipDupes.CheckStateChanged += new System.EventHandler(this.Repairs_CheckStateChanged);
             // 
             // tsmiDLFolderMonitor
             // 
@@ -2382,20 +2396,6 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiDevUseOnly.Text = "Dev Use Only";
             this.tsmiDevUseOnly.Click += new System.EventHandler(this.tsmiDevUseOnly_Click);
             // 
-            // tsmiChangeMonitoredFolders
-            // 
-            this.tsmiChangeMonitoredFolders.Name = "tsmiChangeMonitoredFolders";
-            this.tsmiChangeMonitoredFolders.Size = new System.Drawing.Size(251, 22);
-            this.tsmiChangeMonitoredFolders.Text = "Change Monitored Folders";
-            this.tsmiChangeMonitoredFolders.Click += new System.EventHandler(this.tsmiChangeMonitoredFolders_Click);
-            // 
-            // tsmiChangeDestinationFolder
-            // 
-            this.tsmiChangeDestinationFolder.Name = "tsmiChangeDestinationFolder";
-            this.tsmiChangeDestinationFolder.Size = new System.Drawing.Size(251, 22);
-            this.tsmiChangeDestinationFolder.Text = "Change Destination Folder";
-            this.tsmiChangeDestinationFolder.Click += new System.EventHandler(this.tsmiChangeDestinationFolder_Click);
-            // 
             // SongManager
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -2606,7 +2606,7 @@ namespace CustomsForgeSongManager.UControls
         private CustomControls.ToolStripNumericUpDown tsmiTargetToneVolume;
         private CustomControls.ToolStripNumericUpDown tsmiTargetLUFS;
         private CustomControls.ToolStripNumericUpDown tsmiCorrectionFactor;
-        private CustomControls.ToolStripEnhancedMenuItem tsmiSkipDuplicatesFromDLFolder;
+        private CustomControls.ToolStripEnhancedMenuItem tsmiSkipDupes;
         private ToolStripMenuItem tsmiChangeMonitoredFolders;
         private ToolStripMenuItem tsmiChangeDestinationFolder;
     }

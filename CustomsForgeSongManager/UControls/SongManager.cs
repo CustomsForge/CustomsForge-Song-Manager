@@ -292,7 +292,7 @@ namespace CustomsForgeSongManager.UControls
             ro.FixAppId = tsmiFixAppId.Checked;
             ro.DLFolderProcess = tsmiDLFolderProcess.Checked;
             ro.DLFolderMonitor = tsmiDLFolderMonitor.Checked;
-            ro.SkipDuplicateFilesFromFolder = tsmiSkipDuplicatesFromDLFolder.Checked;
+            ro.SkipDupes = tsmiSkipDupes.Checked;
 
             AppSettings.Instance.RepairOptions = ro;
             return ro;
@@ -496,9 +496,10 @@ namespace CustomsForgeSongManager.UControls
 
             ignoreCheckStateChanged = false;
 
+            tsmiSkipDupes.Checked = AppSettings.Instance.RepairOptions.SkipDupes; //NOTE: make sure that all other (new) repair options are set before tsmiDLFolderMonitor.Checked is set, because it calls a different OnCheckedChanged Event (which starts the Monitoring Process) and which will mess up saved settings
+
             // starts/stops DL folder monitoring
             tsmiDLFolderMonitor.Checked = AppSettings.Instance.RepairOptions.DLFolderMonitor;
-            tsmiSkipDuplicatesFromDLFolder.Checked = AppSettings.Instance.RepairOptions.SkipDuplicateFilesFromFolder;
         }
 
         private void IncludeSubfolders(bool clearSearchBox = true)
@@ -2789,7 +2790,6 @@ namespace CustomsForgeSongManager.UControls
         {
             FileTools.SetDLDestinationFolder();
         }
-
     }
 }
 
