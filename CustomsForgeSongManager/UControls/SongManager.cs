@@ -72,30 +72,30 @@ namespace CustomsForgeSongManager.UControls
             tsmiCorrectionFactor.Maximum = (decimal)1.0;
             tsmiCorrectionFactor.Minimum = (decimal)-1.0;
             //
-            tsmiCorrectionMultiplier.DecimalValue = (decimal) -1.0;
-            tsmiCorrectionMultiplier.Increment = (decimal) 0.1;
-            tsmiCorrectionMultiplier.Maximum = (decimal) 5.0;
-            tsmiCorrectionMultiplier.Minimum = (decimal) -5.0;
+            tsmiCorrectionMultiplier.DecimalValue = (decimal)-1.0;
+            tsmiCorrectionMultiplier.Increment = (decimal)0.1;
+            tsmiCorrectionMultiplier.Maximum = (decimal)5.0;
+            tsmiCorrectionMultiplier.Minimum = (decimal)-5.0;
             //
-            tsmiTargetAudioVolume.DecimalValue = (decimal) -7.0;
-            tsmiTargetAudioVolume.Increment = (decimal) 0.1;
-            tsmiTargetAudioVolume.Maximum = (decimal) 30.0;
-            tsmiTargetAudioVolume.Minimum = (decimal) -30.0;
+            tsmiTargetAudioVolume.DecimalValue = (decimal)-7.0;
+            tsmiTargetAudioVolume.Increment = (decimal)0.1;
+            tsmiTargetAudioVolume.Maximum = (decimal)30.0;
+            tsmiTargetAudioVolume.Minimum = (decimal)-30.0;
             //
-            tsmiTargetPreviewVolume.DecimalValue = (decimal) -5.0;
-            tsmiTargetPreviewVolume.Increment = (decimal) 0.1;
-            tsmiTargetPreviewVolume.Maximum = (decimal) 30.0;
-            tsmiTargetPreviewVolume.Minimum = (decimal) -30.0;
+            tsmiTargetPreviewVolume.DecimalValue = (decimal)-5.0;
+            tsmiTargetPreviewVolume.Increment = (decimal)0.1;
+            tsmiTargetPreviewVolume.Maximum = (decimal)30.0;
+            tsmiTargetPreviewVolume.Minimum = (decimal)-30.0;
             //
-            tsmiTargetToneVolume.DecimalValue = (decimal) -20.0;
-            tsmiTargetToneVolume.Increment = (decimal) 0.1;
-            tsmiTargetToneVolume.Maximum = (decimal) 30.0;
-            tsmiTargetToneVolume.Minimum = (decimal) -30.0;
+            tsmiTargetToneVolume.DecimalValue = (decimal)-20.0;
+            tsmiTargetToneVolume.Increment = (decimal)0.1;
+            tsmiTargetToneVolume.Maximum = (decimal)30.0;
+            tsmiTargetToneVolume.Minimum = (decimal)-30.0;
             //
-            tsmiTargetLUFS.DecimalValue = (decimal) -16.0;
-            tsmiTargetLUFS.Increment = (decimal) 0.1;
-            tsmiTargetLUFS.Maximum = (decimal) 30.0;
-            tsmiTargetLUFS.Minimum = (decimal) -30.0;
+            tsmiTargetLUFS.DecimalValue = (decimal)-16.0;
+            tsmiTargetLUFS.Increment = (decimal)0.1;
+            tsmiTargetLUFS.Maximum = (decimal)30.0;
+            tsmiTargetLUFS.Minimum = (decimal)-30.0;
             //
             dgvSongsDetail.Visible = false;
             // TODO: future get Ignition based API data

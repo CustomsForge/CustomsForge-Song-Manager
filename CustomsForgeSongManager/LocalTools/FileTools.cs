@@ -89,9 +89,14 @@ namespace CustomsForgeSongManager.LocalTools
                              "version numbers directly into the Duplicates grid," + Environment.NewLine +
                              "or use the Duplicates linkbutton 'Select All Older" + Environment.NewLine +
                              "By ToolkitVersion' to put songs into the correct" + Environment.NewLine +
-                             "order to be moved or deleted ...";
+                             "order to be moved or deleted ..." + Environment.NewLine + Environment.NewLine +
+                             "NOTE: if the game runs fine with your current song set and the Duplicates tab doesn't show any entries " +
+                             Environment.NewLine +
+                             "go through the song list and check if you have multiple versions of the same song that are marked with same PackageVersion" 
+                             + Environment.NewLine + "and change those! (Right click->Edit Song Information)";
+
                 BetterDialog2.ShowDialog(diaMsg, "Organize Songs ...", null, null, "Ok", Bitmap.FromHicon(SystemIcons.Warning.Handle), "Warning", 0, 150);
-                Globals.CancelBackgroundScan = true;
+                //Globals.CancelBackgroundScan = true; TODO: determine whether this should actually be disabled - if it's not, it messes up with Duplicates, resulting in those not showing while they are actually present
                 return;
             }
 

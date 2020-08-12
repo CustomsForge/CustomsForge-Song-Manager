@@ -163,6 +163,12 @@ namespace CustomsForgeSongManager.UControls
             }
             else
             {
+                if (File.GetCreationTime(d3dPath) >= new DateTime(2020, 7, 1)) // If the user is using a RSMods new D3DX9_42.dll version
+                {
+                    AppSettings.Instance.ValidateD3D = false;
+                    return true;
+                }
+
                 // verify correct dll is installed using MD5 Hash
                 var d3dFileMD5 = GenExtensions.GetMD5Hash(d3dPath);
                 var d3dNewMD5 = GenExtensions.GetMD5Hash(Path.Combine(Constants.ApplicationFolder, "D3DX9_42.dll.new"));

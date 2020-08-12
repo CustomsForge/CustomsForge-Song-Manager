@@ -36,7 +36,7 @@ using System.Globalization;
 // NOTE: for Mac compatiblity use absolute paths ... do not use generic/relative @"./" paths 
 //
 namespace CustomsForgeSongManager.Forms
-{ 
+{
     public partial class frmMain : Form, IMainForm //,ThemedForm
     {
         private static Point UCLocation = new Point(5, 10);
@@ -61,7 +61,6 @@ namespace CustomsForgeSongManager.Forms
         private const string SERVER_URL = "http://ignition.customsforge.com/cfsm_uploads";
         private const string APP_ARCHIVE = "CFSMSetup.rar";
 #endif
-
 
         public frmMain(DLogNet.DLogger myLog)
         {

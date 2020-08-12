@@ -13,6 +13,11 @@ until you can confirm it is safe by working directly with your AV provider.
 ========================================================================
 
 CFSM Release Notes
+1.5.8.2
+- auto D3DX9_42.dll will now ignore any RSMods version of the DLLs
+- fixed the auto-update option
+- fixed the issue where using Organize function while duplicate songs were present would mess up duplicate detection
+
 1.5.8.1
 - auto-quarantine should now ignore inlays
 - fixed the problem where 'Skip Duplicates From DL Folder' option would not remain checked on restart

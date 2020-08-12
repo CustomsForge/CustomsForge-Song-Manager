@@ -18,6 +18,7 @@ using Arrangement = RocksmithToolkitLib.DLCPackage.Arrangement;
 using System.Threading;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using MiscUtil.Collections.Extensions;
 using RocksmithToolkitLib.PSARC;
 
 //
@@ -355,12 +356,15 @@ namespace CustomsForgeSongManager.LocalTools
 
         private static List<string> GetSongListForAFolder(string dirPath)
         {
-                return Directory.EnumerateFiles(dirPath, "*.psarc", SearchOption.TopDirectoryOnly)
+            var songListInFolder = Directory.EnumerateFiles(dirPath, "*.psarc", SearchOption.TopDirectoryOnly)
                 .Where(fi => !fi.ToLower().Contains(Constants.RS1COMP) && // ignore compatibility packs
                              !fi.ToLower().Contains(Constants.SONGPACK) && // ignore songpacks
                              !fi.ToLower().Contains(Constants.ABVSONGPACK) && // ignore _sp_
-                             !fi.ToLower().Contains("inlay")) // ignore inlays
-                .ToList();
+                             !fi.ToLower().Contains("inlay")).ToList(); // ignore inlays
+
+            Globals.Log("Number of song .psarcs found in " + dirPath + " folder: " + songListInFolder.Count().ToString());
+
+            return songListInFolder;
         }
 
         // CAREFUL ... this is called from a background worker ... threading issues
@@ -390,10 +394,10 @@ namespace CustomsForgeSongManager.LocalTools
             {
                 // TODO: maybe make sure new CDLC have been unzipped/unrar'd first
                 // AppSettings.Instance.DownloadsDir is (must be) validated before being used by the bWorker
-                foreach(var dlDirPath in AppSettings.Instance.MonitoredFolders)
+                foreach (var dlDirPath in AppSettings.Instance.MonitoredFolders)
                 {
                     Globals.Log("Repairing CDLC files from: " + dlDirPath + " ...");
-                    if(Directory.Exists(dlDirPath))
+                    if (Directory.Exists(dlDirPath))
                         srcFilePaths.AddRange(GetSongListForAFolder(dlDirPath));
                     else
                         Globals.Log("Folder: " + dlDirPath + " does not currently exist.");
@@ -469,7 +473,7 @@ namespace CustomsForgeSongManager.LocalTools
                     if (String.IsNullOrEmpty(downloadsDestFolder))
                         downloadsDestFolder = Path.Combine(Constants.Rs2CdlcFolder, "downloads");
 
-                    if(!Directory.Exists(downloadsDestFolder))
+                    if (!Directory.Exists(downloadsDestFolder))
                         Directory.CreateDirectory(downloadsDestFolder);
 
                     var destFilePath = Path.Combine(downloadsDestFolder, Path.GetFileName(srcFilePath));
@@ -597,7 +601,7 @@ namespace CustomsForgeSongManager.LocalTools
                         watcher.Dispose();
                         //watcher = null;
                     }
-                }  
+                }
 
                 Globals.Log(" - Stopped watching downloads folder ...");
             }
