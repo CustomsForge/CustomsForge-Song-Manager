@@ -13,6 +13,9 @@ until you can confirm it is safe by working directly with your AV provider.
 ========================================================================
 
 CFSM Release Notes
+1.5.8.3
+- fixed the bug due to expired RSTK lib shelf life
+
 1.5.8.2
 - auto D3DX9_42.dll will now ignore any RSMods version of the DLLs
 - fixed the auto-update option
