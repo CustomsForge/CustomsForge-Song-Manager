@@ -89,10 +89,10 @@ namespace CustomsForgeSongManager.LocalTools
                 // TODO: see customsforge.com/topic/41503-1416-pitch-shifter-mod-wrong-pitch-for-drop-tuning/#entry268144
                 // determine that this actually works as intended (i.e. a song in D Std. gets shifted for 2 half steps up to E Std, a Drop C song to Drop D, etc.)
                 if (!arr.Tuning.Contains("Bonus") && arr.ArrangementType != ArrangementType.Bass)
-                    gitShift = arr.TuningStrings.String0;
+                    gitShift = arr.TuningStrings.String5;
 
                 if (!arr.Tuning.Contains("Bonus") && arr.ArrangementType == ArrangementType.Bass)
-                    bassShift = arr.TuningStrings.String0;
+                    bassShift = arr.TuningStrings.String3;
 
                 // option to force tuning to E Standard (prevents having to retune)
                 if (arr.Tuning.Contains("Standard") || forceStdTuning)
