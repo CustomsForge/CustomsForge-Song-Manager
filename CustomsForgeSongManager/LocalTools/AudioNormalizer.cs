@@ -97,7 +97,7 @@ namespace CustomsForgeSongManager.LocalTools
                 cmdWin = new frmNoteViewer();
                 cmdWin.Size = new Size(500, 500);
                 cmdWin.StartPosition = FormStartPosition.CenterScreen;
-                cmdWin.TopMost = true;
+                cmdWin.TopMost = false; // With this being true, it's glued to the top and probably that's not the best option for a good UX
                 cmdWin.Text = "CFSM Third Party Application Process Window ...";
                 cmdWin.rtbBlank.BackColor = Color.Black;
                 cmdWin.rtbText.BackColor = Color.Black;
@@ -353,9 +353,17 @@ namespace CustomsForgeSongManager.LocalTools
             {
                 GenExtensions.InvokeIfRequired(cmdWin, a =>
                 {
-                    cmdWin.rtbText.Text += Environment.NewLine + line;
-                    cmdWin.rtbText.SelectionStart = cmdWin.rtbText.Text.Length;
-                    cmdWin.rtbText.ScrollToCaret();
+                    try
+                    {
+                        cmdWin.rtbText.Text += Environment.NewLine + line;
+                        cmdWin.rtbText.SelectionStart = cmdWin.rtbText.Text.Length;
+                       // cmdWin.rtbText.ScrollToCaret();
+                    }
+                    catch (AccessViolationException)
+                    {
+                        Globals.Log("Error: ACE exception");
+                    }
+                    
                     Application.DoEvents();
                 });
             }
