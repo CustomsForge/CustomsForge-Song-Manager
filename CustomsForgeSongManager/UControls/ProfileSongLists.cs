@@ -21,6 +21,7 @@ using System.Security.Principal;
 using System.Reflection;
 using UserProfileLib.Objects;
 using System.Text;
+using Microsoft.Win32;
 
 
 namespace CustomsForgeSongManager.UControls
@@ -319,8 +320,52 @@ namespace CustomsForgeSongManager.UControls
             }
         }
 
+        private string GetSteamDirectory()
+        {
+            const string steamRegPath = @"HKEY_CURRENT_USER\SOFTWARE\Valve\Steam";
+
+            try
+            {
+                var retValue = (string)Registry.GetValue(steamRegPath, "SteamPath", "");
+                return retValue == null ? String.Empty : retValue.Replace('/', '\\');
+            }
+            catch (Exception)
+            {
+                return String.Empty;
+            }
+        }
+
+        private string GetSteamProfileList()
+        {
+            string steamUserdataPath = Path.Combine(GetSteamDirectory(), "userdata");
+            try
+            {
+                var subdirs = new DirectoryInfo(steamUserdataPath).GetDirectories(@"221680", SearchOption.AllDirectories).ToArray();
+                var userprofileFolder = subdirs.FirstOrDefault(dir => !dir.FullName.Contains("760")); //760 is the ID for Steam's screenshot thingy
+
+                if (Directory.Exists(userprofileFolder.FullName))
+                {
+                    var profileFiles = Directory.EnumerateFiles(userprofileFolder.FullName, "LocalProfiles.json", SearchOption.AllDirectories).ToList();
+
+                    if (profileFiles.Count() != 0)
+                        return profileFiles[0];
+                }
+                else
+                    Globals.Log("Could not find profile folder!");
+            }
+            catch (IOException ioex)
+            {
+                Globals.Log(String.Format("Could not find Steam profiles folder: {0}", ioex.Message));
+            }
+
+            return string.Empty;
+        }
+
         private void LoadLocalProfiles()
         {
+            if(_localProfilesPath == null) // Ya...
+                _localProfilesPath = GetSteamProfileList();
+
             using (var form = new frmLocalProfiles(_localProfilesPath))
             {
                 if (DialogResult.OK != form.ShowDialog())
@@ -977,7 +1022,7 @@ namespace CustomsForgeSongManager.UControls
             {
                 grid.Rows[e.RowIndex].Selected = true;
                 cmsAdd.Enabled = grid == dgvSongListMaster ? true : false;
-                cmsRemove.Enabled = grid == dgvSongListMaster ? false : true;
+                cmsRemove.Enabled = grid != dgvSongListMaster;
                 cmsShow.Enabled = grid == dgvSongListMaster ? true : false;
                 cmsEnableDisable.Enabled = grid == dgvSongListMaster ? true : false;
 
@@ -1039,7 +1084,8 @@ namespace CustomsForgeSongManager.UControls
                     if (Convert.ToBoolean(grid.Rows[e.RowIndex].Cells["colGameSongListsSelect"].Value))
                     {
                         grid.Rows[e.RowIndex].Cells["colGameSongListsSelect"].Value = false;
-                        var selected = dgvGameSongLists.Rows.Cast<DataGridViewRow>().FirstOrDefault(slr => Convert.ToBoolean(slr.Cells["colGameSongListsSelect"].Value));
+                        var selected = dgvGameSongLists.Rows.Cast<DataGridViewRow>().FirstOrDefault(slr =>
+                            Convert.ToBoolean(slr.Cells["colGameSongListsSelect"].Value));
 
                         if (selected == null)
                             curSongListsName = String.Empty;
@@ -1061,6 +1107,16 @@ namespace CustomsForgeSongManager.UControls
                 }
 
                 grid.EndEdit();
+            }
+            else if (e.Button == MouseButtons.Right)
+            {
+                if (e.Button == MouseButtons.Right)
+                {
+                    grid.Rows[e.RowIndex].Selected = true;
+
+                    cmsSongLists.Tag = grid;
+                    cmsSongLists.Show(Cursor.Position);
+                }
             }
         }
 
@@ -1252,5 +1308,80 @@ namespace CustomsForgeSongManager.UControls
             Globals.Log("Profile Song Lists GUI Deactivated ...");
         }
 
+        private void cmsExportSongList_Click(object sender, EventArgs e)
+        {
+            ExportSongList(1);
+        }
+
+        private void ExportSongList(int exportType)
+        {
+            var selectedRow = dgvGameSongLists.Rows.Cast<DataGridViewRow>().FirstOrDefault(slr => slr.Selected);
+            if (selectedRow == null)
+                return;
+
+            const string noMatchingSongs = "Unknown";
+            var currentSongListSongs = new List<SongData>();
+
+            foreach (var dlcKey in _gameSongLists[selectedRow.Index])
+            {
+                SongData sd = Globals.MasterCollection.FirstOrDefault(x => x.DLCKey == dlcKey);
+
+                if (sd == null)
+                {
+                    sd = new SongData()
+                    {
+                        Artist = noMatchingSongs,
+                        Album = noMatchingSongs,
+                        Title = noMatchingSongs
+                    };
+                }
+
+                currentSongListSongs.Add(sd);
+            }
+
+            if (exportType == 1) // CSV
+            {
+                try
+                {
+                    var sbCSV = new StringBuilder();
+                    char csvSep = ';';
+
+                    sbCSV.AppendLine(String.Format(@"sep={0}", csvSep)); // used by Excel to recognize seperator if Encoding.Unicode is used
+                    sbCSV.AppendLine(String.Format(@"Artist{0}Song{1}Album{2}", csvSep, csvSep, csvSep));
+
+                    string s = "";
+                    foreach (var songData in currentSongListSongs)
+                    {
+                        s = String.Format(@"{0}{1}{2}{3}{4}", songData.Artist,
+                            csvSep, songData.Title, csvSep, songData.Album, csvSep);
+                        sbCSV.AppendLine(s.Trim(new char[] { csvSep, ' ' }));
+                    }
+
+
+                    var fileName = String.Format("{0}List.csv", selectedRow.Cells["colGameSongLists"].Value);
+                    var path = Path.Combine(Constants.WorkFolder, fileName);
+                    using (var sfd = new SaveFileDialog())
+                    {
+                        sfd.Filter = "csv files(*.csv)|*.csv|All files (*.*)|*.*";
+                        sfd.FileName = path;
+
+                        if (sfd.ShowDialog() != DialogResult.OK)
+                            return;
+
+                        path = sfd.FileName;
+                    }
+
+                    using (StreamWriter file = new StreamWriter(path, false, Encoding.Unicode))
+                        file.Write(sbCSV.ToString());
+
+                    Globals.Log("Song list data saved to:" + "");
+                    GenExtensions.PromptOpen(Path.GetDirectoryName(path), "Song list saved...");
+                }
+                catch (IOException ex)
+                {
+                    Globals.Log("<Error>: " + ex.Message);
+                }
+            }
+        }
     }
 }

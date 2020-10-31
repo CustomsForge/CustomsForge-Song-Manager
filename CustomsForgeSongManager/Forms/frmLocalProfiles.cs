@@ -22,6 +22,13 @@ namespace CustomsForgeSongManager.Forms
             tt.InitialDelay = 200;
             tt.ReshowDelay = 2000;
             LocalProfilesPath = localProfilesPath;
+
+            if (UserProfiles.IsLocalProfilesFile(LocalProfilesPath))
+            {
+                txtLocalProfiles.ForeColor = Color.Black;
+                txtLocalProfiles.Text = LocalProfilesPath;
+                LoadLocalProfilesGrid(LocalProfilesPath);
+            }
         }
 
         public string LocalProfilesPath { get; set; }
