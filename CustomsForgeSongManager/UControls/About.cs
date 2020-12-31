@@ -21,8 +21,8 @@ namespace CustomsForgeSongManager.UControls
             PopulateAbout(); // only done one time
 
             // display Christmas logo
-            if (DateTimeExtensions.TisTheSeason())
-                this.picCF.Image = CustomsForgeSongManager.Properties.Resources.christmas;
+            //if (DateTimeExtensions.TisTheSeason())
+                //this.picCF.Image = CustomsForgeSongManager.Properties.Resources.christmas;
         }
 
         public void PopulateAbout()
@@ -385,6 +385,11 @@ namespace CustomsForgeSongManager.UControls
         }
 
         private void linkLabel2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+
+        }
+
+        private void link_Developer1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
 
         }
