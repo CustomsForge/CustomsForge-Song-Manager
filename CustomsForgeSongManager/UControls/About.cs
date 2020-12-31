@@ -21,8 +21,8 @@ namespace CustomsForgeSongManager.UControls
             PopulateAbout(); // only done one time
 
             // display Christmas logo
-            if (DateTimeExtensions.TisTheSeason())
-                this.picCF.Image = CustomsForgeSongManager.Properties.Resources.christmas;
+            //if (DateTimeExtensions.TisTheSeason())
+                //this.picCF.Image = CustomsForgeSongManager.Properties.Resources.christmas;
         }
 
         public void PopulateAbout()
@@ -39,17 +39,12 @@ namespace CustomsForgeSongManager.UControls
 
         private void btnCFSMSite_Click(object sender, EventArgs e)
         {
-            Process.Start("http://cfmanager.com");
+            Process.Start("https://cfmanager.com");
         }
 
         private void btnCFSMSupport_Click(object sender, EventArgs e)
         {
-            Process.Start(Constants.CustomsForgeURL + "/forum/81-customsforge-song-manager/");
-        }
-
-        private void btnCGTSite_Click(object sender, EventArgs e)
-        {
-            Process.Start("https://goo.gl/hJVyLB");
+            Process.Start(Constants.CustomsForgeURL + "index.php?/81-customsforge-song-manager/");
         }
 
         private void btnEOFSite_Click(object sender, EventArgs e)
@@ -59,7 +54,7 @@ namespace CustomsForgeSongManager.UControls
 
         private void btnRSTKSite_Click(object sender, EventArgs e)
         {
-            Process.Start(Constants.RSToolkitURL);
+            Process.Start(Constants.RSToolkitURL); 
         }
 
         private void lnkDeployCGT_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -322,17 +317,17 @@ namespace CustomsForgeSongManager.UControls
 
         private void lnkDonations_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            Process.Start(Constants.CustomsForgeURL + "donate/");
+            Process.Start(Constants.CustomsForgeURL + "index.php?/donate/");
         }
 
         private void lnkFAQ_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            Process.Start(Constants.CustomsForgeURL + "faq/");
+            Process.Start(Constants.CustomsForgeURL + "index.php?/faq/");
         }
 
         private void lnkForum_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            Process.Start(Constants.CustomsForgeURL + "forum/122-issues/");
+            Process.Start(Constants.CustomsForgeURL + "index.php?/forum/122-issues/");
         }
 
         private void lnkHelp_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -371,7 +366,7 @@ namespace CustomsForgeSongManager.UControls
 
         private void lnkVideos_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            Process.Start(Constants.CustomsForgeURL + "videos/");
+            Process.Start(Constants.CustomsForgeURL + "index.php?/videos/");
         }
 
         private void picCF_Click(object sender, EventArgs e)
@@ -381,7 +376,27 @@ namespace CustomsForgeSongManager.UControls
 
         private void lnkOfficialGuide_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            Process.Start(Constants.CustomsForgeURL + "topic/51771-customsforge-song-manager-official-guide-2019/");
+            Process.Start(Constants.CustomsForgeURL + "index.php?/topic/51771-customsforge-song-manager-official-guide-2019/");
+        }
+
+        private void linkLabel4_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+
+        }
+
+        private void linkLabel2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+
+        }
+
+        private void link_Developer1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+
+        }
+
+        private void link_CFOwner_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+
         }
 
 

@@ -58,7 +58,7 @@ namespace CustomsForgeSongManager.Forms
         private const string APP_ARCHIVE = "CFSMSetupBeta.rar";
 #endif
 #if INNOBUILD // the default build method
-        private const string SERVER_URL = "http://ignition.customsforge.com/cfsm_uploads";
+        private const string SERVER_URL = "https://ignition4.customsforge.com/files/cfsm/Windows/";
         private const string APP_ARCHIVE = "CFSMSetup.rar";
 #endif
 

@@ -13,6 +13,13 @@ until you can confirm it is safe by working directly with your AV provider.
 ========================================================================
 
 CFSM Release Notes
+1.6
+- refreshed "about" section
+- updated copyright year
+- backend changes
+- autoupdate has been updated to work with the new site with legacy support
+- image changes
+
 1.5.8.7
 - added an option to export profile song lists
 
