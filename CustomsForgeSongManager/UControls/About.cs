@@ -394,6 +394,11 @@ namespace CustomsForgeSongManager.UControls
 
         }
 
+        private void link_CFOwner_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+
+        }
+
 
     }
 }
