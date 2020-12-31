@@ -310,7 +310,7 @@ namespace CustomControls
         {
             base.OnMouseUp(mea);
             ToolStrip parent = GetCurrentParent();
-            if (parent == null) 
+            if (parent == null)
                 return;
 
             ToolStripItem newMouseOverItem = parent.GetItemAt(mea.Location);
@@ -320,15 +320,16 @@ namespace CustomControls
         {
             base.OnMouseLeave(e);
             ToolStrip parent = GetCurrentParent();
-
+ 
             if (!String.IsNullOrEmpty(m_ToolTipText))
             {
                 tt.Active = false;
                 tt.Hide(parent);
+                _mouseOverPoint = new Point(-50, -50);
+                _mouseOverItem = null;
             }
 
-            _mouseOverPoint = new Point(-50, -50);
-            _mouseOverItem = null;
+            Debug.WriteLine("Detected mouse leave event");
         }
 
         protected override void Dispose(bool disposing)

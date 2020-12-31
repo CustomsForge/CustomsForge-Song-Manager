@@ -6,6 +6,12 @@ using System.Windows.Forms;
 using CustomsForgeSongManager.DataObjects;
 using GenTools;
 using CustomsForgeSongManager.Properties;
+using System.Threading.Tasks;
+using System.Collections.Generic;
+using System.Threading;
+using System.Drawing;
+using CustomControls;
+using System.Text;
 
 //
 // Reusable generic background worker class
@@ -18,13 +24,14 @@ namespace CustomsForgeSongManager.LocalTools
     internal sealed class GenericWorker : IDisposable
     {
         private AbortableBackgroundWorker bWorker;
-        private Stopwatch counterStopwatch = new Stopwatch();
+        private Stopwatch counterStopwatch;
         private Control workOrder;
 
         public string WorkDescription = String.Empty;
         public dynamic WorkParm1;
         public dynamic WorkParm2;
         public dynamic WorkParm3;
+        public dynamic WorkParm4;
 
         public void BackgroundProcess(object sender, AbortableBackgroundWorker backgroundWorker = null)
         {
@@ -44,6 +51,7 @@ namespace CustomsForgeSongManager.LocalTools
                 bWorker = backgroundWorker;
 
             bWorker.SetDefaults();
+            counterStopwatch = new Stopwatch();
             counterStopwatch.Restart();
 
             if (WorkDescription.Equals(Constants.GWORKER_REPAIR))
@@ -54,6 +62,12 @@ namespace CustomsForgeSongManager.LocalTools
                 bWorker.DoWork += WorkerPitchShiftSongs;
             else if (WorkDescription.Equals(Constants.GWORKER_ORGANIZE))
                 bWorker.DoWork += WorkerOrganizeSongs;
+            else if (WorkDescription.Equals(Constants.GWORKER_TAG) || WorkDescription.Equals(Constants.GWORKER_UNTAG))
+                bWorker.DoWork += WorkerTagUntagSongs;
+            else if (WorkDescription.Equals(Constants.GWORKER_TITLETAG))
+                bWorker.DoWork += WorkerTagTitles;
+            else if (WorkDescription.Equals(Constants.GWORKER_NORMALIZE))
+                bWorker.DoWork += WorkerNormalizeAudio;
             else
                 throw new Exception("I'm not that kind of worker ...");
 
@@ -97,6 +111,7 @@ namespace CustomsForgeSongManager.LocalTools
                 Globals.WorkerFinished = Globals.Tristate.True;
             }
 
+            Globals.RescanProfileSongLists = false;
             Globals.RescanSetlistManager = false;
             Globals.RescanDuplicates = false;
             Globals.RescanSongManager = false;
@@ -105,12 +120,90 @@ namespace CustomsForgeSongManager.LocalTools
             Globals.ReloadDuplicates = true;
             Globals.ReloadRenamer = true;
             Globals.ReloadSongManager = true;
+            Globals.ReloadProfileSongLists = true;
         }
 
         private void WorkerRepairSongs(object sender, DoWorkEventArgs e)
         {
             if (!bWorker.CancellationPending)
-                RepairTools.RepairSongs(WorkParm1, WorkParm2);
+            {
+                var workerResults = String.Empty;
+
+                var coreCount = SysExtensions.GetCoreCount();
+                if (coreCount == null || coreCount == 0)
+                    coreCount = 1;
+
+                // optimize tasks for multicore processors
+                if (coreCount > 1 && AppSettings.Instance.MultiThread == -1)
+                {
+                    var diaMsg = ".NET Framework reports that you have a (" + coreCount + ") core processor ..." + Environment.NewLine +
+                                 "Would you like to try running the CFSM repair options using" + Environment.NewLine +
+                                 "the new multi-core support feature?" + Environment.NewLine + Environment.NewLine +
+                                 "Repairs can be made using the old method if you answer 'No'" + Environment.NewLine +
+                                 "Please send your feedback and 'debug.log' file to Cozy1." + Environment.NewLine + Environment.NewLine +
+                                 "Threading selection can be reset in 'Settings' tabmenu";
+
+                    if (DialogResult.Yes == BetterDialog2.ShowDialog(diaMsg, "Multicore Processor Beta Test ...", null, "Yes", "No", Bitmap.FromHicon(SystemIcons.Hand.Handle), "ReadMe", 0, 150))
+                        AppSettings.Instance.MultiThread = 1;
+                    else
+                        AppSettings.Instance.MultiThread = 0;
+
+                    Globals.Settings.SaveSettingsToFile(Globals.DgvCurrent);
+                }
+
+                if (AppSettings.Instance.MultiThread == 1)
+                {
+                    Task[] tasks = new Task[coreCount];
+                    List<SongData> songsList = WorkParm1;
+                    RepairOptions repairOptions = WorkParm2;
+                    var songsSubLists = GenExtensions.SplitList(songsList, coreCount);
+
+                    for (int ndx = 0; ndx < coreCount; ndx++)
+                    {
+                        int ndxLocal = ndx; // prevent data not available error
+                        RepairOptions repairOptionsLocal = repairOptions;
+                        Globals.Log("Starting multi-thread task in core (" + ndxLocal + ") ...");
+
+                        tasks[ndx] = Task.Factory.StartNew(() =>
+                        {
+                            // cross threading protection
+                            GenExtensions.InvokeIfRequired(workOrder, delegate
+                            {
+                                var result = RepairTools.RepairSongs(songsSubLists[ndxLocal], repairOptionsLocal).ToString();
+                                if (!String.IsNullOrEmpty(result))
+                                    workerResults += result;
+                            });
+                        });
+
+                        try
+                        {
+                            var cpuCounter = new PerformanceCounter("Processor", "% Processor Time", "_Total"); // , "MyComputer"
+                            cpuCounter.NextValue();
+                            Thread.Sleep(1000);
+                            Globals.Log("CPU usage for core (" + ndxLocal + "): " + (int)cpuCounter.NextValue() + "% ...");
+                        }
+                        catch
+                        {
+                            Globals.Log("<WARNING> CPU usage for core (" + ndxLocal + ") is not available ...");
+                        }
+                    }
+
+                    Thread.Sleep(100);
+                    Task.WaitAll(tasks);
+
+                    foreach (var task in tasks)
+                        task.Dispose();
+                }
+                else // single core processor
+                {
+                    Globals.Log("Using legacy single thread rescan method ...");
+                    workerResults = RepairTools.RepairSongs(WorkParm1, WorkParm2).ToString();
+                }
+
+                // workaround for not being able to throw an exception from inside worker
+                if (!String.IsNullOrEmpty(workerResults))
+                    RepairTools.ViewErrorLog();
+            }
         }
 
         private void WorkerPitchShiftSongs(object sender, DoWorkEventArgs e)
@@ -129,6 +222,29 @@ namespace CustomsForgeSongManager.LocalTools
         {
             if (!bWorker.CancellationPending)
                 FileTools.ArtistFolders(WorkParm1, WorkParm2, WorkParm3);
+        }
+
+        private void WorkerTagUntagSongs(object sender, DoWorkEventArgs e)
+        {
+            if (!bWorker.CancellationPending)
+                Globals.Tagger.TagUntagSongs(WorkParm1, WorkParm2);
+        }
+
+        private void WorkerTagTitles(object sender, DoWorkEventArgs e)
+        {
+            if (!bWorker.CancellationPending)
+                Globals.Tagger.TagSongTitles(WorkParm1, WorkParm2, WorkParm3, WorkParm4);
+        }
+
+        private void WorkerNormalizeAudio(object sender, DoWorkEventArgs e)
+        {
+            if (!bWorker.CancellationPending)
+            {
+                var workerResults = AudioNormalizer.NormalizeSongs(WorkParm1, WorkParm2).ToString();
+
+                if (!String.IsNullOrEmpty(workerResults))
+                    RepairTools.ViewErrorLog();
+            }
         }
 
         [SuppressMessage("Microsoft.Usage", "CA2213:DisposableFieldsShouldBeDisposed", MessageId = "bWorker")]

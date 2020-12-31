@@ -395,7 +395,6 @@ namespace DataGridViewTools
             {
                 OriginalList.Add(this[e.NewIndex]);
                 if (!String.IsNullOrEmpty(Filter))
-                //if (Filter == null || Filter == "")
                 {
                     string cachedFilter = this.Filter;
                     this.Filter = String.Empty;
@@ -403,15 +402,16 @@ namespace DataGridViewTools
                 }
             }
             // Remove the new item from the original list.
-            if (e.ListChangedType == ListChangedType.ItemDeleted)
-                OriginalList.RemoveAt(e.NewIndex);
+            if (e.NewIndex < OriginalList.Count)
+                if (e.ListChangedType == ListChangedType.ItemDeleted)
+                    OriginalList.RemoveAt(e.NewIndex);
 
             base.OnListChanged(e);
         }
 
         private IEnumerable<string> GetSubStrings(string input, string start, string end)
         {
-            Regex r = new Regex(string.Format("{0}(.*?){1}", Regex.Escape(start), Regex.Escape(end)));
+            Regex r = new Regex(String.Format("{0}(.*?){1}", Regex.Escape(start), Regex.Escape(end)));
             MatchCollection matches = r.Matches(input);
             foreach (Match match in matches)
                 yield return match.Groups[1].Value;

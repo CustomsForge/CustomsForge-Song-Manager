@@ -1,12 +1,13 @@
 #include "ISPPBuiltins.iss"
 #include "genericInclude.iss"
 #include "idp.iss"
-// #define SHOWDEBUGMSGS
+
 
 /////////////////////////////////////////////////////////////////////
 [Setup]
 ; TODO: SignTool=signtool
 ; SignedUninstaller=yes
+PrivilegesRequired=admin
 DirExistsWarning=no
 RestartIfNeededByRun=False
 SetupLogging=yes
@@ -42,7 +43,6 @@ Source: {#BuildPath}CFSM.ImageTools.dll; DestDir: {app}; Flags: ignoreversion
 Source: {#BuildPath}DF.WinForms.ThemeLib.dll; DestDir: {app}; Flags: ignoreversion
 Source: {#BuildPath}GenTools.dll; DestDir: {app}; Flags: ignoreversion
 Source: {#BuildPath}CustomControls.dll; DestDir: {app}; Flags: ignoreversion
-Source: {#BuildPath}CFSM.RSTKLib.dll; DestDir: {app}; Flags: ignoreversion
 Source: {#BuildPath}bass.dll; DestDir: {app}; Flags: ignoreversion
 Source: {#BuildPath}DataGridViewTools.dll; DestDir: {app}; Flags: ignoreversion
 Source: {#BuildPath}CFSM.NCalc.dll; DestDir: {app}; Flags: ignoreversion
@@ -55,6 +55,7 @@ Source: {#BuildPath}X360.dll; DestDir: {app}; Flags: ignoreversion
 Source: {#BuildPath}Antlr3.Runtime.dll; DestDir: {app}; Flags: ignoreversion
 Source: {#BuildPath}Antlr4.StringTemplate.dll; DestDir: {app}; Flags: ignoreversion
 Source: {#BuildPath}DF_DDSImage.dll; DestDir: {app}; Flags: ignoreversion
+Source: {#BuildPath}UserProfileLib.dll; DestDir: {app}; Flags: ignoreversion; Permissions: everyone-full
 Source: {#BuildPath}MiscUtil.dll; DestDir: {app}; Flags: ignoreversion
 Source: {#BuildPath}7z.dll; DestDir: {app}; Flags: ignoreversion
 Source: {#BuildPath}SevenZipSharp.dll; DestDir: {app}; Flags: ignoreversion
@@ -67,10 +68,15 @@ Source: {#BuildPath}zlib.net.dll; DestDir: {app}; Flags: ignoreversion
 Source: {#BuildPath}D3DX9_42.dll.old; DestDir: {app}; Flags: ignoreversion
 Source: {#BuildPath}D3DX9_42.dll.new; DestDir: {app}; Flags: ignoreversion
 Source: {#BuildPath}ReleaseNotes.txt; DestDir: {app}; Flags: ignoreversion
+Source: {#BuildPath}VersionInfo.txt; DestDir: {app}; Flags: ignoreversion
+Source: {#BuildPath}CustomsForgeSongManager.exe.config; DestDir: {app}; Flags: ignoreversion
 Source: "{#BuildPath}tools\*"; DestDir: "{app}\tools"; Flags: ignoreversion recursesubdirs createallsubdirs; Permissions: everyone-full
 Source: "{#BuildPath}ddc\*"; DestDir: "{app}\ddc"; Flags: ignoreversion recursesubdirs createallsubdirs; Permissions: everyone-full
 Source: {srcexe}; DestDir: {app}; DestName: {#InstallerName}.exe; Flags: ignoreversion external; Permissions: everyone-full
 Source: unrar.exe; DestDir: {tmp}; Flags: dontcopy
+; DO NOT uninstall ffmpeg.exe if it has been installed by the user
+Source: "{#BuildPath}ffmpeg\ReadMe.txt"; DestDir: "{app}\ffmpeg"; Flags: uninsneveruninstall ignoreversion recursesubdirs createallsubdirs; Permissions: everyone-full
+; Source: "{#BuildPath}ffmpeg\ffmpeg.exe"; DestDir: "{app}\ffmpeg"; Flags: ignoreversion recursesubdirs createallsubdirs; Permissions: everyone-full
 ; alternate method of checking for a running process if CheckForMutexes does not work
 ; Source: processviewer.exe; DestDir: {tmp}; Flags: dontcopy
 
@@ -81,7 +87,8 @@ Name: quicklaunchicon; Description: {cm:CreateQuickLaunchIcon}; GroupDescription
 
 ///////////////////////////////////////////////////////////////////// 
 [Run]
-Filename: {app}\{#AppExeName}; Description: "{cm:LaunchProgram, {%AppName}}"; Flags: nowait postinstall skipifsilent
+; Filename: {app}\{#AppExeName}; Description: "{cm:LaunchProgram, {%AppName}}"; Flags: nowait postinstall skipifsilent
+Filename: {app}\{#AppExeName}; Description: "{cm:LaunchProgram, {%AppName}}"; Flags: nowait postinstall shellexec skipifsilent
 
 /////////////////////////////////////////////////////////////////////
 [Icons]
@@ -300,7 +307,7 @@ var
 begin
   Result := False;
   if VarIsClear(FileNameRar) then
-    RaiseException(Format('RAR file "%s" does not exist or cannot be opened', [FileNameRar]));
+     RaiseException(Format('RAR file "%s" does not exist or cannot be opened', [FileNameRar]));
 
   ExtractTemporaryFiles('{tmp}\unrar.exe');
   fn := ExpandConstant('{tmp}\unrar.exe');

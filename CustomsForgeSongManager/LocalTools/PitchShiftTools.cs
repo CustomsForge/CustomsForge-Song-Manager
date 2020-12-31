@@ -7,10 +7,14 @@ using CustomsForgeSongManager.DataObjects;
 using GenTools;
 using RocksmithToolkitLib.DLCPackage;
 using RocksmithToolkitLib.DLCPackage.Manifest2014.Tone;
-using RocksmithToolkitLib.PsarcLoader;
 using RocksmithToolkitLib.Sng;
 using RocksmithToolkitLib.ToolkitTone;
 using RocksmithToolkitLib.XML;
+using RocksmithToolkitLib.XmlRepository;
+using RocksmithToolkitLib;
+using RocksmithToolkitLib.PSARC;
+using System.Drawing;
+using CustomControls;
 
 namespace CustomsForgeSongManager.LocalTools
 {
@@ -78,12 +82,17 @@ namespace CustomsForgeSongManager.LocalTools
                 if (arr.ArrangementType == ArrangementType.Vocal || arr.ArrangementType == ArrangementType.ShowLight)
                     continue;
 
+                // Toolkit was fixed and NullException should never happen
+                if (arr.Tuning == null) // conditional check is just in case
+                    arr.Tuning = TuningDefinitionRepository.Instance.Detect(arr.TuningStrings, GameVersion.RS2014, false).UIName;
+
                 // TODO: see customsforge.com/topic/41503-1416-pitch-shifter-mod-wrong-pitch-for-drop-tuning/#entry268144
+                // determine that this actually works as intended (i.e. a song in D Std. gets shifted for 2 half steps up to E Std, a Drop C song to Drop D, etc.)
                 if (!arr.Tuning.Contains("Bonus") && arr.ArrangementType != ArrangementType.Bass)
-                    gitShift = arr.TuningStrings.String0;
+                    gitShift = arr.TuningStrings.String5;
 
                 if (!arr.Tuning.Contains("Bonus") && arr.ArrangementType == ArrangementType.Bass)
-                    bassShift = arr.TuningStrings.String0;
+                    bassShift = arr.TuningStrings.String3;
 
                 // option to force tuning to E Standard (prevents having to retune)
                 if (arr.Tuning.Contains("Standard") || forceStdTuning)
@@ -136,7 +145,7 @@ namespace CustomsForgeSongManager.LocalTools
                 var isOfficialRepairedDisabled = FileTools.IsOfficialRepairedDisabled(srcFilePath);
                 if (!String.IsNullOrEmpty(isOfficialRepairedDisabled))
                 {
-                    if (isOfficialRepairedDisabled.Contains("Official") && Globals.PublicRelease) // developer testing mode
+                    if (isOfficialRepairedDisabled.Contains("Official")) // && Globals.PublicRelease) // developer testing mode
                     {
                         Globals.Log(" - Skipped ODLC File");
                         skipped++;
@@ -151,31 +160,29 @@ namespace CustomsForgeSongManager.LocalTools
                     }
                 }
 
-                try
+                if (!isSkipped)
                 {
-                    var ext = string.Empty;
-                    var finalPath = srcFilePath;
-                    Globals.Log(" - Extracting CDLC artifacts");
-                    DLCPackageData packageData;
-
-                    // TODO: consider using tone exception handler from RepairTools
-                    // Try unpacking and if it throws InvalidDataException - fix arrangement XMLs
-                    packageData = PackageDataTools.GetDataWithFixedTones(srcFilePath);
-
-                    // this allows user to reapply pitch shifter using latest code
-                    if (!isSkipped && !overwriteFile)
+                    try
                     {
-                        var packageComment = packageData.ToolkitInfo.PackageComment;
-                        if (!String.IsNullOrEmpty(packageComment) && packageComment.Contains(Constants.TKI_PITCHSHIFT))
+                        // TODO: consider using tone exception handler from RepairTools
+                        // Try unpacking and if it throws InvalidDataException - fix arrangement XMLs
+                        Globals.Log(" - Extracting CDLC artifacts");
+                        DLCPackageData packageData = PackageDataTools.GetDataWithFixedTones(srcFilePath);
+
+                        // this allows user to reapply pitch shifter using latest code
+                        if (!overwriteFile)
                         {
-                            Globals.Log(" - Song is already pitch shifted");
-                            skipped++;
-                            isSkipped = true;
+                            var packageComment = packageData.ToolkitInfo.PackageComment;
+                            if (!String.IsNullOrEmpty(packageComment) && packageComment.Contains(Constants.TKI_PITCHSHIFT))
+                            {
+                                Globals.Log(" - Song is already pitch shifted");
+                                skipped++;
+                                isSkipped = true;
+                            }
                         }
-                    }
 
-                    if (!isSkipped)
-                    {
+                        var ext = string.Empty;
+                        var finalPath = srcFilePath;
                         var gitShift = 0;
                         var bassShift = 0;
                         const int mix = 100;
@@ -199,13 +206,13 @@ namespace CustomsForgeSongManager.LocalTools
                         if (!overwriteFile)
                         {
                             Globals.Log(" - Adding pitch shifting effect to a new CDLC file");
-                            finalPath = srcFilePath.Replace(Constants.PsarcExtension, ext + Constants.PsarcExtension);
+                            finalPath = srcFilePath.Replace(Constants.EnabledExtension, ext + Constants.EnabledExtension);
                         }
                         else
                             Globals.Log(" - Adding pitch shifting effect to existing file");
 
                         Globals.Log(" - Repackaging");
-                        Globals.Log(" - Please wait this could take a couple of minutes ...");
+                        Globals.Log(" - Please wait this could take a minute ...");
 
                         using (var psarcNew = new PsarcPackager(true))
                             psarcNew.WritePackage(finalPath, packageData, srcFilePath);
@@ -223,11 +230,12 @@ namespace CustomsForgeSongManager.LocalTools
 
                         Globals.Log(" - Pitch shifting was successful");
                     }
-                }
-                catch (Exception ex)
-                {
-                    Globals.Log(" - Pitch shifting failed: " + ex.Message);
-                    failed++;
+
+                    catch (Exception ex)
+                    {
+                        Globals.Log(" - Pitch shifting failed: " + ex.Message);
+                        failed++;
+                    }
                 }
             }
 
@@ -246,6 +254,8 @@ namespace CustomsForgeSongManager.LocalTools
 
                 if (!Constants.DebugMode)
                     GenExtensions.CleanLocalTemp();
+
+                BetterDialog2.ShowDialog("Finished pitch shifting tones in the selected songs, please report back on CF forum/Discord/Reddit whether it works as expected.\nThank you!", "Feedback required", null, null, "Ok", Bitmap.FromHicon(SystemIcons.Information.Handle), "Feedback pls", 0, 150);
             }
             else
             {

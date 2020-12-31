@@ -1,6 +1,6 @@
-﻿using System.Diagnostics;
+﻿using System.Data;
+using System.Diagnostics;
 using CFSM.AudioTools;
-using CFSM.RSTKLib.PSARC;
 using CustomsForgeSongManager.DataObjects;
 using DataGridViewTools;
 using Newtonsoft.Json.Linq;
@@ -18,9 +18,15 @@ using RocksmithToolkitLib.Sng2014HSL;
 using RocksmithToolkitLib.DLCPackage.Manifest2014;
 using Newtonsoft.Json;
 using Arrangement = CustomsForgeSongManager.DataObjects.Arrangement;
+using StringExtensions = RocksmithToolkitLib.Extensions.StringExtensions;
 using System.Threading;
 using GenTools;
 using System.Globalization;
+using System.Windows.Forms;
+using RocksmithToolkitLib.DLCPackage.Manifest2014.Header;
+using RocksmithToolkitLib.PSARC;
+using MiscUtil.IO;
+using RocksmithToolkitLib.Ogg;
 
 
 namespace CustomsForgeSongManager.LocalTools
@@ -68,10 +74,14 @@ namespace CustomsForgeSongManager.LocalTools
         /// <returns></returns>
         public IEnumerable<SongData> GetSongData()
         {
-            Globals.Log(" - Parsing song data from: " + _filePath);
             Stopwatch sw = null;
             sw = new Stopwatch();
             sw.Restart();
+
+            // custom inlays get special treatment
+            var isInlay = false;
+            if (Globals.IncludeInlays && _filePath.ToLower().Contains("inlay"))
+                isInlay = true;
 
             // speed hack and fix for tuning 'Other' issue
             if (Globals.TuningXml == null || Globals.TuningXml.Count == 0)
@@ -79,23 +89,26 @@ namespace CustomsForgeSongManager.LocalTools
 
             var songsData = new List<SongData>();
             var fInfo = new FileInfo(_filePath);
+            Platform platform = _filePath.GetPlatform();
+            var toolkitVersion = String.Empty;
             var packageAuthor = String.Empty;
             var packageVersion = String.Empty;
             var packageComment = String.Empty;
-            var toolkitVersion = String.Empty;
+            var packageRating = String.Empty;
             var appId = String.Empty;
 
             var tagged = _archive.TOC.Any(entry => entry.Name == "tagger.org");
 
-            var toolkitVersionFile = _archive.TOC.FirstOrDefault(x => (x.Name.Equals("toolkit.version")));
+            var toolkitVersionFile = _archive.TOC.FirstOrDefault(x => x.Name.Equals("toolkit.version"));
             if (toolkitVersionFile != null)
             {
                 _archive.InflateEntry(toolkitVersionFile);
-                ToolkitInfo tkInfo = GeneralExtensions.GetToolkitInfo(new StreamReader(toolkitVersionFile.Data));
+                ToolkitInfo tkInfo = GeneralExtension.GetToolkitInfo(new StreamReader(toolkitVersionFile.Data));
+                toolkitVersion = tkInfo.ToolkitVersion ?? "Null";
                 packageAuthor = tkInfo.PackageAuthor ?? "Null";
                 packageVersion = tkInfo.PackageVersion ?? "Null";
                 packageComment = tkInfo.PackageComment ?? "Null";
-                toolkitVersion = tkInfo.ToolkitVersion ?? "Null";
+                packageRating = tkInfo.PackageRating ?? "Null";
             }
 
             var appIdFile = _archive.TOC.FirstOrDefault(x => (x.Name.Equals("appid.appid")));
@@ -107,36 +120,43 @@ namespace CustomsForgeSongManager.LocalTools
             }
 
             // every song contains gamesxblock but may not contain showlights.xml
-            var xblockEntries = _archive.TOC.Where(x => x.Name.StartsWith("gamexblocks/nsongs") && x.Name.EndsWith(".xblock"));
+            //var xblockEntries = _archive.TOC.Where(x => x.Name.StartsWith("gamexblocks/nsongs") && x.Name.EndsWith(".xblock")).ToList();
+            var xblockEntries = _archive.TOC.Where(x => x.Name.StartsWith("gamexblocks/nsongs") && x.Name.EndsWith(".xblock")).ToList();
+            if (isInlay)
+                xblockEntries = _archive.TOC.Where(x => x.Name.StartsWith("gamexblocks/nguitars") && x.Name.EndsWith(".xblock")).ToList();
+
             if (!xblockEntries.Any())
                 throw new Exception("Could not find valid xblock file : " + _filePath);
 
-            if (_filePath.ToLower().EndsWith(Constants.BASESONGS))
-                xblockEntries = xblockEntries.Where(s => !s.Name.Contains("rs2"));
+            if (_filePath.ToLower().EndsWith(Constants.BASESONGS) || _filePath.ToLower().EndsWith(Constants.BASESONGSDISABLED))
+                xblockEntries = xblockEntries.Where(s => !s.Name.Contains("rs2")).ToList();
 
             var jsonData = new List<Manifest2014<Attributes2014>>();
             // this foreach loop addresses song packs otherwise it is only done one time
             foreach (var xblockEntry in xblockEntries)
             {
                 var arrangements = new List<Arrangement>();
-                bool gotSongInfo = false;
                 var song = new SongData
-                    {
-                        PackageAuthor = packageAuthor,
-                        PackageVersion = packageVersion,
-                        PackageComment = packageComment,
-                        ToolkitVersion = toolkitVersion,
-                        AppID = appId,
-                        FilePath = _filePath,
-                        FileDate = fInfo.LastWriteTimeUtc,
-                        FileSize = (int)fInfo.Length
-                    };
+                {
+                    ToolkitVersion = toolkitVersion,
+                    PackageAuthor = packageAuthor,
+                    PackageVersion = packageVersion,
+                    PackageComment = packageComment,
+                    PackageRating = packageRating,
+                    AppID = appId,
+                    FilePath = _filePath,
+                    FileDate = fInfo.LastWriteTime,
+                    FileSize = (int)fInfo.Length
+                };
 
-                if (toolkitVersionFile == null)
+                if (toolkitVersionFile == null || packageAuthor == "Ubisoft")
                 {
                     song.PackageAuthor = "Ubisoft";
                     song.Tagged = SongTaggerStatus.ODLC;
                     song.RepairStatus = RepairStatus.ODLC;
+
+                    if (String.IsNullOrEmpty(packageRating) || packageRating == "Null")
+                        song.PackageRating = "5";
                 }
                 else
                 {
@@ -165,12 +185,48 @@ namespace CustomsForgeSongManager.LocalTools
                     strippedName = strippedName.Replace("fcp_dlc", "");
 
                 var jsonEntries = _archive.TOC.Where(x => x.Name.StartsWith("manifests/songs") && x.Name.EndsWith(".json") && x.Name.Contains(strippedName)).OrderBy(x => x.Name).ToList();
+                if (isInlay)
+                    jsonEntries = _archive.TOC.Where(x => x.Name.StartsWith("manifests/") && x.Name.EndsWith(".json")).OrderBy(x => x.Name).ToList();
+
+                // song.psarc
+                if (!jsonEntries.Any())
+                    Debug.WriteLine("<WARNING> Could not find valid manifest file : " + _filePath);
+
+                // may be it is a songpack file
                 if (jsonEntries.Count > 6) // Remastered CDLC max with vocals
                     Debug.WriteLine("<WARNING> Manifest Count > 6 : " + _filePath);
+
+                int songBPMChangeCount = -1;
+                float songMinBPM = -1;
+                float songMaxBPM = -1;
+                int songTimeSignatureChangeCount = -1;
 
                 // looping through song multiple times gathering each arrangement
                 foreach (var jsonEntry in jsonEntries)
                 {
+                    if (isInlay) // KISS
+                    {
+                        var iManifest2014 = new Manifest2014<InlayAttributes2014>();
+                        // get song attributes from json entry
+                        using (var ms = ExtractEntryData(x => x.Name.Equals(jsonEntry.Name)))
+                        using (var readerJson = new StreamReader(ms, new UTF8Encoding(), true, 65536)) //4Kb is default alloc sise for windows.. 64Kb is default PSARC alloc
+                            iManifest2014 = JsonConvert.DeserializeObject<Manifest2014<InlayAttributes2014>>(readerJson.ReadToEnd());
+
+                        var iAttributes = iManifest2014.Entries.ToArray()[0].Value.ToArray()[0].Value;
+
+                        song.DLCKey = iAttributes.Name;
+                        song.Title = StringExtensions.SplitCamelCase(iAttributes.LocName);
+                        song.Artist = "Inlay";
+                        song.Album = "Decorative Guitar Inlays";
+                        var arrInlay = new Arrangement(song);
+                        arrInlay.PersistentID = iAttributes.PersistentID;
+                        arrInlay.ArrangementName = "Inlay";
+                        arrangements.Add(arrInlay);
+                        song.Arrangements2D = arrangements;
+                        songsData.Add(song);
+                        break;
+                    }
+
                     var manifest2014 = new Manifest2014<Attributes2014>();
                     // get song attributes from json entry
                     using (var ms = ExtractEntryData(x => x.Name.Equals(jsonEntry.Name)))
@@ -180,7 +236,7 @@ namespace CustomsForgeSongManager.LocalTools
                     var attributes = manifest2014.Entries.ToArray()[0].Value.ToArray()[0].Value;
 
                     // speed hack - these don't change so skip after first pass
-                    if (!gotSongInfo)
+                    if (song.DLCKey == null)
                     {
                         song.DLCKey = attributes.SongKey;
                         song.Artist = attributes.ArtistName;
@@ -191,12 +247,21 @@ namespace CustomsForgeSongManager.LocalTools
                         {
                             song.TitleSort = attributes.SongNameSort;
                             song.ArtistSort = attributes.ArtistNameSort;
-                            // permafix for LastConversionDateTime string to DateTime conversion
-                            // LastConversionDateTime stored as string in en-US format, e.g. 08-15-13 16:13
-                            // convert to culture independent DateTime {8/15/2013 4:13:00 PM}             
-                            CultureInfo cultureInfo = new CultureInfo("en-US");
-                            DateTime dt = DateTime.Parse(attributes.LastConversionDateTime, cultureInfo, DateTimeStyles.NoCurrentDateDefault);
-                            song.LastConversionDateTime = dt;
+                            try
+                            {
+                                // permafix for LastConversionDateTime string to DateTime conversion
+                                // LastConversionDateTime stored as string in en-US format, e.g. 08-15-13 16:13
+                                // convert to culture independent DateTime {8/15/2013 4:13:00 PM}             
+                                CultureInfo cultureInfo = new CultureInfo("en-US");
+                                DateTime dt = DateTime.Parse(attributes.LastConversionDateTime, cultureInfo, DateTimeStyles.AdjustToUniversal);
+                                song.LastConversionDateTime = dt;
+                            }
+                            catch (Exception ex)
+                            {
+                                // TODO: fix this error condition
+                                throw new DataException("<ERROR> " + _filePath + " " + attributes.LastConversionDateTime + ex.Message + Environment.NewLine + "Send a copy of the CDLC file, the 'debug.log' file, and this full error message to the developers" + Environment.NewLine);
+                            }
+
                             song.SongYear = attributes.SongYear;
                             song.SongLength = (double)attributes.SongLength;
                             song.SongAverageTempo = attributes.SongAverageTempo;
@@ -207,13 +272,12 @@ namespace CustomsForgeSongManager.LocalTools
                             // try to get SongVolume from main audio bnk file 
                             if (song.SongVolume == null && !song.IsRsCompPack && !song.IsSongPack && !song.IsSongsPsarc)
                             {
-                                Platform platform = _filePath.GetPlatform();
                                 var bnkEntry = _archive.TOC.FirstOrDefault(x => x.Name.StartsWith("audio/") && x.Name.EndsWith(".bnk") && !x.Name.EndsWith("_preview.bnk"));
                                 if (bnkEntry == null)
                                     throw new Exception("Could not find valid bnk file : " + _filePath);
 
                                 _archive.InflateEntry(bnkEntry);
-                                
+
                                 var bnkPath = Path.GetTempFileName();
                                 using (var fs = File.Create(bnkPath))
                                 {
@@ -224,6 +288,43 @@ namespace CustomsForgeSongManager.LocalTools
                                 song.SongVolume = SoundBankGenerator2014.ReadVolumeFactor(bnkPath, platform);
                                 File.Delete(bnkPath);
                             }
+
+                            // get main wem audio bitrate (kbps)
+                            var wems = _archive.TOC.Where(entry => entry.Name.StartsWith("audio/") && entry.Name.EndsWith(".wem")).ToList();
+                            if (wems.Count > 1)
+                            {
+                                wems.Sort((e1, e2) =>
+                                    {
+                                        if (e1.Length < e2.Length)
+                                            return 1;
+                                        if (e1.Length > e2.Length)
+                                            return -1;
+                                        return 0;
+                                    });
+                            }
+
+                            // assumes main audio is larger wem file (may not always be correct)
+                            if (wems.Count > 0)
+                            {
+                                var top = wems[0];
+                                _archive.InflateEntry(top);
+                                top.Data.Position = 0;
+                                var wemSize = top.Data.Length;
+
+                                // slow actual kbps
+                                // WemFile wemFile = new WemFile(top.Data, platform);
+                                // var kbpsActual = (int)wemFile.AverageBytesPerSecond * 8 / 1000;
+
+                                // fast approximate kbps (very close)
+                                var kbpsApprox = (int)(wemSize * 8 / song.SongLength / 1000);
+                                song.AudioBitRate = kbpsApprox;
+                            }
+
+                            // does the CDLC have a CustomFont lyrics texture artifact
+                            var hasCustomFont = _archive.TOC.Any(x => x.Name.Contains("/lyrics_") && x.Name.EndsWith(".dds"));
+                            song.HasCustomFont = hasCustomFont;
+
+                            // REM - the above is done only 1X for max speed
                         }
                         catch (Exception ex) // CDLC may still be usable
                         {
@@ -232,15 +333,13 @@ namespace CustomsForgeSongManager.LocalTools
                             Globals.Log(" - " + Path.GetFileName(_filePath));
                             Globals.Log(" - This CDLC may still be usable but it should be updated if a newer version is available ...");
                         }
-
-                        gotSongInfo = true;
                     }
 
                     var arr = new Arrangement(song);
                     var arrName = attributes.ArrangementName;
+
                     if (Char.IsNumber(jsonEntry.Name[jsonEntry.Name.IndexOf(".json") - 1]))
                         arrName = arrName + jsonEntry.Name[jsonEntry.Name.IndexOf(".json") - 1];
-
 
                     if (!arrName.ToLower().EndsWith("vocals"))
                     {
@@ -248,6 +347,8 @@ namespace CustomsForgeSongManager.LocalTools
                         arr.Tuning = PsarcExtensions.TuningToName(attributes.Tuning, Globals.TuningXml);
                         arr.TuningPitch = Convert.ToDouble(attributes.CentOffset).Cents2Frequency();
                         arr.DDMax = attributes.MaxPhraseDifficulty;
+                        // ScrollSpeed as defined by toolkit
+                        arr.ScrollSpeed = attributes.DynamicVisualDensity.Last();
 
                         if (!String.IsNullOrEmpty(attributes.Tone_Base))
                         {
@@ -276,12 +377,27 @@ namespace CustomsForgeSongManager.LocalTools
                         // parse Arrangment Analyzer data (slow process, only done if requested by user)
                         if (AppSettings.Instance.IncludeArrangementData)
                         {
-                            // loading SNG is 5X faster than loading XML (ODLC does not have XML)
+                            // quick load HSAN file data to get SongDifficulty
+                            var hsanEntries = new ManifestHeader2014<AttributesHeader2014>(platform);
+                            var hsanEntry = _archive.TOC.FirstOrDefault(x => x.Name.StartsWith("manifests/songs") && x.Name.EndsWith(".hsan"));
+
+                            if (hsanEntry == null)
+                                throw new Exception("Could not find valid hsan manifest in archive.");
+
+                            using (var ms = ExtractEntryData(x => x.Name.Equals(hsanEntry.Name)))
+                            using (var readerJson = new StreamReader(ms, new UTF8Encoding(), true, 65536))
+                                hsanEntries = JsonConvert.DeserializeObject<ManifestHeader2014<AttributesHeader2014>>(readerJson.ReadToEnd());
+
+                            // use unique PID instead of ArrangementName which may not be unique in ODLC
+                            var arrPID = attributes.PersistentID;
+                            arr.SongDifficulty = hsanEntries.Entries[arrPID].ToArray()[0].Value.SongDifficulty;
+
+                            // loading SNG is 5X faster than loading XML and ODLC do not have XML
                             var song2014 = new Song2014();
                             var sngEntry = _archive.TOC.FirstOrDefault(x => x.Name.EndsWith(".sng") && x.Name.ToLower().Contains(arrName.ToLower() + ".sng") && x.Name.Contains(strippedName));
                             using (var ms = ExtractEntryData(x => x.Name.Equals(sngEntry.Name)))
                             {
-                                Platform platform = _filePath.GetPlatform();
+                                // Platform platform = _filePath.GetPlatform();
                                 var sng2014File = Sng2014File.ReadSng(ms, platform);
                                 song2014 = new Song2014(sng2014File, attributes);
                             }
@@ -294,6 +410,7 @@ namespace CustomsForgeSongManager.LocalTools
                             var chordTemplates = song2014.ChordTemplates;
                             var arrProperties = song2014.ArrangementProperties;
                             var allLevelData = song2014.Levels;
+                            var eBeats = song2014.Ebeats;
                             var maxLevelNotes = new List<SongNote2014>();
                             var maxLevelChords = new List<SongChord2014>();
                             var maxLevelHandShapes = new List<SongHandShape>();
@@ -301,6 +418,11 @@ namespace CustomsForgeSongManager.LocalTools
                             var chordCounts = new List<int>();
                             int bassPick = 0;
                             int thumbCount = 0;
+                            int pitchedChordSlideCount = 0;
+                            int bpmChangeCount = 0;
+                            float maxBPM = 0;
+                            float minBPM = 999;
+                            int timeSignatureChangeCount = 0;
 
                             if (song2014.ArrangementProperties.PathBass == 1)
                                 bassPick = (int)song2014.ArrangementProperties.BassPick;
@@ -334,6 +456,76 @@ namespace CustomsForgeSongManager.LocalTools
                                     if (!maxLevelHandShapes.Any(h => h.StartTime == hs.StartTime))
                                         maxLevelHandShapes.Add(hs);
                                 }
+                            }
+
+                            pitchedChordSlideCount = maxLevelChords.Count(c => c.LinkNext == 1);
+
+                            if (songTimeSignatureChangeCount == -1 && eBeats.Count(b => b.Measure != -1) > 1) //no need to rescan for each arrangement, because songs should have same beatmap for all of them
+                            {
+                                var secondMeasure = eBeats.Skip(1).FirstOrDefault(b => b.Measure != -1);
+                                int? secondMeasureIdx = Array.IndexOf(eBeats, secondMeasure);
+                                int difference = (int)secondMeasureIdx;
+                                int currentIdx = (int)secondMeasureIdx;
+                                int beatCount = eBeats.Count();
+                                int nextIdx = currentIdx + difference;
+
+                                var third = eBeats[currentIdx + difference * 2];
+
+                                var currentMeasure = eBeats[0];
+                                var nextMeasure = secondMeasure;
+
+                                float currentBPM = 0;
+                                float oldBPM = 0;
+                                List<float> currentBPMs = new List<float>();
+
+                                while (nextIdx < beatCount)
+                                {
+
+                                    if (nextIdx != -1 && eBeats[nextIdx].Measure == -1)
+                                    {
+                                        nextMeasure = eBeats.FirstOrDefault(b => b.Time > nextMeasure.Time && b.Measure != -1);
+                                        nextIdx = Array.IndexOf(eBeats, nextMeasure);
+                                        currentIdx = Array.IndexOf(eBeats, currentMeasure);
+                                        difference = nextIdx - currentIdx;
+
+                                        if (nextMeasure == null) //should mean we are out of bounds (or that the song doesn't end on a full measure)
+                                            break;
+
+                                        timeSignatureChangeCount++;
+                                    }
+
+                                    if (nextIdx == -1)
+                                        minBPM = 0;
+
+                                    currentBPM = (60 / ((nextMeasure.Time - currentMeasure.Time) / difference));
+
+                                    // using toolkit range for tempo validation
+                                    if (currentBPM > 0 && currentBPM < 999)
+                                    {
+                                        maxBPM = Math.Max(currentBPM, maxBPM);
+                                        minBPM = Math.Min(currentBPM, minBPM);
+                                        currentBPMs.Add(currentBPM);
+                                    }
+
+                                    if (currentBPM != oldBPM && Math.Abs(currentBPM - oldBPM) > AppSettings.Instance.BPMThreshold)
+                                    {
+                                        oldBPM = currentBPM;
+                                        bpmChangeCount++;
+                                    }
+
+                                    currentMeasure = nextMeasure;
+                                    nextMeasure = eBeats[nextIdx];
+                                    nextIdx += difference;
+                                }
+
+                                songBPMChangeCount = bpmChangeCount;
+                                songMaxBPM = maxBPM;
+                                songMinBPM = minBPM;
+                                songTimeSignatureChangeCount = timeSignatureChangeCount;
+
+                                // confirm SongAverageTempo is within calculated range, and ODLC is not defaulted (120.0)
+                                if (song.SongAverageTempo < minBPM || song.SongAverageTempo > maxBPM || (song.IsODLC && song.SongAverageTempo == 120.0))
+                                    song.SongAverageTempo = currentBPMs.Average();
                             }
 
                             foreach (var chord in maxLevelChords)
@@ -420,10 +612,19 @@ namespace CustomsForgeSongManager.LocalTools
                             arr.TremoloCount = maxLevelNotes.Count(n => n.Tremolo > 0);
                             arr.VibratoCount = maxLevelNotes.Count(n => n.Vibrato > 0);
                             arr.ThumbCount = thumbCount;
+                            arr.PitchedChordSlideCount = pitchedChordSlideCount;
+                            arr.TimeSignatureChangeCount = songTimeSignatureChangeCount;
+                            arr.BPMChangeCount = songBPMChangeCount;
+                            arr.MaxBPM = songMaxBPM;
+                            arr.MinBPM = songMinBPM;
 
                             // Arrangement Properties
                             if (arrName.ToLower().Equals("bass"))
                                 arr.BassPick = bassPick;
+
+                            // using XML arrangement represent to avoid JSON represent bug found in old toolkit versions                  
+                            arr.Represent = attributes.ArrangementProperties.Represent;
+                            arr.BonusArr = attributes.ArrangementProperties.BonusArr;
 
                             // TODO: maybe extract all AP (not sure how useful data is though) 
 
@@ -435,13 +636,14 @@ namespace CustomsForgeSongManager.LocalTools
 
                     // add a smidge of Arrangement Attributes for vocals too
                     arr.PersistentID = attributes.PersistentID;
-                    arr.Name = arrName;
+                    arr.ArrangementName = arrName;
 
                     arrangements.Add(arr);
                 }
 
                 // log some songpacks parsing info
                 if (_fileName.ToLower().EndsWith(Constants.BASESONGS) ||
+                    _fileName.ToLower().EndsWith(Constants.BASESONGSDISABLED) ||
                     _fileName.ToLower().Contains(Constants.RS1COMP) ||
                     _fileName.ToLower().Contains(Constants.SONGPACK) ||
                     _fileName.ToLower().Contains(Constants.ABVSONGPACK))
@@ -450,7 +652,7 @@ namespace CustomsForgeSongManager.LocalTools
                     if (song.Album == null || song.Album.Contains("Rocksmith") || song.ArtistTitleAlbum.Contains(";;"))
                         continue;
 
-                    Globals.Log(" + Parsed " + _fileName + " for: " + song.ArtistTitleAlbumDate);
+                    Globals.Log(String.Format(" + Parsed Song Pack: {0};{1}", _fileName, song.ArtistTitleAlbumDate));
                 }
 
                 song.Arrangements2D = arrangements;
@@ -458,7 +660,8 @@ namespace CustomsForgeSongManager.LocalTools
             }
 
             sw.Stop();
-            Globals.Log(String.Format(" - {0} parsing took: {1} (msec)", Path.GetFileName(_filePath), sw.ElapsedMilliseconds));
+            // elimanted multiple log messages per users request
+            Globals.Log(String.Format(" - Parsing took {1} (msec): {0}", _filePath, sw.ElapsedMilliseconds));
 
             return songsData;
         }
@@ -487,15 +690,14 @@ namespace CustomsForgeSongManager.LocalTools
             if (String.IsNullOrEmpty(audioName))
                 return false;
 
-            Globals.Log("Extracting Audio ...");
-            Globals.Log("Please wait ...");
-            // TODO: maintain app responsiveness during audio extraction
+            Globals.Log(" - Extracting Audio ...");
+
             // get contents of archive
             using (var archive = new PSARC(true))
             using (var stream = File.OpenRead(archiveName))
             {
                 archive.Read(stream, true);
-                var wems = archive.TOC.Where(entry => entry.Name.StartsWith("audio/windows") && entry.Name.EndsWith(".wem")).ToList();
+                var wems = archive.TOC.Where(entry => entry.Name.StartsWith("audio/") && entry.Name.EndsWith(".wem")).ToList();
 
                 if (wems.Count > 1)
                 {
@@ -512,6 +714,7 @@ namespace CustomsForgeSongManager.LocalTools
                 if (wems.Count > 0)
                 {
                     var top = wems[0];
+                    Application.DoEvents();
                     archive.InflateEntry(top);
                     top.Data.Position = 0;
                     using (var FS = File.Create(audioName))
@@ -533,9 +736,13 @@ namespace CustomsForgeSongManager.LocalTools
                     }
                 }
             }
+
             return result;
         }
 
         #endregion
+
+
+
     }
 }

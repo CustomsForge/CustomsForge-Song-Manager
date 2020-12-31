@@ -6,6 +6,8 @@ using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
 using System.Xml.Serialization;
+using System.IO;
+using GenTools;
 
 namespace DataGridViewTools
 {
@@ -25,14 +27,16 @@ namespace DataGridViewTools
             // instantiate an instance of the object from the dataObject's remote assembly
             var dataObj = dataObject.ToString();
             var moduleName = dataObject.GetType().GetProperty("Module").GetValue(dataObject, null);
-            var remoteAssembly = Assembly.LoadFrom(moduleName.ToString());
+            var appPath = AppDomain.CurrentDomain.BaseDirectory;
+            var modulePath = Path.Combine(appPath, moduleName.ToString());
+            var remoteAssembly = Assembly.LoadFrom(modulePath);
             var handle = Activator.CreateInstance(remoteAssembly.ToString(), dataObj);
             var obj = handle.Unwrap();
 
             string s = String.Empty;
-            if (frmCustomFilter.EditCustomFilter(ref s,
-                obj.GetType().GetProperty(ColumnName)))
+            if (frmCustomFilter.EditCustomFilter(ref s, obj.GetType().GetProperty(ColumnName)))
                 return "Expression:" + s;
+
             return string.Empty;
         }
 
@@ -73,7 +77,7 @@ namespace DataGridViewTools
                 .Select(x => x.GetMethod().ReflectedType.Assembly)
                 .Distinct().Where(x => x.GetReferencedAssemblies()
                     .Any(y => y.FullName == currentAssembly.FullName));
-            
+
             var initialAssembly = callerAssemblies.Last();
             object moduleName = dataObject.GetType().GetProperty("Module").GetValue(dataObject, null);
             Module assemblyName = initialAssembly.GetModules()[0];
@@ -118,7 +122,8 @@ namespace DataGridViewTools
     public class RADataGridViewSettings
     {
         // ver 1.1 - added column HeaderText to DataGridViewTools column settings
-        public const string gridViewSettingsVersion = "1.1";
+        // ver 1.2 - major revision to Settings tabmenu
+        public const string gridViewSettingsVersion = "1.2";
 
         [XmlIgnore]
         public string LoadedVersion { get; private set; }
@@ -221,6 +226,62 @@ namespace DataGridViewTools
             }
 
             return settings;
+        }
+
+        public static RADataGridViewSettings SaveColumnOrder(List<ColumnOrderItem> columnOrderCollection)
+        {
+            // transpose RAExtensions.ManagerGridSettings.ColumnOrder
+            // add grid settings version info
+            var settings = new RADataGridViewSettings();
+
+            if (!columnOrderCollection.Any())
+                throw new NullReferenceException("<ERROR> columnOrderCollection ...");
+
+            try
+            {
+                for (int i = 0; i < columnOrderCollection.Count; i++)
+                    settings.ColumnOrder.Add(new ColumnOrderItem
+                    {
+                        ColumnIndex = columnOrderCollection[i].ColumnIndex,
+                        DisplayIndex = columnOrderCollection[i].DisplayIndex,
+                        Visible = columnOrderCollection[i].Visible,
+                        Width = columnOrderCollection[i].Width,
+                        ColumnName = columnOrderCollection[i].ColumnName,
+                        HeaderText = columnOrderCollection[i].HeaderText
+                    });
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(String.Format("<Error>: {0}", ex.Message));
+            }
+
+            return settings;
+        }
+
+        public static bool ValidateGridSettingsVersion(string gridSettingsPath)
+        {
+            // check the version info
+            if (!File.Exists(gridSettingsPath))
+                return false;
+
+            using (var fs = File.OpenRead(gridSettingsPath))
+            {
+                try
+                {
+                    var gs = fs.DeserializeXml<RADataGridViewSettings>();
+
+                    if (gs.LoadedVersion == null)
+                        return false;
+                    if (gs.LoadedVersion != RADataGridViewSettings.gridViewSettingsVersion)
+                        return false;
+                }
+                catch (Exception)
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
 
     }

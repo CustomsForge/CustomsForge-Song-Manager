@@ -1,26 +1,36 @@
 ﻿DLogNet Usage Notes:
+======================
 
+Define a public global variable in Constants class
+
+  public DLogNet AppLogger;
+
+======================
 Place the following into the mainForm after InitializeComponent();
 
-     this.FormClosed += delegate
-         {
-             DLogger.Instance.RemoveTargetNotifyIcon(DLogger.Notifier);
-             notifierMain.Visible = false;
-             notifierMain.Dispose();
-             notifierMain.Icon = null;
-             Dispose();
-         };
+  // event handler for AppLogger
+  this.Closing += (object sender, CancelEventArgs e) =>
+  {
+      Constants.AppLogger.RemoveTargetNotifyIcon(Constants.AppLogger.Notifier);
+      notifierMain.Visible = false;
+      notifierMain.Icon.Dispose();
+      notifierMain.Dispose();
+      Application.DoEvents();
+  };
+           
+  InitLogger();
+         
+======================
+Add the following method
 
-
-
-       private void InitLogger()
-        {
-            tbLog.Clear();
-            tbLog.Text = String.Empty;
-            DLogger.Instance = null; // this is key to proper function
-            DLogger.Instance.AddTargetFile(Constants.AppLogPath);
-            DLogger.Instance.AddTargetTextBox(tbLog);
-            DLogger.Log("Initialized application logger ...");
-        }
+  private void InitLogger()
+  {
+      txtLog.Clear();
+      AppLogger = new AppLogger();
+      Constants.AppLogger.AddTargetFile(logPath);
+      Constants.AppLogger.AddTargetTextBox(txtLog);
+      Constants.AppLogger.AddTargetNotifyIcon(notifierMain);
+      logger.Log("Initialized logger ...");
+  }
 		
 		

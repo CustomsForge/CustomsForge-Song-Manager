@@ -1,4 +1,5 @@
-﻿using CustomControls;
+﻿using System.Windows.Forms;
+using CustomControls;
 
 namespace CustomsForgeSongManager.SongEditor
 {
@@ -30,97 +31,104 @@ namespace CustomsForgeSongManager.SongEditor
         /// </summary>
         private void InitializeComponent()
         {
-            this.songXmlBrowseButton = new System.Windows.Forms.Button();
-            this.OkButton = new System.Windows.Forms.Button();
-            this.arrangementTypeCombo = new System.Windows.Forms.ComboBox();
+            this.components = new System.ComponentModel.Container();
+            this.btnBrowseXml = new System.Windows.Forms.Button();
+            this.btnOk = new System.Windows.Forms.Button();
+            this.cmbArrangementType = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.cancelButton = new System.Windows.Forms.Button();
-            this.toneBaseCombo = new System.Windows.Forms.ComboBox();
-            this.scrollSpeedTrackBar = new System.Windows.Forms.TrackBar();
+            this.btnCancel = new System.Windows.Forms.Button();
+            this.cmbToneBase = new System.Windows.Forms.ComboBox();
+            this.tbarScrollSpeed = new System.Windows.Forms.TrackBar();
             this.label3 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
-            this.scrollSpeedDisplay = new System.Windows.Forms.Label();
-            this.Picked = new System.Windows.Forms.CheckBox();
+            this.txtScrollSpeed = new System.Windows.Forms.Label();
+            this.chkBassPicked = new System.Windows.Forms.CheckBox();
             this.label4 = new System.Windows.Forms.Label();
-            this.arrangementNameCombo = new System.Windows.Forms.ComboBox();
+            this.cmbArrangementName = new System.Windows.Forms.ComboBox();
             this.label6 = new System.Windows.Forms.Label();
-            this.tuningComboBox = new System.Windows.Forms.ComboBox();
+            this.cmbTuningName = new System.Windows.Forms.ComboBox();
             this.gbTone = new System.Windows.Forms.GroupBox();
             this.label8 = new System.Windows.Forms.Label();
-            this.toneACombo = new System.Windows.Forms.ComboBox();
-            this.disableTonesCheckbox = new System.Windows.Forms.CheckBox();
+            this.cmbToneA = new System.Windows.Forms.ComboBox();
+            this.chkTonesDisabled = new System.Windows.Forms.CheckBox();
             this.label10 = new System.Windows.Forms.Label();
-            this.toneDCombo = new System.Windows.Forms.ComboBox();
+            this.cmbToneD = new System.Windows.Forms.ComboBox();
             this.label11 = new System.Windows.Forms.Label();
-            this.toneCCombo = new System.Windows.Forms.ComboBox();
+            this.cmbToneC = new System.Windows.Forms.ComboBox();
             this.label9 = new System.Windows.Forms.Label();
-            this.toneBCombo = new System.Windows.Forms.ComboBox();
+            this.cmbToneB = new System.Windows.Forms.ComboBox();
             this.lblToneA = new System.Windows.Forms.Label();
             this.gbDLCId = new System.Windows.Forms.GroupBox();
-            this.PersistentId = new CueTextBox();
-            this.MasterId = new CueTextBox();
+            this.txtPersistentId = new CueTextBox();
+            this.txtMasterId = new CueTextBox();
             this.gbXmlDefinition = new System.Windows.Forms.GroupBox();
-            this.XmlFilePath = new CueTextBox();
+            this.txtXmlPath = new CueTextBox();
             this.gbArrInfo = new System.Windows.Forms.GroupBox();
+            this.pnlArrangementRepresentative = new System.Windows.Forms.Panel();
+            this.rbArrangementAlternate = new System.Windows.Forms.RadioButton();
+            this.rbArrangementDefault = new System.Windows.Forms.RadioButton();
+            this.rbArrangementBonus = new System.Windows.Forms.RadioButton();
             this.gbScrollSpeed = new System.Windows.Forms.GroupBox();
-            this.typeEdit = new System.Windows.Forms.Button();
-            this.tuningEditButton = new System.Windows.Forms.Button();
-            this.BonusCheckBox = new System.Windows.Forms.CheckBox();
+            this.btnEditType = new System.Windows.Forms.Button();
+            this.btnEditTuning = new System.Windows.Forms.Button();
             this.gbTuningPitch = new System.Windows.Forms.GroupBox();
-            this.noteDisplay = new System.Windows.Forms.Label();
-            this.frequencyTB = new CueTextBox();
-            this.centOffsetDisplay = new System.Windows.Forms.Label();
+            this.label12 = new System.Windows.Forms.Label();
+            this.lblRootNote = new System.Windows.Forms.Label();
+            this.txtFrequency = new CueTextBox();
+            this.txtCentOffset = new CueTextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
             this.gbGameplayPath = new System.Windows.Forms.GroupBox();
-            this.routeMaskNoneRadio = new System.Windows.Forms.RadioButton();
-            this.routeMaskBassRadio = new System.Windows.Forms.RadioButton();
-            this.routeMaskRhythmRadio = new System.Windows.Forms.RadioButton();
-            this.routeMaskLeadRadio = new System.Windows.Forms.RadioButton();
-            this.MetronomeCb = new System.Windows.Forms.CheckBox();
-            ((System.ComponentModel.ISupportInitialize)(this.scrollSpeedTrackBar)).BeginInit();
+            this.rbRouteMaskNone = new System.Windows.Forms.RadioButton();
+            this.rbRouteMaskBass = new System.Windows.Forms.RadioButton();
+            this.rbRouteMaskRhythm = new System.Windows.Forms.RadioButton();
+            this.rbRouteMaskLead = new System.Windows.Forms.RadioButton();
+            this.chkMetronome = new System.Windows.Forms.CheckBox();
+            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
+            ((System.ComponentModel.ISupportInitialize)(this.tbarScrollSpeed)).BeginInit();
             this.gbTone.SuspendLayout();
             this.gbDLCId.SuspendLayout();
             this.gbXmlDefinition.SuspendLayout();
             this.gbArrInfo.SuspendLayout();
+            this.pnlArrangementRepresentative.SuspendLayout();
             this.gbScrollSpeed.SuspendLayout();
             this.gbTuningPitch.SuspendLayout();
             this.gbGameplayPath.SuspendLayout();
             this.SuspendLayout();
             // 
-            // songXmlBrowseButton
+            // btnBrowseXml
             // 
-            this.songXmlBrowseButton.Location = new System.Drawing.Point(363, 16);
-            this.songXmlBrowseButton.Name = "songXmlBrowseButton";
-            this.songXmlBrowseButton.Size = new System.Drawing.Size(62, 23);
-            this.songXmlBrowseButton.TabIndex = 1;
-            this.songXmlBrowseButton.Text = "Browse";
-            this.songXmlBrowseButton.UseVisualStyleBackColor = true;
-            this.songXmlBrowseButton.Click += new System.EventHandler(this.songXmlBrowseButton_Click);
+            this.btnBrowseXml.Location = new System.Drawing.Point(363, 16);
+            this.btnBrowseXml.Name = "btnBrowseXml";
+            this.btnBrowseXml.Size = new System.Drawing.Size(62, 23);
+            this.btnBrowseXml.TabIndex = 1;
+            this.btnBrowseXml.Text = "Browse";
+            this.btnBrowseXml.UseVisualStyleBackColor = true;
+            this.btnBrowseXml.Click += new System.EventHandler(this.btnBrowseXml_Click);
             // 
-            // OkButton
+            // btnOk
             // 
-            this.OkButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.OkButton.BackColor = System.Drawing.Color.LightSteelBlue;
-            this.OkButton.Location = new System.Drawing.Point(291, 440);
-            this.OkButton.Name = "OkButton";
-            this.OkButton.Size = new System.Drawing.Size(72, 29);
-            this.OkButton.TabIndex = 22;
-            this.OkButton.Text = "Ok";
-            this.OkButton.UseVisualStyleBackColor = false;
-            this.OkButton.Click += new System.EventHandler(this.OkButton_Click);
+            this.btnOk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnOk.BackColor = System.Drawing.Color.LightSteelBlue;
+            this.btnOk.Location = new System.Drawing.Point(291, 453);
+            this.btnOk.Name = "btnOk";
+            this.btnOk.Size = new System.Drawing.Size(72, 29);
+            this.btnOk.TabIndex = 22;
+            this.btnOk.Text = "Ok";
+            this.btnOk.UseVisualStyleBackColor = false;
+            this.btnOk.Click += new System.EventHandler(this.btnOk_Click);
             // 
-            // arrangementTypeCombo
+            // cmbArrangementType
             // 
-            this.arrangementTypeCombo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.arrangementTypeCombo.FormattingEnabled = true;
-            this.arrangementTypeCombo.Location = new System.Drawing.Point(54, 18);
-            this.arrangementTypeCombo.Margin = new System.Windows.Forms.Padding(2);
-            this.arrangementTypeCombo.Name = "arrangementTypeCombo";
-            this.arrangementTypeCombo.Size = new System.Drawing.Size(119, 21);
-            this.arrangementTypeCombo.TabIndex = 2;
+            this.cmbArrangementType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbArrangementType.FormattingEnabled = true;
+            this.cmbArrangementType.Location = new System.Drawing.Point(54, 18);
+            this.cmbArrangementType.Margin = new System.Windows.Forms.Padding(2);
+            this.cmbArrangementType.Name = "cmbArrangementType";
+            this.cmbArrangementType.Size = new System.Drawing.Size(119, 21);
+            this.cmbArrangementType.TabIndex = 2;
             // 
             // label1
             // 
@@ -133,43 +141,44 @@ namespace CustomsForgeSongManager.SongEditor
             this.label1.TabIndex = 25;
             this.label1.Text = "Type:";
             // 
-            // cancelButton
+            // btnCancel
             // 
-            this.cancelButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.cancelButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
-            this.cancelButton.Location = new System.Drawing.Point(369, 440);
-            this.cancelButton.Name = "cancelButton";
-            this.cancelButton.Size = new System.Drawing.Size(72, 29);
-            this.cancelButton.TabIndex = 23;
-            this.cancelButton.Text = "Cancel";
-            this.cancelButton.UseVisualStyleBackColor = true;
-            this.cancelButton.Click += new System.EventHandler(this.cancelButton_Click);
+            this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnCancel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
+            this.btnCancel.Location = new System.Drawing.Point(369, 453);
+            this.btnCancel.Name = "btnCancel";
+            this.btnCancel.Size = new System.Drawing.Size(72, 29);
+            this.btnCancel.TabIndex = 23;
+            this.btnCancel.Text = "Cancel";
+            this.btnCancel.UseVisualStyleBackColor = true;
+            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
-            // toneBaseCombo
+            // cmbToneBase
             // 
-            this.toneBaseCombo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.toneBaseCombo.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.toneBaseCombo.FormattingEnabled = true;
-            this.toneBaseCombo.Location = new System.Drawing.Point(54, 20);
-            this.toneBaseCombo.Margin = new System.Windows.Forms.Padding(2);
-            this.toneBaseCombo.Name = "toneBaseCombo";
-            this.toneBaseCombo.Size = new System.Drawing.Size(152, 21);
-            this.toneBaseCombo.TabIndex = 15;
+            this.cmbToneBase.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbToneBase.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.cmbToneBase.FormattingEnabled = true;
+            this.cmbToneBase.Location = new System.Drawing.Point(54, 20);
+            this.cmbToneBase.Margin = new System.Windows.Forms.Padding(2);
+            this.cmbToneBase.Name = "cmbToneBase";
+            this.cmbToneBase.Size = new System.Drawing.Size(152, 21);
+            this.cmbToneBase.TabIndex = 15;
+            this.cmbToneBase.SelectedIndexChanged += new System.EventHandler(this.cmbTone_SelectedIndexChanged);
             // 
-            // scrollSpeedTrackBar
+            // tbarScrollSpeed
             // 
-            this.scrollSpeedTrackBar.AutoSize = false;
-            this.scrollSpeedTrackBar.Location = new System.Drawing.Point(43, 14);
-            this.scrollSpeedTrackBar.Margin = new System.Windows.Forms.Padding(2);
-            this.scrollSpeedTrackBar.Maximum = 45;
-            this.scrollSpeedTrackBar.Minimum = 5;
-            this.scrollSpeedTrackBar.Name = "scrollSpeedTrackBar";
-            this.scrollSpeedTrackBar.Size = new System.Drawing.Size(121, 23);
-            this.scrollSpeedTrackBar.TabIndex = 9;
-            this.scrollSpeedTrackBar.TabStop = false;
-            this.scrollSpeedTrackBar.TickStyle = System.Windows.Forms.TickStyle.TopLeft;
-            this.scrollSpeedTrackBar.Value = 20;
-            this.scrollSpeedTrackBar.ValueChanged += new System.EventHandler(this.scrollSpeedTrackBar_ValueChanged);
+            this.tbarScrollSpeed.AutoSize = false;
+            this.tbarScrollSpeed.Location = new System.Drawing.Point(43, 14);
+            this.tbarScrollSpeed.Margin = new System.Windows.Forms.Padding(2);
+            this.tbarScrollSpeed.Maximum = 45;
+            this.tbarScrollSpeed.Minimum = 5;
+            this.tbarScrollSpeed.Name = "tbarScrollSpeed";
+            this.tbarScrollSpeed.Size = new System.Drawing.Size(121, 23);
+            this.tbarScrollSpeed.TabIndex = 9;
+            this.tbarScrollSpeed.TabStop = false;
+            this.tbarScrollSpeed.TickStyle = System.Windows.Forms.TickStyle.TopLeft;
+            this.tbarScrollSpeed.Value = 20;
+            this.tbarScrollSpeed.ValueChanged += new System.EventHandler(this.tbarScrollSpeed_ValueChanged);
             // 
             // label3
             // 
@@ -193,27 +202,27 @@ namespace CustomsForgeSongManager.SongEditor
             this.label5.TabIndex = 32;
             this.label5.Text = "Slowest";
             // 
-            // scrollSpeedDisplay
+            // txtScrollSpeed
             // 
-            this.scrollSpeedDisplay.AutoSize = true;
-            this.scrollSpeedDisplay.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.scrollSpeedDisplay.Location = new System.Drawing.Point(71, 43);
-            this.scrollSpeedDisplay.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.scrollSpeedDisplay.Name = "scrollSpeedDisplay";
-            this.scrollSpeedDisplay.Size = new System.Drawing.Size(71, 13);
-            this.scrollSpeedDisplay.TabIndex = 36;
-            this.scrollSpeedDisplay.Text = "{Scroll Value}";
+            this.txtScrollSpeed.AutoSize = true;
+            this.txtScrollSpeed.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.txtScrollSpeed.Location = new System.Drawing.Point(71, 43);
+            this.txtScrollSpeed.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.txtScrollSpeed.Name = "txtScrollSpeed";
+            this.txtScrollSpeed.Size = new System.Drawing.Size(71, 13);
+            this.txtScrollSpeed.TabIndex = 36;
+            this.txtScrollSpeed.Text = "{Scroll Value}";
             // 
-            // Picked
+            // chkBassPicked
             // 
-            this.Picked.AutoSize = true;
-            this.Picked.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.Picked.Location = new System.Drawing.Point(54, 122);
-            this.Picked.Name = "Picked";
-            this.Picked.Size = new System.Drawing.Size(85, 17);
-            this.Picked.TabIndex = 8;
-            this.Picked.Text = "Bass Picked";
-            this.Picked.UseVisualStyleBackColor = true;
+            this.chkBassPicked.AutoSize = true;
+            this.chkBassPicked.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.chkBassPicked.Location = new System.Drawing.Point(78, 134);
+            this.chkBassPicked.Name = "chkBassPicked";
+            this.chkBassPicked.Size = new System.Drawing.Size(85, 17);
+            this.chkBassPicked.TabIndex = 8;
+            this.chkBassPicked.Text = "Bass Picked";
+            this.chkBassPicked.UseVisualStyleBackColor = true;
             // 
             // label4
             // 
@@ -226,15 +235,15 @@ namespace CustomsForgeSongManager.SongEditor
             this.label4.TabIndex = 38;
             this.label4.Text = "Name:";
             // 
-            // arrangementNameCombo
+            // cmbArrangementName
             // 
-            this.arrangementNameCombo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.arrangementNameCombo.FormattingEnabled = true;
-            this.arrangementNameCombo.Location = new System.Drawing.Point(54, 43);
-            this.arrangementNameCombo.Margin = new System.Windows.Forms.Padding(2);
-            this.arrangementNameCombo.Name = "arrangementNameCombo";
-            this.arrangementNameCombo.Size = new System.Drawing.Size(152, 21);
-            this.arrangementNameCombo.TabIndex = 4;
+            this.cmbArrangementName.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbArrangementName.FormattingEnabled = true;
+            this.cmbArrangementName.Location = new System.Drawing.Point(54, 43);
+            this.cmbArrangementName.Margin = new System.Windows.Forms.Padding(2);
+            this.cmbArrangementName.Name = "cmbArrangementName";
+            this.cmbArrangementName.Size = new System.Drawing.Size(152, 21);
+            this.cmbArrangementName.TabIndex = 4;
             // 
             // label6
             // 
@@ -247,31 +256,31 @@ namespace CustomsForgeSongManager.SongEditor
             this.label6.TabIndex = 40;
             this.label6.Text = "Tuning:";
             // 
-            // tuningComboBox
+            // cmbTuningName
             // 
-            this.tuningComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.tuningComboBox.FormattingEnabled = true;
-            this.tuningComboBox.Location = new System.Drawing.Point(54, 68);
-            this.tuningComboBox.Margin = new System.Windows.Forms.Padding(2);
-            this.tuningComboBox.Name = "tuningComboBox";
-            this.tuningComboBox.Size = new System.Drawing.Size(119, 21);
-            this.tuningComboBox.TabIndex = 5;
+            this.cmbTuningName.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbTuningName.FormattingEnabled = true;
+            this.cmbTuningName.Location = new System.Drawing.Point(54, 68);
+            this.cmbTuningName.Margin = new System.Windows.Forms.Padding(2);
+            this.cmbTuningName.Name = "cmbTuningName";
+            this.cmbTuningName.Size = new System.Drawing.Size(119, 21);
+            this.cmbTuningName.TabIndex = 5;
             // 
             // gbTone
             // 
             this.gbTone.Controls.Add(this.label8);
-            this.gbTone.Controls.Add(this.toneACombo);
-            this.gbTone.Controls.Add(this.disableTonesCheckbox);
+            this.gbTone.Controls.Add(this.cmbToneA);
+            this.gbTone.Controls.Add(this.chkTonesDisabled);
             this.gbTone.Controls.Add(this.label10);
-            this.gbTone.Controls.Add(this.toneDCombo);
+            this.gbTone.Controls.Add(this.cmbToneD);
             this.gbTone.Controls.Add(this.label11);
-            this.gbTone.Controls.Add(this.toneCCombo);
+            this.gbTone.Controls.Add(this.cmbToneC);
             this.gbTone.Controls.Add(this.label9);
-            this.gbTone.Controls.Add(this.toneBCombo);
+            this.gbTone.Controls.Add(this.cmbToneB);
             this.gbTone.Controls.Add(this.lblToneA);
-            this.gbTone.Controls.Add(this.toneBaseCombo);
+            this.gbTone.Controls.Add(this.cmbToneBase);
             this.gbTone.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
-            this.gbTone.Location = new System.Drawing.Point(6, 267);
+            this.gbTone.Location = new System.Drawing.Point(6, 277);
             this.gbTone.Name = "gbTone";
             this.gbTone.Padding = new System.Windows.Forms.Padding(0);
             this.gbTone.Size = new System.Drawing.Size(435, 113);
@@ -290,31 +299,31 @@ namespace CustomsForgeSongManager.SongEditor
             this.label8.TabIndex = 57;
             this.label8.Text = "Tone A:";
             // 
-            // toneACombo
+            // cmbToneA
             // 
-            this.toneACombo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.toneACombo.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.toneACombo.FormattingEnabled = true;
-            this.toneACombo.Location = new System.Drawing.Point(54, 45);
-            this.toneACombo.Margin = new System.Windows.Forms.Padding(2);
-            this.toneACombo.Name = "toneACombo";
-            this.toneACombo.Size = new System.Drawing.Size(152, 21);
-            this.toneACombo.TabIndex = 56;
-            this.toneACombo.SelectedIndexChanged += new System.EventHandler(this.toneCombo_SelectedIndexChanged);
+            this.cmbToneA.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbToneA.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.cmbToneA.FormattingEnabled = true;
+            this.cmbToneA.Location = new System.Drawing.Point(54, 45);
+            this.cmbToneA.Margin = new System.Windows.Forms.Padding(2);
+            this.cmbToneA.Name = "cmbToneA";
+            this.cmbToneA.Size = new System.Drawing.Size(152, 21);
+            this.cmbToneA.TabIndex = 56;
+            this.cmbToneA.SelectedIndexChanged += new System.EventHandler(this.cmbTone_SelectedIndexChanged);
             // 
-            // disableTonesCheckbox
+            // chkTonesDisabled
             // 
-            this.disableTonesCheckbox.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.disableTonesCheckbox.Location = new System.Drawing.Point(10, 71);
-            this.disableTonesCheckbox.Name = "disableTonesCheckbox";
-            this.disableTonesCheckbox.Padding = new System.Windows.Forms.Padding(3, 0, 0, 0);
-            this.disableTonesCheckbox.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.disableTonesCheckbox.Size = new System.Drawing.Size(196, 39);
-            this.disableTonesCheckbox.TabIndex = 19;
-            this.disableTonesCheckbox.Text = "If checked, tone slots are disabled to prevent multiple tone failure.";
-            this.disableTonesCheckbox.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.disableTonesCheckbox.UseVisualStyleBackColor = true;
-            this.disableTonesCheckbox.CheckedChanged += new System.EventHandler(this.disableTonesCheckbox_CheckedChanged);
+            this.chkTonesDisabled.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.chkTonesDisabled.Location = new System.Drawing.Point(10, 71);
+            this.chkTonesDisabled.Name = "chkTonesDisabled";
+            this.chkTonesDisabled.Padding = new System.Windows.Forms.Padding(3, 0, 0, 0);
+            this.chkTonesDisabled.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.chkTonesDisabled.Size = new System.Drawing.Size(196, 39);
+            this.chkTonesDisabled.TabIndex = 19;
+            this.chkTonesDisabled.Text = "If checked, tone slots are disabled to prevent multitone failure.";
+            this.chkTonesDisabled.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.chkTonesDisabled.UseVisualStyleBackColor = true;
+            this.chkTonesDisabled.CheckedChanged += new System.EventHandler(this.chkTonesDisabled_CheckedChanged);
             // 
             // label10
             // 
@@ -327,16 +336,17 @@ namespace CustomsForgeSongManager.SongEditor
             this.label10.TabIndex = 55;
             this.label10.Text = "Tone D:";
             // 
-            // toneDCombo
+            // cmbToneD
             // 
-            this.toneDCombo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.toneDCombo.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.toneDCombo.FormattingEnabled = true;
-            this.toneDCombo.Location = new System.Drawing.Point(270, 69);
-            this.toneDCombo.Margin = new System.Windows.Forms.Padding(2);
-            this.toneDCombo.Name = "toneDCombo";
-            this.toneDCombo.Size = new System.Drawing.Size(152, 21);
-            this.toneDCombo.TabIndex = 18;
+            this.cmbToneD.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbToneD.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.cmbToneD.FormattingEnabled = true;
+            this.cmbToneD.Location = new System.Drawing.Point(270, 69);
+            this.cmbToneD.Margin = new System.Windows.Forms.Padding(2);
+            this.cmbToneD.Name = "cmbToneD";
+            this.cmbToneD.Size = new System.Drawing.Size(152, 21);
+            this.cmbToneD.TabIndex = 18;
+            this.cmbToneD.SelectedIndexChanged += new System.EventHandler(this.cmbTone_SelectedIndexChanged);
             // 
             // label11
             // 
@@ -349,17 +359,17 @@ namespace CustomsForgeSongManager.SongEditor
             this.label11.TabIndex = 53;
             this.label11.Text = "Tone C:";
             // 
-            // toneCCombo
+            // cmbToneC
             // 
-            this.toneCCombo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.toneCCombo.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.toneCCombo.FormattingEnabled = true;
-            this.toneCCombo.Location = new System.Drawing.Point(270, 44);
-            this.toneCCombo.Margin = new System.Windows.Forms.Padding(2);
-            this.toneCCombo.Name = "toneCCombo";
-            this.toneCCombo.Size = new System.Drawing.Size(152, 21);
-            this.toneCCombo.TabIndex = 17;
-            this.toneCCombo.SelectedIndexChanged += new System.EventHandler(this.toneCombo_SelectedIndexChanged);
+            this.cmbToneC.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbToneC.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.cmbToneC.FormattingEnabled = true;
+            this.cmbToneC.Location = new System.Drawing.Point(270, 44);
+            this.cmbToneC.Margin = new System.Windows.Forms.Padding(2);
+            this.cmbToneC.Name = "cmbToneC";
+            this.cmbToneC.Size = new System.Drawing.Size(152, 21);
+            this.cmbToneC.TabIndex = 17;
+            this.cmbToneC.SelectedIndexChanged += new System.EventHandler(this.cmbTone_SelectedIndexChanged);
             // 
             // label9
             // 
@@ -372,17 +382,17 @@ namespace CustomsForgeSongManager.SongEditor
             this.label9.TabIndex = 49;
             this.label9.Text = "Tone B:";
             // 
-            // toneBCombo
+            // cmbToneB
             // 
-            this.toneBCombo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.toneBCombo.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.toneBCombo.FormattingEnabled = true;
-            this.toneBCombo.Location = new System.Drawing.Point(270, 19);
-            this.toneBCombo.Margin = new System.Windows.Forms.Padding(2);
-            this.toneBCombo.Name = "toneBCombo";
-            this.toneBCombo.Size = new System.Drawing.Size(152, 21);
-            this.toneBCombo.TabIndex = 16;
-            this.toneBCombo.SelectedIndexChanged += new System.EventHandler(this.toneCombo_SelectedIndexChanged);
+            this.cmbToneB.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbToneB.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.cmbToneB.FormattingEnabled = true;
+            this.cmbToneB.Location = new System.Drawing.Point(270, 19);
+            this.cmbToneB.Margin = new System.Windows.Forms.Padding(2);
+            this.cmbToneB.Name = "cmbToneB";
+            this.cmbToneB.Size = new System.Drawing.Size(152, 21);
+            this.cmbToneB.TabIndex = 16;
+            this.cmbToneB.SelectedIndexChanged += new System.EventHandler(this.cmbTone_SelectedIndexChanged);
             // 
             // lblToneA
             // 
@@ -397,40 +407,40 @@ namespace CustomsForgeSongManager.SongEditor
             // 
             // gbDLCId
             // 
-            this.gbDLCId.Controls.Add(this.PersistentId);
-            this.gbDLCId.Controls.Add(this.MasterId);
+            this.gbDLCId.Controls.Add(this.txtPersistentId);
+            this.gbDLCId.Controls.Add(this.txtMasterId);
             this.gbDLCId.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
-            this.gbDLCId.Location = new System.Drawing.Point(6, 386);
+            this.gbDLCId.Location = new System.Drawing.Point(6, 396);
             this.gbDLCId.Name = "gbDLCId";
             this.gbDLCId.Size = new System.Drawing.Size(435, 47);
             this.gbDLCId.TabIndex = 33;
             this.gbDLCId.TabStop = false;
             this.gbDLCId.Text = "Arrangement Identification";
             // 
-            // PersistentId
+            // txtPersistentId
             // 
-            this.PersistentId.Cue = "PersistentID";
-            this.PersistentId.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
-            this.PersistentId.ForeColor = System.Drawing.Color.Gray;
-            this.PersistentId.Location = new System.Drawing.Point(156, 19);
-            this.PersistentId.Name = "PersistentId";
-            this.PersistentId.Size = new System.Drawing.Size(269, 20);
-            this.PersistentId.TabIndex = 21;
+            this.txtPersistentId.Cue = "PersistentID";
+            this.txtPersistentId.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
+            this.txtPersistentId.ForeColor = System.Drawing.Color.Gray;
+            this.txtPersistentId.Location = new System.Drawing.Point(156, 19);
+            this.txtPersistentId.Name = "txtPersistentId";
+            this.txtPersistentId.Size = new System.Drawing.Size(269, 20);
+            this.txtPersistentId.TabIndex = 21;
             // 
-            // MasterId
+            // txtMasterId
             // 
-            this.MasterId.Cue = "MasterID";
-            this.MasterId.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
-            this.MasterId.ForeColor = System.Drawing.Color.Gray;
-            this.MasterId.Location = new System.Drawing.Point(6, 19);
-            this.MasterId.Name = "MasterId";
-            this.MasterId.Size = new System.Drawing.Size(144, 20);
-            this.MasterId.TabIndex = 20;
+            this.txtMasterId.Cue = "MasterID";
+            this.txtMasterId.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
+            this.txtMasterId.ForeColor = System.Drawing.Color.Gray;
+            this.txtMasterId.Location = new System.Drawing.Point(6, 19);
+            this.txtMasterId.Name = "txtMasterId";
+            this.txtMasterId.Size = new System.Drawing.Size(144, 20);
+            this.txtMasterId.TabIndex = 20;
             // 
             // gbXmlDefinition
             // 
-            this.gbXmlDefinition.Controls.Add(this.XmlFilePath);
-            this.gbXmlDefinition.Controls.Add(this.songXmlBrowseButton);
+            this.gbXmlDefinition.Controls.Add(this.txtXmlPath);
+            this.gbXmlDefinition.Controls.Add(this.btnBrowseXml);
             this.gbXmlDefinition.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
             this.gbXmlDefinition.Location = new System.Drawing.Point(6, 11);
             this.gbXmlDefinition.Name = "gbXmlDefinition";
@@ -439,46 +449,95 @@ namespace CustomsForgeSongManager.SongEditor
             this.gbXmlDefinition.TabStop = false;
             this.gbXmlDefinition.Text = "Song XML File";
             // 
-            // XmlFilePath
+            // txtXmlPath
             // 
-            this.XmlFilePath.Cue = "Song Xml File (*.xml)";
-            this.XmlFilePath.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
-            this.XmlFilePath.ForeColor = System.Drawing.Color.Gray;
-            this.XmlFilePath.Location = new System.Drawing.Point(10, 17);
-            this.XmlFilePath.Multiline = true;
-            this.XmlFilePath.Name = "XmlFilePath";
-            this.XmlFilePath.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.XmlFilePath.Size = new System.Drawing.Size(347, 20);
-            this.XmlFilePath.TabIndex = 0;
+            this.txtXmlPath.Cue = "Song Xml File (*.xml)";
+            this.txtXmlPath.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
+            this.txtXmlPath.ForeColor = System.Drawing.Color.Gray;
+            this.txtXmlPath.Location = new System.Drawing.Point(10, 17);
+            this.txtXmlPath.Multiline = true;
+            this.txtXmlPath.Name = "txtXmlPath";
+            this.txtXmlPath.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.txtXmlPath.Size = new System.Drawing.Size(347, 20);
+            this.txtXmlPath.TabIndex = 0;
             // 
             // gbArrInfo
             // 
+            this.gbArrInfo.Controls.Add(this.pnlArrangementRepresentative);
             this.gbArrInfo.Controls.Add(this.gbScrollSpeed);
-            this.gbArrInfo.Controls.Add(this.typeEdit);
-            this.gbArrInfo.Controls.Add(this.tuningEditButton);
-            this.gbArrInfo.Controls.Add(this.BonusCheckBox);
+            this.gbArrInfo.Controls.Add(this.btnEditType);
+            this.gbArrInfo.Controls.Add(this.btnEditTuning);
+            this.gbArrInfo.Controls.Add(this.chkBassPicked);
             this.gbArrInfo.Controls.Add(this.gbTuningPitch);
-            this.gbArrInfo.Controls.Add(this.Picked);
             this.gbArrInfo.Controls.Add(this.label4);
-            this.gbArrInfo.Controls.Add(this.arrangementTypeCombo);
+            this.gbArrInfo.Controls.Add(this.cmbArrangementType);
             this.gbArrInfo.Controls.Add(this.label1);
-            this.gbArrInfo.Controls.Add(this.arrangementNameCombo);
+            this.gbArrInfo.Controls.Add(this.cmbArrangementName);
             this.gbArrInfo.Controls.Add(this.label6);
-            this.gbArrInfo.Controls.Add(this.tuningComboBox);
+            this.gbArrInfo.Controls.Add(this.cmbTuningName);
             this.gbArrInfo.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
             this.gbArrInfo.Location = new System.Drawing.Point(6, 64);
             this.gbArrInfo.Name = "gbArrInfo";
-            this.gbArrInfo.Size = new System.Drawing.Size(435, 147);
+            this.gbArrInfo.Size = new System.Drawing.Size(435, 157);
             this.gbArrInfo.TabIndex = 45;
             this.gbArrInfo.TabStop = false;
             this.gbArrInfo.Text = "Arrangement Information";
+            // 
+            // pnlArrangementRepresentative
+            // 
+            this.pnlArrangementRepresentative.Controls.Add(this.rbArrangementAlternate);
+            this.pnlArrangementRepresentative.Controls.Add(this.rbArrangementDefault);
+            this.pnlArrangementRepresentative.Controls.Add(this.rbArrangementBonus);
+            this.pnlArrangementRepresentative.Location = new System.Drawing.Point(10, 94);
+            this.pnlArrangementRepresentative.Name = "pnlArrangementRepresentative";
+            this.pnlArrangementRepresentative.Size = new System.Drawing.Size(198, 29);
+            this.pnlArrangementRepresentative.TabIndex = 46;
+            // 
+            // rbArrangementAlternate
+            // 
+            this.rbArrangementAlternate.AutoSize = true;
+            this.rbArrangementAlternate.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.rbArrangementAlternate.Location = new System.Drawing.Point(129, 6);
+            this.rbArrangementAlternate.Name = "rbArrangementAlternate";
+            this.rbArrangementAlternate.Size = new System.Drawing.Size(67, 17);
+            this.rbArrangementAlternate.TabIndex = 49;
+            this.rbArrangementAlternate.TabStop = true;
+            this.rbArrangementAlternate.Text = "Alternate";
+            this.toolTip.SetToolTip(this.rbArrangementAlternate, "Arrangement Represent");
+            this.rbArrangementAlternate.UseVisualStyleBackColor = true;
+            // 
+            // rbArrangementDefault
+            // 
+            this.rbArrangementDefault.AutoSize = true;
+            this.rbArrangementDefault.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.rbArrangementDefault.Location = new System.Drawing.Point(3, 6);
+            this.rbArrangementDefault.Name = "rbArrangementDefault";
+            this.rbArrangementDefault.Size = new System.Drawing.Size(59, 17);
+            this.rbArrangementDefault.TabIndex = 47;
+            this.rbArrangementDefault.TabStop = true;
+            this.rbArrangementDefault.Text = "Default";
+            this.toolTip.SetToolTip(this.rbArrangementDefault, "Arrangement Represent");
+            this.rbArrangementDefault.UseVisualStyleBackColor = true;
+            // 
+            // rbArrangementBonus
+            // 
+            this.rbArrangementBonus.AutoSize = true;
+            this.rbArrangementBonus.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.rbArrangementBonus.Location = new System.Drawing.Point(68, 6);
+            this.rbArrangementBonus.Name = "rbArrangementBonus";
+            this.rbArrangementBonus.Size = new System.Drawing.Size(55, 17);
+            this.rbArrangementBonus.TabIndex = 48;
+            this.rbArrangementBonus.TabStop = true;
+            this.rbArrangementBonus.Text = "Bonus";
+            this.toolTip.SetToolTip(this.rbArrangementBonus, "Arrangement Represent");
+            this.rbArrangementBonus.UseVisualStyleBackColor = true;
             // 
             // gbScrollSpeed
             // 
             this.gbScrollSpeed.Controls.Add(this.label5);
             this.gbScrollSpeed.Controls.Add(this.label3);
-            this.gbScrollSpeed.Controls.Add(this.scrollSpeedDisplay);
-            this.gbScrollSpeed.Controls.Add(this.scrollSpeedTrackBar);
+            this.gbScrollSpeed.Controls.Add(this.txtScrollSpeed);
+            this.gbScrollSpeed.Controls.Add(this.tbarScrollSpeed);
             this.gbScrollSpeed.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
             this.gbScrollSpeed.Location = new System.Drawing.Point(214, 12);
             this.gbScrollSpeed.Name = "gbScrollSpeed";
@@ -487,43 +546,35 @@ namespace CustomsForgeSongManager.SongEditor
             this.gbScrollSpeed.TabStop = false;
             this.gbScrollSpeed.Text = "Scroll Speed";
             // 
-            // typeEdit
+            // btnEditType
             // 
-            this.typeEdit.Enabled = false;
-            this.typeEdit.Location = new System.Drawing.Point(178, 17);
-            this.typeEdit.Name = "typeEdit";
-            this.typeEdit.Size = new System.Drawing.Size(28, 23);
-            this.typeEdit.TabIndex = 3;
-            this.typeEdit.Text = "...";
-            this.typeEdit.UseVisualStyleBackColor = true;
-            this.typeEdit.Click += new System.EventHandler(this.typeEdit_Click);
+            this.btnEditType.Enabled = false;
+            this.btnEditType.Location = new System.Drawing.Point(178, 17);
+            this.btnEditType.Name = "btnEditType";
+            this.btnEditType.Size = new System.Drawing.Size(28, 23);
+            this.btnEditType.TabIndex = 3;
+            this.btnEditType.Text = "...";
+            this.toolTip.SetToolTip(this.btnEditType, "Click to open type editor.");
+            this.btnEditType.UseVisualStyleBackColor = true;
+            this.btnEditType.Click += new System.EventHandler(this.btnEditType_Click);
             // 
-            // tuningEditButton
+            // btnEditTuning
             // 
-            this.tuningEditButton.Location = new System.Drawing.Point(178, 67);
-            this.tuningEditButton.Name = "tuningEditButton";
-            this.tuningEditButton.Size = new System.Drawing.Size(28, 23);
-            this.tuningEditButton.TabIndex = 6;
-            this.tuningEditButton.Text = "...";
-            this.tuningEditButton.UseVisualStyleBackColor = true;
-            this.tuningEditButton.Click += new System.EventHandler(this.tuningEditButton_Click);
-            // 
-            // BonusCheckBox
-            // 
-            this.BonusCheckBox.AutoSize = true;
-            this.BonusCheckBox.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.BonusCheckBox.Location = new System.Drawing.Point(54, 99);
-            this.BonusCheckBox.Name = "BonusCheckBox";
-            this.BonusCheckBox.Size = new System.Drawing.Size(119, 17);
-            this.BonusCheckBox.TabIndex = 7;
-            this.BonusCheckBox.Text = "Bonus Arrangement";
-            this.BonusCheckBox.UseVisualStyleBackColor = true;
+            this.btnEditTuning.Location = new System.Drawing.Point(178, 67);
+            this.btnEditTuning.Name = "btnEditTuning";
+            this.btnEditTuning.Size = new System.Drawing.Size(28, 23);
+            this.btnEditTuning.TabIndex = 6;
+            this.btnEditTuning.Text = "...";
+            this.toolTip.SetToolTip(this.btnEditTuning, "Click to open tuning editor.");
+            this.btnEditTuning.UseVisualStyleBackColor = true;
+            this.btnEditTuning.Click += new System.EventHandler(this.btnEditTuning_Click);
             // 
             // gbTuningPitch
             // 
-            this.gbTuningPitch.Controls.Add(this.noteDisplay);
-            this.gbTuningPitch.Controls.Add(this.frequencyTB);
-            this.gbTuningPitch.Controls.Add(this.centOffsetDisplay);
+            this.gbTuningPitch.Controls.Add(this.label12);
+            this.gbTuningPitch.Controls.Add(this.lblRootNote);
+            this.gbTuningPitch.Controls.Add(this.txtFrequency);
+            this.gbTuningPitch.Controls.Add(this.txtCentOffset);
             this.gbTuningPitch.Controls.Add(this.label2);
             this.gbTuningPitch.Controls.Add(this.label14);
             this.gbTuningPitch.Controls.Add(this.label7);
@@ -531,47 +582,66 @@ namespace CustomsForgeSongManager.SongEditor
             this.gbTuningPitch.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
             this.gbTuningPitch.Location = new System.Drawing.Point(214, 79);
             this.gbTuningPitch.Name = "gbTuningPitch";
-            this.gbTuningPitch.Size = new System.Drawing.Size(211, 60);
+            this.gbTuningPitch.Size = new System.Drawing.Size(211, 67);
             this.gbTuningPitch.TabIndex = 43;
             this.gbTuningPitch.TabStop = false;
             this.gbTuningPitch.Text = "Tuning Pitch";
             // 
-            // noteDisplay
+            // label12
             // 
-            this.noteDisplay.AutoSize = true;
-            this.noteDisplay.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.noteDisplay.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
-            this.noteDisplay.Location = new System.Drawing.Point(168, 20);
-            this.noteDisplay.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.noteDisplay.Name = "noteDisplay";
-            this.noteDisplay.Size = new System.Drawing.Size(36, 13);
-            this.noteDisplay.TabIndex = 48;
-            this.noteDisplay.Text = "{note}";
+            this.label12.AutoSize = true;
+            this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label12.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.label12.Location = new System.Drawing.Point(115, 38);
+            this.label12.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(14, 15);
+            this.label12.TabIndex = 49;
+            this.label12.Text = "¢";
             // 
-            // frequencyTB
+            // lblRootNote
             // 
-            this.frequencyTB.Cue = "";
-            this.frequencyTB.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
-            this.frequencyTB.ForeColor = System.Drawing.Color.Black;
-            this.frequencyTB.Location = new System.Drawing.Point(71, 17);
-            this.frequencyTB.MaxLength = 5;
-            this.frequencyTB.Name = "frequencyTB";
-            this.frequencyTB.Size = new System.Drawing.Size(44, 20);
-            this.frequencyTB.TabIndex = 10;
-            this.frequencyTB.Text = "440";
-            this.frequencyTB.TextChanged += new System.EventHandler(this.frequencyTB_TextChanged);
+            this.lblRootNote.AutoSize = true;
+            this.lblRootNote.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lblRootNote.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
+            this.lblRootNote.Location = new System.Drawing.Point(155, 36);
+            this.lblRootNote.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblRootNote.Name = "lblRootNote";
+            this.lblRootNote.Size = new System.Drawing.Size(50, 16);
+            this.lblRootNote.TabIndex = 48;
+            this.lblRootNote.Text = "{note}";
+            this.lblRootNote.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
-            // centOffsetDisplay
+            // txtFrequency
             // 
-            this.centOffsetDisplay.AutoSize = true;
-            this.centOffsetDisplay.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.centOffsetDisplay.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
-            this.centOffsetDisplay.Location = new System.Drawing.Point(67, 41);
-            this.centOffsetDisplay.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.centOffsetDisplay.Name = "centOffsetDisplay";
-            this.centOffsetDisplay.Size = new System.Drawing.Size(64, 13);
-            this.centOffsetDisplay.TabIndex = 46;
-            this.centOffsetDisplay.Text = "{centOffset}";
+            this.txtFrequency.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtFrequency.Cue = "";
+            this.txtFrequency.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
+            this.txtFrequency.ForeColor = System.Drawing.Color.Black;
+            this.txtFrequency.Location = new System.Drawing.Point(66, 20);
+            this.txtFrequency.MaxLength = 9;
+            this.txtFrequency.Name = "txtFrequency";
+            this.txtFrequency.Size = new System.Drawing.Size(50, 13);
+            this.txtFrequency.TabIndex = 10;
+            this.txtFrequency.Text = "{A440}";
+            this.txtFrequency.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.txtFrequency.TextChanged += new System.EventHandler(this.txtFrequency_TextChanged);
+            // 
+            // txtCentOffset
+            // 
+            this.txtCentOffset.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtCentOffset.Cue = "";
+            this.txtCentOffset.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
+            this.txtCentOffset.ForeColor = System.Drawing.Color.Black;
+            this.txtCentOffset.Location = new System.Drawing.Point(66, 41);
+            this.txtCentOffset.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.txtCentOffset.MaxLength = 6;
+            this.txtCentOffset.Name = "txtCentOffset";
+            this.txtCentOffset.Size = new System.Drawing.Size(50, 13);
+            this.txtCentOffset.TabIndex = 11;
+            this.txtCentOffset.Text = "{cOffset}";
+            this.txtCentOffset.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.txtCentOffset.TextChanged += new System.EventHandler(this.txtFrequency_TextChanged);
             // 
             // label2
             // 
@@ -588,12 +658,12 @@ namespace CustomsForgeSongManager.SongEditor
             // 
             this.label14.AutoSize = true;
             this.label14.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.label14.Location = new System.Drawing.Point(138, 20);
+            this.label14.Location = new System.Drawing.Point(146, 19);
             this.label14.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(33, 13);
+            this.label14.Size = new System.Drawing.Size(59, 13);
             this.label14.TabIndex = 47;
-            this.label14.Text = "Note:";
+            this.label14.Text = "Root Note:";
             // 
             // label7
             // 
@@ -613,102 +683,110 @@ namespace CustomsForgeSongManager.SongEditor
             this.label13.Location = new System.Drawing.Point(115, 20);
             this.label13.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(18, 13);
+            this.label13.Size = new System.Drawing.Size(20, 13);
             this.label13.TabIndex = 45;
-            this.label13.Text = "hz";
+            this.label13.Text = "Hz";
             // 
             // gbGameplayPath
             // 
-            this.gbGameplayPath.Controls.Add(this.routeMaskNoneRadio);
-            this.gbGameplayPath.Controls.Add(this.routeMaskBassRadio);
-            this.gbGameplayPath.Controls.Add(this.routeMaskRhythmRadio);
-            this.gbGameplayPath.Controls.Add(this.routeMaskLeadRadio);
+            this.gbGameplayPath.Controls.Add(this.rbRouteMaskNone);
+            this.gbGameplayPath.Controls.Add(this.rbRouteMaskBass);
+            this.gbGameplayPath.Controls.Add(this.rbRouteMaskRhythm);
+            this.gbGameplayPath.Controls.Add(this.rbRouteMaskLead);
             this.gbGameplayPath.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
-            this.gbGameplayPath.Location = new System.Drawing.Point(6, 217);
+            this.gbGameplayPath.Location = new System.Drawing.Point(6, 227);
             this.gbGameplayPath.Name = "gbGameplayPath";
             this.gbGameplayPath.Size = new System.Drawing.Size(435, 44);
             this.gbGameplayPath.TabIndex = 34;
             this.gbGameplayPath.TabStop = false;
             this.gbGameplayPath.Text = "Gameplay Path";
             // 
-            // routeMaskNoneRadio
+            // rbRouteMaskNone
             // 
-            this.routeMaskNoneRadio.AutoSize = true;
-            this.routeMaskNoneRadio.Checked = true;
-            this.routeMaskNoneRadio.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.routeMaskNoneRadio.Location = new System.Drawing.Point(322, 19);
-            this.routeMaskNoneRadio.Name = "routeMaskNoneRadio";
-            this.routeMaskNoneRadio.Size = new System.Drawing.Size(51, 17);
-            this.routeMaskNoneRadio.TabIndex = 14;
-            this.routeMaskNoneRadio.TabStop = true;
-            this.routeMaskNoneRadio.Text = "None";
-            this.routeMaskNoneRadio.UseVisualStyleBackColor = true;
+            this.rbRouteMaskNone.AutoSize = true;
+            this.rbRouteMaskNone.Checked = true;
+            this.rbRouteMaskNone.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.rbRouteMaskNone.Location = new System.Drawing.Point(322, 19);
+            this.rbRouteMaskNone.Name = "rbRouteMaskNone";
+            this.rbRouteMaskNone.Size = new System.Drawing.Size(51, 17);
+            this.rbRouteMaskNone.TabIndex = 14;
+            this.rbRouteMaskNone.TabStop = true;
+            this.rbRouteMaskNone.Text = "None";
+            this.rbRouteMaskNone.UseVisualStyleBackColor = true;
             // 
-            // routeMaskBassRadio
+            // rbRouteMaskBass
             // 
-            this.routeMaskBassRadio.AutoSize = true;
-            this.routeMaskBassRadio.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.routeMaskBassRadio.Location = new System.Drawing.Point(243, 19);
-            this.routeMaskBassRadio.Name = "routeMaskBassRadio";
-            this.routeMaskBassRadio.Size = new System.Drawing.Size(48, 17);
-            this.routeMaskBassRadio.TabIndex = 13;
-            this.routeMaskBassRadio.Text = "Bass";
-            this.routeMaskBassRadio.UseVisualStyleBackColor = true;
+            this.rbRouteMaskBass.AutoSize = true;
+            this.rbRouteMaskBass.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.rbRouteMaskBass.Location = new System.Drawing.Point(243, 19);
+            this.rbRouteMaskBass.Name = "rbRouteMaskBass";
+            this.rbRouteMaskBass.Size = new System.Drawing.Size(48, 17);
+            this.rbRouteMaskBass.TabIndex = 13;
+            this.rbRouteMaskBass.Text = "Bass";
+            this.rbRouteMaskBass.UseVisualStyleBackColor = true;
             // 
-            // routeMaskRhythmRadio
+            // rbRouteMaskRhythm
             // 
-            this.routeMaskRhythmRadio.AutoSize = true;
-            this.routeMaskRhythmRadio.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.routeMaskRhythmRadio.Location = new System.Drawing.Point(156, 19);
-            this.routeMaskRhythmRadio.Name = "routeMaskRhythmRadio";
-            this.routeMaskRhythmRadio.Size = new System.Drawing.Size(61, 17);
-            this.routeMaskRhythmRadio.TabIndex = 12;
-            this.routeMaskRhythmRadio.Text = "Rhythm";
-            this.routeMaskRhythmRadio.UseVisualStyleBackColor = true;
+            this.rbRouteMaskRhythm.AutoSize = true;
+            this.rbRouteMaskRhythm.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.rbRouteMaskRhythm.Location = new System.Drawing.Point(156, 19);
+            this.rbRouteMaskRhythm.Name = "rbRouteMaskRhythm";
+            this.rbRouteMaskRhythm.Size = new System.Drawing.Size(61, 17);
+            this.rbRouteMaskRhythm.TabIndex = 12;
+            this.rbRouteMaskRhythm.Text = "Rhythm";
+            this.rbRouteMaskRhythm.UseVisualStyleBackColor = true;
             // 
-            // routeMaskLeadRadio
+            // rbRouteMaskLead
             // 
-            this.routeMaskLeadRadio.AutoSize = true;
-            this.routeMaskLeadRadio.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.routeMaskLeadRadio.Location = new System.Drawing.Point(72, 19);
-            this.routeMaskLeadRadio.Name = "routeMaskLeadRadio";
-            this.routeMaskLeadRadio.Size = new System.Drawing.Size(49, 17);
-            this.routeMaskLeadRadio.TabIndex = 11;
-            this.routeMaskLeadRadio.Text = "Lead";
-            this.routeMaskLeadRadio.UseVisualStyleBackColor = true;
+            this.rbRouteMaskLead.AutoSize = true;
+            this.rbRouteMaskLead.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.rbRouteMaskLead.Location = new System.Drawing.Point(72, 19);
+            this.rbRouteMaskLead.Name = "rbRouteMaskLead";
+            this.rbRouteMaskLead.Size = new System.Drawing.Size(49, 17);
+            this.rbRouteMaskLead.TabIndex = 46;
+            this.rbRouteMaskLead.Text = "Lead";
+            this.rbRouteMaskLead.UseVisualStyleBackColor = true;
             // 
-            // MetronomeCb
+            // chkMetronome
             // 
-            this.MetronomeCb.AutoSize = true;
-            this.MetronomeCb.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.MetronomeCb.Location = new System.Drawing.Point(16, 447);
-            this.MetronomeCb.Name = "MetronomeCb";
-            this.MetronomeCb.Size = new System.Drawing.Size(209, 17);
-            this.MetronomeCb.TabIndex = 7;
-            this.MetronomeCb.Text = "Create Metronome Bonus Arrangement";
-            this.MetronomeCb.UseVisualStyleBackColor = true;
+            this.chkMetronome.AutoSize = true;
+            this.chkMetronome.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.chkMetronome.Location = new System.Drawing.Point(16, 457);
+            this.chkMetronome.Name = "chkMetronome";
+            this.chkMetronome.Size = new System.Drawing.Size(209, 17);
+            this.chkMetronome.TabIndex = 7;
+            this.chkMetronome.Text = "Create Metronome Bonus Arrangement";
+            this.chkMetronome.UseVisualStyleBackColor = true;
             // 
-            // frmArrangement
+            // toolTip
+            // 
+            this.toolTip.AutomaticDelay = 300;
+            this.toolTip.AutoPopDelay = 5000;
+            this.toolTip.InitialDelay = 300;
+            this.toolTip.IsBalloon = true;
+            this.toolTip.ReshowDelay = 60;
+            // 
+            // ArrangementForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.ClientSize = new System.Drawing.Size(450, 481);
+            this.ClientSize = new System.Drawing.Size(450, 494);
             this.Controls.Add(this.gbGameplayPath);
             this.Controls.Add(this.gbArrInfo);
-            this.Controls.Add(this.MetronomeCb);
+            this.Controls.Add(this.chkMetronome);
             this.Controls.Add(this.gbXmlDefinition);
             this.Controls.Add(this.gbDLCId);
             this.Controls.Add(this.gbTone);
-            this.Controls.Add(this.cancelButton);
-            this.Controls.Add(this.OkButton);
+            this.Controls.Add(this.btnCancel);
+            this.Controls.Add(this.btnOk);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "frmArrangement";
+            this.Name = "ArrangementForm";
             this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Add Arrangement";
             this.Load += new System.EventHandler(this.ArrangementForm_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.scrollSpeedTrackBar)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.tbarScrollSpeed)).EndInit();
             this.gbTone.ResumeLayout(false);
             this.gbTone.PerformLayout();
             this.gbDLCId.ResumeLayout(false);
@@ -717,6 +795,8 @@ namespace CustomsForgeSongManager.SongEditor
             this.gbXmlDefinition.PerformLayout();
             this.gbArrInfo.ResumeLayout(false);
             this.gbArrInfo.PerformLayout();
+            this.pnlArrangementRepresentative.ResumeLayout(false);
+            this.pnlArrangementRepresentative.PerformLayout();
             this.gbScrollSpeed.ResumeLayout(false);
             this.gbScrollSpeed.PerformLayout();
             this.gbTuningPitch.ResumeLayout(false);
@@ -727,58 +807,63 @@ namespace CustomsForgeSongManager.SongEditor
             this.PerformLayout();
 
         }
-        private System.Windows.Forms.CheckBox MetronomeCb;
-        private CueTextBox PersistentId;
-        private CueTextBox MasterId;
+        private System.Windows.Forms.CheckBox chkMetronome;
         private System.Windows.Forms.GroupBox gbDLCId;
+        private CueTextBox txtMasterId;
+        private CueTextBox txtXmlPath;
+        private CueTextBox txtPersistentId;
+        private CueTextBox txtCentOffset;
 
         #endregion
 
-        private CueTextBox XmlFilePath;
-        private System.Windows.Forms.Button songXmlBrowseButton;
-        private System.Windows.Forms.Button OkButton;
-        private System.Windows.Forms.ComboBox arrangementTypeCombo;
+        private System.Windows.Forms.Button btnBrowseXml;
+        private System.Windows.Forms.Button btnOk;
+        private System.Windows.Forms.ComboBox cmbArrangementType;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Button cancelButton;
-        private System.Windows.Forms.ComboBox toneBaseCombo;
-        private System.Windows.Forms.TrackBar scrollSpeedTrackBar;
+        private System.Windows.Forms.Button btnCancel;
+        private System.Windows.Forms.ComboBox cmbToneBase;
+        private System.Windows.Forms.TrackBar tbarScrollSpeed;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Label scrollSpeedDisplay;
-        private System.Windows.Forms.CheckBox Picked;
+        private System.Windows.Forms.Label txtScrollSpeed;
+        private System.Windows.Forms.CheckBox chkBassPicked;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.ComboBox arrangementNameCombo;
+        private System.Windows.Forms.ComboBox cmbArrangementName;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.ComboBox tuningComboBox;
+        private System.Windows.Forms.ComboBox cmbTuningName;
         private System.Windows.Forms.GroupBox gbTone;
         private System.Windows.Forms.Label lblToneA;
         private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.ComboBox toneDCombo;
+        private System.Windows.Forms.ComboBox cmbToneD;
         private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.ComboBox toneCCombo;
+        private System.Windows.Forms.ComboBox cmbToneC;
         private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.ComboBox toneBCombo;
+        private System.Windows.Forms.ComboBox cmbToneB;
         private System.Windows.Forms.GroupBox gbXmlDefinition;
         private System.Windows.Forms.GroupBox gbArrInfo;
         private System.Windows.Forms.GroupBox gbScrollSpeed;
         private System.Windows.Forms.GroupBox gbGameplayPath;
-        private System.Windows.Forms.RadioButton routeMaskLeadRadio;
-        private System.Windows.Forms.RadioButton routeMaskBassRadio;
-        private System.Windows.Forms.RadioButton routeMaskRhythmRadio;
-        private System.Windows.Forms.RadioButton routeMaskNoneRadio;
+        private System.Windows.Forms.RadioButton rbRouteMaskLead;
+        private System.Windows.Forms.RadioButton rbRouteMaskBass;
+        private System.Windows.Forms.RadioButton rbRouteMaskRhythm;
+        private System.Windows.Forms.RadioButton rbRouteMaskNone;
         private System.Windows.Forms.Label label7;
-        private CueTextBox frequencyTB;
+        private CueTextBox txtFrequency;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label centOffsetDisplay;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.GroupBox gbTuningPitch;
         private System.Windows.Forms.Label label14;
-        private System.Windows.Forms.Label noteDisplay;
-        private System.Windows.Forms.CheckBox BonusCheckBox;
-        private System.Windows.Forms.CheckBox disableTonesCheckbox;
-        private System.Windows.Forms.Button tuningEditButton;
-        private System.Windows.Forms.Button typeEdit;
+        private System.Windows.Forms.Label lblRootNote;
+        private System.Windows.Forms.CheckBox chkTonesDisabled;
+        private System.Windows.Forms.Button btnEditTuning;
+        private System.Windows.Forms.Button btnEditType;
         private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.ComboBox toneACombo;
+        private System.Windows.Forms.ComboBox cmbToneA;
+        private Label label12;
+        private ToolTip toolTip;
+        private Panel pnlArrangementRepresentative;
+        private RadioButton rbArrangementAlternate;
+        private RadioButton rbArrangementDefault;
+        private RadioButton rbArrangementBonus;
     }
 }

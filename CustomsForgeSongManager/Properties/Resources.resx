@@ -264,10 +264,6 @@ Please use Setlist Songs to enable/disable setlist songs.</value>
   <data name="load" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\load.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="RemovedX0ObsoleteSongs" xml:space="preserve">
-    <value>Removed {0} obsolete songs.</value>
-    <comment>RemovedX0ObsoleteSongs description</comment>
-  </data>
   <data name="ShowAll" xml:space="preserve">
     <value>Show &amp;All</value>
     <comment>ShowAll description</comment>
@@ -316,9 +312,6 @@ Please use Setlist Songs to enable/disable setlist songs.</value>
   <data name="RenameTemplateRequiresTitleToPrevent" xml:space="preserve">
     <value>Rename Template requires &lt;title&gt; to prevent overwriting songs.</value>
     <comment>RenameTemplateRequiresTitleToPrevent description</comment>
-  </data>
-  <data name="logo_black" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\logo_black.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="DeleteTheSelectedDuplicates" xml:space="preserve">
     <value>Do you really want to delete the selected duplicate CDLC?
@@ -546,13 +539,6 @@ Click the update button to continue.
   <data name="SelectCol" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\selectcol.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="OfficialSongs" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\OfficialSongs.json;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
-  <data name="NoODLCDuplicatesDetected" xml:space="preserve">
-    <value>No CDLC songs released as ODLC detected in your DLC folder.</value>
-    <comment>NoODLCDuplicatesDetected description</comment>
-  </data>
   <data name="CGT_Logo" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\CGT_Logo.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -600,5 +586,20 @@ Click the update button to continue.
   </data>
   <data name="tag" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\tag.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="dollarsign" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\dollarsign.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="download" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\download.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="christmas" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\christmas.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="logo_black" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\logo_black.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="hat" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\hat.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

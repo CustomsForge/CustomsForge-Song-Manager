@@ -15,6 +15,9 @@ namespace CustomsForgeSongManager.DataObjects
     {
         private string _rsInstalledDir = String.Empty;
         private string _rsProfileDir = String.Empty;
+        private string _rsProfilePath = String.Empty;
+        private string _downloadsDir = String.Empty;
+        private string _dlMonitorDesinationFolder = String.Empty;
         private bool _includeRS1CompSongs;
         private bool _includeRS2BaseSongs;
         private bool _includeCustomPacks;
@@ -31,18 +34,25 @@ namespace CustomsForgeSongManager.DataObjects
         private int _windowHeight;
         private int _windowTop;
         private int _windowLeft;
+        private int _bpmThreshold = 0;
         private bool _showLogWindow;
         private string _charterName = String.Empty;
         private string _renameTemplate = String.Empty;
         private string _searchString = String.Empty;
-        private string _filterString = String.Empty;
+        private string _songManagerFilter = String.Empty;
+        private string _arrangementAnalyzerFilter = String.Empty;
         private string _sortColumn = "Artist"; // set default sort column (retains selection)
         private bool _sortAscending = true;
-        private bool _showSetlistSongs;
-        private string _downloadsDir;
+        private bool _includeSubfolders;
+        private bool _protectODLC;
+        private bool _includeVocals;
+        private bool _oneTime;
+        private bool _firstRun;
+        private int _multiThread = -1; // tristate int, 1 use multi, 0 use single, -1 not set
         private DateTime _lastODLCCheckDate;
         private RepairOptions _repairOptions;
-
+        private AudioOptions _audioOptions;
+        
         [Browsable(false)]
         public string LogFilePath { get; set; }
 
@@ -58,10 +68,26 @@ namespace CustomsForgeSongManager.DataObjects
             set { SetPropertyField("RSProfileDir", ref _rsProfileDir, value); }
         }
 
+        public string RSProfilePath
+        {
+            get { return _rsProfilePath; }
+            set { SetPropertyField("RSProfilePath", ref _rsProfilePath, value); }
+        }
+
         public string DownloadsDir
         {
             get { return _downloadsDir; }
             set { SetPropertyField("DownloadsDir", ref _downloadsDir, value); }
+        }
+
+        [XmlArray("MonitoredFolders")] 
+        [XmlArrayItem("Folder")]
+        public List<string> MonitoredFolders { get; set; }
+
+        public string DLMonitorDesinationFolder
+        {
+            get { return _dlMonitorDesinationFolder; }
+            set { SetPropertyField("DLMonitorDesinationFolder", ref _dlMonitorDesinationFolder, value); }
         }
 
         public bool IncludeRS1CompSongs
@@ -136,6 +162,12 @@ namespace CustomsForgeSongManager.DataObjects
             set { SetPropertyField("LastODLCCheckDate", ref _lastODLCCheckDate, value); }
         }
 
+        public int BPMThreshold
+        {
+            get { return _bpmThreshold; }
+            set { SetPropertyField("BPMThreshold", ref _bpmThreshold, value); }
+        }
+
         //[XmlArray("UISettings")] // provides proper xml serialization
         //[XmlArrayItem("UISetting")] // provides proper xml serialization
         //public List<UISetting> UISettings { get; set; }
@@ -208,10 +240,17 @@ namespace CustomsForgeSongManager.DataObjects
         }
 
         [Browsable(false)]
-        public string FilterString
+        public string SongManagerFilter
         {
-            get { return _filterString; }
-            set { SetPropertyField("FilterString", ref _filterString, value); }
+            get { return _songManagerFilter; }
+            set { SetPropertyField("SongManagerFilter", ref _songManagerFilter, value); }
+        }
+
+        [Browsable(false)]
+        public string ArrangementAnalyzerFilter
+        {
+            get { return _arrangementAnalyzerFilter; }
+            set { SetPropertyField("ArrangementAnalyzerFilter", ref _arrangementAnalyzerFilter, value); }
         }
 
         [Browsable(false)]
@@ -228,10 +267,40 @@ namespace CustomsForgeSongManager.DataObjects
             set { SetPropertyField("SortAscending", ref _sortAscending, value); }
         }
 
-        public bool ShowSetlistSongs
+        public bool IncludeSubfolders
         {
-            get { return _showSetlistSongs; }
-            set { SetPropertyField("ShowSetlistSongs", ref _showSetlistSongs, value); }
+            get { return _includeSubfolders; }
+            set { SetPropertyField("IncludeSubfolders", ref _includeSubfolders, value); }
+        }
+
+        public bool ProtectODLC
+        {
+            get { return _protectODLC; }
+            set { SetPropertyField("ProtectODLC", ref _protectODLC, value); }
+        }
+
+        public bool IncludeVocals
+        {
+            get { return _includeVocals; }
+            set { SetPropertyField("IncludeVocals", ref _includeVocals, value); }
+        }
+
+        public bool OneTime
+        {
+            get { return _oneTime; }
+            set { SetPropertyField("OneTime", ref _oneTime, value); }
+        }
+
+        public bool FirstRun
+        {
+            get { return _firstRun; }
+            set { SetPropertyField("FirstRun", ref _firstRun, value); }
+        }
+
+        public int MultiThread
+        {
+            get { return _multiThread; }
+            set { SetPropertyField("MultiThread", ref _multiThread, value); }
         }
 
         [XmlArray("CustomSettings")] // provides proper xml serialization
@@ -244,6 +313,11 @@ namespace CustomsForgeSongManager.DataObjects
             set { _repairOptions = value; }
         }
 
+        public AudioOptions AudioOptions
+        {
+            get { return _audioOptions ?? (_audioOptions = new AudioOptions()); }
+            set { _audioOptions = value; }
+        }
 
         //property template
         //public type PropName { get { return propName; } set { SetPropertyField("PropName", ref propName, value); } }
@@ -257,6 +331,7 @@ namespace CustomsForgeSongManager.DataObjects
             {
                 if (_instance == null)
                     _instance = new AppSettings();
+
                 return _instance;
             }
         }
@@ -295,8 +370,9 @@ namespace CustomsForgeSongManager.DataObjects
             }
             else
             {
-                Globals.Log("<WARNING> Did not find file: " + Path.GetFileName(Constants.GridSettingsPath));
-                RAExtensions.ManagerGridSettings = null; // reset
+                Globals.Settings.SaveSettingsToFile(Globals.DgvCurrent);
+                //Globals.Log("<WARNING> Did not find file: " + Path.GetFileName(Constants.GridSettingsPath));
+                //RAExtensions.ManagerGridSettings = null; // reset
             }
         }
 
@@ -319,24 +395,39 @@ namespace CustomsForgeSongManager.DataObjects
         public void RestoreDefaults()
         {
             RAExtensions.ManagerGridSettings = new RADataGridViewSettings();
-            Instance.EnableQuarantine = false; // false because users like using corrupt CDLC
+            Instance.EnableQuarantine = false; // false because users like using corrupt CDLC ... ICBIBT
             Instance.LogFilePath = Constants.LogFilePath;
-            Instance.RSProfileDir = String.Empty;
-            Instance.DownloadsDir = String.Empty;
             Instance.IncludeRS1CompSongs = false; // false for fewer new user issues
             Instance.IncludeRS2BaseSongs = false;
             Instance.IncludeCustomPacks = false;
             Instance.IncludeArrangementData = false; // false for 5X faster initial parsing
-            Instance.EnableAutoUpdate = false; // false when D3DX9_42.dll is stable
+            Instance.EnableAutoUpdate = false; // let user decide
             Instance.EnableNotifications = false; // false for fewer notfication issues
             Instance.MacMode = false; // true for testing Mac dev
-            Instance.ValidateD3D = false; // false when D3DX9_42.dll is stable
+            Instance.ValidateD3D = false; // avoid replacement of stable D3DX9_42.dll
             Instance.CleanOnClosing = false;
             Instance.ShowLogWindow = Constants.DebugMode;
             Instance.RepairOptions = new RepairOptions();
+            Instance.AudioOptions = new AudioOptions();
+            Instance.OneTime = false;
+            Instance.FirstRun = true;
+            Instance.MultiThread = -1; // tristate
+            Instance.ProtectODLC = true;
+            Instance.IncludeSubfolders = true;
+            Instance.IncludeVocals = false;
+            Instance.RepairOptions.ScrollSpeed = 1.3m;
+            Instance.RepairOptions.PhraseLength = 8;
 
-            if (String.IsNullOrEmpty(Instance.RSInstalledDir))
-                Instance.RSInstalledDir = LocalExtensions.GetSteamDirectory();
+            if (Environment.OSVersion.Platform == PlatformID.MacOSX || Constants.OnMac)
+            {
+                Instance.MacMode = true;
+                Instance.ValidateD3D = false;
+            }
+
+            // these have been intentionally omitted from RestoreDefaults
+            // Instance.RSInstalledDir = LocalExtensions.GetSteamDirectory();
+            // Instance.RSProfileDir = String.Empty;
+            // Instance.DownloadsDir = String.Empty; 
         }
 
         /// Initialise settings with default values

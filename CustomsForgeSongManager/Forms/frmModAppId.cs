@@ -1,14 +1,15 @@
 ﻿using System;
+using System.Data;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
-using CFSM.RSTKLib.PSARC;
 using CustomsForgeSongManager.DataObjects;
 using DF.WinForms.ThemeLib;
 using RocksmithToolkitLib;
 using RocksmithToolkitLib.Extensions;
 using RocksmithToolkitLib.XmlRepository;
+using RocksmithToolkitLib.PSARC;
 
 namespace CustomsForgeSongManager.Forms
 {
@@ -20,10 +21,15 @@ namespace CustomsForgeSongManager.Forms
         protected frmModAppId()
         {
             InitializeComponent();
+            this.Icon = Properties.Resources.cfsm_48x48;
+
+            cmbAppId.Items.Clear();
+
             foreach (var song in SongAppIdRepository.Instance().Select(GameVersion.RS2014))
                 cmbAppId.Items.Add(song);
 
-            Icon = Properties.Resources.cfsm_48x48;
+            var songAppId = SongAppIdRepository.Instance().Select(ConfigRepository.Instance()["general_defaultappid_RS2014"], GameVersion.RS2014);
+            cmbAppId.SelectedItem = songAppId;
         }
 
         public static bool BatchEdit(SongData[] dataFiles)
@@ -33,10 +39,12 @@ namespace CustomsForgeSongManager.Forms
                 using (var f = new frmModAppId())
                 {
                     f.DataFiles = dataFiles;
-                    f.cmbAppId.SelectedItem = SongAppIdRepository.Instance().Select(dataFiles[0].AppID, GameVersion.RS2014);
+                    // commented out to encourage use of default AppId for Cherub Rock
+                    // f.cmbAppId.SelectedItem = SongAppIdRepository.Instance().Select(dataFiles[0].AppID, GameVersion.RS2014);
                     return f.ShowDialog() == DialogResult.OK;
                 }
             }
+
             return false;
         }
 
@@ -48,19 +56,28 @@ namespace CustomsForgeSongManager.Forms
             themedProgressBar1.Value = 0;
             var newID = txtAppId.Text.Trim().GetValidAppIdSixDigits();
 
+            // social engineering code
+            if (newID.Equals("221680"))
+                throw new InvalidDataException("<WARNING> Sentinel has detected futile human activity ..." + Environment.NewLine +
+                    "Buy Cherub Rock and you wont have to mess around changing AppId's.");
+
             foreach (var song in DataFiles)
             {
+                if (song.IsODLC)
+                    continue;
+
                 NoCloseStream dataStream = null;
                 using (PSARC p = new PSARC(true))
                 {
-                    using (var FS = File.OpenRead(song.FilePath))
-                        p.Read(FS);
+                    using (var fs = File.OpenRead(song.FilePath))
+                        p.Read(fs);
 
                     dataStream = p.ReplaceData(x => x.Name.Equals("appid.appid"), newID);
 
-                    using (var FS = File.Create(song.FilePath))
-                        p.Write(FS, true);
+                    using (var fs = File.Create(song.FilePath))
+                        p.Write(fs, true);
                 }
+
                 if (dataStream != null)
                     dataStream.CloseEx();
 
@@ -79,19 +96,11 @@ namespace CustomsForgeSongManager.Forms
             this.Close();
         }
 
-        private void cmbAppId_SelectedIndexChanged(object sender, EventArgs e)
+        private void cmbAppId_SelectedValueChanged(object sender, EventArgs e)
         {
             if (cmbAppId.SelectedItem != null)
             {
-                try
-                {
-                    txtAppId.Text = cmbAppId.SelectedItem.ToString().Split(new string[] { " - " }, StringSplitOptions.None)[2];
-                }
-                catch (Exception ex)
-                {
-                    Debug.WriteLine("song 'Name' in the AppId repository is missing the required ' - '");
-                    Debug.WriteLine(ex.Message);
-                }
+                txtAppId.Text = ((SongAppId)cmbAppId.SelectedItem).AppId;
             }
         }
 

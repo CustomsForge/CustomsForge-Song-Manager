@@ -4,8 +4,8 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using CFSM.ImageTools;
-using CFSM.RSTKLib.PSARC;
 using CustomsForgeSongManager.DataObjects;
+using RocksmithToolkitLib.PSARC;
 
 namespace CustomsForgeSongManager.SongEditor
 {
@@ -26,16 +26,14 @@ namespace CustomsForgeSongManager.SongEditor
         {
             if (SongData != null)
             {
-                var artFile = Directory.GetFiles(TempToolkitPath, "*_256.dds").FirstOrDefault();
-                if (artFile != null)
+                // get album_[NAME]_256.dds and not album_org_256.dds
+                var artFile = Directory.GetFiles(TempToolkitPath, "album_*_256.dds").Where(x => !x.Contains("_org_")).FirstOrDefault();
+                if (artFile.Any())
                 {
-                    if (!string.IsNullOrEmpty(artFile))
-                    {
-                        byte[] data = File.ReadAllBytes(artFile);
-                        DDSImage dds = new DDSImage(data);
-                        if (dds.images.Length > 0)
-                            picAlbumArt.Image = dds.images[0];
-                    }
+                    byte[] data = File.ReadAllBytes(artFile);
+                    DDSImage dds = new DDSImage(data);
+                    if (dds.images.Length > 0)
+                        picAlbumArt.Image = dds.images[0];
                 }
             }
         }
@@ -66,7 +64,7 @@ namespace CustomsForgeSongManager.SongEditor
             var ent = p.TOC.Where(entry => entry.Name.ToLower().Equals(imgName.ToLower())).FirstOrDefault();
             if (ent == null)
             {
-                ent = new Entry() {Name = imgName, Data = newImageStream};
+                ent = new Entry() { Name = imgName, Data = newImageStream };
                 p.AddEntry(ent);
             }
             else
@@ -80,9 +78,9 @@ namespace CustomsForgeSongManager.SongEditor
         private bool ReplaceImages(PSARC p)
         {
             var x = "gfxassets/album_art/album_{0}_{1}.dds";
-            var large = string.Format(x, this.SongData.Name.ToLower(), 256);
-            var mid = string.Format(x, this.SongData.Name.ToLower(), 128);
-            var small = string.Format(x, this.SongData.Name.ToLower(), 64);
+            var large = String.Format(x, this.SongData.Name.ToLower(), 256);
+            var mid = String.Format(x, this.SongData.Name.ToLower(), 128);
+            var small = String.Format(x, this.SongData.Name.ToLower(), 64);
 
             if (!ReplaceImagesExtracted(p, large, 256, 256))
                 return false;
@@ -108,7 +106,7 @@ namespace CustomsForgeSongManager.SongEditor
 
         private void button1_Click(object sender, EventArgs e)
         {
-            using (var od = new OpenFileDialog() {Filter = "Image Files|*.bmp;*.gif;*.jpeg;*.jpg;*.png;*.dds"})
+            using (var od = new OpenFileDialog() { Filter = "Image Files|*.bmp;*.gif;*.jpeg;*.jpg;*.png;*.dds" })
             {
                 if (od.ShowDialog() == DialogResult.OK)
                 {
@@ -136,7 +134,7 @@ namespace CustomsForgeSongManager.SongEditor
                     }
                     catch (Exception ex)
                     {
-                        Globals.Log(string.Format("{0}: {1}", Properties.Resources.ERROR, ex.Message));
+                        Globals.Log(String.Format("{0}: {1}", Properties.Resources.ERROR, ex.Message));
                         return;
                     }
                     Dirty = true;

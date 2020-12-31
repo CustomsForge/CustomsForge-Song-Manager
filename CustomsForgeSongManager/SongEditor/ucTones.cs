@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using GenTools;
 using RocksmithToolkitLib.DLCPackage.Manifest2014.Tone;
 
+
 namespace CustomsForgeSongManager.SongEditor
 {
     public partial class ucTones : DLCPackageEditorControlBase //, IAttributesEditor
@@ -68,8 +69,18 @@ namespace CustomsForgeSongManager.SongEditor
 
         private void raDataGridView1_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.ColumnIndex != this.dgvTones.Columns["colName"].Index)
+            if (e.ColumnIndex == this.dgvTones.Columns["colVolume"].Index)
+            {
+                var value = (float)dgvTones.Rows[e.RowIndex].Cells["colVolume"].Value;
+                if (!RocksmithToolkitLib.Extensions.StringExtensions.IsVolumeValid(value))
+                {
+                    var validValue = RocksmithToolkitLib.Extensions.StringExtensions.GetValidVolume(value, -20.0f);
+                    dgvTones.Rows[e.RowIndex].Cells["colVolume"].Value = validValue;               
+                }
+
                 this.Dirty = true;
+            }
         }
+
     }
 }

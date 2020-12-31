@@ -8,6 +8,10 @@ using System.Text.RegularExpressions;
 using System.Xml;
 using System.Xml.Serialization;
 using System.Xml.XPath;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System.Reflection;
+using System.Linq;
 
 namespace GenTools
 {
@@ -32,7 +36,7 @@ namespace GenTools
         }
 
         public static T DeserializeXml<T>(this Stream stream)
-        {
+        {            
             XmlSerializer serializer = new XmlSerializer(typeof(T));
             return (T)serializer.Deserialize(stream);
         }
@@ -105,6 +109,52 @@ namespace GenTools
         {
             return (T)XmlDeserializeForClone(XmlSerializeForClone(obj), typeof(T));
         }
+
+        public static T JsonClone<T>(this T obj)
+        {
+            // NEAT TRICK: to perform object inheretence w/ deep cloning using Newtonsoft.Json
+            var serializedJson = JsonConvert.SerializeObject(obj);
+            return JsonConvert.DeserializeObject<T>(serializedJson);
+        }
+
+        /// <summary>
+        /// Copy matching elements from srcObject to destObject using reflection
+        /// <para>Enclose the method with foreach loop to produce List object</para>
+        /// </summary>
+        /// <typeparam name="T1">srcObject Type</typeparam>
+        /// <typeparam name="T2">destObject Type</typeparam>
+        /// <param name="srcObject"></param>
+        /// <param name="destObject"></param>
+        /// <returns></returns>
+        public static T2 CopyTo<T1, T2>(this T1 srcObject, T2 destObject)
+            where T1 : class
+            where T2 : class
+        {
+            // example usage for object list
+            //var ListDestObject = new List<DestObj>();
+            //foreach (var srcObject in ListSrcObject)
+            //{
+            //    var destObj = new DestObject();
+            //    destObj = srcObject.CopyTo(destObj);
+            //    ListDestObject.Add(destObj);
+            //}
+
+            PropertyInfo[] srcFields = srcObject.GetType().GetProperties(
+                BindingFlags.Instance | BindingFlags.Public | BindingFlags.GetProperty);
+
+            PropertyInfo[] destFields = destObject.GetType().GetProperties(
+                BindingFlags.Instance | BindingFlags.Public | BindingFlags.SetProperty);
+
+            foreach (var property in srcFields)
+            {
+                var dest = destFields.FirstOrDefault(x => x.Name == property.Name);
+                if (dest != null && dest.CanWrite)
+                    dest.SetValue(destObject, property.GetValue(srcObject, null), null);
+            }
+
+            return destObject;
+        }
+
 
         public static void SaveToBinFile<T>(string filePath, T obj)
         {

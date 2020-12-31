@@ -183,7 +183,7 @@ namespace CustomsForgeSongManager.LocalTools
                     {
                         try
                         {
-                            var versOnlineRSTK = ToolkitVersionOnline.Load();
+                            var versOnlineRSTK = ToolkitVersionOnline.GetVersionInfo();
                             VersOnline = versOnlineRSTK.Revision; // returns github commit (4 bytes)
                             break;
                         }
@@ -210,15 +210,15 @@ namespace CustomsForgeSongManager.LocalTools
 
             if (versOnline != versInstalled && versOnline != NO_INTERNET)
             {
-                Globals.Log(Path.GetFileName(appExePath) + "[" + versInstalled + "] needs updating ...");
-                Debug.WriteLine("OnlineVers: " + versOnline + "  InstalledVers: " + versInstalled);
+                Globals.Log(Path.GetFileName(appExePath) + " [" + versInstalled + "] needs updating ...");
+                Debug.WriteLine("OnlineVers: " + versOnline + "  <>  InstalledVers: " + versInstalled);
                 return true;
             }
 
             if (versOnline == versInstalled)
             {
                 Globals.Log(Path.GetFileName(appExePath) + " [" + versInstalled + "] does not need updating ...");
-                Debug.WriteLine("OnlineVers: " + versOnline + "  InstalledVers: " + versInstalled);
+                Debug.WriteLine("OnlineVers: " + versOnline + "  <>  InstalledVers: " + versInstalled);
                 return false;
             }
 

@@ -215,6 +215,13 @@ namespace CustomsForgeSongManager.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap christmas {
+            get {
+                object obj = ResourceManager.GetObject("christmas", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap clear {
             get {
                 object obj = ResourceManager.GetObject("clear", resourceCulture);
@@ -339,6 +346,20 @@ namespace CustomsForgeSongManager.Properties {
         internal static string DisabledIsAReservedWord {
             get {
                 return ResourceManager.GetString("DisabledIsAReservedWord", resourceCulture);
+            }
+        }
+        
+        internal static System.Drawing.Bitmap dollarsign {
+            get {
+                object obj = ResourceManager.GetObject("dollarsign", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap download {
+            get {
+                object obj = ResourceManager.GetObject("download", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
         
@@ -470,6 +491,13 @@ namespace CustomsForgeSongManager.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap hat {
+            get {
+                object obj = ResourceManager.GetObject("hat", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap Help {
             get {
                 object obj = ResourceManager.GetObject("Help", resourceCulture);
@@ -519,7 +547,7 @@ namespace CustomsForgeSongManager.Properties {
         ///    border-bottom: 1px solid rgb(30, 139, 195);
         ///}
         ///
-        ///#CFMGrid tr.alt td { background-color [rest of string was truncated]&quot;;.
+        ///#CFMGrid tr.alt td { background-color: rgb(34, 49, 63); }.
         /// </summary>
         internal static string htmExport {
             get {
@@ -620,45 +648,10 @@ namespace CustomsForgeSongManager.Properties {
             }
         }
         
-        /// <summary>
-        ///   Looks up a localized string similar to No CDLC songs released as ODLC detected in your DLC folder..
-        /// </summary>
-        internal static string NoODLCDuplicatesDetected {
-            get {
-                return ResourceManager.GetString("NoODLCDuplicatesDetected", resourceCulture);
-            }
-        }
-        
         internal static System.Drawing.Bitmap notes {
             get {
                 object obj = ResourceManager.GetObject("notes", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to [
-        ///  {
-        ///    &quot;Title&quot;: &quot;The Sky is Crying&quot;,
-        ///    &quot;Artist&quot;: &quot;Albert King&quot;,
-        ///    &quot;ReleaseDate&quot;: &quot;2013-10-22&quot;,
-        ///    &quot;Pack&quot;: &quot;Single&quot;,
-        ///    &quot;Link&quot;: &quot;http://www.theriffrepeater.com/rocksmith-2014-dlc-1022-pre-order-madness/&quot;
-        ///  },
-        ///  {
-        ///    &quot;Title&quot;: &quot;25 or 6 to 4&quot;,
-        ///    &quot;Artist&quot;: &quot;Chicago&quot;,
-        ///    &quot;ReleaseDate&quot;: &quot;2013-10-22&quot;,
-        ///    &quot;Pack&quot;: &quot;Single&quot;,
-        ///    &quot;Link&quot;: &quot;http://www.theriffrepeater.com/rocksmith-2014-dlc-1022-pre-order-madness/&quot;
-        ///  },
-        ///  {
-        ///    &quot;Title&quot;: &quot;Hate to Say I Told You So&quot;,
-        ///    &quot;Artist&quot;: &quot;The Hives&quot;, [rest of string was truncated]&quot;;.
-        /// </summary>
-        internal static string OfficialSongs {
-            get {
-                return ResourceManager.GetString("OfficialSongs", resourceCulture);
             }
         }
         
@@ -741,15 +734,6 @@ namespace CustomsForgeSongManager.Properties {
             get {
                 object obj = ResourceManager.GetObject("refresh_plus", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Removed {0} obsolete songs..
-        /// </summary>
-        internal static string RemovedX0ObsoleteSongs {
-            get {
-                return ResourceManager.GetString("RemovedX0ObsoleteSongs", resourceCulture);
             }
         }
         

@@ -32,13 +32,13 @@
             this.tslSave = new System.Windows.Forms.ToolStripStatusLabel();
             this.tslSaveAs = new System.Windows.Forms.ToolStripStatusLabel();
             this.tsProgressBar = new System.Windows.Forms.ToolStripProgressBar();
+            this.tsMsg = new System.Windows.Forms.ToolStripStatusLabel();
             this.tslExit = new System.Windows.Forms.ToolStripStatusLabel();
             this.tcMain = new System.Windows.Forms.TabControl();
             this.tpSongInfo = new System.Windows.Forms.TabPage();
             this.tpArrangements = new System.Windows.Forms.TabPage();
             this.tpTones = new System.Windows.Forms.TabPage();
             this.tpAlbumArt = new System.Windows.Forms.TabPage();
-            this.tsMsg = new System.Windows.Forms.ToolStripStatusLabel();
             this.statusStripMain.SuspendLayout();
             this.tcMain.SuspendLayout();
             this.SuspendLayout();
@@ -52,9 +52,9 @@
             this.tsMsg,
             this.tslExit});
             this.statusStripMain.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow;
-            this.statusStripMain.Location = new System.Drawing.Point(0, 459);
+            this.statusStripMain.Location = new System.Drawing.Point(0, 428);
             this.statusStripMain.Name = "statusStripMain";
-            this.statusStripMain.Size = new System.Drawing.Size(745, 23);
+            this.statusStripMain.Size = new System.Drawing.Size(642, 23);
             this.statusStripMain.SizingGrip = false;
             this.statusStripMain.TabIndex = 4;
             this.statusStripMain.Text = "statusStrip1";
@@ -88,6 +88,15 @@
             this.tsProgressBar.Name = "tsProgressBar";
             this.tsProgressBar.Size = new System.Drawing.Size(200, 17);
             // 
+            // tsMsg
+            // 
+            this.tsMsg.AutoSize = false;
+            this.tsMsg.Margin = new System.Windows.Forms.Padding(10, 3, 0, 2);
+            this.tsMsg.Name = "tsMsg";
+            this.tsMsg.Size = new System.Drawing.Size(150, 18);
+            this.tsMsg.Text = "...";
+            this.tsMsg.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
             // tslExit
             // 
             this.tslExit.AutoSize = false;
@@ -114,7 +123,7 @@
             this.tcMain.Location = new System.Drawing.Point(8, 12);
             this.tcMain.Name = "tcMain";
             this.tcMain.SelectedIndex = 0;
-            this.tcMain.Size = new System.Drawing.Size(725, 431);
+            this.tcMain.Size = new System.Drawing.Size(622, 400);
             this.tcMain.TabIndex = 5;
             this.tcMain.SelectedIndexChanged += new System.EventHandler(this.tcMain_SelectedIndexChanged);
             // 
@@ -123,7 +132,7 @@
             this.tpSongInfo.Location = new System.Drawing.Point(4, 25);
             this.tpSongInfo.Margin = new System.Windows.Forms.Padding(0);
             this.tpSongInfo.Name = "tpSongInfo";
-            this.tpSongInfo.Size = new System.Drawing.Size(717, 402);
+            this.tpSongInfo.Size = new System.Drawing.Size(614, 371);
             this.tpSongInfo.TabIndex = 6;
             this.tpSongInfo.Text = "Song Info";
             this.tpSongInfo.UseVisualStyleBackColor = true;
@@ -136,6 +145,8 @@
             this.tpArrangements.Size = new System.Drawing.Size(717, 402);
             this.tpArrangements.TabIndex = 4;
             this.tpArrangements.Text = "Arrangements";
+            this.tpArrangements.ToolTipText = "<CAUTION> For Expert User Use Only\\r\\nData revisions have limited or no validatio" +
+                "n!";
             this.tpArrangements.UseVisualStyleBackColor = true;
             // 
             // tpTones
@@ -157,26 +168,17 @@
             this.tpAlbumArt.Text = "Album Art";
             this.tpAlbumArt.UseVisualStyleBackColor = true;
             // 
-            // tsMsg
-            // 
-            this.tsMsg.AutoSize = false;
-            this.tsMsg.Margin = new System.Windows.Forms.Padding(10, 3, 0, 2);
-            this.tsMsg.Name = "tsMsg";
-            this.tsMsg.Size = new System.Drawing.Size(150, 18);
-            this.tsMsg.Text = "...";
-            this.tsMsg.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
             // frmSongEditor
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.ClientSize = new System.Drawing.Size(745, 482);
+            this.ClientSize = new System.Drawing.Size(642, 451);
             this.Controls.Add(this.statusStripMain);
             this.Controls.Add(this.tcMain);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "frmSongEditor";
             this.ShowInTaskbar = false;
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "frmSongEditor";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmSongEditor_FormClosing);
             this.statusStripMain.ResumeLayout(false);

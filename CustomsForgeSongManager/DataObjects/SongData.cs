@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -8,6 +9,7 @@ using DataGridViewTools;
 using System.Collections.Generic;
 using System.ComponentModel;
 using Newtonsoft.Json;
+using System.Drawing;
 
 // DO NOT USE RESHAPER TO SORT THIS CLASS -- HAND SORT ONLY
 // TODO: CLEANUP SONGDATA OBJECT - DEPRICATE OLD/UNUSED STUFF
@@ -52,9 +54,9 @@ namespace CustomsForgeSongManager.DataObjects
     [Serializable]
     public class SongData : NotifyPropChangedBase
     {
-        // version 0 - 9: recyclable version number is the current Assembly Revision number
+        // version 0 - 9: recyclable version number
         // incrementing version forces songInfo.xml and appSettings.xml to reset/update to defaults
-        public const string SongDataListVersion = "1"; // devs change only when needed to force user update
+        public const string SongDataVersion = "0"; // Devs change when needed to force user update
 
         // Unique Song Key
         public string DLCKey { get; set; }
@@ -75,6 +77,7 @@ namespace CustomsForgeSongManager.DataObjects
         public string PackageAuthor { get; set; }
         public string PackageVersion { get; set; }
         public string PackageComment { get; set; }
+        public string PackageRating { get; set; }
         public string FilePath { get; set; }
         public DateTime FileDate { get; set; }
         public int FileSize { get; set; }
@@ -88,6 +91,10 @@ namespace CustomsForgeSongManager.DataObjects
         public SongTaggerStatus Tagged { get; set; }
         public RepairStatus RepairStatus { get; set; }
 
+        public bool HasCustomFont { get; set; }
+        public int AudioBitRate { get; set; }       
+        public bool NeedsUpdate { get; set; }
+
         // used by detail table
         [XmlArray("Arrangements")] // provides proper xml serialization
         [XmlArrayItem("Arrangement")] // provides proper xml serialization
@@ -99,7 +106,7 @@ namespace CustomsForgeSongManager.DataObjects
         // these elements are not serialized only used to display data in datagridview
         //
         [XmlIgnore]
-        public bool IsOfficialDLC
+        public bool IsODLC
         {
             get { return PackageAuthor == "Ubisoft" ? true : false; }
         }
@@ -107,7 +114,7 @@ namespace CustomsForgeSongManager.DataObjects
         [XmlIgnore]
         public bool IsSongsPsarc
         {
-            get { return !String.IsNullOrEmpty(FilePath) && FileName.ToLower().Equals(Constants.BASESONGS); }
+            get { return !String.IsNullOrEmpty(FilePath) && (FileName.ToLower().EndsWith(Constants.BASESONGS) || FileName.ToLower().EndsWith(Constants.BASESONGSDISABLED)); }
         }
 
         [XmlIgnore]
@@ -123,9 +130,9 @@ namespace CustomsForgeSongManager.DataObjects
         }
 
         [XmlIgnore]
-        public string ArtistTitleAlbum { get { return String.Format("{0};{1};{2}", Artist, Title, Album); } }
+        public string ArtistTitleAlbum { get { return String.Format("{0};{1};{2}", Artist.Trim(), Title.Trim(), Album.Trim()); } }
         [XmlIgnore]
-        public string ArtistTitleAlbumDate { get { return String.Format("{0};{1};{2};{3}", Artist, Title, Album, LastConversionDateTime.ToString("s")); } }
+        public string ArtistTitleAlbumDate { get { return String.Format("{0};{1};{2};{3}", Artist.Trim(), Title.Trim(), Album.Trim(), LastConversionDateTime.ToString("s")); } }
         [XmlIgnore]
         public string FileName { get { return (Path.Combine(Path.GetFileName(Path.GetDirectoryName(FilePath)), Path.GetFileName(FilePath))); } }
 
@@ -135,26 +142,35 @@ namespace CustomsForgeSongManager.DataObjects
         {
             get
             {
-                // TODO: handle ODLC decisions at the datagrid level
                 // allow non dgvMasterSongs ODLC to be deleted/moved/selected
-                if (Globals.DgvCurrent.Name == "dgvMasterSongs")
-                    return IsOfficialDLC ? false : _selected;
+                //if (Globals.DgvCurrent.Name == "dgvMasterSongs")
+                //    return IsOfficialDLC ? false : _selected;
 
                 return _selected;
             }
             set
             {
-                if (!IsOfficialDLC || Globals.DgvCurrent.Name != "dgvMasterSongs")
-                    SetPropertyField("Selected", ref _selected, value); // _selected = value;          
-                else
-                    SetPropertyField("Selected", ref _selected, false); //_selected = false;
+                //if (!IsOfficialDLC || Globals.DgvCurrent.Name != "dgvMasterSongs")
+                SetPropertyField("Selected", ref _selected, value); // _selected = value;          
+                //else
+                //    SetPropertyField("Selected", ref _selected, false); //_selected = false;
             }
         }
 
         [XmlIgnore]
         public string Enabled
         {
-            get { return (new FileInfo(FilePath).Name).ToLower().Contains("disabled") ? "No" : "Yes"; }
+            get
+            {
+                // individual non-songpack songs and songpacks may be entirely disabled by filename
+                if ((new FileInfo(FilePath).Name).ToLower().Contains("disabled"))
+                    return "No";
+                // songpack song status is unknown if not entirely disabled by filename
+                if (IsRsCompPack || IsSongPack || IsSongsPsarc)
+                    return "SongPack";
+                // individual non-songpack songs
+                return "Yes";
+            }
             set { } // required for XML file usage
         }
 
@@ -164,32 +180,46 @@ namespace CustomsForgeSongManager.DataObjects
             get
             {
                 string result = string.Empty;
-                foreach (string arrangement in Arrangements2D.Select(x => x.Name.ToLower()).ToArray())
+                foreach (string arrangement in Arrangements2D.Select(x => x.ArrangementName.ToLower()).ToArray())
                 {
-                    if (arrangement.Contains("lead") && !arrangement.Contains("lead2"))
-                        result += "L";
-                    if (arrangement.Contains("lead2"))
-                        result += "l";
-                    if (arrangement.Contains("rhythm") && !arrangement.Contains("rhythm2"))
-                        result += "R";
-                    if (arrangement.Contains("rhythm2"))
-                        result = "r";
-                    if (arrangement.Contains("bass") && !arrangement.Contains("bass2"))
+                    // create BLRV short acronym
+                    if (arrangement.ToLower().Contains("bass") && !result.Contains("B"))
                         result += "B";
-                    if (arrangement.Contains("bass2"))
-                        result += "b";
-                    if (arrangement.Contains("vocals"))
+                    else if (arrangement.ToLower().Contains("lead") && !result.Contains("L"))
+                        result += "L";
+                    else if ((arrangement.ToLower().Contains("rhythm") || arrangement.ToLower().Contains("combo")) && !result.Contains("R"))
+                        result += "R";
+                    else if (arrangement.ToLower().Contains("vocals"))
                         result += "V";
-                    if (arrangement.Contains("combo"))
-                        result += "C";
                 }
+
                 return result;
             }
         }
 
+        private int? _ratingStars;
+        [XmlIgnore]
+        public int RatingStars  // { get; set; }
+        {
+            get
+            {
+                if (_ratingStars == null)
+                {
+                    if (String.IsNullOrEmpty(PackageRating) || PackageRating.ToLower().Contains("null"))
+                        _ratingStars = 0;
+                    else
+                        _ratingStars = int.Parse(PackageRating);
+                }
+
+                return (int)_ratingStars;
+            }
+
+            set { _ratingStars = value; }
+        }
+
         // preserves 1D display methods
         [XmlIgnore]
-        public string Arrangements1D { get { return String.Join(", ", Arrangements2D.Select(o => o.Name)).TrimEnd(" ,".ToCharArray()); } }
+        public string Arrangements1D { get { return String.Join(", ", Arrangements2D.Select(o => o.ArrangementName)).TrimEnd(" ,".ToCharArray()); } }
         [XmlIgnore]
         public string Tunings1D { get { return String.Join(", ", Arrangements2D.Select(o => o.Tuning)).TrimEnd(" ,".ToCharArray()); } }
         [XmlIgnore]
@@ -220,7 +250,7 @@ namespace CustomsForgeSongManager.DataObjects
         public void UpdateFileInfo()
         {
             var fi = new FileInfo(FilePath);
-            FileDate = fi.LastWriteTimeUtc;
+            FileDate = fi.LastWriteTime;
             FileSize = (int)fi.Length;
         }
     }
@@ -230,15 +260,19 @@ namespace CustomsForgeSongManager.DataObjects
     {
         // Arrangement Attributes
         public string PersistentID { get; set; } // unique ID
-        public string Name { get; set; } // arrangement name
+        public string ArrangementName { get; set; }
         public int? CapoFret { get; set; }
         public int? DDMax { get; set; }
+        public float? ScrollSpeed { get; set; } // stored as int in toolkit (x10)
         public string Tuning { get; set; }
         public double? TuningPitch { get; set; } // tuning frequency, see Cents2Frequency method
         public string ToneBase { get; set; }
         public string Tones { get; set; } // concatinated string of the tones used in arrangement
-        public int? SectionsCount { get; set; }
         public int? TonesCount { get; set; }
+        public int? SectionsCount { get; set; }
+
+        // Arrangement Attributes from HSAN file data
+        public double? SongDifficulty { get; set; }
 
         // Arrangement Levels
         public int? ChordCount { get; set; }
@@ -265,6 +299,11 @@ namespace CustomsForgeSongManager.DataObjects
         public int? TremoloCount { get; set; }
         public int? VibratoCount { get; set; }
         public int? ThumbCount { get; set; }
+        public int? PitchedChordSlideCount { get; set; }
+        public int? TimeSignatureChangeCount { get; set; }
+        public int? BPMChangeCount { get; set; }
+        public float? MinBPM { get; set; }
+        public float? MaxBPM { get; set; }
 
         // TODO: future expansion analyzer Arrangement Properties
         // Arrangement Properties 
@@ -272,7 +311,7 @@ namespace CustomsForgeSongManager.DataObjects
         public int? BassPick { get; set; }
         //public int? BarreChords { get; set; }
         //public int? Bends { get; set; }
-        //public int? BonusArr { get; set; }
+        public int? BonusArr { get; set; }
         //public int? DoubleStops { get; set; }
         //public int? DropDPower { get; set; }
         //public int? FifthsAndOctaves { get; set; }
@@ -290,7 +329,7 @@ namespace CustomsForgeSongManager.DataObjects
         //public int? PickDirection { get; set; }
         //public int? PinchHarmonics { get; set; }
         //public int? PowerChords { get; set; }
-        //public int? Represent { get; set; }
+        public int? Represent { get; set; }
         //public int? RouteMask { get; set; } // 0 = bass, 1 = lead, 2 = rhytmm
         //public int? SlapPop { get; set; }
         //public int? Slides { get; set; }
@@ -319,6 +358,31 @@ namespace CustomsForgeSongManager.DataObjects
                 return BassPick == 0 ? "Fingered" : "Picked";
             }
         }
+
+        [XmlIgnore]
+        public string IsDefaultBonusAlternate
+        {
+            // Default => represent is true and bonus is false 
+            // Bonus => represent is false and bonus is true     
+            // Alternate => both represent and bonus are false
+            // Unknown => both represent and bonus are true
+            get
+            {
+                if (Represent == null || BonusArr == null)
+                    return "Null";
+                else if (Represent == 1 && BonusArr == 0)
+                    return "Default";
+                else if (Represent == 0 && BonusArr == 1)
+                    return "Bonus";
+                else if (Represent == 0 && BonusArr == 0)
+                    return "Alternate";
+                else if (Represent == 1 && BonusArr == 1)
+                    return "Unknown"; // appears in-game as default arrangement
+                else
+                    throw new DataException("<ERROR> Invalid Represent/BonusArr condition ...");
+            }
+        }
+
 
         // concatinated string of chord names and cord counts
         private string _chordNamesCounts;

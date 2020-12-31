@@ -123,6 +123,17 @@
   <metadata name="toolTip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>508, 6</value>
   </metadata>
+  <data name="chkIncludeSubfolders.ToolTip" xml:space="preserve">
+    <value>If checked, search 'dlc' folder and 
+subfolders for any matching songs.
+
+NOTE: 
+Duplicate finder always searches
+for duplicates in 'dlc' folder and 
+subfolders regardless of checkbox
+condition, but it only displays those
+duplicates according to selection.</value>
+  </data>
   <metadata name="colPID.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
@@ -162,13 +173,7 @@
   <metadata name="colRepairStatus.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
-  <metadata name="colCharter.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
   <metadata name="colUpdated.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <metadata name="colVersion.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
   <metadata name="colToolkitVersion.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
@@ -198,17 +203,24 @@
   <metadata name="cmsDuplicates.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>161, 7</value>
   </metadata>
-  <data name="cmsActions.ToolTipText" xml:space="preserve">
-    <value>NOTE:
-Multiple selections can be made for
-'Enable/Disable Songs', 'Delete Songs'
-and 'Move Songs'.
-
-For safety, the column 'Select' checkbox
-must be checked to perform these 
-three File I/O related 'Actions'.</value>
-  </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="cmsEdit.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAohJREFUOE99kk1I
+        FGEcxnPJREqEzClKAtvWNBJUOihBJRp5qOgQhAeLILBDBRHB1iUkLx3Cj6KD0GFdUNeLmrTbh8maNhJt
+        JJmzUiNzatmv2Z0ZZ2Ztd92n9113BjVr4GGGYZ7f83//z+RtW7ssRDtzz/+99dzM390Ubnn3WwhylqKi
+        a8bHpZIkIyqKiMXjiEsSJFmGrChQlpexTKWqUKQIYuwZPG2zYoJh4CksHDMAjBiLIRQOIxKNQtwCJMsS
+        op9a8fz+QZSVHUDHhby0s7xg2ATE49KamYCMCRQyAU1XSbr47QFe9lbBaj2E6+d3YMGZP9t83LLXBNCR
+        DTMd3TBquo44/wK+4ZOoPlaJi6d3gR+tQGOd5RQxF5gAmkaTs2aSqGkaEokElF9vIUxewon6GjTV74Hf
+        tQ9f2FEQYyVRngmgJtNMUqlZi84h/Lkd51oa0FBXhrn+Ysy8fga/308B+9fXxagkkY5tJOuyAPm7HVcu
+        N6K2uhyzfUXwjtjBsixkclxiZjYA6FkphCYn1BDUxQ7caW/B0Sor3vQUY8rVhvHxcQQCAayurv4N0IlR
+        JxBdJ51zdnTeO4sK22EMdpaAHWqGw+EAx3FIpVJIbwXIJhOJQQGv+tths9nQfZfB1+FadHU9gdfrRSQS
+        QTAYRDAUTpLxSzYcYWVlBVTCvBvsyA30ddSAHzuC3u7HcLvdWCDpH6an4fP5MoMu1+31DVAQQ80aaeKR
+        vRXeoavwTTnA/1zMLoymTryfBK3a7XE/3Gw2AX5uAc5+B2lCRTqdzi4rmUyC55cwM/Mx4/mHmQJK6YdU
+        2SXlzJlMhrxL4ceSkHQODNzaKtnYw3YKyXVL+90sujDzr1u/vD8g8iopeAoinwAAAABJRU5ErkJggg==
+</value>
+  </data>
   <data name="cmsShowSongInfo.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
@@ -230,8 +242,8 @@ three File I/O related 'Actions'.</value>
   <data name="cmsDelete.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAALEwAA
-        CxMBAJqcGAAAAnZJREFUOE+Fk/tPkmEUx+1P6E9oa7NWUSqlkFEZzpqtdfc67eJKbVJot/WDW5khGsNM
+        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAALDQAA
+        Cw0B7QfALAAAAnZJREFUOE+Fk/tPkmEUx+1P6E9oa7NWUSqlkFEZzpqtdfc67eJKbVJot/WDW5khGsNM
         QoUKk01XM2h4KWkRzuYmGPaqXEKCVNgsFZz8/u28lQwi6t2+e8573uf5nOec95x1SVEPh7trPb3ySX3R
         /ih7L9lzjHXMG/edDvNJKKuoRHNbKxa+zWE5uIhgaBnM9CRMZjOUHSqwe0i5MQByCLJyDsHltmN0bASi
         69XIysnGxuRkpHBTcauuFobXBlg+WmCxWdYgGyIQlmp3TVKkcXyeseOloRfF589hJ4+HdH4G8kuKIGuV
@@ -251,8 +263,8 @@ three File I/O related 'Actions'.</value>
   <data name="tsmiRescanAll.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAAN1QAA
-        DdUBPdZY8QAAAxhJREFUOE9lkvtLU2EYx3ObGV2ktCxC+gsiAn+I0NCMLO2mWUGSgr+UUPRLhRlokmGo
+        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAANzwAA
+        Dc8BL7aD1wAAAxhJREFUOE9lkvtLU2EYx3ObGV2ktCxC+gsiAn+I0NCMLO2mWUGSgr+UUPRLhRlokmGo
         IcpE8ZI/ZOrc9Wwu9Wibm3p2KTfn1G063UXNzdS8DM5Bxs7T+wqK5gtf3vd5+b6f8zzPecIA4MD2khKS
         OC6X+wbFl1iWjeVwOPPobAyFQhX30zNNO8bdBwyQyMQ8mVxaRihktMGoY8fGR2F6ehLsDhuYzMMsvkcq
         wz7s362tAD/uJrtox5QdFCp9sF6iZWrEg6EvcoohKUtw8Y8ffqj7tiD7AIgah7+AHzdK+jf5YspVLvpV
@@ -268,7 +280,7 @@ three File I/O related 'Actions'.</value>
         dATpBFJs4V1ORVUWd638EVeemxAW9Q+PJHKtAgrQ1gAAAABJRU5ErkJggg==
 </value>
   </data>
-  <data name="tsmiRescanEnabledDisabled.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="tsmiShowEnabledDisabled.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
         YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAATNJREFUOE9j/P//

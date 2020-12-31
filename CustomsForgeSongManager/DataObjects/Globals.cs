@@ -11,6 +11,7 @@ using DLogNet;
 using System;
 using RocksmithToolkitLib.XmlRepository;
 using System.Reflection;
+using System.Threading.Tasks;
 
 
 namespace CustomsForgeSongManager.DataObjects
@@ -42,6 +43,7 @@ namespace CustomsForgeSongManager.DataObjects
         private static Dictionary<string, SongData> _outdatedSongList;
         private static Renamer _renamer;
         private static SetlistManager _setlistManager;
+        private static ProfileSongLists _profileSongLists;
         private static SongPacks _songPacks;
         private static Settings _settings;
         private static BindingList<SongData> _masterCollection;
@@ -49,24 +51,24 @@ namespace CustomsForgeSongManager.DataObjects
         private static ArrangementAnalyzer _arrangementAnalyzer;
         private static Theme _theme;
         private static TaggerTools _tagger;
-        private static List<OfficialDLCSong> _oDLCSongList;
+        private static List<OfficialSong> _oDLCSongList;
 
         public static Random random = new Random();
 
         public static event EventHandler<ScannerEventHandler> OnScanEvent;
 
-        private static bool FIsScanning;
+        private static bool _isScanning;
 
         public static bool IsScanning
         {
-            get { return FIsScanning; }
+            get { return _isScanning; }
             set
             {
-                if (FIsScanning != value)
+                if (_isScanning != value)
                 {
-                    FIsScanning = value;
+                    _isScanning = value;
                     if (OnScanEvent != null)
-                        OnScanEvent(null, new ScannerEventHandler(FIsScanning));
+                        OnScanEvent(null, new ScannerEventHandler(_isScanning));
                 }
             }
         }
@@ -111,9 +113,9 @@ namespace CustomsForgeSongManager.DataObjects
             set { _outdatedSongList = value; }
         }
 
-        public static List<OfficialDLCSong> OfficialDLCSongList
+        public static List<OfficialSong> OfficialDLCSongList
         {
-            get { return _oDLCSongList ?? (_oDLCSongList = new List<OfficialDLCSong>()); }
+            get { return _oDLCSongList ?? (_oDLCSongList = new List<OfficialSong>()); }
             set { _oDLCSongList = value; }
         }
 
@@ -140,11 +142,13 @@ namespace CustomsForgeSongManager.DataObjects
         public static bool RescanDuplicates { get; set; }
         public static bool RescanRenamer { get; set; }
         public static bool RescanSetlistManager { get; set; }
+        public static bool RescanProfileSongLists { get; set; }
         public static bool RescanSongManager { get; set; }
         public static bool RescanArrangements { get; set; }
         public static bool ReloadDuplicates { get; set; }
         public static bool ReloadRenamer { get; set; }
         public static bool ReloadSetlistManager { get; set; }
+        public static bool ReloadProfileSongLists { get; set; }
         public static bool ReloadSongManager { get; set; }
         public static bool ReloadArrangements { get; set; }
         public static bool ReloadSongPacks { get; set; }
@@ -153,6 +157,12 @@ namespace CustomsForgeSongManager.DataObjects
         {
             get { return _setlistManager ?? (_setlistManager = new SetlistManager()); }
             set { _setlistManager = value; }
+        }
+
+        public static ProfileSongLists ProfileSongLists
+        {
+            get { return _profileSongLists ?? (_profileSongLists = new ProfileSongLists()); }
+            set { _profileSongLists = value; }
         }
 
         public static Settings Settings
@@ -221,12 +231,16 @@ namespace CustomsForgeSongManager.DataObjects
 
         public static void ResetToolStripGlobals()
         {
-            TsProgressBar_Main.Value = 0;
-            TsLabel_MainMsg.Visible = false;
-            TsLabel_StatusMsg.Visible = false;
-            TsLabel_Cancel.Visible = false;
-            TsLabel_Cancel.Text = "Cancel";
-            TsLabel_DisabledCounter.Visible = false;
+            try
+            {
+                TsProgressBar_Main.Value = 0;
+                TsLabel_MainMsg.Visible = false;
+                TsLabel_StatusMsg.Visible = false;
+                TsLabel_Cancel.Visible = false;
+                TsLabel_Cancel.Text = "Cancel";
+                TsLabel_DisabledCounter.Visible = false;
+            }
+            catch {/* DO NOTHING */}
         }
 
         public static void ClearLog()
@@ -243,6 +257,11 @@ namespace CustomsForgeSongManager.DataObjects
             get { return false; }
 #endif
         }
+
+        public static bool PrfldbNeedsUpdate { get; set; }
+        public static bool PackageRatingNeedsUpdate { get; set; }
+        public static bool UpdateInProgress { get; set; }
+        public static bool IncludeInlays { get; set; }
 
     }
 }

@@ -1,8 +1,8 @@
 ﻿using System;
 using System.IO;
 using System.Windows.Forms;
-using CFSM.RSTKLib.PSARC;
 using RocksmithToolkitLib.DLCPackage;
+using RocksmithToolkitLib.PSARC;
 
 namespace CustomsForgeSongManager.SongEditor
 {
@@ -20,8 +20,8 @@ namespace CustomsForgeSongManager.SongEditor
 
         public string FilePath;
         public DLCPackageData SongData;
-
         public virtual bool Dirty { get; set; }
+        public virtual bool HaltOnError { get; set; }
 
         public virtual void Save()
         {

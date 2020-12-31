@@ -13,6 +13,8 @@ using System.Diagnostics;
 using CustomControls;
 using System.Security.Cryptography;
 using System.ComponentModel;
+using ToolkitExtensions = RocksmithToolkitLib.Extensions.StringExtensions;
+
 
 namespace GenTools
 {
@@ -31,28 +33,11 @@ namespace GenTools
 
         #endregion
 
-        public static bool IsInDesignMode
-        {
-            get
-            {
-                var bVshostCheck = Process.GetCurrentProcess().ProcessName.IndexOf("vshost", StringComparison.OrdinalIgnoreCase) > -1 ? true : false;
-                var bModeCheck = LicenseManager.UsageMode == LicenseUsageMode.Designtime ? true : false;
-                var bDevEnvCheck = Application.ExecutablePath.IndexOf("devenv", StringComparison.OrdinalIgnoreCase) > -1 ? true : false;
-                var bDebuggerAttached = Debugger.IsAttached;
-
-                if (bDebuggerAttached || bDevEnvCheck || bModeCheck || bVshostCheck)
-                    return true;
-
-                return false;
-            }
-        }
-
-        #region Class Methods
-
         public static bool AddShortcut(Environment.SpecialFolder destDirectory,
-                                       string exeShortcutLink, string exePath, string destSubDirectory = "",
-                                       string shortcutDescription = "", string exeIconPath = "") // e.g. "OutlookGoogleCalendarSync.lnk"
+                                                            string exeShortcutLink, string exePath, string destSubDirectory = "",
+                                                            string shortcutDescription = "", string exeIconPath = "")
         {
+            // e.g. "OutlookGoogleCalendarSync.lnk"
             Debug.WriteLine("AddShortcut: directory=" + destDirectory.ToString() + "; subdir=" + destSubDirectory);
             if (destSubDirectory != "") destSubDirectory = "\\" + destSubDirectory;
             var shortcutDir = Environment.GetFolderPath(destDirectory) + destSubDirectory;
@@ -166,28 +151,30 @@ namespace GenTools
             }
         }
 
-        public static string CleanName(this string s)
+        /// <summary>
+        /// Moves short words, replaces abbreviations, strips non-alphanumeric and whitespaces
+        /// <para>Returned clean string is uppercase invariant suitable for use in making comparisons</para>
+        /// </summary>
+        /// <param name="s"></param>
+        /// <returns></returns>
+        public static string CleanString(this string s)
         {
-            s = Regex.Replace(s, @"\s+", "");
-            s = s.ToLower();
-
-            return s
-                .Replace("\\", "")
-                .Replace("/", "")
-                .Replace("\"", "")
-                .Replace("*", "")
-                .Replace(":", "")
-                .Replace("<", "")
-                .Replace(">", "")
-                .Replace("'", "")
-                .Replace(".", "")
-                .Replace("!", "")
-                .Replace("?", "")
-                .Replace("|", "")
-                .Replace("—", "")
-                .Replace("’", "")
-                .Replace("...", "");
+            // using toolkitlib methods to produce a clean workable string
+            return ToolkitExtensions.StripNonAlphaNumeric(ToolkitExtensions.ReplaceAbbreviations(ToolkitExtensions.ShortWordMover(s))).ToUpperInvariant();
         }
+
+        public static string CleanVersion(this string s)
+        {
+            // 2.9.2.0-bacdb7d3
+            var version = "0.0.0.0"; // default ODLC
+            var ndxDash = s.IndexOf('-');
+
+            if (ndxDash > 6)
+                version = s.Substring(0, ndxDash);
+            
+            return version;
+        }
+
 
         public static void ClearFolder(string folderName)
         {
@@ -265,6 +252,9 @@ namespace GenTools
 
         public static bool CopyFile(string fileFrom, string fileTo, bool overWrite, bool verbose = true)
         {
+            if (!File.Exists(fileFrom))
+                return false;
+
             if (verbose)
                 if (!PromptOverwrite(fileTo))
                     return false;
@@ -282,7 +272,8 @@ namespace GenTools
             }
             catch (IOException e)
             {
-                if (!overWrite) return true; // be nice don't throw error
+                if (!overWrite || !verbose)
+                    return true; // be nice don't throw error
                 BetterDialog.ShowDialog(
                     "Could not copy file " + fileFrom + "\r\nError Code: " + e.Message +
                     "\r\nMake sure associated file/folders are closed.",
@@ -313,6 +304,9 @@ namespace GenTools
 
         public static bool DeleteDirectory(string dirPath, bool includeSubDirs = true)
         {
+            if (!Directory.Exists(dirPath))
+                return false;
+
             const int magicDust = 10;
             for (var gnomes = 1; gnomes <= magicDust; gnomes++)
             {
@@ -322,6 +316,10 @@ namespace GenTools
                     return true;
                 }
                 catch (DirectoryNotFoundException)
+                {
+                    return false;
+                }
+                catch (ArgumentNullException)
                 {
                     return false;
                 }
@@ -365,6 +363,9 @@ namespace GenTools
 
         public static bool DeleteFile(string filePath)
         {
+            if (!File.Exists(filePath))
+                return true;
+
             const int magicDust = 10;
             for (var gnomes = 1; gnomes <= magicDust; gnomes++)
             {
@@ -376,7 +377,11 @@ namespace GenTools
                 }
                 catch (FileNotFoundException)
                 {
-                    return false; // file does not exist
+                    return true; // file does not exist
+                }
+                catch (ArgumentNullException)
+                {
+                    return false;
                 }
                 catch (IOException)
                 {
@@ -509,6 +514,9 @@ namespace GenTools
 
         public static void InvokeIfRequired<T>(this T c, Action<T> action) where T : Control
         {
+            if (c == null)
+                return;
+
             if (c.InvokeRequired)
                 c.Invoke(new Action(() => action(c)));
             else
@@ -644,15 +652,48 @@ namespace GenTools
             }
         }
 
-        public static bool MoveFile(string fileFrom, string fileTo, bool verbose = true)
+        public static string MakeValidDirFileName(string name, string replaceWith = "")
         {
+            return MakeValidFileName(MakeValidDirName(name, replaceWith), replaceWith);
+        }
+
+        public static string MakeValidDirName(string dirName, string replaceWith = "")
+        {
+            string invalidChars = new string(Path.GetInvalidPathChars());
+            if (!String.IsNullOrEmpty(replaceWith) && invalidChars.Contains(replaceWith))
+                throw new InvalidDataException("<ERROR> DirName replaceWith charater is invalid ...");
+
+            // remove forward slashes from a directory name, e.g. AC/DC becomes ACDC
+            string invalidRegStr = String.Format(@"([{0}]*\.+$)|([{0}/]+)", Regex.Escape(invalidChars));
+            
+            return Regex.Replace(dirName, invalidRegStr, replaceWith);
+        }
+
+        public static string MakeValidFileName(string fileName, string replaceWith = "")
+        {
+            string invalidChars = new string(Path.GetInvalidFileNameChars());
+            if (!String.IsNullOrEmpty(replaceWith) && invalidChars.Contains(replaceWith))
+                throw new InvalidDataException("<ERROR> FileName replaceWith charater is invalid ...");
+
+            string invalidRegStr = String.Format(@"([{0}]*\.+$)|([{0}]+)", Regex.Escape(invalidChars));
+
+            return Regex.Replace(fileName, invalidRegStr, replaceWith);
+        }
+
+        public static bool MoveFile(string fileFrom, string fileTo, bool overWrite, bool verbose = true, bool skipDuplicates=false)
+        {
+            if (!File.Exists(fileFrom))
+                return false;
+
             if (File.Exists(fileTo))
+            {
                 if (!verbose)
                     File.Delete(fileTo);
-                else if (!PromptOverwrite(fileTo))
+                else if (!skipDuplicates && !PromptOverwrite(fileTo))
                     return false;
                 else
                     File.Delete(fileTo);
+            }
             else
             {
                 var fileToDir = Path.GetDirectoryName(fileTo);
@@ -662,16 +703,17 @@ namespace GenTools
 
             try
             {
-                File.Copy(fileFrom, fileTo);
+                CopyFile(fileFrom, fileTo, overWrite, verbose);
                 DeleteFile(fileFrom);
-                //File.Move(fileFrom, fileTo);
                 return true;
             }
             catch (IOException e)
             {
-                BetterDialog.ShowDialog(
-                    "Could not move the file " + fileFrom + "  Error Code: " + e.Message,
-                    MESSAGEBOX_CAPTION, MessageBoxButtons.OK, Bitmap.FromHicon(SystemIcons.Warning.Handle), "Warning ...", 150, 150);
+                if (!verbose) // be nice don't throw errMsg
+                    return true;
+
+                var errMsg = "Could not move the file " + fileFrom + "  Error Code: " + e.Message;
+                BetterDialog.ShowDialog(SplitString(errMsg, 50), MESSAGEBOX_CAPTION, MessageBoxButtons.OK, Bitmap.FromHicon(SystemIcons.Warning.Handle), "Warning ...", 150, 150);
                 return false;
             }
         }
@@ -708,8 +750,9 @@ namespace GenTools
         {
             if (File.Exists(destPath))
             {
-                if (BetterDialog.ShowDialog(Path.GetFileName(destPath) + @" already exists." +
-                    Environment.NewLine + Environment.NewLine + @"Overwrite the existing file?", @"Warning: Overwrite File Message",
+                if (BetterDialog.ShowDialog("File already exists:" + Environment.NewLine +
+                    SplitString(destPath, 50, false) + Environment.NewLine + Environment.NewLine + 
+                    "Overwrite the existing file?", @"Warning: Overwrite File Message",
                     MessageBoxButtons.YesNo, Bitmap.FromHicon(SystemIcons.Warning.Handle), "Warning ...", 150, 150)
                     == DialogResult.No)
                     return false;
@@ -856,6 +899,48 @@ namespace GenTools
         }
 
         /// <summary>
+        /// Splits a big list into a specified number of smaller sublists,
+        /// only a single list is returned when 'parts' equals 1 
+        /// </summary>
+        /// <typeparam name="T">list object type</typeparam>
+        /// <param name="list">the big list</param>
+        /// <param name="parts">number of sublists desired</param>
+        /// <returns></returns>
+        public static List<List<T>> SplitList<T>(this List<T> list, int parts)
+        {
+            List<List<T>> result = new List<List<T>>();
+            if (parts > 1)
+            {
+                var rangeSize = list.Count / parts;
+                var firstRangeSize = rangeSize + list.Count % parts;
+                var startNdx = 0;
+                var endNdx = firstRangeSize;
+
+                for (int i = 0; i < parts; i++)
+                {
+                    List<T> innerResult = new List<T>();
+                    int j = 0;
+
+                    for (j = startNdx; j < endNdx; j++)
+                        innerResult.Add(list[j]);
+
+                    result.Add(innerResult);
+                    startNdx = j;
+                    endNdx = startNdx + rangeSize;
+                }
+
+                // linq method works but changes order of lists
+                //result = list.Select((item, index) => new { index, item })
+                //    .GroupBy(x => x.index % parts)
+                //    .Select(x => x.Select(y => y.item).ToList()).ToList();
+            }
+            else
+                result.Add(list);
+
+            return result;
+        }
+
+        /// <summary>
         /// Splits a text string so that it wraps to specified line length
         /// </summary>
         /// <param name="inputText"></param>
@@ -988,6 +1073,5 @@ namespace GenTools
         private static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int X,
                                                 int Y, int cx, int cy, uint uFlags);
 
-        #endregion
     }
 }

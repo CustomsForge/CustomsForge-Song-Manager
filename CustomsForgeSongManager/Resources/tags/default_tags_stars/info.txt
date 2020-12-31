@@ -1,0 +1,23 @@
+Custom Tags Stars = Purple Background with Boarder
+
+
+Rating Stars
+==================================
+Stars 1 = One Star
+Stars 2 = Two Stars
+Stars 3 = Three Stars
+Stars 4 = Four Stars
+Stars 5 = Five Stars
+
+
+Arrangement Tags 
+==================================
+Lead = Red Arrow Upper Quill
+Lead Bonus = Red Arrow Lower Quill
+Rhythm = Green Arrow Upper Quill
+Rhythm Bonus = Green Arrow Lower Quill
+Bass = Blue Arrow Upper Quill
+Bass Bonus = Blue Arrow Lower Quill
+Vocals = Yellow Arrow Head
+
+

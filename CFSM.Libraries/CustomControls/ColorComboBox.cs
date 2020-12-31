@@ -308,7 +308,7 @@ namespace CustomControls
                 //if it is already down, don't do anything.
                 //this shouldn't happen anymore since we 
                 //started to disable the button when the 
-                //drop down is being displayed
+                //dropdown is being displayed
                 if (!this.Checked)
                 {
                     return;
@@ -358,7 +358,7 @@ namespace CustomControls
                 DrawColor(e.Graphics, colorRect, selectedColor);
             }
 
-            //draw the drop down arrow on the right side of the button
+            //draw the dropdown arrow on the right side of the button
             private void DrawArrow(Graphics dc, Rectangle rect)
             {
                 Point[] ptsArrow = new Point[3];

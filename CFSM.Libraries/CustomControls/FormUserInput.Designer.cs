@@ -40,11 +40,12 @@
             this.lblCustomInput.Location = new System.Drawing.Point(8, 7);
             this.lblCustomInput.Name = "lblCustomInput";
             this.lblCustomInput.Size = new System.Drawing.Size(72, 13);
-            this.lblCustomInput.TabIndex = 0;
+            this.lblCustomInput.TabIndex = 1;
             this.lblCustomInput.Text = "Custom Input:";
             // 
             // btnOk
             // 
+            this.btnOk.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.btnOk.AutoSize = true;
             this.btnOk.Location = new System.Drawing.Point(138, 53);
             this.btnOk.Name = "btnOk";
@@ -56,12 +57,12 @@
             // 
             // txtCustomInput
             // 
+            this.txtCustomInput.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.txtCustomInput.Location = new System.Drawing.Point(10, 25);
             this.txtCustomInput.Name = "txtCustomInput";
             this.txtCustomInput.Size = new System.Drawing.Size(329, 20);
-            this.txtCustomInput.TabIndex = 2;
-            this.txtCustomInput.TextChanged += new System.EventHandler(this.txtCustomInput_TextChanged);
-            this.txtCustomInput.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtCustomInput_KeyDown);
+            this.txtCustomInput.TabIndex = 0;
             // 
             // FormUserInput
             // 
@@ -75,8 +76,9 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "FormUserInput";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Custom User Input";
+            this.Load += new System.EventHandler(this.FormUserInput_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

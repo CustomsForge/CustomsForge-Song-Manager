@@ -1,7 +1,7 @@
 ﻿DEVELOPER NOTE TO USERS:  THIS RELEASE CONTAINS NO VIRUSES OR TROJANS
 Any such report from your AV is a false positive and is due to how
 the installer and application updater works.  You must manually add 
-CFSMSetup.exe and CustomsForgeSongManager.exe to you AV's whitelist
+CFSMSetup.exe and CustomsForgeSongManager.exe to your AV's whitelist
 of approved/excluded applications.
 
 IT IS A WASTE OF BOTH YOUR TIME, AND THE CF ADMINS AND DEVELOPERS TIME
@@ -13,6 +13,562 @@ until you can confirm it is safe by working directly with your AV provider.
 ========================================================================
 
 CFSM Release Notes
+1.5.8.7
+- added an option to export profile song lists
+
+1.5.8.6
+- fixed the issue with Audio Normalization option crashing the whole application
+
+1.5.8.5
+- fixed the wrong pitch used for Pitch Shifting songs in drop tunings
+
+1.5.8.4
+- added RSTK lib .dll without the expiration check
+
+1.5.8.3
+- fixed the bug due to expired RSTK lib shelf life
+
+1.5.8.2
+- auto D3DX9_42.dll will now ignore any RSMods version of the DLLs
+- fixed the auto-update option
+- fixed the issue where using Organize function while duplicate songs were present would mess up duplicate detection
+
+1.5.8.1
+- auto-quarantine should now ignore inlays
+- fixed the problem where 'Skip Duplicates From DL Folder' option would not remain checked on restart
+- fixed the error where an exception would be thrown if the network folder was not present and the time of startup
+
+1.5.8.0
+- monitoring DL folders can now be used on multiple folders
+- also CDLC found in those folders will be moved by a location specified by the user  
+
+1.5.7.9
+- updated the AppId list ( final RS2014 ODLC list :( )
+- updated the DLL check with the new version of the DLL (DLL with custom song list names)
+- added an option to skip files that already exist in the DLC folder when using the 'Process Downloads folder' function
+
+1.5.7.8
+- fixed negative sign alignment issue with Auto Adjust CDLC Volume variables 
+
+1.5.7.7
+ - hotfix enabled CFSM>Custom Mods>Auto Adjust CDLC Volume
+  
+1.5.7.6
+- Added clickable FFmpeg popup link if ffmpeg.exe file is missing.
+- Right clicking on Auto Adjust CDLC Volume presents user with additional 
+  information and options for audio normalization vs audio volume adjustment
+
+1.5.7.5
+- Removed ffmpeg.exe from CFSM Inno Setup to save space
+  (ffmpeg.exe is available from CGT website as needed)
+- Fixed AppId dash delimiter validation issue
+
+1.5.7.4
+- Updated RocksmithToolkitLib.SongAppId.xml dlc AppIds
+- Improved auto repair of some old toolkit multitone exceptions
+  usage: CFSM>Repairs>Prevent Multitone Exceptions 
+
+1.5.7.3
+- Improved CFSM version validation
+
+1.5.7.2
+- CDLC auto volume adjustment POC (Proof of Concept) 
+  See Song Manager>Custom Mods>Auto Adjust CDLC Volume
+  This feature is still in POC testing phase so be sure to report your 
+  results/settings to the Developers.
+  Be sure to read and follow the tooltip popups and the Log messages.
+- added tooltips to CustomControl ToolStripNumUpDown
+- improved Saved Search exception handling to auto clear search errors
+- minor improvements to 'Process Downloads Folder' feature
+- Song Manager>Repairs use main audio as preview audio if preview is missing from CDLC
+    
+1.5.7.1
+- updated website url links in About menu
+
+1.5.7.0 (Christmas Edition)
+- fixed SongEditor>AlbumArt editor so that code retreives the correct image
+
+1.5.6.9
+- added a weblink in Settings tabmenu to the Official CFSM Guide
+- added customizable user notes to CDLC PackageComments
+  usage: SongManager>EditSongInfo>UserNotes (add/edit note), then Save
+- added ablity to edit tagged CDLC songs info without first having to untag
+
+1.5.6.8
+- hotfix
+
+1.5.6.7
+- force error log viewer to auto display any error results
+- fixed some Mac SongPack path and file naming issues
+- added custom inlays to Duplicates finder
+
+1.5.6.6
+- added some missing fields for UpdateXml in SongEditor
+- fixed SongEditor handling of CDLC that have custom fonts
+- added additional exception handling to Settings tabmenu
+
+1.5.6.5
+- added Audio (~kbps) column to SongManager
+- added HasCustomFont (True/False for Lyrics Texture Artwork) column to SongManager 
+  use Settings tabmenu or Ctrl+Right Click on columns headers to enable the new columns
+- added Apply Default AppId to Repair Options
+- improved non-primary grid loading speeds after Settings tabmenu changes
+   
+1.5.6.4
+- updated RocksmithToolkitLib.dll
+
+1.5.6.3
+- added additional DateTime info to log for debugging
+
+1.5.6.2
+1.5.6.1
+- hotfixes
+
+1.5.6.0
+- added OS, and CultureInfo to log
+- updated RocksmithToolkitLib.dll
+
+1.5.5.9
+- discontinued support for legacy version D3DX9_42.dll
+- simplified custom exception messages to encourage users to read them
+- added toolkit library validation check
+- fixed SongManager 'Show My CDLC' checkbox, and accept local input of Charter's Name
+- removed now redundant 'Enter a CDLC Charter's Name' from Settings tabmenu
+
+1.5.5.8
+- improved SongManager toolstrip item [Clean 'dlc' Folder]
+- modified CFSM Search features to run after the user hits ENTER
+- updated OfficialSongs.json (used for checking CDLC/ODLC replacement detection)
+
+1.5.5.7
+- eliminated internal CFSM conflicts with RocksmithToolkitLib.dll
+- fixed SongEditor SaveAs file naming bugs
+- added custom global exception handler to application
+
+1.5.5.6
+- added 'Advanced Search' checkbox in SongManager, perform faster default searches
+
+1.5.5.5
+- check for duplicate enable/disabled files in same directory and move the 
+  disabled file to CFSM/Duplicates folder
+- updated RocksmithToolkitLib.dll (robust CDLC error checking)
+
+1.5.5.4
+- improved SetlistManager and SongPacks handling of disabled files
+
+1.5.5.3
+- added grid setting version validation
+- added additional error checking for custom grid settings file naming
+- fixed a bug in SetlistManager that prevented SongPack files from being enabled/disabled
+  Note: use SongPacks to enable/disable some or all of the included Base Songs
+- improved SongManager handling of enable/disable status for songpack files
+
+1.5.5.2
+- advanced users may create multiple custom grid setting files for a single grid:
+  =====================================
+  create multiple custom grid settings
+  a) CFSM>Settings>Load Grid Settings File>click on selector
+  b) Select a default grid settings XML file 'dgv[GridName].xml'
+  c) Edit the grid settings, i.e., Visible, DisplayIndex, or Width
+  d) CFSM>Settings>Save Settings>click on button
+  e) Specify a new custom grid settings XML file name 'dgv[GridName][[CustomName]].xml'
+  f) Custom grid settings will be auto loaded into the corresponding tabmenu
+  =====================================
+  load saved custom grid settings
+  a) CFSM>Settings>Load Grid Settings File>click on selector
+  b) Load a custom grid settings XML file 'dgv[GridName][[CustomName]].xml'
+  c) Select the cooresponding tabmenu feature
+
+  Note: the default grid settings XML file 'dgv[GridName].xml' is updated with the
+        latest grid settings even when a custom grid setting file name is specified
+
+1.5.5.1
+- fixed Search box backspace key issues in SongManager and ArrangementAnalyzer 
+- Search box no longer clears itself if CFSM doesn't find any matching records ... Doh!
+  Be the the first user to say, 'I don't see any of my CDLC' to get a dunce award ;(
+- added user customizable grid settings for Visible, DisplayIndex, and Width columns in Settings
+  Manually enter the DisplayIndex, or drag and drop the HeaderText row to a new position
+- select and modify any previously selected tabmenu's grid settings using new 
+  'Load Grid Settings File' selector
+- added numerous user tooltip popups in support of the new features (be sure to read them)
+
+1.5.5.0
+- added SongDifficulty column to ArrangementAnalayzer grid (arrange songs by difficulty)
+- fixed some FirstRun scanning issues
+
+1.5.4.9
+- Fixed custom control toolstrip button tooltip display
+
+1.5.4.8
+- Updated official dlc list (OfficialSongs.json)
+- Ensure better targeting of .NetFramework 4.0.30319 in App.config
+- Added toolstrip button custom control ('Custom Title Tag' improvements)
+- Added ability to selectively remove Custom Title Tag prefixes and suffixes
+
+1.5.4.7
+- Beautified Custom Title Tag tooltips and data input
+- User defined search is restored after CDLC Repair 
+
+1.5.4.6
+- Fixed old search terms being used after using certain functions like Rescan, Repair, ...
+- Searches also won't be removed after using those functions
+- Added an option to remove custom title tags (under 'Add tag')
+  NOTE: you have to manually input the tag (or any other part of the title that you want to remove)  
+- Restored 'Open Song Location' option in the right-click menu
+
+1.5.4.5 
+- Added	an option to add custom title tags ('Your Tag Here' Song Name / Song Name 'Your Tag Here')
+  under Custom Mods in Song Manager tab	
+
+1.5.4.4
+- RSTL Mac Build Update
+- added popup message to help Mac Users locate the Rocksmith installation path
+- RSTL Mac autoupdaters install to correct Program Files(x86)folder
+- improved SongManager>Files>Organize Artist Name Subfolders feature
+- ignore IOException exceptions thrown by "Restore CDLC to the 'dlc' Folder"
+- added 'Edit Song Information' to Duplicates so user can resolve the duplicates
+  while still viewing them (use 'Edit Song Information' to make the ATA different)
+- added link button 'Select All Older By ToolkitVersion' to Duplicates tabmenu
+- removed link button 'Show SongInfo/PersistentID', it is replaced by  
+  'Duplicate Type' toolstrip menu dropdown selector)
+- fixed PackageVersion column and added some missing columns to the Duplicates datagrid
+
+1.5.4.3
+- improved song collection parsing performance when changing 'Settings' 
+  * avoid unnecessary full rescan of songs
+  * remove songs from songsInfo.xml when the FilePath does not exist
+  * remove songs from songsInfo.xml that are not in the fileList
+  * remove duplicate songs from songsInfo.xml that have same FilePath and DLCKey
+    (prevents multiple count of song pack songs)
+
+1.5.4.2
+- ATA duplicates detection ignores common short word abbreviations, e.g. 'and', '&'
+- improved Duplicates 'Select All Older Version' method
+- testing new 'Duplicate Type' toolstrip menu dropdown selector in Duplicates tabmenu
+  (same basic function as the current link button 'Show SongInfo/PersistentID',
+   additionally shows which type of duplicate is being displayed)
+- improved Duplicates Rescan All method
+- fixed Duplicates Show Enable/Disable to work with both types of duplicates
+- improved 'D3DX9_42.dll' validation/installation/update
+
+1.5.4.1
+- Artist, Title, Ablum (ATA), and DLC Key duplicate detection is case insensitive
+- ATA and DLC Key duplicate detection is mutually exclusive
+- ignore non-alphanumeric characters and white space in ATA when determining duplicates 
+- improved CDLC/ODLC replacement matching method
+- improved the transfer of ArrangementAnalyzer selections to SongManager
+
+1.5.4.0
+- updated OfficialSongs.json (used for checking CDLC/ODLC)
+
+1.5.3.9
+- fixed ProfileSongLists contextual menu items
+- ProfileSongList makes a backup of the user profile every time
+
+1.5.3.8
+- fixed Mac mode Edit Song Info
+- improvements to Edit Song Information and Repairs
+- fixed Repairs>Customizable DD Settings>saved RampUpPath bug
+- added Repairs>Customizable DD Settings> resettable RampUp and CFG paths
+- simplified ProfileSongLists update method so that Steam instance is unaffected
+
+1.5.3.7
+- fixed audio playback in Mac Compatibility Mode
+- fixed Mac Compatibility Mode checkbox to allow toggling for RocksmithTools.dmg
+- updated About download links and installer for toolkit
+- improved ArrangementAnalyzer reload speed
+
+1.5.3.6
+- added SongAverageTempo validation (some ODLC may not have accurate SongAverageTempo)
+
+1.5.3.5
+- fixed saving SongManager filter
+- cleaned up 'Filter Available' log message
+
+1.5.3.4
+- save settings updates as needed
+
+1.5.3.3
+- fixed Clear Filters/Search (filter) anomaly
+
+1.5.3.2
+- updated InnoSetup v5.6.1 and InnoDownloadPlugin v1.5.1 and build with InnoScriptStudio
+- fixed Clear Filters/Search (search) anomaly
+
+1.5.3.1
+- improved Log messages
+- elevated app.manifest requestedExecutionLevel to requireAdminstrator
+- auto save/restore sorting order when switching between tabs
+- validate App.config is loaded at runtime
+
+1.5.3.0
+- App.config hotfix
+
+1.5.2.9
+- added system display setting validation
+- added exception handler to GetSteamDirectory
+- fixed looping issue with Rocksmith 2014 Installation Directory selection
+- added App.config settings to prevent error 'caused the assembly to be sandboxed'
+
+1.5.2.8
+- improved Duplicates finder
+
+1.5.2.7
+- improved datagrid filtering
+- added option to Save and Load datagrid filters in SongManager and
+  ArrangementAnalyzer (LOOK under the datagrid column header filter icon)
+- added auto save and reload of the user's current data search string
+- Tagger no longer halts when CDLC does not contain album artwork, but 
+  instead writes the file name and error message to the ErrorLog file.
+  Note: the 100% Mastery Bug repair option can be used to automatically 
+  restore toolkit default album artwork
+- updated RockmsithToolkitLib
+
+1.5.2.6
+- improved automatic RS folder path finding
+
+1.5.2.5
+- fixed AudioPlayer toolstrip repositioning issue
+- fixed SongEditor volume range so that it matches toolkit volume range
+- fixed SongManager and ArrangementAnalyzer search feature
+- Selections made in ArrangementAnalyzer are now transferred to SongManager
+  so that custom tagger templates can be quickly applied to only those CDLC
+
+1.5.2.4
+- additional tooltip information added to Customizable Scroll Speed
+- fixed stopwatch null exception in Renamer when no songs need renaming
+- added tooltip to Renamer about renaming ODLC
+- fixed filtering bug that caused IndexOutOfRange exception
+- fixed ArrangementAnalyzer Binding and Paint event handlers so
+  filtered data count appears correctly
+- fixed intermittent initial load screen glitch
+
+1.5.2.3
+- cleanup Log messages and AppSettings
+
+1.5.2.2
+- final multi threading build (thanks to everyone who helped with testing)
+- multi threading selection can be reset any time in 'Settings' tabmenu
+  Note: In testing the use of multi threading improved CFSM performance by
+        10-30%, i.e., the total CDLC rescan time was reduced using multi
+        threading.  Also, system Task Manager showed better balanced CPU core
+        usage.  Your individual results may vary.  It is left to you to test.
+
+1.5.2.1
+- testing alternate array method of multi threading with cross thread protection
+
+1.5.2.0
+- testing an alternate list method of multi threading
+- cleanup duplicate multi threading log entries
+- fixed Settings that would sometimes reset
+
+1.5.1.9
+- added test code for multicore processor support in SongManager and ArrangementAnalyzer Rescans
+
+1.5.1.8
+- fix arrangement represent toolkit bug that would occasionally be seen after CFSM repairs
+- added test code for multicore processor support in SongManager Repairs
+- updated RockmsithToolkitLib
+
+1.5.1.7
+- fix restore filtering bug (SongManager, and ArrangementAnalyzer filters are not interchangeable)
+- Repair option and other functional improvements
+
+1.5.1.6
+- improved Repairs message logging
+- save and restore the user search and/or filter from SongManager or ArrangementAnalyzer
+- corrected initial Song Count
+
+1.5.1.5
+- fixed some reoccurring Song Manager>Repairs options text visibility bugs
+- address resetting Song Manager>Repairs options to default values in >Settings>Reset CFSM On Closing 
+- fixed variable naming conflict that effected ScrollSpeed
+- Song Manager>Repairs now defaults to 'Preserve Stats' when 'Mastery 100% Bug' is not selected
+- fixed generic 'Search' tool in Song Manager and Arrangement Analyzer
+
+1.5.1.4
+- fixed inconsistent hard crash issue with Auto Monitor Downloads Folder feature
+- fixed FileDate reporting
+- added Adjust Scroll Speed to Repairs Options (default value is 1.3)
+- updated RockmsithToolkitLib (fixes SongVolume parsing)
+
+1.5.1.3
+- fixed PackageRating column export
+
+1.5.1.2
+- fixed Profile Song Lists tooltip display
+- fixed Mac Wineskin detection
+
+1.5.1.1
+- fixed CFSM title bar build display
+
+1.5.1.0
+- preserve Enable Mac Mode Setting on restart
+
+1.5.0.9
+- fixed directory and file name validation issues for 'Organize Artist Name Subfolders'
+- restrict CFSM Auto Update on Mac (Note: Mac users must manually update CFSM)
+
+1.5.0.8
+- restored saving Settings when leaving tab 
+- improved Renamer directory and file naming validation
+
+1.5.0.7
+- updated copyright
+- switched from 'Beta' to 'Build' version terminology
+- CFSM Installer must be run as Administrator and installer will display message
+  "You must be logged in as an administrator when installing this program" if 
+  the user is not an Administrator.
+
+1.5.0.6
+- improved Auto Update action, and make 'CFSM Update Available' button visible 
+  on top toolstrip when a download is available.
+
+1.5.0.5
+- changed CFSM default Settings to 'Enable Auto Updates' and to 'Validate D3DX9_42.dll'
+- auto show CFSM 'ReleaseNotes.txt' when there are significant revisions
+
+1.5.0.4
+- fixed initial parsing of song data to come after Settings menu popup
+
+1.5.0.3
+- bug fixes
+- improved UpdateToolStrip methods
+- improved Duplicates feature
+
+1.5.0.2
+- fixed Arrangements and Tunings columns in Setlist Manager and Profile Song Lists
+- fixed auto-selecting 'Settings' tabmenu on first time startup
+
+1.5.0.1
+- added full automode to 'Profile Song Lists' updater
+- added user popup GUI to permit selecting a User Profile by Player Name
+- improved user help and tooltips for Profile Song Lists
+
+1.5.0.0 
+EXTENSIVE REVISIONS AND ADDITIONS (Let the devs know if you find any bugs!)
+- added new 'Profile Song Lists' tabmenu to quickly add/edit/remove in-game song list songs
+- fixed SetlistManager copy/move/delete action
+- fixed error condition from being thrown when Setlist is emptied
+- added ScrollSpeed column to Arrangement Analyzer
+
+1.4.8.9
+- improved SongManager and SetlistManager handling of all types of SongPacks
+- fixed bug identifying Rocksmith Base Songs
+
+1.4.8.8
+- RockmsithToolkitLib update
+
+1.4.8.7
+- fixed initialization of 'Include Subfolders' and 'Protect ODLC' checkboxes
+- fixed Setlist Manager initialization
+
+1.4.8.6 
+- critical RockmsithToolkitLib update
+- added Represent column to Arrangement Analyzer
+ (identifies arrangement as default/bonus/alternate)
+
+1.4.8.5
+- critical RockmsithToolkitLib update
+
+1.4.8.4
+- updated RockmsithToolkitLib
+- fixed some tag layer obscuration issues and reduced size of default tags
+- custom tags and ratings properly display in-game setlist now
+
+1.4.8.3
+- added high quality default tags, ratings, and tags and ratings templates
+- improved Edit Song Information
+
+1.4.8.2
+- hotfix Constants typo
+
+1.4.8.1
+- improved appearance of UserInputForm so that it auto sizes to fit contents
+- fixed Tagger progress display and added tagged file display counter
+- added Background Worker to Tagger process for improved GUI responsiveness
+- added Tagger Info Viewer and Tagger Image Viewer (see Tagger Preview tooltips)
+
+1.4.8.0
+- save/restore setting of IncludeVocals checkbox from Arrangement Analyzer
+- modified default Tagger positioning on album artwork to minimize
+  obscuring original album cover text
+
+1.4.7.9
+- added 'BPM Change Count', 'Time Signature Change Count', as well as 'Min'
+  and 'Max BPM' to Analyzer   
+
+1.4.7.8
+- added 'Tagger' templates for Rating Stars (only), and Rating Stars with Custom Tags
+  see 'CFSM\Tagger\templates\default_tags_stars' folder for how to make Tags and Ratings
+  artwork that you can submit to the CFSM Devs for inclusion with future revisions
+- fixed Tagger Preview of album artwork that is already tagged
+- added 'Include Vocals' checkbox to 'Arrangement Analyzer' to toggle Vocal Arrangements
+- all ODLC have default 5-Star Rating until user modifies
+
+1.4.7.7
+- code efficiency improvements
+- updated RocksmithToolkitLib.dll
+- updated Arrangement Editor
+ 
+1.4.7.6
+- updated RocksmithToolkitLib.dll to get rid of a bug in Song Info Editor
+
+1.4.7.5
+- minor changes to Renamer (key/description) restore NDD naming
+- added a much requested and highly anticipated ... User CDLC Rating System
+  ** LOOK ** for the new 5-Star PackageRating column in Song Manager
+  rating are applied and maintained to the user's local CDLC collection
+  CDLC Charters may use CFSM to pre-rate their CDLC before posting to Ignition
+- included a safety feature which prevents CFSM from closing while PackageRating
+  updates are being processed in order to reduce the risk of severe CDLC damage 
+  
+1.4.7.4
+- made checkbox 'Include Subfolders' action consistent across tab menus
+- made searching and filtering actions consistent across tab menus
+- added exception handler for potential RemoveFilter error on closing.
+
+1.4.7.3
+- upgraded ToolkitLib
+- fixed PitchShifter bug
+ 
+1.4.7.2
+- force user to click the 'Select' checkbox to make row selections per user request
+- fixed some issues, and improved functions and action of Setlist Manager
+
+1.4.7.1
+- added new 'Protect ODLC' checkbox to Song Manager and Setlist Manager
+- Song Manager can now be used to enable/disable, backup or delete ODLC
+- improved Setlist Manager function and action (right mouse click for contextual menu actions)
+- fixed Setlist Manager contextual menu 'Show' option
+- added RepairStatus column to Setlist Manager to allow users to search/filter for ODLC
+- show DLCKey column by default in Duplicates data grid
+
+1.4.7.0
+- fixed Duplicates find by DLCKey and/or ArtistTitleAlbum feature
+
+1.4.6.9
+- fixed SongPacks unpacked directory location
+
+1.4.6.8
+- upgraded RockmsithToolkitLib.dll
+- Reminder: 'Setlist Manager' can be used to enable/disable ODLC and CDLC
+
+1.4.6.7
+- fixed datagrid column formatting issues
+
+1.4.6.6
+- restored ThumbCount to Analyzer
+- improved continuous monitoring of downloads folder
+- ensure prompt overwrite message box is always raised topmost
+
+1.4.6.5
+- added continuous monitoring and processing of downloads folder
+
+1.4.6.4
+- improved duplicate CDLC finder (initial check for duplicate DLCKey and duplicate PID)
+- added feature to 'Auto Monitor the Downloads Folder' (see 'Repairs' menu)
+
 1.4.6.3
 - updated RockmsithToolkitLib.dll
 
@@ -69,10 +625,10 @@ CFSM Release Notes
   whenever a new SongData version is issued.
 
 1.4.4.8
-- fixed 'Repairs' 'Process Downloads Folder' ('Downloads' folder location can
+- fixed 'Repairs' 'Process Downloads Folder' (downloads folder location can
   be reset in 'Settings' tab menu)
 - added a user requested checkbox 'Auto Monitor Downloads Folder' to 'Repairs' menu
-  which will start automatic monitoring of a user selected 'Downloads' folder which
+  which will start automatic monitoring of a user selected downloads folder which
   is used for incoming downloads, CFSM will apply auto repairs to the downloaded CDLC
   and then auto move the repaired files to the Rocksmith 'dlc/downloads' folder.
 - improved user prompts for 'Repairs' 'Run Selected Repair Optons'.
@@ -315,7 +871,7 @@ CFSM Release Notes
 1.3.3.6
 - added an exception handler to VerifyCfsmFolders method for better debugging
 - load (Analyzer) extra data on startup if 'Settings' checkbox is selected
-- Rescan Quick and Full now works for (Analyzer) extra data when 'Setting' menu checkbox is selected
+- Rescan Quick and Full now works for (Analyzer) extra data when 'Settings' menu checkbox is selected
 - Right Mouse Click on a song to show context menu options and Get Analyzer Data for selected songs
 - correct status of 'ExtraMetaDataScanned'
 
@@ -383,7 +939,7 @@ Merged earlier work to develop branch
 
 1.3.2.0
 - analyzer can now output song arr. data in JSON format
-- if 'cdlc' folder exists in the 'dlc' folder, CDLCs will be moved to that folder from the download folder when "Process 'Downloads' folder" option is used in the repair process
+- if 'cdlc' folder exists in the 'dlc' folder, CDLCs will be moved to that folder from the download folder when "Process Downloads Folder" option is used in the repair process
 
 1.3.1.9
 - analyzer now only exports songs currently shown in the main data table
@@ -484,7 +1040,7 @@ Merged earlier work to develop branch
 - fixed handling and removal of corrupt CDLC and dgv refreshing
 
 1.2.9.6
-- move new CDLC from the 'Downloads' folder that have been previously repaired
+- move new CDLC from the downloads folder that have been previously repaired
 
 1.2.9.5
 - fixed Select All/None and Toggle Selection action so ODLC does not appear to be selected

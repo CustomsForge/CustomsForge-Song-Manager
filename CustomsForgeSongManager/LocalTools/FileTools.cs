@@ -7,7 +7,11 @@ using CustomsForgeSongManager.DataObjects;
 using GenTools;
 using RocksmithToolkitLib.DLCPackage;
 using RocksmithToolkitLib.Extensions;
-using RocksmithToolkitLib.PsarcLoader;
+using System.Drawing;
+using CustomsForgeSongManager.Forms;
+using DataGridViewTools;
+using CustomsForgeSongManager.UControls;
+using RocksmithToolkitLib.PSARC;
 
 namespace CustomsForgeSongManager.LocalTools
 {
@@ -73,6 +77,28 @@ namespace CustomsForgeSongManager.LocalTools
 
         public static void ArtistFolders(string dlcDir, List<SongData> selectedSongs, bool isUndo)
         {
+            // check for duplicates that will cause auto file renaming problems
+            // intentionally less restrictive than the Duplicates tabmenu check
+            var dups = selectedSongs.GroupBy(x => new { Song = x.Title, x.Artist, x.PackageVersion }).Where(group => group.Count() > 1).SelectMany(group => group).ToList();
+            if (dups.Any())
+            {
+                var diaMsg = "Can not organize song collection quite yet ..." + Environment.NewLine +
+                             "Please resolve duplicate song conflicts" + Environment.NewLine +
+                             "using the Duplicates tabmenu ..." + Environment.NewLine + Environment.NewLine +
+                             "HINT: For a quick workaround, enter unique package" + Environment.NewLine +
+                             "version numbers directly into the Duplicates grid," + Environment.NewLine +
+                             "or use the Duplicates linkbutton 'Select All Older" + Environment.NewLine +
+                             "By ToolkitVersion' to put songs into the correct" + Environment.NewLine +
+                             "order to be moved or deleted ..." + Environment.NewLine + Environment.NewLine +
+                             "NOTE: if the game runs fine with your current song set and the Duplicates tab doesn't show any entries " +
+                             Environment.NewLine +
+                             "go through the song list and check if you have multiple versions of the same song that are marked with same PackageVersion" 
+                             + Environment.NewLine + "and change those! (Right click->Edit Song Information)";
+
+                BetterDialog2.ShowDialog(diaMsg, "Organize Songs ...", null, null, "Ok", Bitmap.FromHicon(SystemIcons.Warning.Handle), "Warning", 0, 150);
+                //Globals.CancelBackgroundScan = true; TODO: determine whether this should actually be disabled - if it's not, it messes up with Duplicates, resulting in those not showing while they are actually present
+                return;
+            }
 
             if (isUndo)
             {
@@ -81,7 +107,7 @@ namespace CustomsForgeSongManager.LocalTools
                     Directory.CreateDirectory(Constants.Rs2CdlcFolder);
             }
             else
-                Globals.Log("Organizing CDLC into ArtistName Folders ...");
+                Globals.Log("Organizing CDLC into artist name folders ...");
 
             var total = selectedSongs.Count();
             int processed = 0, failed = 0, skipped = 0;
@@ -116,11 +142,12 @@ namespace CustomsForgeSongManager.LocalTools
 
                     var artistName = songInfo.Artist;
                     var titleName = songInfo.Title;
-                    var destFileName = String.Format("{0}_{1}_v{2}{3}", artistName, titleName, version, Constants.PsarcExtension);
-                    var destDir = Path.Combine(dlcDir, artistName);
+                    // validate file and directory names
+                    var destFileName = GenExtensions.MakeValidFileName(String.Format("{0}_{1}_v{2}{3}", artistName, titleName, version, Constants.EnabledExtension));
+                    var destDir = GenExtensions.MakeValidDirName(Path.Combine(dlcDir, artistName));
                     destFilePath = Path.Combine(destDir, destFileName);
 
-                    // create new ArtistName folder for song files
+                    // create new artist name folder for song files
                     if (!Directory.Exists(destDir))
                         Directory.CreateDirectory(destDir);
                 }
@@ -134,18 +161,19 @@ namespace CustomsForgeSongManager.LocalTools
                         var song = Globals.MasterCollection.FirstOrDefault(s => s.FilePath == srcFilePath);
                         int index = Globals.MasterCollection.IndexOf(song);
                         Globals.MasterCollection[index].FilePath = destFilePath;
-                        GenExtensions.MoveFile(srcFilePath, destFilePath, false);
+                        GenExtensions.MoveFile(srcFilePath, destFilePath, false, true);
                     }
                     else
                         skipped++;
                 }
-                catch
+                catch (Exception ex)
                 {
                     if (isUndo)
                         Globals.Log("<ERROR> Failed to restore CDLC: " + srcFilePath);
                     else
                         Globals.Log("<ERROR> Failed to organized CDLC: " + srcFilePath);
 
+                    Globals.Log(" - " + ex.Message);
                     failed++;
                 }
             }
@@ -158,9 +186,9 @@ namespace CustomsForgeSongManager.LocalTools
                 new DirectoryInfo(dlcDir).DeleteEmptyDirs();
 
                 if (isUndo)
-                    Globals.Log("Sucessully restored CDLC files to 'dlc/cdlc' folder and removed empty ArtistName folders ...");
+                    Globals.Log("Sucessully restored CDLC files to 'dlc/cdlc' folder and removed empty artist name folders ...");
                 else
-                    Globals.Log("Sucessully organized and renamed CDLC into ArtistName Folders ...");
+                    Globals.Log("Sucessully organized and renamed CDLC into artist name folders ...");
             }
         }
 
@@ -168,7 +196,7 @@ namespace CustomsForgeSongManager.LocalTools
         {
             // remove any .bak, .org, .max and .cor files from dlc folder and subfolders
             Globals.Log("Cleaning 'dlc' folder and subfolders ...");
-            string[] extensions = { Constants.EXT_BAK, Constants.EXT_ORG, Constants.EXT_MAX, Constants.EXT_COR };
+            string[] extensions = { Constants.EXT_BAK, Constants.EXT_COR, Constants.EXT_DUP, Constants.EXT_MAX, Constants.EXT_ORG };
             var extFilePaths = Directory.EnumerateFiles(Constants.Rs2DlcFolder, "*.*", SearchOption.AllDirectories).Where(fi => extensions.Any(fi.ToLower().Contains)).ToList();
 
             var total = extFilePaths.Count;
@@ -181,26 +209,35 @@ namespace CustomsForgeSongManager.LocalTools
                 GenericWorker.ReportProgress(processed, total, skipped, failed);
 
                 var destFilePath = extFilePath;
-                if (extFilePath.Contains(Constants.EXT_ORG))
-                    destFilePath = Path.Combine(Constants.RemasteredOrgFolder, Path.GetFileName(extFilePath));
-                if (extFilePath.Contains(Constants.EXT_MAX))
-                    destFilePath = Path.Combine(Constants.RemasteredMaxFolder, Path.GetFileName(extFilePath));
-                if (extFilePath.Contains(Constants.EXT_COR))
+                if (extFilePath.Contains(Constants.EXT_BAK))
+                    destFilePath = Path.Combine(Constants.BackupsFolder, Path.GetFileName(extFilePath));
+                else if (extFilePath.Contains(Constants.EXT_COR))
                     destFilePath = Path.Combine(Constants.RemasteredCorFolder, Path.GetFileName(extFilePath));
-                if (extFilePath.Contains(Constants.EXT_DUP))
+                else if (extFilePath.Contains(Constants.EXT_DUP))
                     destFilePath = Path.Combine(Constants.DuplicatesFolder, Path.GetFileName(extFilePath));
-
+                else if (extFilePath.Contains(Constants.EXT_MAX))
+                    destFilePath = Path.Combine(Constants.RemasteredMaxFolder, Path.GetFileName(extFilePath));
+                else if (extFilePath.Contains(Constants.EXT_ORG))
+                    destFilePath = Path.Combine(Constants.RemasteredOrgFolder, Path.GetFileName(extFilePath));
+                else
+                {
+                    // JIC ... this should never happen
+                    Globals.Log("<WARNING> Unexpected file type: " + extFilePath);
+                    skipped++;
+                    continue;
+                }
 
                 try
                 {
+                    // TODO: confirm this action
                     if (!File.Exists(destFilePath))
                     {
                         GenExtensions.CopyFile(extFilePath, destFilePath, true, false);
-                        Globals.Log("Moved file to: " + Path.GetFileName(destFilePath));
+                        Globals.Log("Moved file to: " + destFilePath);
                     }
                     else
                     {
-                        Globals.Log("Deleted duplicate file: " + Path.GetFileName(extFilePath));
+                        Globals.Log("Deleted duplicate file: " + extFilePath);
                         skipped++;
                     }
 
@@ -209,7 +246,7 @@ namespace CustomsForgeSongManager.LocalTools
                 }
                 catch (IOException ex)
                 {
-                    Globals.Log("<ERROR> Move File Failed: " + Path.GetFileName(extFilePath) + " ...");
+                    Globals.Log("<ERROR> Move File Failed: " + extFilePath + " ...");
                     Globals.Log(ex.Message);
                     failed++;
                 }
@@ -240,17 +277,17 @@ namespace CustomsForgeSongManager.LocalTools
 
                 if (srcFilePath.Contains(Constants.RS1COMP))
                 {
-                    Globals.Log(" - Can not backup individual RS1 Compatiblity DLC");
+                    Globals.Log(" - Can not backup individual RS1 Compatiblity DLC ...");
                     return false;
                 }
 
                 if (!File.Exists(destFilePath))
                 {
                     GenExtensions.CopyFile(srcFilePath, destFilePath, false);
-                    Globals.Log(" - Successfully created backup"); // a good thing
+                    Globals.Log(" - Successfully created backup ..."); // a good thing
                 }
                 else
-                    Globals.Log(" - Backup already exists"); // also a good thing
+                    Globals.Log(" - Backup already exists ..."); // also a good thing
             }
             catch (Exception ex)
             {
@@ -521,27 +558,31 @@ namespace CustomsForgeSongManager.LocalTools
             return srcFilePaths;
         }
 
-        public static bool ValidateDownloadsDir()
+        public static void SetDLDestinationFolder()
         {
-            var dlDirectory = AppSettings.Instance.DownloadsDir;
-
-            if (String.IsNullOrEmpty(dlDirectory) || !Directory.Exists(dlDirectory))
+            using (var fbd = new FolderBrowserDialog())
             {
-                using (var fbd = new FolderBrowserDialog())
-                {
-                    // set valid initial default speical folder path
-                    fbd.SelectedPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-                    fbd.Description = "Select the folder where new CDLC 'Downloads' are stored.";
+                fbd.SelectedPath = Constants.Rs2DlcFolder;
+                fbd.Description = "Select the folder where new CDLC downloads will be moved to.";
+                if (fbd.ShowDialog() != DialogResult.OK)
+                    return;
 
-                    if (fbd.ShowDialog() != DialogResult.OK)
-                        return false;
-
-                    dlDirectory = fbd.SelectedPath;
-                    AppSettings.Instance.DownloadsDir = dlDirectory;
-                }
+                AppSettings.Instance.DLMonitorDesinationFolder = fbd.SelectedPath;
+                Globals.Log("- Downloads destination folder set to: " + fbd.SelectedPath);
+                Globals.Settings.SaveSettingsToFile(Globals.DgvCurrent);
             }
+        }
 
-            Globals.Log("Validated Downloads Directory: " + dlDirectory + " ...");
+        public static bool ValidateDownloadsDirs()
+        {
+            var dlDirectories = AppSettings.Instance.MonitoredFolders;
+
+            if (dlDirectories.Count() == 0)
+            {
+                frmMonitoredFolders frmMonitoredFolders = new frmMonitoredFolders();
+                frmMonitoredFolders.ShowDialog();
+            }
+            
             return true;
         }
 
@@ -603,6 +644,16 @@ namespace CustomsForgeSongManager.LocalTools
                 throw new Exception(); // force app to stop here
             }
         }
+
+        public static void VerifyCfsmFiles()
+        {
+            // attempting to populate grid settings XML files on initial run
+            // this method seems to be a dead end
+            //Globals.DgvCurrent = new SongManager().dgvSongsMaster as DataGridView;
+            //if (!File.Exists(Constants.GridSettingsPath))
+            //    SerialExtensions.SaveToFile(Constants.GridSettingsPath, RAExtensions.ManagerGridSettings.ColumnOrder);
+        }
+
     }
 }
 

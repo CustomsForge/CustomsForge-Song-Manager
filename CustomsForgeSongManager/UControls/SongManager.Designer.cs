@@ -32,29 +32,45 @@ namespace CustomsForgeSongManager.UControls
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SongManager));
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle15 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle16 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle17 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle18 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle19 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle20 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle21 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle22 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle23 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle24 = new System.Windows.Forms.DataGridViewCellStyle();
             this.panelSearch = new System.Windows.Forms.Panel();
-            this.chkSubFolders = new System.Windows.Forms.CheckBox();
+            this.chkAdvancedSearch = new System.Windows.Forms.CheckBox();
+            this.chkProtectODLC = new System.Windows.Forms.CheckBox();
+            this.chkIncludeSubfolders = new System.Windows.Forms.CheckBox();
             this.lnkClearSearch = new System.Windows.Forms.LinkLabel();
             this.lbl_Search = new System.Windows.Forms.Label();
+            this.cueSearch = new DataGridViewTools.CueTextBox();
             this.gb_Main_Search = new System.Windows.Forms.GroupBox();
             this.cmsSongManager = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.cmsActions = new CustomControls.ToolStripEnhancedMenuItem();
             this.toolStripSeparator15 = new System.Windows.Forms.ToolStripSeparator();
+            this.cmsOpenSongPage = new CustomControls.ToolStripEnhancedMenuItem();
+            this.cmsCheckForUpdate = new CustomControls.ToolStripEnhancedMenuItem();
+            this.cmsGetCharterName = new CustomControls.ToolStripEnhancedMenuItem();
             this.toolStripSeparator11 = new System.Windows.Forms.ToolStripSeparator();
             this.cmsPlaySelected = new System.Windows.Forms.ToolStripMenuItem();
+            this.cmsEdit = new CustomControls.ToolStripEnhancedMenuItem();
+            this.cmsTaggerPreview = new CustomControls.ToolStripEnhancedMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.cmsEnableDisable = new System.Windows.Forms.ToolStripMenuItem();
+            this.cmsShowSongInfo = new CustomControls.ToolStripEnhancedMenuItem();
+            this.cmsOpenSongLocation = new CustomControls.ToolStripEnhancedMenuItem();
+            this.cmsEnableDisable = new CustomControls.ToolStripEnhancedMenuItem();
+            this.cmsDelete = new CustomControls.ToolStripEnhancedMenuItem();
+            this.cmsBackup = new CustomControls.ToolStripEnhancedMenuItem();
             this.lnkLblSelectAll = new System.Windows.Forms.LinkLabel();
             this.gb_Main_Grid = new System.Windows.Forms.GroupBox();
-            this.lnklblToggle = new System.Windows.Forms.LinkLabel();
-            this.cmsSongManagerColumns = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
-            this.menuStrip = new System.Windows.Forms.MenuStrip();
-            this.tsmiDevDebugUse = new System.Windows.Forms.ToolStripMenuItem();
             this.dgvSongsDetail = new DataGridViewTools.SubclassedDataGridView();
             this.colDetailKey = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colDetailPID = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -80,7 +96,7 @@ namespace CustomsForgeSongManager.UControls
             this.colSongLength = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
             this.colSongAverageTempo = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
             this.colSongVolume = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
-            this.colConversionDate = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
+            this.colLastConversionDateTime = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
             this.colDD = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
             this.colArrangements = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
             this.colTunings = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
@@ -95,6 +111,7 @@ namespace CustomsForgeSongManager.UControls
             this.colPackageAuthor = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
             this.colPackageVersion = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
             this.colPackageComment = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
+            this.colPackageRating = new DataGridViewTools.DataGridViewRatingColumn();
             this.colTagged = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
             this.colIgnitionID = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
             this.colIgnitionDate = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
@@ -105,15 +122,21 @@ namespace CustomsForgeSongManager.UControls
             this.colArtistSort = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
             this.colTitleSort = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
             this.colAlbumSort = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
-            this.cueSearch = new DataGridViewTools.CueTextBox();
+            this.colAudioBitRate = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
+            this.colHasCustomFont = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
+            this.lnklblToggle = new System.Windows.Forms.LinkLabel();
+            this.cmsSongManagerColumns = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.testToolStripMenuItem = new CustomControls.ToolStripEnhancedMenuItem();
+            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.menuStrip = new System.Windows.Forms.MenuStrip();
             this.tsmiRescan = new CustomControls.ToolStripEnhancedMenuItem();
             this.tsmiRescanQuick = new CustomControls.ToolStripEnhancedMenuItem();
             this.tsmiRescanFull = new CustomControls.ToolStripEnhancedMenuItem();
             this.tsmiRepairs = new CustomControls.ToolStripEnhancedMenuItem();
             this.tsmiSkipRemastered = new CustomControls.ToolStripEnhancedMenuItem();
-            this.toolStripSeparator12 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripSeparator16 = new System.Windows.Forms.ToolStripSeparator();
             this.tsmiRepairsAddDD = new CustomControls.ToolStripEnhancedMenuItem();
-            this.tsmiAddDDSettings = new CustomControls.ToolStripEnhancedMenuItem();
+            this.tsmiDDSettings = new CustomControls.ToolStripEnhancedMenuItem();
             this.tsmiAddDDNumericUpDown = new CustomControls.ToolStripNumericUpDown();
             this.tsmiAddDDRemoveSustain = new CustomControls.ToolStripEnhancedMenuItem();
             this.tsmiAddDDCfgPath = new CustomControls.ToolStripSpringTextBox();
@@ -133,15 +156,34 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiRemoveMetronome = new CustomControls.ToolStripEnhancedMenuItem();
             this.tsmiIgnoreStopLimit = new CustomControls.ToolStripEnhancedMenuItem();
             this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
+            this.tsmiAdjustScrollSpeed = new CustomControls.ToolStripEnhancedMenuItem();
+            this.tsmiSSSettings = new CustomControls.ToolStripEnhancedMenuItem();
+            this.tsmiNudScrollSpeed = new CustomControls.ToolStripNumericUpDown();
+            this.toolStripSeparator12 = new System.Windows.Forms.ToolStripSeparator();
             this.tsmiRemoveSections = new CustomControls.ToolStripEnhancedMenuItem();
             this.tsmiFixLowBass = new CustomControls.ToolStripEnhancedMenuItem();
+            this.toolStripSeparator20 = new System.Windows.Forms.ToolStripSeparator();
+            this.tsmiFixAppId = new CustomControls.ToolStripEnhancedMenuItem();
             this.toolStripSeparator10 = new System.Windows.Forms.ToolStripSeparator();
-            this.tsmiProcessDLFolder = new CustomControls.ToolStripEnhancedMenuItem();
-            this.tsmiMonitorDLFolder = new CustomControls.ToolStripEnhancedMenuItem();
+            this.tsmiDLFolderProcess = new CustomControls.ToolStripEnhancedMenuItem();
+            this.tsmiChangeMonitoredFolders = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiChangeDestinationFolder = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiSkipDupes = new CustomControls.ToolStripEnhancedMenuItem();
+            this.tsmiDLFolderMonitor = new CustomControls.ToolStripEnhancedMenuItem();
+            this.tsmiDLFolderSupport = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator13 = new System.Windows.Forms.ToolStripSeparator();
             this.tsmiRepairsRun = new CustomControls.ToolStripEnhancedMenuItem();
             this.tsmiMods = new CustomControls.ToolStripEnhancedMenuItem();
             this.tsmiModsChangeAppId = new CustomControls.ToolStripEnhancedMenuItem();
+            this.toolStripSeparator17 = new System.Windows.Forms.ToolStripSeparator();
+            this.tsmiCustomTitleTag = new CustomControls.ToolStripEnhancedMenuItem();
+            this.tsmiCustomTitleTagTextBox = new CustomControls.ToolStripLabelTextBox();
+            this.toolStripSeparator19 = new System.Windows.Forms.ToolStripSeparator();
+            this.tsmiCustomTitleTagPrefix = new CustomControls.ToolStripEnhancedMenuItem();
+            this.tsmiCustomTitleTagSuffix = new CustomControls.ToolStripEnhancedMenuItem();
+            this.toolStripSeparator18 = new System.Windows.Forms.ToolStripSeparator();
+            this.tsmiCustomTitleTagAdd = new CustomControls.ToolStripButton();
+            this.tsmiCustomTitleTagRemove = new CustomControls.ToolStripButton();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.tsmiModsPitchShifter = new CustomControls.ToolStripEnhancedMenuItem();
             this.tsmiModsPitchShiftStandard = new CustomControls.ToolStripEnhancedMenuItem();
@@ -154,20 +196,30 @@ namespace CustomsForgeSongManager.UControls
             this.toolStripSeparator14 = new System.Windows.Forms.ToolStripSeparator();
             this.tsmiModsTheMover = new CustomControls.ToolStripEnhancedMenuItem();
             this.tsmiModsMyCDLC = new CustomControls.ToolStripEnhancedMenuItem();
+            this.toolStripSeparator21 = new System.Windows.Forms.ToolStripSeparator();
+            this.tsmiAutoAdjustVolume = new CustomControls.ToolStripEnhancedMenuItem();
+            this.tsmiPocText = new CustomControls.ToolStripEnhancedMenuItem();
+            this.toolStripSeparator22 = new System.Windows.Forms.ToolStripSeparator();
+            this.tsmiCorrectionFactor = new CustomControls.ToolStripNumericUpDown();
+            this.tsmiCorrectionMultiplier = new CustomControls.ToolStripNumericUpDown();
+            this.tsmiTargetAudioVolume = new CustomControls.ToolStripNumericUpDown();
+            this.tsmiTargetPreviewVolume = new CustomControls.ToolStripNumericUpDown();
+            this.tsmiTargetToneVolume = new CustomControls.ToolStripNumericUpDown();
+            this.tsmiTargetLUFS = new CustomControls.ToolStripNumericUpDown();
             this.tsmiFiles = new CustomControls.ToolStripEnhancedMenuItem();
             this.tsmiFilesCheckODLC = new CustomControls.ToolStripEnhancedMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.tsmiFilesCleanDlc = new CustomControls.ToolStripEnhancedMenuItem();
             this.tsmiFilesRestore = new CustomControls.ToolStripEnhancedMenuItem();
             this.tsmiFilesRestoreBak = new CustomControls.ToolStripEnhancedMenuItem();
-            this.tsmiFilesRestoreOrg = new CustomControls.ToolStripEnhancedMenuItem();
-            this.tsmiFilesRestoreMax = new CustomControls.ToolStripEnhancedMenuItem();
             this.tsmiFilesRestoreCor = new CustomControls.ToolStripEnhancedMenuItem();
+            this.tsmiFilesRestoreMax = new CustomControls.ToolStripEnhancedMenuItem();
+            this.tsmiFilesRestoreOrg = new CustomControls.ToolStripEnhancedMenuItem();
             this.tsmiFilesArchive = new CustomControls.ToolStripEnhancedMenuItem();
             this.tsmiFilesArcBak = new CustomControls.ToolStripEnhancedMenuItem();
-            this.tsmiFilesArcOrg = new CustomControls.ToolStripEnhancedMenuItem();
-            this.tsmiFilesArcMax = new CustomControls.ToolStripEnhancedMenuItem();
             this.tsmiFilesArcCor = new CustomControls.ToolStripEnhancedMenuItem();
+            this.tsmiFilesArcMax = new CustomControls.ToolStripEnhancedMenuItem();
+            this.tsmiFilesArcOrg = new CustomControls.ToolStripEnhancedMenuItem();
             this.tsmiFilesArcDeleteAfter = new CustomControls.ToolStripEnhancedMenuItem();
             this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
             this.tsmiFilesOrganize = new CustomControls.ToolStripEnhancedMenuItem();
@@ -178,25 +230,15 @@ namespace CustomsForgeSongManager.UControls
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.tsmiHelpRepairs = new CustomControls.ToolStripEnhancedMenuItem();
             this.tsmiHelpErrorLog = new CustomControls.ToolStripEnhancedMenuItem();
-            this.cmsActions = new CustomControls.ToolStripEnhancedMenuItem();
-            this.cmsOpenSongPage = new CustomControls.ToolStripEnhancedMenuItem();
-            this.cmsCheckForUpdate = new CustomControls.ToolStripEnhancedMenuItem();
-            this.cmsEdit = new CustomControls.ToolStripEnhancedMenuItem();
-            this.cmsGetCharterName = new CustomControls.ToolStripEnhancedMenuItem();
-            this.cmsTaggerPreview = new CustomControls.ToolStripEnhancedMenuItem();
-            this.cmsShowSongInfo = new CustomControls.ToolStripEnhancedMenuItem();
-            this.cmsOpenSongLocation = new CustomControls.ToolStripEnhancedMenuItem();
-            this.cmsDelete = new CustomControls.ToolStripEnhancedMenuItem();
-            this.cmsBackup = new CustomControls.ToolStripEnhancedMenuItem();
-            this.testToolStripMenuItem = new CustomControls.ToolStripEnhancedMenuItem();
+            this.tsmiDevUseOnly = new System.Windows.Forms.ToolStripMenuItem();
             this.panelSearch.SuspendLayout();
             this.gb_Main_Search.SuspendLayout();
             this.cmsSongManager.SuspendLayout();
             this.gb_Main_Grid.SuspendLayout();
-            this.cmsSongManagerColumns.SuspendLayout();
-            this.menuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvSongsDetail)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvSongsMaster)).BeginInit();
+            this.cmsSongManagerColumns.SuspendLayout();
+            this.menuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // panelSearch
@@ -204,7 +246,9 @@ namespace CustomsForgeSongManager.UControls
             this.panelSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.panelSearch.Controls.Add(this.chkSubFolders);
+            this.panelSearch.Controls.Add(this.chkAdvancedSearch);
+            this.panelSearch.Controls.Add(this.chkProtectODLC);
+            this.panelSearch.Controls.Add(this.chkIncludeSubfolders);
             this.panelSearch.Controls.Add(this.lnkClearSearch);
             this.panelSearch.Controls.Add(this.lbl_Search);
             this.panelSearch.Controls.Add(this.cueSearch);
@@ -213,20 +257,49 @@ namespace CustomsForgeSongManager.UControls
             this.panelSearch.Size = new System.Drawing.Size(879, 33);
             this.panelSearch.TabIndex = 5;
             // 
-            // chkSubFolders
+            // chkAdvancedSearch
             // 
-            this.chkSubFolders.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.chkSubFolders.AutoSize = true;
-            this.chkSubFolders.Checked = true;
-            this.chkSubFolders.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkSubFolders.Location = new System.Drawing.Point(522, 8);
-            this.chkSubFolders.Name = "chkSubFolders";
-            this.chkSubFolders.Size = new System.Drawing.Size(197, 17);
-            this.chkSubFolders.TabIndex = 24;
-            this.chkSubFolders.Text = "Include Organized and Setlist Songs";
-            this.toolTip.SetToolTip(this.chkSubFolders, "If checked, search \'dlc\' folder and \r\nsubfolders for any matching songs.");
-            this.chkSubFolders.UseVisualStyleBackColor = true;
-            this.chkSubFolders.MouseUp += new System.Windows.Forms.MouseEventHandler(this.chkSubFolders_MouseUp);
+            this.chkAdvancedSearch.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.chkAdvancedSearch.AutoSize = true;
+            this.chkAdvancedSearch.Location = new System.Drawing.Point(651, 7);
+            this.chkAdvancedSearch.Name = "chkAdvancedSearch";
+            this.chkAdvancedSearch.Size = new System.Drawing.Size(112, 17);
+            this.chkAdvancedSearch.TabIndex = 52;
+            this.chkAdvancedSearch.Text = "Advanced Search";
+            this.toolTip.SetToolTip(this.chkAdvancedSearch, resources.GetString("chkAdvancedSearch.ToolTip"));
+            this.chkAdvancedSearch.UseVisualStyleBackColor = true;
+            this.chkAdvancedSearch.CheckedChanged += new System.EventHandler(this.chkAdvancedSearch_CheckedChanged);
+            // 
+            // chkProtectODLC
+            // 
+            this.chkProtectODLC.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.chkProtectODLC.AutoSize = true;
+            this.chkProtectODLC.BackColor = System.Drawing.Color.LightGray;
+            this.chkProtectODLC.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.chkProtectODLC.ForeColor = System.Drawing.Color.Red;
+            this.chkProtectODLC.Location = new System.Drawing.Point(739, 4);
+            this.chkProtectODLC.Name = "chkProtectODLC";
+            this.chkProtectODLC.Padding = new System.Windows.Forms.Padding(5, 3, 0, 3);
+            this.chkProtectODLC.Size = new System.Drawing.Size(124, 23);
+            this.chkProtectODLC.TabIndex = 51;
+            this.chkProtectODLC.Text = "Protect Official DLC";
+            this.toolTip.SetToolTip(this.chkProtectODLC, "If checked, prevents ODLC\r\nfrom being selected, enabled,\r\ndisabled, deleted, or b" +
+                    "acked up.");
+            this.chkProtectODLC.UseVisualStyleBackColor = false;
+            this.chkProtectODLC.MouseUp += new System.Windows.Forms.MouseEventHandler(this.chkProtectODLC_MouseUp);
+            // 
+            // chkIncludeSubfolders
+            // 
+            this.chkIncludeSubfolders.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.chkIncludeSubfolders.AutoSize = true;
+            this.chkIncludeSubfolders.Location = new System.Drawing.Point(531, 8);
+            this.chkIncludeSubfolders.Name = "chkIncludeSubfolders";
+            this.chkIncludeSubfolders.Size = new System.Drawing.Size(114, 17);
+            this.chkIncludeSubfolders.TabIndex = 24;
+            this.chkIncludeSubfolders.Text = "Include Subfolders";
+            this.toolTip.SetToolTip(this.chkIncludeSubfolders, "If checked, search \'dlc\' folder and \r\nsubfolders for any matching songs.");
+            this.chkIncludeSubfolders.UseVisualStyleBackColor = true;
+            this.chkIncludeSubfolders.MouseUp += new System.Windows.Forms.MouseEventHandler(this.chkIncludeSubfolders_MouseUp);
             // 
             // lnkClearSearch
             // 
@@ -236,12 +309,12 @@ namespace CustomsForgeSongManager.UControls
             this.lnkClearSearch.LinkColor = System.Drawing.SystemColors.ActiveCaption;
             this.lnkClearSearch.Location = new System.Drawing.Point(411, 8);
             this.lnkClearSearch.Name = "lnkClearSearch";
-            this.lnkClearSearch.Size = new System.Drawing.Size(68, 13);
+            this.lnkClearSearch.Size = new System.Drawing.Size(100, 13);
             this.lnkClearSearch.TabIndex = 3;
             this.lnkClearSearch.TabStop = true;
-            this.lnkClearSearch.Text = "Clear Search";
-            this.toolTip.SetToolTip(this.lnkClearSearch, "HINT:\r\nQuickly clears any Filters, \r\nas well as, any Search, \r\nand preserves exis" +
-                    "ting sort.");
+            this.lnkClearSearch.Text = "Clear Filters/Search";
+            this.toolTip.SetToolTip(this.lnkClearSearch, "Quickly clears any Filters, \r\nas well as, any Search, \r\nand preserves existing so" +
+                    "rt.\r\n\r\nAlso clears \'Show My CDLC\'\r\nif it is checked.");
             this.lnkClearSearch.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkClearSearch_LinkClicked);
             // 
             // lbl_Search
@@ -254,6 +327,20 @@ namespace CustomsForgeSongManager.UControls
             this.lbl_Search.Name = "lbl_Search";
             this.lbl_Search.Size = new System.Drawing.Size(0, 13);
             this.lbl_Search.TabIndex = 2;
+            // 
+            // cueSearch
+            // 
+            this.cueSearch.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.cueSearch.Cue = "Type characters to search for then hit return ...";
+            this.cueSearch.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
+            this.cueSearch.ForeColor = System.Drawing.Color.Gray;
+            this.cueSearch.Location = new System.Drawing.Point(9, 6);
+            this.cueSearch.Name = "cueSearch";
+            this.cueSearch.Size = new System.Drawing.Size(396, 20);
+            this.cueSearch.TabIndex = 1;
+            this.toolTip.SetToolTip(this.cueSearch, "Performs a quick search of the\r\nArtistTitleAlbum column.\r\n\r\nCheck \'Advanced Searc" +
+                    "h\' to search\r\nadditonal columns.\r\n\r\nNote: Hit return to run the search.\r\n");
+            this.cueSearch.KeyUp += new System.Windows.Forms.KeyEventHandler(this.cueSearch_KeyUp);
             // 
             // gb_Main_Search
             // 
@@ -274,10 +361,10 @@ namespace CustomsForgeSongManager.UControls
             this.toolStripSeparator15,
             this.cmsOpenSongPage,
             this.cmsCheckForUpdate,
+            this.cmsGetCharterName,
             this.toolStripSeparator11,
             this.cmsPlaySelected,
             this.cmsEdit,
-            this.cmsGetCharterName,
             this.cmsTaggerPreview,
             this.toolStripSeparator2,
             this.cmsShowSongInfo,
@@ -290,10 +377,53 @@ namespace CustomsForgeSongManager.UControls
             this.cmsSongManager.Closing += new System.Windows.Forms.ToolStripDropDownClosingEventHandler(this.cmsSongManager_Closing);
             this.cmsSongManager.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.cmsSongManager_ItemClicked);
             // 
+            // cmsActions
+            // 
+            this.cmsActions.AssociatedEnumValue = null;
+            this.cmsActions.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cmsActions.Name = "cmsActions";
+            this.cmsActions.RadioButtonGroupName = null;
+            this.cmsActions.Size = new System.Drawing.Size(209, 22);
+            this.cmsActions.Text = "Actions:";
+            this.cmsActions.ToolTipText = resources.GetString("cmsActions.ToolTipText");
+            // 
             // toolStripSeparator15
             // 
             this.toolStripSeparator15.Name = "toolStripSeparator15";
             this.toolStripSeparator15.Size = new System.Drawing.Size(206, 6);
+            // 
+            // cmsOpenSongPage
+            // 
+            this.cmsOpenSongPage.AssociatedEnumValue = null;
+            this.cmsOpenSongPage.Image = ((System.Drawing.Image)(resources.GetObject("cmsOpenSongPage.Image")));
+            this.cmsOpenSongPage.Name = "cmsOpenSongPage";
+            this.cmsOpenSongPage.RadioButtonGroupName = null;
+            this.cmsOpenSongPage.Size = new System.Drawing.Size(209, 22);
+            this.cmsOpenSongPage.Text = "Open Song Page";
+            this.cmsOpenSongPage.ToolTipText = "Open Song Page on CF Ignition\r\n(requires an internet connection)";
+            this.cmsOpenSongPage.Click += new System.EventHandler(this.cmsOpenSongPage_Click);
+            // 
+            // cmsCheckForUpdate
+            // 
+            this.cmsCheckForUpdate.AssociatedEnumValue = null;
+            this.cmsCheckForUpdate.Image = ((System.Drawing.Image)(resources.GetObject("cmsCheckForUpdate.Image")));
+            this.cmsCheckForUpdate.Name = "cmsCheckForUpdate";
+            this.cmsCheckForUpdate.RadioButtonGroupName = null;
+            this.cmsCheckForUpdate.Size = new System.Drawing.Size(209, 22);
+            this.cmsCheckForUpdate.Text = "Check for Update";
+            this.cmsCheckForUpdate.ToolTipText = "Check for Update on CF Ignition\r\n(requires an internet connection)";
+            this.cmsCheckForUpdate.Click += new System.EventHandler(this.cmsCheckForUpdate_Click);
+            // 
+            // cmsGetCharterName
+            // 
+            this.cmsGetCharterName.AssociatedEnumValue = null;
+            this.cmsGetCharterName.Image = ((System.Drawing.Image)(resources.GetObject("cmsGetCharterName.Image")));
+            this.cmsGetCharterName.Name = "cmsGetCharterName";
+            this.cmsGetCharterName.RadioButtonGroupName = null;
+            this.cmsGetCharterName.Size = new System.Drawing.Size(209, 22);
+            this.cmsGetCharterName.Text = "Get Charter\'s Name";
+            this.cmsGetCharterName.Visible = false;
+            this.cmsGetCharterName.Click += new System.EventHandler(this.cmsGetCharterName_Click);
             // 
             // toolStripSeparator11
             // 
@@ -308,18 +438,85 @@ namespace CustomsForgeSongManager.UControls
             this.cmsPlaySelected.Text = "Play/Pause Selected Song";
             this.cmsPlaySelected.Click += new System.EventHandler(this.cmsPlaySelected_Click);
             // 
+            // cmsEdit
+            // 
+            this.cmsEdit.AssociatedEnumValue = null;
+            this.cmsEdit.Image = ((System.Drawing.Image)(resources.GetObject("cmsEdit.Image")));
+            this.cmsEdit.Name = "cmsEdit";
+            this.cmsEdit.RadioButtonGroupName = null;
+            this.cmsEdit.Size = new System.Drawing.Size(209, 22);
+            this.cmsEdit.Text = "Edit Song Information";
+            this.cmsEdit.ToolTipText = "<CAUTION> For Expert User Use Only\r\nData revisions have limited or no validation!" +
+                "";
+            this.cmsEdit.Click += new System.EventHandler(this.cmsEdit_Click);
+            // 
+            // cmsTaggerPreview
+            // 
+            this.cmsTaggerPreview.AssociatedEnumValue = null;
+            this.cmsTaggerPreview.Image = ((System.Drawing.Image)(resources.GetObject("cmsTaggerPreview.Image")));
+            this.cmsTaggerPreview.Name = "cmsTaggerPreview";
+            this.cmsTaggerPreview.RadioButtonGroupName = null;
+            this.cmsTaggerPreview.Size = new System.Drawing.Size(209, 22);
+            this.cmsTaggerPreview.Text = "Tagger Preview";
+            this.cmsTaggerPreview.ToolTipText = "The full feature to \'Tag Album Artwork\'\r\ncan be found in the \'Custom Mods\' menu.";
+            // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
             this.toolStripSeparator2.Size = new System.Drawing.Size(206, 6);
             // 
+            // cmsShowSongInfo
+            // 
+            this.cmsShowSongInfo.AssociatedEnumValue = null;
+            this.cmsShowSongInfo.Image = ((System.Drawing.Image)(resources.GetObject("cmsShowSongInfo.Image")));
+            this.cmsShowSongInfo.Name = "cmsShowSongInfo";
+            this.cmsShowSongInfo.RadioButtonGroupName = null;
+            this.cmsShowSongInfo.Size = new System.Drawing.Size(209, 22);
+            this.cmsShowSongInfo.Text = "Show Song Info";
+            this.cmsShowSongInfo.Click += new System.EventHandler(this.cmsShowSongInfo_Click);
+            // 
+            // cmsOpenSongLocation
+            // 
+            this.cmsOpenSongLocation.AssociatedEnumValue = null;
+            this.cmsOpenSongLocation.Image = ((System.Drawing.Image)(resources.GetObject("cmsOpenSongLocation.Image")));
+            this.cmsOpenSongLocation.Name = "cmsOpenSongLocation";
+            this.cmsOpenSongLocation.RadioButtonGroupName = null;
+            this.cmsOpenSongLocation.Size = new System.Drawing.Size(209, 22);
+            this.cmsOpenSongLocation.Text = "Open Song Location";
+            this.cmsOpenSongLocation.Click += new System.EventHandler(this.cmsOpenSongLocation_Click);
+            // 
             // cmsEnableDisable
             // 
+            this.cmsEnableDisable.AssociatedEnumValue = null;
             this.cmsEnableDisable.Image = ((System.Drawing.Image)(resources.GetObject("cmsEnableDisable.Image")));
             this.cmsEnableDisable.Name = "cmsEnableDisable";
+            this.cmsEnableDisable.RadioButtonGroupName = null;
             this.cmsEnableDisable.Size = new System.Drawing.Size(209, 22);
             this.cmsEnableDisable.Text = "Enable/Disable Songs";
+            this.cmsEnableDisable.ToolTipText = "Select must be checked.";
             this.cmsEnableDisable.Click += new System.EventHandler(this.cmsEnableDisable_Click);
+            // 
+            // cmsDelete
+            // 
+            this.cmsDelete.AssociatedEnumValue = null;
+            this.cmsDelete.Image = ((System.Drawing.Image)(resources.GetObject("cmsDelete.Image")));
+            this.cmsDelete.Name = "cmsDelete";
+            this.cmsDelete.RadioButtonGroupName = null;
+            this.cmsDelete.Size = new System.Drawing.Size(209, 22);
+            this.cmsDelete.Text = "Delete Songs";
+            this.cmsDelete.ToolTipText = "WARNING\r\nDeletion can not be undone.\r\nSelect must be checked.";
+            this.cmsDelete.Click += new System.EventHandler(this.cmsDelete_Click);
+            // 
+            // cmsBackup
+            // 
+            this.cmsBackup.AssociatedEnumValue = null;
+            this.cmsBackup.Image = ((System.Drawing.Image)(resources.GetObject("cmsBackup.Image")));
+            this.cmsBackup.Name = "cmsBackup";
+            this.cmsBackup.RadioButtonGroupName = null;
+            this.cmsBackup.Size = new System.Drawing.Size(209, 22);
+            this.cmsBackup.Text = "Backup Songs";
+            this.cmsBackup.ToolTipText = "Select must be checked.\r\nSee Log for backup file location.";
+            this.cmsBackup.Click += new System.EventHandler(this.cmsBackup_Click);
             // 
             // lnkLblSelectAll
             // 
@@ -334,7 +531,6 @@ namespace CustomsForgeSongManager.UControls
             this.lnkLblSelectAll.TabStop = true;
             this.lnkLblSelectAll.Text = "Select All/None";
             this.lnkLblSelectAll.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.toolTip.SetToolTip(this.lnkLblSelectAll, "ODLC are not selectable");
             this.lnkLblSelectAll.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkLblSelectAll_LinkClicked);
             // 
             // gb_Main_Grid
@@ -352,59 +548,6 @@ namespace CustomsForgeSongManager.UControls
             this.gb_Main_Grid.TabIndex = 8;
             this.gb_Main_Grid.TabStop = false;
             this.gb_Main_Grid.Text = "Songs Grid:";
-            // 
-            // lnklblToggle
-            // 
-            this.lnklblToggle.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.lnklblToggle.AutoSize = true;
-            this.lnklblToggle.ForeColor = System.Drawing.Color.Black;
-            this.lnklblToggle.LinkColor = System.Drawing.SystemColors.ActiveCaption;
-            this.lnklblToggle.Location = new System.Drawing.Point(109, 370);
-            this.lnklblToggle.Name = "lnklblToggle";
-            this.lnklblToggle.Size = new System.Drawing.Size(87, 13);
-            this.lnklblToggle.TabIndex = 4;
-            this.lnklblToggle.TabStop = true;
-            this.lnklblToggle.Text = "Toggle Selection";
-            this.lnklblToggle.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.toolTip.SetToolTip(this.lnklblToggle, "ODLC are not toggleable");
-            this.lnklblToggle.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnklblToggle_LinkClicked);
-            // 
-            // cmsSongManagerColumns
-            // 
-            this.cmsSongManagerColumns.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.testToolStripMenuItem});
-            this.cmsSongManagerColumns.Name = "cmsSongManagerColumns";
-            this.cmsSongManagerColumns.Size = new System.Drawing.Size(107, 26);
-            // 
-            // toolTip
-            // 
-            this.toolTip.AutomaticDelay = 200;
-            this.toolTip.AutoPopDelay = 12000;
-            this.toolTip.InitialDelay = 200;
-            this.toolTip.IsBalloon = true;
-            this.toolTip.ReshowDelay = 100;
-            // 
-            // menuStrip
-            // 
-            this.menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tsmiRescan,
-            this.tsmiRepairs,
-            this.tsmiMods,
-            this.tsmiFiles,
-            this.tsmiHelp,
-            this.tsmiDevDebugUse});
-            this.menuStrip.Location = new System.Drawing.Point(0, 0);
-            this.menuStrip.Name = "menuStrip";
-            this.menuStrip.Size = new System.Drawing.Size(899, 24);
-            this.menuStrip.TabIndex = 11;
-            this.menuStrip.Text = "menuStrip1";
-            // 
-            // tsmiDevDebugUse
-            // 
-            this.tsmiDevDebugUse.Name = "tsmiDevDebugUse";
-            this.tsmiDevDebugUse.Size = new System.Drawing.Size(98, 20);
-            this.tsmiDevDebugUse.Text = "Devs Debug Use";
-            this.tsmiDevDebugUse.Click += new System.EventHandler(this.tsmiDevsDebugUse_Click);
             // 
             // dgvSongsDetail
             // 
@@ -452,7 +595,7 @@ namespace CustomsForgeSongManager.UControls
             // 
             // colDetailArrangement
             // 
-            this.colDetailArrangement.DataPropertyName = "Name";
+            this.colDetailArrangement.DataPropertyName = "ArrangementName";
             this.colDetailArrangement.Frozen = true;
             this.colDetailArrangement.HeaderText = "Arrangement";
             this.colDetailArrangement.Name = "colDetailArrangement";
@@ -491,19 +634,19 @@ namespace CustomsForgeSongManager.UControls
             // 
             // dgvSongsMaster
             // 
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.dgvSongsMaster.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle13.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.dgvSongsMaster.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle13;
             this.dgvSongsMaster.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvSongsMaster.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle14.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle14.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle14.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle14.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle14.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle14.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle14.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvSongsMaster.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle14;
             this.dgvSongsMaster.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.colShowDetail,
             this.colKey,
@@ -521,7 +664,7 @@ namespace CustomsForgeSongManager.UControls
             this.colSongLength,
             this.colSongAverageTempo,
             this.colSongVolume,
-            this.colConversionDate,
+            this.colLastConversionDateTime,
             this.colDD,
             this.colArrangements,
             this.colTunings,
@@ -536,6 +679,7 @@ namespace CustomsForgeSongManager.UControls
             this.colPackageAuthor,
             this.colPackageVersion,
             this.colPackageComment,
+            this.colPackageRating,
             this.colTagged,
             this.colIgnitionID,
             this.colIgnitionDate,
@@ -545,20 +689,26 @@ namespace CustomsForgeSongManager.UControls
             this.colArtistTitleAlbumDate,
             this.colArtistSort,
             this.colTitleSort,
-            this.colAlbumSort});
+            this.colAlbumSort,
+            this.colAudioBitRate,
+            this.colHasCustomFont});
             this.dgvSongsMaster.Location = new System.Drawing.Point(6, 19);
             this.dgvSongsMaster.Name = "dgvSongsMaster";
             this.dgvSongsMaster.RowHeadersVisible = false;
             this.dgvSongsMaster.Size = new System.Drawing.Size(879, 348);
             this.dgvSongsMaster.TabIndex = 1;
             this.dgvSongsMaster.Tag = "Song Manager";
+            this.toolTip.SetToolTip(this.dgvSongsMaster, "Left mouse click the \'Select\' checkbox to select a row\r\nRight mouse click on row " +
+                    "to show file operation options");
             this.dgvSongsMaster.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvSongsMaster_CellContentClick);
             this.dgvSongsMaster.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvSongsMaster_CellDoubleClick);
             this.dgvSongsMaster.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.dgvSongsMaster_CellFormatting);
             this.dgvSongsMaster.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvSongsMaster_CellMouseDown);
             this.dgvSongsMaster.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvSongsMaster_CellMouseUp);
+            this.dgvSongsMaster.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvSongsMaster_CellValueChanged);
             this.dgvSongsMaster.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvSongsMaster_CellMouseUp);
             this.dgvSongsMaster.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.dgvSongsMaster_DataBindingComplete);
+            this.dgvSongsMaster.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.dgvSongsMaster_DataError);
             this.dgvSongsMaster.Scroll += new System.Windows.Forms.ScrollEventHandler(this.dgvSongsMaster_Scroll);
             this.dgvSongsMaster.Sorted += new System.EventHandler(this.dgvSongsMaster_Sorted);
             this.dgvSongsMaster.Paint += new System.Windows.Forms.PaintEventHandler(this.dgvSongsMaster_Paint);
@@ -593,6 +743,8 @@ namespace CustomsForgeSongManager.UControls
             this.colSelect.IndeterminateValue = "false";
             this.colSelect.Name = "colSelect";
             this.colSelect.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.colSelect.ToolTipText = "Left mouse click the \'Select\' checkbox to select a row\r\nRight mouse click on row " +
+                "to show file operation options";
             this.colSelect.TrueValue = "true";
             this.colSelect.Width = 50;
             // 
@@ -689,9 +841,9 @@ namespace CustomsForgeSongManager.UControls
             // colSongYear
             // 
             this.colSongYear.DataPropertyName = "SongYear";
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle3.NullValue = null;
-            this.colSongYear.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle15.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle15.NullValue = null;
+            this.colSongYear.DefaultCellStyle = dataGridViewCellStyle15;
             this.colSongYear.HeaderText = "Year";
             this.colSongYear.Name = "colSongYear";
             this.colSongYear.ReadOnly = true;
@@ -702,10 +854,10 @@ namespace CustomsForgeSongManager.UControls
             // colSongLength
             // 
             this.colSongLength.DataPropertyName = "SongLength";
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle4.Format = "N2";
-            dataGridViewCellStyle4.NullValue = null;
-            this.colSongLength.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle16.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle16.Format = "N2";
+            dataGridViewCellStyle16.NullValue = null;
+            this.colSongLength.DefaultCellStyle = dataGridViewCellStyle16;
             this.colSongLength.HeaderText = "SongLength (secs)";
             this.colSongLength.Name = "colSongLength";
             this.colSongLength.ReadOnly = true;
@@ -714,7 +866,10 @@ namespace CustomsForgeSongManager.UControls
             // colSongAverageTempo
             // 
             this.colSongAverageTempo.DataPropertyName = "SongAverageTempo";
-            this.colSongAverageTempo.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle17.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle17.Format = "N2";
+            dataGridViewCellStyle17.NullValue = null;
+            this.colSongAverageTempo.DefaultCellStyle = dataGridViewCellStyle17;
             this.colSongAverageTempo.HeaderText = "BPM";
             this.colSongAverageTempo.Name = "colSongAverageTempo";
             this.colSongAverageTempo.Resizable = System.Windows.Forms.DataGridViewTriState.True;
@@ -723,27 +878,34 @@ namespace CustomsForgeSongManager.UControls
             // colSongVolume
             // 
             this.colSongVolume.DataPropertyName = "SongVolume";
-            this.colSongVolume.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle18.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle18.Format = "N2";
+            dataGridViewCellStyle18.NullValue = null;
+            this.colSongVolume.DefaultCellStyle = dataGridViewCellStyle18;
             this.colSongVolume.HeaderText = "SongVolume (LF)";
             this.colSongVolume.Name = "colSongVolume";
             this.colSongVolume.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.colSongVolume.ToolTipText = "(Loudness Factor)";
             this.colSongVolume.Visible = false;
             // 
-            // colConversionDate
+            // colLastConversionDateTime
             // 
-            this.colConversionDate.DataPropertyName = "LastConversionDateTime";
-            this.colConversionDate.DefaultCellStyle = dataGridViewCellStyle3;
-            this.colConversionDate.HeaderText = "ConversionDate";
-            this.colConversionDate.Name = "colConversionDate";
-            this.colConversionDate.ReadOnly = true;
-            this.colConversionDate.Visible = false;
-            this.colConversionDate.Width = 50;
+            this.colLastConversionDateTime.DataPropertyName = "LastConversionDateTime";
+            dataGridViewCellStyle19.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle19.NullValue = null;
+            this.colLastConversionDateTime.DefaultCellStyle = dataGridViewCellStyle19;
+            this.colLastConversionDateTime.HeaderText = "LastConversionDateTime";
+            this.colLastConversionDateTime.Name = "colLastConversionDateTime";
+            this.colLastConversionDateTime.ReadOnly = true;
+            this.colLastConversionDateTime.Visible = false;
+            this.colLastConversionDateTime.Width = 50;
             // 
             // colDD
             // 
             this.colDD.DataPropertyName = "DD";
-            this.colDD.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle20.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle20.NullValue = null;
+            this.colDD.DefaultCellStyle = dataGridViewCellStyle20;
             this.colDD.HeaderText = "DDMax";
             this.colDD.Name = "colDD";
             this.colDD.ReadOnly = true;
@@ -794,7 +956,9 @@ namespace CustomsForgeSongManager.UControls
             // colFileDate
             // 
             this.colFileDate.DataPropertyName = "FileDate";
-            this.colFileDate.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle21.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle21.NullValue = null;
+            this.colFileDate.DefaultCellStyle = dataGridViewCellStyle21;
             this.colFileDate.HeaderText = "FileDate";
             this.colFileDate.Name = "colFileDate";
             this.colFileDate.Resizable = System.Windows.Forms.DataGridViewTriState.True;
@@ -803,7 +967,9 @@ namespace CustomsForgeSongManager.UControls
             // colFileSize
             // 
             this.colFileSize.DataPropertyName = "FileSize";
-            this.colFileSize.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle22.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle22.NullValue = null;
+            this.colFileSize.DefaultCellStyle = dataGridViewCellStyle22;
             this.colFileSize.HeaderText = "FileSize (bytes)";
             this.colFileSize.Name = "colFileSize";
             this.colFileSize.Visible = false;
@@ -821,7 +987,10 @@ namespace CustomsForgeSongManager.UControls
             // colAppID
             // 
             this.colAppID.DataPropertyName = "AppID";
-            this.colAppID.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle23.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle23.Format = "N2";
+            dataGridViewCellStyle23.NullValue = null;
+            this.colAppID.DefaultCellStyle = dataGridViewCellStyle23;
             this.colAppID.HeaderText = "AppID";
             this.colAppID.Name = "colAppID";
             this.colAppID.ReadOnly = true;
@@ -851,7 +1020,6 @@ namespace CustomsForgeSongManager.UControls
             this.colPackageVersion.HeaderText = "PackageVersion";
             this.colPackageVersion.Name = "colPackageVersion";
             this.colPackageVersion.ReadOnly = true;
-            this.colPackageVersion.Visible = false;
             this.colPackageVersion.Width = 50;
             // 
             // colPackageComment
@@ -861,6 +1029,17 @@ namespace CustomsForgeSongManager.UControls
             this.colPackageComment.Name = "colPackageComment";
             this.colPackageComment.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.colPackageComment.Visible = false;
+            // 
+            // colPackageRating
+            // 
+            this.colPackageRating.DataPropertyName = "RatingStars";
+            this.colPackageRating.GrayStarColor = System.Drawing.Color.LightGray;
+            this.colPackageRating.HeaderText = "PackageRating";
+            this.colPackageRating.Name = "colPackageRating";
+            this.colPackageRating.RatedStarColor = System.Drawing.Color.Green;
+            this.colPackageRating.StarScale = 0.9F;
+            this.colPackageRating.ToolTipText = "To remove a rating completely ...\r\nFirst click on the first star, then\r\nclick on " +
+                "the first star again, next\r\ncompletely move the mouse off.";
             // 
             // colTagged
             // 
@@ -882,7 +1061,10 @@ namespace CustomsForgeSongManager.UControls
             // colIgnitionDate
             // 
             this.colIgnitionDate.DataPropertyName = "IgnitionDate";
-            this.colIgnitionDate.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle24.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle24.Format = "N2";
+            dataGridViewCellStyle24.NullValue = null;
+            this.colIgnitionDate.DefaultCellStyle = dataGridViewCellStyle24;
             this.colIgnitionDate.HeaderText = "IgnitionDate";
             this.colIgnitionDate.Name = "colIgnitionDate";
             this.colIgnitionDate.ReadOnly = true;
@@ -949,18 +1131,76 @@ namespace CustomsForgeSongManager.UControls
             this.colAlbumSort.Visible = false;
             this.colAlbumSort.Width = 50;
             // 
-            // cueSearch
+            // colAudioBitRate
             // 
-            this.cueSearch.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.cueSearch.Cue = "Type characters to search...";
-            this.cueSearch.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
-            this.cueSearch.ForeColor = System.Drawing.Color.Gray;
-            this.cueSearch.Location = new System.Drawing.Point(9, 6);
-            this.cueSearch.Name = "cueSearch";
-            this.cueSearch.Size = new System.Drawing.Size(396, 20);
-            this.cueSearch.TabIndex = 1;
-            this.toolTip.SetToolTip(this.cueSearch, "HINT:\r\nSearching is must faster than filtering.");
-            this.cueSearch.KeyUp += new System.Windows.Forms.KeyEventHandler(this.cueSearch_KeyUp);
+            this.colAudioBitRate.DataPropertyName = "AudioBitRate";
+            this.colAudioBitRate.HeaderText = "Audio (~kbps)";
+            this.colAudioBitRate.Name = "colAudioBitRate";
+            this.colAudioBitRate.Visible = false;
+            // 
+            // colHasCustomFont
+            // 
+            this.colHasCustomFont.DataPropertyName = "HasCustomFont";
+            this.colHasCustomFont.HeaderText = "HasCustomFont";
+            this.colHasCustomFont.Name = "colHasCustomFont";
+            this.colHasCustomFont.Visible = false;
+            // 
+            // lnklblToggle
+            // 
+            this.lnklblToggle.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.lnklblToggle.AutoSize = true;
+            this.lnklblToggle.ForeColor = System.Drawing.Color.Black;
+            this.lnklblToggle.LinkColor = System.Drawing.SystemColors.ActiveCaption;
+            this.lnklblToggle.Location = new System.Drawing.Point(109, 370);
+            this.lnklblToggle.Name = "lnklblToggle";
+            this.lnklblToggle.Size = new System.Drawing.Size(87, 13);
+            this.lnklblToggle.TabIndex = 4;
+            this.lnklblToggle.TabStop = true;
+            this.lnklblToggle.Text = "Toggle Selection";
+            this.lnklblToggle.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lnklblToggle.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnklblToggle_LinkClicked);
+            // 
+            // cmsSongManagerColumns
+            // 
+            this.cmsSongManagerColumns.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.testToolStripMenuItem});
+            this.cmsSongManagerColumns.Name = "cmsSongManagerColumns";
+            this.cmsSongManagerColumns.Size = new System.Drawing.Size(95, 26);
+            // 
+            // testToolStripMenuItem
+            // 
+            this.testToolStripMenuItem.AssociatedEnumValue = null;
+            this.testToolStripMenuItem.Checked = true;
+            this.testToolStripMenuItem.CheckOnClick = true;
+            this.testToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.testToolStripMenuItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.testToolStripMenuItem.Name = "testToolStripMenuItem";
+            this.testToolStripMenuItem.RadioButtonGroupName = null;
+            this.testToolStripMenuItem.Size = new System.Drawing.Size(94, 22);
+            this.testToolStripMenuItem.Text = "Test";
+            // 
+            // toolTip
+            // 
+            this.toolTip.AutomaticDelay = 200;
+            this.toolTip.AutoPopDelay = 15000;
+            this.toolTip.InitialDelay = 200;
+            this.toolTip.IsBalloon = true;
+            this.toolTip.ReshowDelay = 100;
+            // 
+            // menuStrip
+            // 
+            this.menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmiRescan,
+            this.tsmiRepairs,
+            this.tsmiMods,
+            this.tsmiFiles,
+            this.tsmiHelp,
+            this.tsmiDevUseOnly});
+            this.menuStrip.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip.Name = "menuStrip";
+            this.menuStrip.Size = new System.Drawing.Size(899, 24);
+            this.menuStrip.TabIndex = 11;
+            this.menuStrip.Text = "menuStrip1";
             // 
             // tsmiRescan
             // 
@@ -971,7 +1211,7 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiRescan.Image = ((System.Drawing.Image)(resources.GetObject("tsmiRescan.Image")));
             this.tsmiRescan.Name = "tsmiRescan";
             this.tsmiRescan.RadioButtonGroupName = null;
-            this.tsmiRescan.Size = new System.Drawing.Size(70, 20);
+            this.tsmiRescan.Size = new System.Drawing.Size(72, 20);
             this.tsmiRescan.Text = "Rescan";
             this.tsmiRescan.ToolTipText = "See \'Settings\' menu for additional\r\ndata rescan and inclusion options.";
             // 
@@ -981,7 +1221,7 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiRescanQuick.Image = ((System.Drawing.Image)(resources.GetObject("tsmiRescanQuick.Image")));
             this.tsmiRescanQuick.Name = "tsmiRescanQuick";
             this.tsmiRescanQuick.RadioButtonGroupName = null;
-            this.tsmiRescanQuick.Size = new System.Drawing.Size(111, 22);
+            this.tsmiRescanQuick.Size = new System.Drawing.Size(105, 22);
             this.tsmiRescanQuick.Text = "Quick";
             this.tsmiRescanQuick.ToolTipText = "Quick reload of previously scanned data.\r\nOnly rescans data if necessary.";
             this.tsmiRescanQuick.Click += new System.EventHandler(this.tsmiRescanQuick_Click);
@@ -992,7 +1232,7 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiRescanFull.Image = ((System.Drawing.Image)(resources.GetObject("tsmiRescanFull.Image")));
             this.tsmiRescanFull.Name = "tsmiRescanFull";
             this.tsmiRescanFull.RadioButtonGroupName = null;
-            this.tsmiRescanFull.Size = new System.Drawing.Size(111, 22);
+            this.tsmiRescanFull.Size = new System.Drawing.Size(105, 22);
             this.tsmiRescanFull.Text = "Full";
             this.tsmiRescanFull.ToolTipText = "Preliminary scan or after significant changes.\r\n\r\nHint:\r\nTry running a \'Full\' res" +
                 "can if the CDLC\r\ncollection does not look as expected.";
@@ -1003,9 +1243,9 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiRepairs.AssociatedEnumValue = null;
             this.tsmiRepairs.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsmiSkipRemastered,
-            this.toolStripSeparator12,
+            this.toolStripSeparator16,
             this.tsmiRepairsAddDD,
-            this.tsmiAddDDSettings,
+            this.tsmiDDSettings,
             this.tsmiOverwriteDD,
             this.toolStripSeparator9,
             this.tsmiRepairsMastery,
@@ -1021,17 +1261,25 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiRemoveMetronome,
             this.tsmiIgnoreStopLimit,
             this.toolStripSeparator7,
+            this.tsmiAdjustScrollSpeed,
+            this.tsmiSSSettings,
+            this.toolStripSeparator12,
             this.tsmiRemoveSections,
             this.tsmiFixLowBass,
+            this.toolStripSeparator20,
+            this.tsmiFixAppId,
             this.toolStripSeparator10,
-            this.tsmiProcessDLFolder,
-            this.tsmiMonitorDLFolder,
+            this.tsmiDLFolderProcess,
+            this.tsmiChangeMonitoredFolders,
+            this.tsmiChangeDestinationFolder,
+            this.tsmiSkipDupes,
+            this.tsmiDLFolderMonitor,
             this.toolStripSeparator13,
             this.tsmiRepairsRun});
             this.tsmiRepairs.Image = ((System.Drawing.Image)(resources.GetObject("tsmiRepairs.Image")));
             this.tsmiRepairs.Name = "tsmiRepairs";
             this.tsmiRepairs.RadioButtonGroupName = null;
-            this.tsmiRepairs.Size = new System.Drawing.Size(71, 20);
+            this.tsmiRepairs.Size = new System.Drawing.Size(73, 20);
             this.tsmiRepairs.Text = "Repairs";
             this.tsmiRepairs.ToolTipText = "This tool repairs CDLC files using\nvarious user selectable options.\n\nHINT: First " +
                 "use \'Select All/None\' and/or \n\'Toggle Selection\' links to quckly choose\nthe CDLC" +
@@ -1046,15 +1294,15 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiSkipRemastered.ForeColor = System.Drawing.Color.RoyalBlue;
             this.tsmiSkipRemastered.Name = "tsmiSkipRemastered";
             this.tsmiSkipRemastered.RadioButtonGroupName = "SkipRemastered";
-            this.tsmiSkipRemastered.Size = new System.Drawing.Size(246, 22);
+            this.tsmiSkipRemastered.Size = new System.Drawing.Size(251, 22);
             this.tsmiSkipRemastered.Text = "Skip Previously Remastered CDLC";
             this.tsmiSkipRemastered.ToolTipText = "Skipping previously remastered CDLC\r\nwill greatly speed up the repair\r\nprocess.";
             this.tsmiSkipRemastered.Click += new System.EventHandler(this.RepairsButton_Click);
             // 
-            // toolStripSeparator12
+            // toolStripSeparator16
             // 
-            this.toolStripSeparator12.Name = "toolStripSeparator12";
-            this.toolStripSeparator12.Size = new System.Drawing.Size(243, 6);
+            this.toolStripSeparator16.Name = "toolStripSeparator16";
+            this.toolStripSeparator16.Size = new System.Drawing.Size(248, 6);
             // 
             // tsmiRepairsAddDD
             // 
@@ -1066,47 +1314,47 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiRepairsAddDD.ForeColor = System.Drawing.Color.RoyalBlue;
             this.tsmiRepairsAddDD.Name = "tsmiRepairsAddDD";
             this.tsmiRepairsAddDD.RadioButtonGroupName = "AddDD";
-            this.tsmiRepairsAddDD.Size = new System.Drawing.Size(246, 22);
+            this.tsmiRepairsAddDD.Size = new System.Drawing.Size(251, 22);
             this.tsmiRepairsAddDD.Text = "Add Dynamic Difficulty (DD)";
             this.tsmiRepairsAddDD.ToolTipText = "Fixes Remastered Play Count tracking\r\nby adding Dynamic Difficulty (DD) to\r\narran" +
                 "gements that do not have DD";
             this.tsmiRepairsAddDD.Click += new System.EventHandler(this.RepairsButton_Click);
             // 
-            // tsmiAddDDSettings
+            // tsmiDDSettings
             // 
-            this.tsmiAddDDSettings.AssociatedEnumValue = null;
-            this.tsmiAddDDSettings.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmiDDSettings.AssociatedEnumValue = null;
+            this.tsmiDDSettings.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsmiAddDDNumericUpDown,
             this.tsmiAddDDRemoveSustain,
             this.tsmiAddDDCfgPath,
             this.tsmiAddDDRampUpPath});
-            this.tsmiAddDDSettings.Name = "tsmiAddDDSettings";
-            this.tsmiAddDDSettings.RadioButtonGroupName = "AddDD";
-            this.tsmiAddDDSettings.Size = new System.Drawing.Size(246, 22);
-            this.tsmiAddDDSettings.Text = "Customizable DDC Settings";
-            this.tsmiAddDDSettings.ToolTipText = "Configuration settings for ddc.exe CLI";
+            this.tsmiDDSettings.Name = "tsmiDDSettings";
+            this.tsmiDDSettings.RadioButtonGroupName = "AddDD";
+            this.tsmiDDSettings.Size = new System.Drawing.Size(251, 22);
+            this.tsmiDDSettings.Text = "Customizable DD Settings";
+            this.tsmiDDSettings.ToolTipText = "Configuration settings for ddc.exe CLI";
             // 
             // tsmiAddDDNumericUpDown
             // 
             this.tsmiAddDDNumericUpDown.BackColor = System.Drawing.Color.Transparent;
-            this.tsmiAddDDNumericUpDown.DecimalPlaces = 0;
+            this.tsmiAddDDNumericUpDown.DecimalValue = new decimal(new int[] {
+            8,
+            0,
+            0,
+            0});
             this.tsmiAddDDNumericUpDown.Margin = new System.Windows.Forms.Padding(0, 1, 3, 1);
             this.tsmiAddDDNumericUpDown.Minimum = new decimal(new int[] {
-            8,
+            4,
             0,
             0,
             0});
             this.tsmiAddDDNumericUpDown.Name = "tsmiAddDDNumericUpDown";
             this.tsmiAddDDNumericUpDown.NumBackColor = System.Drawing.SystemColors.Window;
-            this.tsmiAddDDNumericUpDown.Size = new System.Drawing.Size(53, 22);
+            this.tsmiAddDDNumericUpDown.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.tsmiAddDDNumericUpDown.Size = new System.Drawing.Size(136, 20);
             this.tsmiAddDDNumericUpDown.Text = "Phrase Length";
             this.tsmiAddDDNumericUpDown.TextVisible = false;
             this.tsmiAddDDNumericUpDown.ToolTipText = "Set custom Phrase Length greater than eight";
-            this.tsmiAddDDNumericUpDown.Value = new decimal(new int[] {
-            8,
-            0,
-            0,
-            0});
             this.tsmiAddDDNumericUpDown.Click += new System.EventHandler(this.RepairsAddDDSettings_Click);
             // 
             // tsmiAddDDRemoveSustain
@@ -1154,7 +1402,7 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiOverwriteDD.ForeColor = System.Drawing.Color.Red;
             this.tsmiOverwriteDD.Name = "tsmiOverwriteDD";
             this.tsmiOverwriteDD.RadioButtonGroupName = "AddDD";
-            this.tsmiOverwriteDD.Size = new System.Drawing.Size(246, 22);
+            this.tsmiOverwriteDD.Size = new System.Drawing.Size(251, 22);
             this.tsmiOverwriteDD.Text = "Overwrite Existing DD";
             this.tsmiOverwriteDD.ToolTipText = "Overwrite existing Dynamic Difficulty (DD)\r\nwith new DD even if arrangement alrea" +
                 "dy\r\nhas DD.";
@@ -1163,7 +1411,7 @@ namespace CustomsForgeSongManager.UControls
             // toolStripSeparator9
             // 
             this.toolStripSeparator9.Name = "toolStripSeparator9";
-            this.toolStripSeparator9.Size = new System.Drawing.Size(243, 6);
+            this.toolStripSeparator9.Size = new System.Drawing.Size(248, 6);
             // 
             // tsmiRepairsMastery
             // 
@@ -1175,10 +1423,9 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiRepairsMastery.ForeColor = System.Drawing.Color.RoyalBlue;
             this.tsmiRepairsMastery.Name = "tsmiRepairsMastery";
             this.tsmiRepairsMastery.RadioButtonGroupName = "Mastery";
-            this.tsmiRepairsMastery.Size = new System.Drawing.Size(246, 22);
+            this.tsmiRepairsMastery.Size = new System.Drawing.Size(251, 22);
             this.tsmiRepairsMastery.Text = "Mastery 100% Bug";
-            this.tsmiRepairsMastery.ToolTipText = "Mastery 100% Bug is repaired\r\nby default regardless of\r\nother selected options.\r\n" +
-                "\r\nOnce the Mastery Bug is repaired\r\nthe CDLC is considered to be\r\n\'Remastered\'.";
+            this.tsmiRepairsMastery.ToolTipText = resources.GetString("tsmiRepairsMastery.ToolTipText");
             this.tsmiRepairsMastery.Click += new System.EventHandler(this.RepairsButton_Click);
             // 
             // tsmiRepairsPreserveStats
@@ -1188,7 +1435,7 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiRepairsPreserveStats.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tsmiRepairsPreserveStats.Name = "tsmiRepairsPreserveStats";
             this.tsmiRepairsPreserveStats.RadioButtonGroupName = "Mastery";
-            this.tsmiRepairsPreserveStats.Size = new System.Drawing.Size(246, 22);
+            this.tsmiRepairsPreserveStats.Size = new System.Drawing.Size(251, 22);
             this.tsmiRepairsPreserveStats.Text = "Preserve Stats";
             this.tsmiRepairsPreserveStats.ToolTipText = resources.GetString("tsmiRepairsPreserveStats.ToolTipText");
             this.tsmiRepairsPreserveStats.CheckStateChanged += new System.EventHandler(this.Repairs_CheckStateChanged);
@@ -1202,7 +1449,7 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiRepairsUsingOrg.ForeColor = System.Drawing.SystemColors.ControlText;
             this.tsmiRepairsUsingOrg.Name = "tsmiRepairsUsingOrg";
             this.tsmiRepairsUsingOrg.RadioButtonGroupName = "Mastery";
-            this.tsmiRepairsUsingOrg.Size = new System.Drawing.Size(246, 22);
+            this.tsmiRepairsUsingOrg.Size = new System.Drawing.Size(251, 22);
             this.tsmiRepairsUsingOrg.Text = "Use (.org) Files";
             this.tsmiRepairsUsingOrg.ToolTipText = resources.GetString("tsmiRepairsUsingOrg.ToolTipText");
             this.tsmiRepairsUsingOrg.CheckStateChanged += new System.EventHandler(this.Repairs_CheckStateChanged);
@@ -1215,7 +1462,7 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiRepairsMultitone.ForeColor = System.Drawing.Color.Red;
             this.tsmiRepairsMultitone.Name = "tsmiRepairsMultitone";
             this.tsmiRepairsMultitone.RadioButtonGroupName = "Mastery";
-            this.tsmiRepairsMultitone.Size = new System.Drawing.Size(246, 22);
+            this.tsmiRepairsMultitone.Size = new System.Drawing.Size(251, 22);
             this.tsmiRepairsMultitone.Text = "Prevent Multitone Exceptions";
             this.tsmiRepairsMultitone.ToolTipText = "Prevent multitone exceptions\r\nby converting corrupt multitone\r\narrangements to si" +
                 "ngle tone.";
@@ -1224,7 +1471,7 @@ namespace CustomsForgeSongManager.UControls
             // toolStripSeparator8
             // 
             this.toolStripSeparator8.Name = "toolStripSeparator8";
-            this.toolStripSeparator8.Size = new System.Drawing.Size(243, 6);
+            this.toolStripSeparator8.Size = new System.Drawing.Size(248, 6);
             // 
             // tsmiRepairsMaxFive
             // 
@@ -1236,7 +1483,7 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiRepairsMaxFive.ForeColor = System.Drawing.Color.RoyalBlue;
             this.tsmiRepairsMaxFive.Name = "tsmiRepairsMaxFive";
             this.tsmiRepairsMaxFive.RadioButtonGroupName = "MaxFive";
-            this.tsmiRepairsMaxFive.Size = new System.Drawing.Size(246, 22);
+            this.tsmiRepairsMaxFive.Size = new System.Drawing.Size(251, 22);
             this.tsmiRepairsMaxFive.Text = "Max Five Arrangements";
             this.tsmiRepairsMaxFive.ToolTipText = "Select Max5 Repair Options";
             this.tsmiRepairsMaxFive.Click += new System.EventHandler(this.RepairsButton_Click);
@@ -1248,7 +1495,7 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiRemoveNDD.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tsmiRemoveNDD.Name = "tsmiRemoveNDD";
             this.tsmiRemoveNDD.RadioButtonGroupName = "MaxFive";
-            this.tsmiRemoveNDD.Size = new System.Drawing.Size(246, 22);
+            this.tsmiRemoveNDD.Size = new System.Drawing.Size(251, 22);
             this.tsmiRemoveNDD.Text = "Remove NDD";
             this.tsmiRemoveNDD.CheckStateChanged += new System.EventHandler(this.Repairs_CheckStateChanged);
             // 
@@ -1259,7 +1506,7 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiRemoveBass.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tsmiRemoveBass.Name = "tsmiRemoveBass";
             this.tsmiRemoveBass.RadioButtonGroupName = "MaxFive";
-            this.tsmiRemoveBass.Size = new System.Drawing.Size(246, 22);
+            this.tsmiRemoveBass.Size = new System.Drawing.Size(251, 22);
             this.tsmiRemoveBass.Text = "Remove Bass";
             this.tsmiRemoveBass.CheckStateChanged += new System.EventHandler(this.Repairs_CheckStateChanged);
             // 
@@ -1269,7 +1516,7 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiRemoveGuitar.CheckOnClick = true;
             this.tsmiRemoveGuitar.Name = "tsmiRemoveGuitar";
             this.tsmiRemoveGuitar.RadioButtonGroupName = "MaxFive";
-            this.tsmiRemoveGuitar.Size = new System.Drawing.Size(246, 22);
+            this.tsmiRemoveGuitar.Size = new System.Drawing.Size(251, 22);
             this.tsmiRemoveGuitar.Text = "Remove Guitar";
             this.tsmiRemoveGuitar.CheckStateChanged += new System.EventHandler(this.Repairs_CheckStateChanged);
             // 
@@ -1280,7 +1527,7 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiRemoveBonus.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tsmiRemoveBonus.Name = "tsmiRemoveBonus";
             this.tsmiRemoveBonus.RadioButtonGroupName = "MaxFive";
-            this.tsmiRemoveBonus.Size = new System.Drawing.Size(246, 22);
+            this.tsmiRemoveBonus.Size = new System.Drawing.Size(251, 22);
             this.tsmiRemoveBonus.Text = "Remove Bonus";
             this.tsmiRemoveBonus.CheckStateChanged += new System.EventHandler(this.Repairs_CheckStateChanged);
             // 
@@ -1291,7 +1538,7 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiRemoveMetronome.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tsmiRemoveMetronome.Name = "tsmiRemoveMetronome";
             this.tsmiRemoveMetronome.RadioButtonGroupName = "MaxFive";
-            this.tsmiRemoveMetronome.Size = new System.Drawing.Size(246, 22);
+            this.tsmiRemoveMetronome.Size = new System.Drawing.Size(251, 22);
             this.tsmiRemoveMetronome.Text = "Remove Metronome";
             this.tsmiRemoveMetronome.CheckStateChanged += new System.EventHandler(this.Repairs_CheckStateChanged);
             // 
@@ -1303,7 +1550,7 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiIgnoreStopLimit.ForeColor = System.Drawing.Color.Red;
             this.tsmiIgnoreStopLimit.Name = "tsmiIgnoreStopLimit";
             this.tsmiIgnoreStopLimit.RadioButtonGroupName = "MaxFive";
-            this.tsmiIgnoreStopLimit.Size = new System.Drawing.Size(246, 22);
+            this.tsmiIgnoreStopLimit.Size = new System.Drawing.Size(251, 22);
             this.tsmiIgnoreStopLimit.Text = "Ignore Arrangement Stop Limit";
             this.tsmiIgnoreStopLimit.ToolTipText = "Removes all arrangements of\r\nselected type and ignores\r\nstop limit of 5 arrangeme" +
                 "nts.";
@@ -1312,7 +1559,70 @@ namespace CustomsForgeSongManager.UControls
             // toolStripSeparator7
             // 
             this.toolStripSeparator7.Name = "toolStripSeparator7";
-            this.toolStripSeparator7.Size = new System.Drawing.Size(243, 6);
+            this.toolStripSeparator7.Size = new System.Drawing.Size(248, 6);
+            // 
+            // tsmiAdjustScrollSpeed
+            // 
+            this.tsmiAdjustScrollSpeed.AssociatedEnumValue = null;
+            this.tsmiAdjustScrollSpeed.AutoCheck = false;
+            this.tsmiAdjustScrollSpeed.CheckMarkDisplayStyle = CustomControls.CheckMarkDisplayStyle.RadioButton;
+            this.tsmiAdjustScrollSpeed.CheckOnClick = true;
+            this.tsmiAdjustScrollSpeed.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tsmiAdjustScrollSpeed.ForeColor = System.Drawing.Color.RoyalBlue;
+            this.tsmiAdjustScrollSpeed.Name = "tsmiAdjustScrollSpeed";
+            this.tsmiAdjustScrollSpeed.RadioButtonGroupName = "ScrollSpeed";
+            this.tsmiAdjustScrollSpeed.Size = new System.Drawing.Size(251, 22);
+            this.tsmiAdjustScrollSpeed.Text = "Adjust Scroll Speed (SS)";
+            this.tsmiAdjustScrollSpeed.ToolTipText = "Use Arrangement Analyzer\r\nto view Scroll Speed values \r\nbefore and after repair.";
+            this.tsmiAdjustScrollSpeed.Click += new System.EventHandler(this.RepairsButton_Click);
+            // 
+            // tsmiSSSettings
+            // 
+            this.tsmiSSSettings.AssociatedEnumValue = null;
+            this.tsmiSSSettings.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmiNudScrollSpeed});
+            this.tsmiSSSettings.Name = "tsmiSSSettings";
+            this.tsmiSSSettings.RadioButtonGroupName = "ScrollSpeed";
+            this.tsmiSSSettings.Size = new System.Drawing.Size(251, 22);
+            this.tsmiSSSettings.Text = "Customizable SS Setting";
+            this.tsmiSSSettings.ToolTipText = "Minimum 0.5 (fewer notes on screen, faster speed)\r\nDefault 1.3 (typical of ODLC)\r" +
+                "\nMaximum 4.5 (more notes on screen, slower speed)";
+            // 
+            // tsmiNudScrollSpeed
+            // 
+            this.tsmiNudScrollSpeed.BackColor = System.Drawing.Color.Transparent;
+            this.tsmiNudScrollSpeed.DecimalPlaces = 1;
+            this.tsmiNudScrollSpeed.DecimalValue = new decimal(new int[] {
+            13,
+            0,
+            0,
+            65536});
+            this.tsmiNudScrollSpeed.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
+            this.tsmiNudScrollSpeed.Maximum = new decimal(new int[] {
+            45,
+            0,
+            0,
+            65536});
+            this.tsmiNudScrollSpeed.Minimum = new decimal(new int[] {
+            5,
+            0,
+            0,
+            65536});
+            this.tsmiNudScrollSpeed.Name = "tsmiNudScrollSpeed";
+            this.tsmiNudScrollSpeed.NumBackColor = System.Drawing.SystemColors.Window;
+            this.tsmiNudScrollSpeed.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.tsmiNudScrollSpeed.Size = new System.Drawing.Size(125, 20);
+            this.tsmiNudScrollSpeed.Text = "(Default 1.3)";
+            this.tsmiNudScrollSpeed.TextVisible = false;
+            // 
+            // toolStripSeparator12
+            // 
+            this.toolStripSeparator12.Name = "toolStripSeparator12";
+            this.toolStripSeparator12.Size = new System.Drawing.Size(248, 6);
             // 
             // tsmiRemoveSections
             // 
@@ -1324,7 +1634,7 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiRemoveSections.ForeColor = System.Drawing.Color.RoyalBlue;
             this.tsmiRemoveSections.Name = "tsmiRemoveSections";
             this.tsmiRemoveSections.RadioButtonGroupName = "RemoveSections";
-            this.tsmiRemoveSections.Size = new System.Drawing.Size(246, 22);
+            this.tsmiRemoveSections.Size = new System.Drawing.Size(251, 22);
             this.tsmiRemoveSections.Text = "Remove Sections/Phrases";
             this.tsmiRemoveSections.ToolTipText = "Coming Soon";
             this.tsmiRemoveSections.Visible = false;
@@ -1338,59 +1648,113 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiFixLowBass.CheckOnClick = true;
             this.tsmiFixLowBass.ForeColor = System.Drawing.Color.RoyalBlue;
             this.tsmiFixLowBass.Name = "tsmiFixLowBass";
-            this.tsmiFixLowBass.RadioButtonGroupName = "LowBassFix";
-            this.tsmiFixLowBass.Size = new System.Drawing.Size(246, 22);
+            this.tsmiFixLowBass.RadioButtonGroupName = "FixLowBass";
+            this.tsmiFixLowBass.Size = new System.Drawing.Size(251, 22);
             this.tsmiFixLowBass.Text = "Fix Low Bass Tuning";
             this.tsmiFixLowBass.ToolTipText = "If selected, apply the low bass\r\ntuning fix only if an arragement\r\nneeds to be fi" +
                 "xed.";
             this.tsmiFixLowBass.Click += new System.EventHandler(this.RepairsButton_Click);
             // 
+            // toolStripSeparator20
+            // 
+            this.toolStripSeparator20.Name = "toolStripSeparator20";
+            this.toolStripSeparator20.Size = new System.Drawing.Size(248, 6);
+            // 
+            // tsmiFixAppId
+            // 
+            this.tsmiFixAppId.AssociatedEnumValue = null;
+            this.tsmiFixAppId.AutoCheck = false;
+            this.tsmiFixAppId.CheckMarkDisplayStyle = CustomControls.CheckMarkDisplayStyle.RadioButton;
+            this.tsmiFixAppId.CheckOnClick = true;
+            this.tsmiFixAppId.ForeColor = System.Drawing.Color.RoyalBlue;
+            this.tsmiFixAppId.Name = "tsmiFixAppId";
+            this.tsmiFixAppId.RadioButtonGroupName = "FixAppId";
+            this.tsmiFixAppId.Size = new System.Drawing.Size(251, 22);
+            this.tsmiFixAppId.Text = "Apply Default AppId";
+            this.tsmiFixAppId.ToolTipText = "If selected, apply the default AppId\r\nfor Cherub Rock to the CDLC";
+            this.tsmiFixAppId.Click += new System.EventHandler(this.RepairsButton_Click);
+            // 
             // toolStripSeparator10
             // 
             this.toolStripSeparator10.Name = "toolStripSeparator10";
-            this.toolStripSeparator10.Size = new System.Drawing.Size(243, 6);
+            this.toolStripSeparator10.Size = new System.Drawing.Size(248, 6);
             // 
-            // tsmiProcessDLFolder
+            // tsmiDLFolderProcess
             // 
-            this.tsmiProcessDLFolder.AssociatedEnumValue = null;
-            this.tsmiProcessDLFolder.AutoCheck = false;
-            this.tsmiProcessDLFolder.CheckMarkDisplayStyle = CustomControls.CheckMarkDisplayStyle.RadioButton;
-            this.tsmiProcessDLFolder.CheckOnClick = true;
-            this.tsmiProcessDLFolder.ForeColor = System.Drawing.Color.RoyalBlue;
-            this.tsmiProcessDLFolder.Name = "tsmiProcessDLFolder";
-            this.tsmiProcessDLFolder.RadioButtonGroupName = "ProcessDLFolder";
-            this.tsmiProcessDLFolder.Size = new System.Drawing.Size(246, 22);
-            this.tsmiProcessDLFolder.Text = "Process \'Downloads\' Folder";
-            this.tsmiProcessDLFolder.ToolTipText = resources.GetString("tsmiProcessDLFolder.ToolTipText");
-            this.tsmiProcessDLFolder.Click += new System.EventHandler(this.RepairsButton_Click);
+            this.tsmiDLFolderProcess.AssociatedEnumValue = null;
+            this.tsmiDLFolderProcess.AutoCheck = false;
+            this.tsmiDLFolderProcess.CheckMarkDisplayStyle = CustomControls.CheckMarkDisplayStyle.RadioButton;
+            this.tsmiDLFolderProcess.CheckOnClick = true;
+            this.tsmiDLFolderProcess.ForeColor = System.Drawing.Color.RoyalBlue;
+            this.tsmiDLFolderProcess.Name = "tsmiDLFolderProcess";
+            this.tsmiDLFolderProcess.RadioButtonGroupName = "ProcessDLFolder";
+            this.tsmiDLFolderProcess.Size = new System.Drawing.Size(251, 22);
+            this.tsmiDLFolderProcess.Text = "Process Downloads Folder";
+            this.tsmiDLFolderProcess.ToolTipText = resources.GetString("tsmiDLFolderProcess.ToolTipText");
+            this.tsmiDLFolderProcess.Click += new System.EventHandler(this.RepairsButton_Click);
             // 
-            // tsmiMonitorDLFolder
+            // tsmiChangeMonitoredFolders
             // 
-            this.tsmiMonitorDLFolder.AssociatedEnumValue = null;
-            this.tsmiMonitorDLFolder.AutoCheck = false;
-            this.tsmiMonitorDLFolder.CheckOnClick = true;
-            this.tsmiMonitorDLFolder.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tsmiMonitorDLFolder.ForeColor = System.Drawing.Color.Red;
-            this.tsmiMonitorDLFolder.Name = "tsmiMonitorDLFolder";
-            this.tsmiMonitorDLFolder.RadioButtonGroupName = "ProcessDLFolder";
-            this.tsmiMonitorDLFolder.Size = new System.Drawing.Size(246, 22);
-            this.tsmiMonitorDLFolder.Text = "Auto Monitor \'Downloads\' Folder";
-            this.tsmiMonitorDLFolder.ToolTipText = resources.GetString("tsmiMonitorDLFolder.ToolTipText");
-            this.tsmiMonitorDLFolder.CheckStateChanged += new System.EventHandler(this.tsmiMonitorDLFolder_CheckStateChanged);
+            this.tsmiChangeMonitoredFolders.Name = "tsmiChangeMonitoredFolders";
+            this.tsmiChangeMonitoredFolders.Size = new System.Drawing.Size(251, 22);
+            this.tsmiChangeMonitoredFolders.Text = "Change Monitored Folders";
+            this.tsmiChangeMonitoredFolders.Click += new System.EventHandler(this.tsmiChangeMonitoredFolders_Click);
+            // 
+            // tsmiChangeDestinationFolder
+            // 
+            this.tsmiChangeDestinationFolder.Name = "tsmiChangeDestinationFolder";
+            this.tsmiChangeDestinationFolder.Size = new System.Drawing.Size(251, 22);
+            this.tsmiChangeDestinationFolder.Text = "Change Destination Folder";
+            this.tsmiChangeDestinationFolder.Click += new System.EventHandler(this.tsmiChangeDestinationFolder_Click);
+            // 
+            // tsmiSkipDupes
+            // 
+            this.tsmiSkipDupes.AssociatedEnumValue = null;
+            this.tsmiSkipDupes.CheckOnClick = true;
+            this.tsmiSkipDupes.Name = "tsmiSkipDupes";
+            this.tsmiSkipDupes.RadioButtonGroupName = "ProcessDLFolder";
+            this.tsmiSkipDupes.Size = new System.Drawing.Size(251, 22);
+            this.tsmiSkipDupes.Text = "Skip Duplicates From DL Folder";
+            this.tsmiSkipDupes.CheckStateChanged += new System.EventHandler(this.Repairs_CheckStateChanged);
+            // 
+            // tsmiDLFolderMonitor
+            // 
+            this.tsmiDLFolderMonitor.AssociatedEnumValue = null;
+            this.tsmiDLFolderMonitor.AutoCheck = false;
+            this.tsmiDLFolderMonitor.CheckOnClick = true;
+            this.tsmiDLFolderMonitor.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmiDLFolderSupport});
+            this.tsmiDLFolderMonitor.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tsmiDLFolderMonitor.ForeColor = System.Drawing.Color.Red;
+            this.tsmiDLFolderMonitor.Name = "tsmiDLFolderMonitor";
+            this.tsmiDLFolderMonitor.RadioButtonGroupName = "ProcessDLFolder";
+            this.tsmiDLFolderMonitor.Size = new System.Drawing.Size(251, 22);
+            this.tsmiDLFolderMonitor.Text = "Auto Monitor Downloads Folder";
+            this.tsmiDLFolderMonitor.ToolTipText = resources.GetString("tsmiDLFolderMonitor.ToolTipText");
+            this.tsmiDLFolderMonitor.CheckStateChanged += new System.EventHandler(this.tsmiDLFolderMonitor_CheckStateChanged);
+            // 
+            // tsmiDLFolderSupport
+            // 
+            this.tsmiDLFolderSupport.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tsmiDLFolderSupport.Image = ((System.Drawing.Image)(resources.GetObject("tsmiDLFolderSupport.Image")));
+            this.tsmiDLFolderSupport.Name = "tsmiDLFolderSupport";
+            this.tsmiDLFolderSupport.Size = new System.Drawing.Size(159, 22);
+            this.tsmiDLFolderSupport.Text = "Click to Donate";
+            this.tsmiDLFolderSupport.Click += new System.EventHandler(this.tsmiDLFolderSupport_Click);
             // 
             // toolStripSeparator13
             // 
             this.toolStripSeparator13.Name = "toolStripSeparator13";
-            this.toolStripSeparator13.Size = new System.Drawing.Size(243, 6);
+            this.toolStripSeparator13.Size = new System.Drawing.Size(248, 6);
             // 
             // tsmiRepairsRun
             // 
             this.tsmiRepairsRun.AssociatedEnumValue = null;
-            this.tsmiRepairsRun.BackColor = System.Drawing.SystemColors.Control;
+            this.tsmiRepairsRun.BackColor = System.Drawing.Color.LawnGreen;
             this.tsmiRepairsRun.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tsmiRepairsRun.Name = "tsmiRepairsRun";
             this.tsmiRepairsRun.RadioButtonGroupName = null;
-            this.tsmiRepairsRun.Size = new System.Drawing.Size(246, 22);
+            this.tsmiRepairsRun.Size = new System.Drawing.Size(251, 22);
             this.tsmiRepairsRun.Text = "Run Selected Repair Optons";
             this.tsmiRepairsRun.ToolTipText = "Select repair options first";
             this.tsmiRepairsRun.Click += new System.EventHandler(this.tsmiRepairsRun_Click);
@@ -1400,6 +1764,8 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiMods.AssociatedEnumValue = null;
             this.tsmiMods.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsmiModsChangeAppId,
+            this.toolStripSeparator17,
+            this.tsmiCustomTitleTag,
             this.toolStripSeparator4,
             this.tsmiModsPitchShifter,
             this.tsmiModsPitchShiftStandard,
@@ -1411,10 +1777,12 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiModsUntagArtwork,
             this.toolStripSeparator14,
             this.tsmiModsTheMover,
-            this.tsmiModsMyCDLC});
+            this.tsmiModsMyCDLC,
+            this.toolStripSeparator21,
+            this.tsmiAutoAdjustVolume});
             this.tsmiMods.Name = "tsmiMods";
             this.tsmiMods.RadioButtonGroupName = null;
-            this.tsmiMods.Size = new System.Drawing.Size(83, 20);
+            this.tsmiMods.Size = new System.Drawing.Size(94, 20);
             this.tsmiMods.Text = "Custom Mods";
             // 
             // tsmiModsChangeAppId
@@ -1423,16 +1791,101 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiModsChangeAppId.Image = ((System.Drawing.Image)(resources.GetObject("tsmiModsChangeAppId.Image")));
             this.tsmiModsChangeAppId.Name = "tsmiModsChangeAppId";
             this.tsmiModsChangeAppId.RadioButtonGroupName = null;
-            this.tsmiModsChangeAppId.Size = new System.Drawing.Size(203, 22);
-            this.tsmiModsChangeAppId.Text = "Edit App IDs";
+            this.tsmiModsChangeAppId.Size = new System.Drawing.Size(248, 22);
+            this.tsmiModsChangeAppId.Text = "Edit App ID\'s";
             this.tsmiModsChangeAppId.ToolTipText = "Change the CDLC App ID to\r\nany other DLC that you own.\r\n\r\nHINT:\r\nYou can also typ" +
                 "e in any valid\r\nApp ID if it is not on the list.";
             this.tsmiModsChangeAppId.Click += new System.EventHandler(this.tsmiModsChangeAppId_Click);
             // 
+            // toolStripSeparator17
+            // 
+            this.toolStripSeparator17.Name = "toolStripSeparator17";
+            this.toolStripSeparator17.Size = new System.Drawing.Size(245, 6);
+            // 
+            // tsmiCustomTitleTag
+            // 
+            this.tsmiCustomTitleTag.AssociatedEnumValue = null;
+            this.tsmiCustomTitleTag.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmiCustomTitleTagTextBox,
+            this.toolStripSeparator19,
+            this.tsmiCustomTitleTagPrefix,
+            this.tsmiCustomTitleTagSuffix,
+            this.toolStripSeparator18,
+            this.tsmiCustomTitleTagAdd,
+            this.tsmiCustomTitleTagRemove});
+            this.tsmiCustomTitleTag.Name = "tsmiCustomTitleTag";
+            this.tsmiCustomTitleTag.RadioButtonGroupName = null;
+            this.tsmiCustomTitleTag.Size = new System.Drawing.Size(248, 22);
+            this.tsmiCustomTitleTag.Text = "Custom Title Tag";
+            this.tsmiCustomTitleTag.ToolTipText = resources.GetString("tsmiCustomTitleTag.ToolTipText");
+            // 
+            // tsmiCustomTitleTagTextBox
+            // 
+            this.tsmiCustomTitleTagTextBox.BackColor = System.Drawing.SystemColors.Control;
+            this.tsmiCustomTitleTagTextBox.LabelText = "Enter Title Tag:";
+            this.tsmiCustomTitleTagTextBox.Name = "tsmiCustomTitleTagTextBox";
+            this.tsmiCustomTitleTagTextBox.Size = new System.Drawing.Size(184, 23);
+            this.tsmiCustomTitleTagTextBox.TextBoxText = "";
+            this.tsmiCustomTitleTagTextBox.ToolTipText = "Type a Custom Title Tag ...";
+            // 
+            // toolStripSeparator19
+            // 
+            this.toolStripSeparator19.Name = "toolStripSeparator19";
+            this.toolStripSeparator19.Size = new System.Drawing.Size(257, 6);
+            // 
+            // tsmiCustomTitleTagPrefix
+            // 
+            this.tsmiCustomTitleTagPrefix.AssociatedEnumValue = null;
+            this.tsmiCustomTitleTagPrefix.Checked = true;
+            this.tsmiCustomTitleTagPrefix.CheckMarkDisplayStyle = CustomControls.CheckMarkDisplayStyle.RadioButton;
+            this.tsmiCustomTitleTagPrefix.CheckOnClick = true;
+            this.tsmiCustomTitleTagPrefix.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.tsmiCustomTitleTagPrefix.Name = "tsmiCustomTitleTagPrefix";
+            this.tsmiCustomTitleTagPrefix.RadioButtonGroupName = null;
+            this.tsmiCustomTitleTagPrefix.Size = new System.Drawing.Size(260, 22);
+            this.tsmiCustomTitleTagPrefix.Text = "Used as Prefix";
+            this.tsmiCustomTitleTagPrefix.ToolTipText = resources.GetString("tsmiCustomTitleTagPrefix.ToolTipText");
+            this.tsmiCustomTitleTagPrefix.Click += new System.EventHandler(this.CustomTitleTag_Click);
+            // 
+            // tsmiCustomTitleTagSuffix
+            // 
+            this.tsmiCustomTitleTagSuffix.AssociatedEnumValue = null;
+            this.tsmiCustomTitleTagSuffix.CheckMarkDisplayStyle = CustomControls.CheckMarkDisplayStyle.RadioButton;
+            this.tsmiCustomTitleTagSuffix.CheckOnClick = true;
+            this.tsmiCustomTitleTagSuffix.Name = "tsmiCustomTitleTagSuffix";
+            this.tsmiCustomTitleTagSuffix.RadioButtonGroupName = null;
+            this.tsmiCustomTitleTagSuffix.Size = new System.Drawing.Size(260, 22);
+            this.tsmiCustomTitleTagSuffix.Text = "Used as Suffix";
+            this.tsmiCustomTitleTagSuffix.ToolTipText = resources.GetString("tsmiCustomTitleTagSuffix.ToolTipText");
+            this.tsmiCustomTitleTagSuffix.Click += new System.EventHandler(this.CustomTitleTag_Click);
+            // 
+            // toolStripSeparator18
+            // 
+            this.toolStripSeparator18.Name = "toolStripSeparator18";
+            this.toolStripSeparator18.Size = new System.Drawing.Size(257, 6);
+            // 
+            // tsmiCustomTitleTagAdd
+            // 
+            this.tsmiCustomTitleTagAdd.BackColor = System.Drawing.Color.Transparent;
+            this.tsmiCustomTitleTagAdd.ButtonText = "Add Tag";
+            this.tsmiCustomTitleTagAdd.Name = "tsmiCustomTitleTagAdd";
+            this.tsmiCustomTitleTagAdd.Size = new System.Drawing.Size(102, 26);
+            this.tsmiCustomTitleTagAdd.ToolTipText = "Click to Add Custom Title Tag";
+            this.tsmiCustomTitleTagAdd.Click += new System.EventHandler(this.tsmiCustomTitleTagAdd_Click);
+            // 
+            // tsmiCustomTitleTagRemove
+            // 
+            this.tsmiCustomTitleTagRemove.BackColor = System.Drawing.Color.Transparent;
+            this.tsmiCustomTitleTagRemove.ButtonText = "Remove Tag";
+            this.tsmiCustomTitleTagRemove.Name = "tsmiCustomTitleTagRemove";
+            this.tsmiCustomTitleTagRemove.Size = new System.Drawing.Size(102, 26);
+            this.tsmiCustomTitleTagRemove.ToolTipText = "Click to Remove Custom Title Tag";
+            this.tsmiCustomTitleTagRemove.Click += new System.EventHandler(this.tsmiCustomTitleTagRemove_Click);
+            // 
             // toolStripSeparator4
             // 
             this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(200, 6);
+            this.toolStripSeparator4.Size = new System.Drawing.Size(245, 6);
             // 
             // tsmiModsPitchShifter
             // 
@@ -1440,7 +1893,7 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiModsPitchShifter.Image = ((System.Drawing.Image)(resources.GetObject("tsmiModsPitchShifter.Image")));
             this.tsmiModsPitchShifter.Name = "tsmiModsPitchShifter";
             this.tsmiModsPitchShifter.RadioButtonGroupName = "PitchShifter";
-            this.tsmiModsPitchShifter.Size = new System.Drawing.Size(203, 22);
+            this.tsmiModsPitchShifter.Size = new System.Drawing.Size(248, 22);
             this.tsmiModsPitchShifter.Text = "Pitch Shifter";
             this.tsmiModsPitchShifter.ToolTipText = resources.GetString("tsmiModsPitchShifter.ToolTipText");
             this.tsmiModsPitchShifter.Click += new System.EventHandler(this.tsmiModsPitchShifter_Click);
@@ -1451,7 +1904,7 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiModsPitchShiftStandard.CheckOnClick = true;
             this.tsmiModsPitchShiftStandard.Name = "tsmiModsPitchShiftStandard";
             this.tsmiModsPitchShiftStandard.RadioButtonGroupName = null;
-            this.tsmiModsPitchShiftStandard.Size = new System.Drawing.Size(203, 22);
+            this.tsmiModsPitchShiftStandard.Size = new System.Drawing.Size(248, 22);
             this.tsmiModsPitchShiftStandard.Text = "Force E Standard Tuning";
             this.tsmiModsPitchShiftStandard.ToolTipText = "If checked, forces E Standard Tuning even\r\nif arrangement is currently a Drop tun" +
                 "ing.";
@@ -1463,7 +1916,7 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiModsPreserveStats.CheckOnClick = true;
             this.tsmiModsPreserveStats.Name = "tsmiModsPreserveStats";
             this.tsmiModsPreserveStats.RadioButtonGroupName = null;
-            this.tsmiModsPreserveStats.Size = new System.Drawing.Size(203, 22);
+            this.tsmiModsPreserveStats.Size = new System.Drawing.Size(248, 22);
             this.tsmiModsPreserveStats.Text = "Preserve Stats";
             this.tsmiModsPreserveStats.ToolTipText = resources.GetString("tsmiModsPreserveStats.ToolTipText");
             this.tsmiModsPreserveStats.CheckStateChanged += new System.EventHandler(this.ModsPitchShift_CheckStateChanged);
@@ -1477,7 +1930,7 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiModsPitchShiftOverwrite.ForeColor = System.Drawing.Color.Red;
             this.tsmiModsPitchShiftOverwrite.Name = "tsmiModsPitchShiftOverwrite";
             this.tsmiModsPitchShiftOverwrite.RadioButtonGroupName = "PitchShift";
-            this.tsmiModsPitchShiftOverwrite.Size = new System.Drawing.Size(203, 22);
+            this.tsmiModsPitchShiftOverwrite.Size = new System.Drawing.Size(248, 22);
             this.tsmiModsPitchShiftOverwrite.Text = "Overwrite File";
             this.tsmiModsPitchShiftOverwrite.ToolTipText = "If checked, overwrite existing CDLC\r\nwith pitch shifted arrangements and\r\nreduces" +
                 " the risk of in-game hangs.";
@@ -1486,14 +1939,14 @@ namespace CustomsForgeSongManager.UControls
             // toolStripSeparator5
             // 
             this.toolStripSeparator5.Name = "toolStripSeparator5";
-            this.toolStripSeparator5.Size = new System.Drawing.Size(200, 6);
+            this.toolStripSeparator5.Size = new System.Drawing.Size(245, 6);
             // 
             // tsmiTagStyle
             // 
             this.tsmiTagStyle.AssociatedEnumValue = null;
             this.tsmiTagStyle.Name = "tsmiTagStyle";
             this.tsmiTagStyle.RadioButtonGroupName = null;
-            this.tsmiTagStyle.Size = new System.Drawing.Size(203, 22);
+            this.tsmiTagStyle.Size = new System.Drawing.Size(248, 22);
             this.tsmiTagStyle.Text = "Tag Style";
             // 
             // tsmiModsTagArtwork
@@ -1502,8 +1955,9 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiModsTagArtwork.Image = ((System.Drawing.Image)(resources.GetObject("tsmiModsTagArtwork.Image")));
             this.tsmiModsTagArtwork.Name = "tsmiModsTagArtwork";
             this.tsmiModsTagArtwork.RadioButtonGroupName = null;
-            this.tsmiModsTagArtwork.Size = new System.Drawing.Size(203, 22);
+            this.tsmiModsTagArtwork.Size = new System.Drawing.Size(248, 22);
             this.tsmiModsTagArtwork.Text = "Tag Album Artwork";
+            this.tsmiModsTagArtwork.ToolTipText = "Note: CFSM does not tag ODLC.";
             this.tsmiModsTagArtwork.Click += new System.EventHandler(this.tsmiModsTagArtwork_Click);
             // 
             // tsmiModsUntagArtwork
@@ -1512,34 +1966,180 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiModsUntagArtwork.Image = ((System.Drawing.Image)(resources.GetObject("tsmiModsUntagArtwork.Image")));
             this.tsmiModsUntagArtwork.Name = "tsmiModsUntagArtwork";
             this.tsmiModsUntagArtwork.RadioButtonGroupName = null;
-            this.tsmiModsUntagArtwork.Size = new System.Drawing.Size(203, 22);
+            this.tsmiModsUntagArtwork.Size = new System.Drawing.Size(248, 22);
             this.tsmiModsUntagArtwork.Text = "Un-Tag";
             this.tsmiModsUntagArtwork.Click += new System.EventHandler(this.tsmiModsUntagArtwork_Click);
             // 
             // toolStripSeparator14
             // 
             this.toolStripSeparator14.Name = "toolStripSeparator14";
-            this.toolStripSeparator14.Size = new System.Drawing.Size(200, 6);
+            this.toolStripSeparator14.Size = new System.Drawing.Size(245, 6);
             // 
             // tsmiModsTheMover
             // 
             this.tsmiModsTheMover.AssociatedEnumValue = null;
             this.tsmiModsTheMover.CheckOnClick = true;
+            this.tsmiModsTheMover.Image = ((System.Drawing.Image)(resources.GetObject("tsmiModsTheMover.Image")));
             this.tsmiModsTheMover.Name = "tsmiModsTheMover";
             this.tsmiModsTheMover.RadioButtonGroupName = null;
-            this.tsmiModsTheMover.Size = new System.Drawing.Size(203, 22);
-            this.tsmiModsTheMover.Text = "\'The\' mover";
+            this.tsmiModsTheMover.Size = new System.Drawing.Size(248, 22);
+            this.tsmiModsTheMover.Text = "\'The\' Mover";
             this.tsmiModsTheMover.ToolTipText = "\'The\' Mover e.g., The Beatles -> Beatles, The";
             this.tsmiModsTheMover.CheckStateChanged += new System.EventHandler(this.tsmiModsTheMover_CheckStateChanged);
             // 
             // tsmiModsMyCDLC
             // 
             this.tsmiModsMyCDLC.AssociatedEnumValue = null;
+            this.tsmiModsMyCDLC.CheckOnClick = true;
             this.tsmiModsMyCDLC.Name = "tsmiModsMyCDLC";
-            this.tsmiModsMyCDLC.RadioButtonGroupName = null;
-            this.tsmiModsMyCDLC.Size = new System.Drawing.Size(203, 22);
+            this.tsmiModsMyCDLC.RadioButtonGroupName = "ShowMyCDLC";
+            this.tsmiModsMyCDLC.Size = new System.Drawing.Size(248, 22);
             this.tsmiModsMyCDLC.Text = "Show My CDLC";
-            this.tsmiModsMyCDLC.CheckStateChanged += new System.EventHandler(this.tsmiModsMyCDLC_CheckStateChanged);
+            this.tsmiModsMyCDLC.ToolTipText = "If checked, show CDLC for Charter\'s Name.";
+            this.tsmiModsMyCDLC.Click += new System.EventHandler(this.tsmiModsMyCDLC_Click);
+            // 
+            // toolStripSeparator21
+            // 
+            this.toolStripSeparator21.Name = "toolStripSeparator21";
+            this.toolStripSeparator21.Size = new System.Drawing.Size(245, 6);
+            // 
+            // tsmiAutoAdjustVolume
+            // 
+            this.tsmiAutoAdjustVolume.AssociatedEnumValue = null;
+            this.tsmiAutoAdjustVolume.BackColor = System.Drawing.Color.Goldenrod;
+            this.tsmiAutoAdjustVolume.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmiPocText,
+            this.toolStripSeparator22,
+            this.tsmiCorrectionFactor,
+            this.tsmiCorrectionMultiplier,
+            this.tsmiTargetAudioVolume,
+            this.tsmiTargetPreviewVolume,
+            this.tsmiTargetToneVolume,
+            this.tsmiTargetLUFS});
+            this.tsmiAutoAdjustVolume.Name = "tsmiAutoAdjustVolume";
+            this.tsmiAutoAdjustVolume.RadioButtonGroupName = null;
+            this.tsmiAutoAdjustVolume.ShowAlways = true;
+            this.tsmiAutoAdjustVolume.Size = new System.Drawing.Size(248, 22);
+            this.tsmiAutoAdjustVolume.Text = "Auto Adjust CDLC Volume (POC)";
+            this.tsmiAutoAdjustVolume.ToolTipText = resources.GetString("tsmiAutoAdjustVolume.ToolTipText");
+            this.tsmiAutoAdjustVolume.MouseUp += new System.Windows.Forms.MouseEventHandler(this.tsmiAutoAdjustVolume_MouseUp);
+            // 
+            // tsmiPocText
+            // 
+            this.tsmiPocText.AssociatedEnumValue = null;
+            this.tsmiPocText.BackColor = System.Drawing.Color.Transparent;
+            this.tsmiPocText.CheckMarkDisplayStyle = CustomControls.CheckMarkDisplayStyle.None;
+            this.tsmiPocText.Name = "tsmiPocText";
+            this.tsmiPocText.RadioButtonGroupName = null;
+            this.tsmiPocText.Size = new System.Drawing.Size(279, 22);
+            this.tsmiPocText.Text = "User Modifiable Volume/Tone Variables";
+            this.tsmiPocText.ToolTipText = "User Modifiable Volume/Tone Variables";
+            this.tsmiPocText.MouseUp += new System.Windows.Forms.MouseEventHandler(this.tsmiPocText_MouseUp);
+            // 
+            // toolStripSeparator22
+            // 
+            this.toolStripSeparator22.Name = "toolStripSeparator22";
+            this.toolStripSeparator22.Size = new System.Drawing.Size(276, 6);
+            // 
+            // tsmiCorrectionFactor
+            // 
+            this.tsmiCorrectionFactor.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.tsmiCorrectionFactor.BackColor = System.Drawing.Color.Transparent;
+            this.tsmiCorrectionFactor.DecimalPlaces = 1;
+            this.tsmiCorrectionFactor.DecimalValue = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.tsmiCorrectionFactor.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
+            this.tsmiCorrectionFactor.Maximum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.tsmiCorrectionFactor.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            -2147483648});
+            this.tsmiCorrectionFactor.Name = "tsmiCorrectionFactor";
+            this.tsmiCorrectionFactor.NumBackColor = System.Drawing.SystemColors.Window;
+            this.tsmiCorrectionFactor.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.tsmiCorrectionFactor.Size = new System.Drawing.Size(148, 20);
+            this.tsmiCorrectionFactor.Text = "Correction Factor";
+            this.tsmiCorrectionFactor.TextVisible = false;
+            this.tsmiCorrectionFactor.ToolTipText = "Louder??? (negative values)\r\nNo Correction (1.0 default)\r\nSofter??? (positive val" +
+                "ues)\r\n\r\nNote: zero (0) effectively \r\neliminates LUF correction";
+            // 
+            // tsmiCorrectionMultiplier
+            // 
+            this.tsmiCorrectionMultiplier.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.tsmiCorrectionMultiplier.BackColor = System.Drawing.Color.Transparent;
+            this.tsmiCorrectionMultiplier.DecimalPlaces = 1;
+            this.tsmiCorrectionMultiplier.Name = "tsmiCorrectionMultiplier";
+            this.tsmiCorrectionMultiplier.NumBackColor = System.Drawing.SystemColors.Window;
+            this.tsmiCorrectionMultiplier.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.tsmiCorrectionMultiplier.Size = new System.Drawing.Size(159, 20);
+            this.tsmiCorrectionMultiplier.Text = "Correction Multiplier";
+            this.tsmiCorrectionMultiplier.TextVisible = false;
+            this.tsmiCorrectionMultiplier.ToolTipText = "Increases or reduces the\r\nCorrection Factor effect\r\n(default -1.0)\r\n\r\nNote: zero " +
+                "(0) effectively \r\neliminates LUF correction";
+            // 
+            // tsmiTargetAudioVolume
+            // 
+            this.tsmiTargetAudioVolume.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.tsmiTargetAudioVolume.BackColor = System.Drawing.Color.Transparent;
+            this.tsmiTargetAudioVolume.DecimalPlaces = 1;
+            this.tsmiTargetAudioVolume.Name = "tsmiTargetAudioVolume";
+            this.tsmiTargetAudioVolume.NumBackColor = System.Drawing.SystemColors.Window;
+            this.tsmiTargetAudioVolume.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.tsmiTargetAudioVolume.Size = new System.Drawing.Size(187, 20);
+            this.tsmiTargetAudioVolume.Text = "Target Audio Volume (LF)";
+            this.tsmiTargetAudioVolume.TextVisible = false;
+            this.tsmiTargetAudioVolume.ToolTipText = "Toolkit (default -7.0)";
+            // 
+            // tsmiTargetPreviewVolume
+            // 
+            this.tsmiTargetPreviewVolume.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.tsmiTargetPreviewVolume.BackColor = System.Drawing.Color.Transparent;
+            this.tsmiTargetPreviewVolume.DecimalPlaces = 1;
+            this.tsmiTargetPreviewVolume.Name = "tsmiTargetPreviewVolume";
+            this.tsmiTargetPreviewVolume.NumBackColor = System.Drawing.SystemColors.Window;
+            this.tsmiTargetPreviewVolume.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.tsmiTargetPreviewVolume.Size = new System.Drawing.Size(198, 20);
+            this.tsmiTargetPreviewVolume.Text = "Target Preview Volume (LF)";
+            this.tsmiTargetPreviewVolume.TextVisible = false;
+            this.tsmiTargetPreviewVolume.ToolTipText = "Toolkit (default -5.0)";
+            // 
+            // tsmiTargetToneVolume
+            // 
+            this.tsmiTargetToneVolume.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.tsmiTargetToneVolume.BackColor = System.Drawing.Color.Transparent;
+            this.tsmiTargetToneVolume.DecimalPlaces = 1;
+            this.tsmiTargetToneVolume.Name = "tsmiTargetToneVolume";
+            this.tsmiTargetToneVolume.NumBackColor = System.Drawing.SystemColors.Window;
+            this.tsmiTargetToneVolume.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.tsmiTargetToneVolume.Size = new System.Drawing.Size(185, 20);
+            this.tsmiTargetToneVolume.Text = "Target Tone Volume (LF)";
+            this.tsmiTargetToneVolume.TextVisible = false;
+            this.tsmiTargetToneVolume.ToolTipText = "Toolkit (default -20.0)";
+            // 
+            // tsmiTargetLUFS
+            // 
+            this.tsmiTargetLUFS.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.tsmiTargetLUFS.BackColor = System.Drawing.Color.Transparent;
+            this.tsmiTargetLUFS.DecimalPlaces = 1;
+            this.tsmiTargetLUFS.Name = "tsmiTargetLUFS";
+            this.tsmiTargetLUFS.NumBackColor = System.Drawing.SystemColors.Window;
+            this.tsmiTargetLUFS.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.tsmiTargetLUFS.Size = new System.Drawing.Size(150, 20);
+            this.tsmiTargetLUFS.Text = "Target LUFS (dB)";
+            this.tsmiTargetLUFS.TextVisible = false;
+            this.tsmiTargetLUFS.ToolTipText = "(default -16.0)";
             // 
             // tsmiFiles
             // 
@@ -1557,23 +2157,25 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiFiles.Image = ((System.Drawing.Image)(resources.GetObject("tsmiFiles.Image")));
             this.tsmiFiles.Name = "tsmiFiles";
             this.tsmiFiles.RadioButtonGroupName = null;
-            this.tsmiFiles.Size = new System.Drawing.Size(56, 20);
+            this.tsmiFiles.Size = new System.Drawing.Size(58, 20);
             this.tsmiFiles.Text = "Files";
             // 
             // tsmiFilesCheckODLC
             // 
             this.tsmiFilesCheckODLC.AssociatedEnumValue = null;
+            this.tsmiFilesCheckODLC.Image = ((System.Drawing.Image)(resources.GetObject("tsmiFilesCheckODLC.Image")));
             this.tsmiFilesCheckODLC.Name = "tsmiFilesCheckODLC";
             this.tsmiFilesCheckODLC.RadioButtonGroupName = null;
-            this.tsmiFilesCheckODLC.Size = new System.Drawing.Size(238, 22);
+            this.tsmiFilesCheckODLC.Size = new System.Drawing.Size(246, 22);
             this.tsmiFilesCheckODLC.Text = "Check CDLC/ODLC";
-            this.tsmiFilesCheckODLC.ToolTipText = "Determines if any of your CDLC\r\nhave been replaced by ODLC.";
+            this.tsmiFilesCheckODLC.ToolTipText = "Determines if any of your CDLC\r\nhave been replaced by ODLC.\r\n\r\nTIP: Use Duplicate" +
+                "s tabmenu to see\r\nextended CDLC/ODLC replacement\r\nsongs data.\r\n";
             this.tsmiFilesCheckODLC.Click += new System.EventHandler(this.tsmiFilesCheckODLC_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(235, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(243, 6);
             // 
             // tsmiFilesCleanDlc
             // 
@@ -1581,10 +2183,10 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiFilesCleanDlc.Image = ((System.Drawing.Image)(resources.GetObject("tsmiFilesCleanDlc.Image")));
             this.tsmiFilesCleanDlc.Name = "tsmiFilesCleanDlc";
             this.tsmiFilesCleanDlc.RadioButtonGroupName = null;
-            this.tsmiFilesCleanDlc.Size = new System.Drawing.Size(238, 22);
+            this.tsmiFilesCleanDlc.Size = new System.Drawing.Size(246, 22);
             this.tsmiFilesCleanDlc.Text = "Clean \'dlc\' Folder";
-            this.tsmiFilesCleanDlc.ToolTipText = "Remove any [.org] [.max] or [.cor]\r\nbackup files from the \'dlc\' folder and\r\nsubfo" +
-                "lders.";
+            this.tsmiFilesCleanDlc.ToolTipText = "Remove any [.bak] [.cor] [.dup] [.max] or [.org]\r\nfiles from the \'dlc\' folder and" +
+                " subfolders.\r\n\r\nSee the log for removed file destination path.";
             this.tsmiFilesCleanDlc.Click += new System.EventHandler(this.tsmiFilesCleanDlc_Click);
             // 
             // tsmiFilesRestore
@@ -1592,13 +2194,13 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiFilesRestore.AssociatedEnumValue = null;
             this.tsmiFilesRestore.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsmiFilesRestoreBak,
-            this.tsmiFilesRestoreOrg,
+            this.tsmiFilesRestoreCor,
             this.tsmiFilesRestoreMax,
-            this.tsmiFilesRestoreCor});
+            this.tsmiFilesRestoreOrg});
             this.tsmiFilesRestore.Image = ((System.Drawing.Image)(resources.GetObject("tsmiFilesRestore.Image")));
             this.tsmiFilesRestore.Name = "tsmiFilesRestore";
             this.tsmiFilesRestore.RadioButtonGroupName = null;
-            this.tsmiFilesRestore.Size = new System.Drawing.Size(238, 22);
+            this.tsmiFilesRestore.Size = new System.Drawing.Size(246, 22);
             this.tsmiFilesRestore.Text = "Restore";
             // 
             // tsmiFilesRestoreBak
@@ -1606,50 +2208,50 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiFilesRestoreBak.AssociatedEnumValue = null;
             this.tsmiFilesRestoreBak.Name = "tsmiFilesRestoreBak";
             this.tsmiFilesRestoreBak.RadioButtonGroupName = null;
-            this.tsmiFilesRestoreBak.Size = new System.Drawing.Size(163, 22);
+            this.tsmiFilesRestoreBak.Size = new System.Drawing.Size(156, 22);
             this.tsmiFilesRestoreBak.Text = "File Type (.bak)";
             this.tsmiFilesRestoreBak.Click += new System.EventHandler(this.tsmiFilesRestoreBak_Click);
-            // 
-            // tsmiFilesRestoreOrg
-            // 
-            this.tsmiFilesRestoreOrg.AssociatedEnumValue = null;
-            this.tsmiFilesRestoreOrg.Name = "tsmiFilesRestoreOrg";
-            this.tsmiFilesRestoreOrg.RadioButtonGroupName = null;
-            this.tsmiFilesRestoreOrg.Size = new System.Drawing.Size(163, 22);
-            this.tsmiFilesRestoreOrg.Text = "File Type (.org)";
-            this.tsmiFilesRestoreOrg.Click += new System.EventHandler(this.tsmiFilesRestoreOrg_Click);
-            // 
-            // tsmiFilesRestoreMax
-            // 
-            this.tsmiFilesRestoreMax.AssociatedEnumValue = null;
-            this.tsmiFilesRestoreMax.Name = "tsmiFilesRestoreMax";
-            this.tsmiFilesRestoreMax.RadioButtonGroupName = null;
-            this.tsmiFilesRestoreMax.Size = new System.Drawing.Size(163, 22);
-            this.tsmiFilesRestoreMax.Text = "File Type (.max)";
-            this.tsmiFilesRestoreMax.Click += new System.EventHandler(this.tsmiFilesRestoreMax_Click);
             // 
             // tsmiFilesRestoreCor
             // 
             this.tsmiFilesRestoreCor.AssociatedEnumValue = null;
             this.tsmiFilesRestoreCor.Name = "tsmiFilesRestoreCor";
             this.tsmiFilesRestoreCor.RadioButtonGroupName = null;
-            this.tsmiFilesRestoreCor.Size = new System.Drawing.Size(163, 22);
+            this.tsmiFilesRestoreCor.Size = new System.Drawing.Size(156, 22);
             this.tsmiFilesRestoreCor.Text = "File Type (.cor)";
             this.tsmiFilesRestoreCor.Click += new System.EventHandler(this.tsmiFilesRestoreCor_Click);
+            // 
+            // tsmiFilesRestoreMax
+            // 
+            this.tsmiFilesRestoreMax.AssociatedEnumValue = null;
+            this.tsmiFilesRestoreMax.Name = "tsmiFilesRestoreMax";
+            this.tsmiFilesRestoreMax.RadioButtonGroupName = null;
+            this.tsmiFilesRestoreMax.Size = new System.Drawing.Size(156, 22);
+            this.tsmiFilesRestoreMax.Text = "File Type (.max)";
+            this.tsmiFilesRestoreMax.Click += new System.EventHandler(this.tsmiFilesRestoreMax_Click);
+            // 
+            // tsmiFilesRestoreOrg
+            // 
+            this.tsmiFilesRestoreOrg.AssociatedEnumValue = null;
+            this.tsmiFilesRestoreOrg.Name = "tsmiFilesRestoreOrg";
+            this.tsmiFilesRestoreOrg.RadioButtonGroupName = null;
+            this.tsmiFilesRestoreOrg.Size = new System.Drawing.Size(156, 22);
+            this.tsmiFilesRestoreOrg.Text = "File Type (.org)";
+            this.tsmiFilesRestoreOrg.Click += new System.EventHandler(this.tsmiFilesRestoreOrg_Click);
             // 
             // tsmiFilesArchive
             // 
             this.tsmiFilesArchive.AssociatedEnumValue = null;
             this.tsmiFilesArchive.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsmiFilesArcBak,
-            this.tsmiFilesArcOrg,
-            this.tsmiFilesArcMax,
             this.tsmiFilesArcCor,
+            this.tsmiFilesArcMax,
+            this.tsmiFilesArcOrg,
             this.tsmiFilesArcDeleteAfter});
             this.tsmiFilesArchive.Image = ((System.Drawing.Image)(resources.GetObject("tsmiFilesArchive.Image")));
             this.tsmiFilesArchive.Name = "tsmiFilesArchive";
             this.tsmiFilesArchive.RadioButtonGroupName = null;
-            this.tsmiFilesArchive.Size = new System.Drawing.Size(238, 22);
+            this.tsmiFilesArchive.Size = new System.Drawing.Size(246, 22);
             this.tsmiFilesArchive.Text = "Archive";
             // 
             // tsmiFilesArcBak
@@ -1657,36 +2259,36 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiFilesArcBak.AssociatedEnumValue = null;
             this.tsmiFilesArcBak.Name = "tsmiFilesArcBak";
             this.tsmiFilesArcBak.RadioButtonGroupName = null;
-            this.tsmiFilesArcBak.Size = new System.Drawing.Size(210, 22);
+            this.tsmiFilesArcBak.Size = new System.Drawing.Size(199, 22);
             this.tsmiFilesArcBak.Text = "File Type (.bak)";
             this.tsmiFilesArcBak.Click += new System.EventHandler(this.tsmiFilesArcBak_Click);
-            // 
-            // tsmiFilesArcOrg
-            // 
-            this.tsmiFilesArcOrg.AssociatedEnumValue = null;
-            this.tsmiFilesArcOrg.Name = "tsmiFilesArcOrg";
-            this.tsmiFilesArcOrg.RadioButtonGroupName = null;
-            this.tsmiFilesArcOrg.Size = new System.Drawing.Size(210, 22);
-            this.tsmiFilesArcOrg.Text = "File Type (.org)";
-            this.tsmiFilesArcOrg.Click += new System.EventHandler(this.tsmiFilesArcOrg_Click);
-            // 
-            // tsmiFilesArcMax
-            // 
-            this.tsmiFilesArcMax.AssociatedEnumValue = null;
-            this.tsmiFilesArcMax.Name = "tsmiFilesArcMax";
-            this.tsmiFilesArcMax.RadioButtonGroupName = null;
-            this.tsmiFilesArcMax.Size = new System.Drawing.Size(210, 22);
-            this.tsmiFilesArcMax.Text = "File Type (.max)";
-            this.tsmiFilesArcMax.Click += new System.EventHandler(this.tsmiFilesArcMax_Click);
             // 
             // tsmiFilesArcCor
             // 
             this.tsmiFilesArcCor.AssociatedEnumValue = null;
             this.tsmiFilesArcCor.Name = "tsmiFilesArcCor";
             this.tsmiFilesArcCor.RadioButtonGroupName = null;
-            this.tsmiFilesArcCor.Size = new System.Drawing.Size(210, 22);
+            this.tsmiFilesArcCor.Size = new System.Drawing.Size(199, 22);
             this.tsmiFilesArcCor.Text = "File Type (.cor)";
             this.tsmiFilesArcCor.Click += new System.EventHandler(this.tsmiFilesArcCor_Click);
+            // 
+            // tsmiFilesArcMax
+            // 
+            this.tsmiFilesArcMax.AssociatedEnumValue = null;
+            this.tsmiFilesArcMax.Name = "tsmiFilesArcMax";
+            this.tsmiFilesArcMax.RadioButtonGroupName = null;
+            this.tsmiFilesArcMax.Size = new System.Drawing.Size(199, 22);
+            this.tsmiFilesArcMax.Text = "File Type (.max)";
+            this.tsmiFilesArcMax.Click += new System.EventHandler(this.tsmiFilesArcMax_Click);
+            // 
+            // tsmiFilesArcOrg
+            // 
+            this.tsmiFilesArcOrg.AssociatedEnumValue = null;
+            this.tsmiFilesArcOrg.Name = "tsmiFilesArcOrg";
+            this.tsmiFilesArcOrg.RadioButtonGroupName = null;
+            this.tsmiFilesArcOrg.Size = new System.Drawing.Size(199, 22);
+            this.tsmiFilesArcOrg.Text = "File Type (.org)";
+            this.tsmiFilesArcOrg.Click += new System.EventHandler(this.tsmiFilesArcOrg_Click);
             // 
             // tsmiFilesArcDeleteAfter
             // 
@@ -1696,22 +2298,22 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiFilesArcDeleteAfter.ForeColor = System.Drawing.Color.Red;
             this.tsmiFilesArcDeleteAfter.Name = "tsmiFilesArcDeleteAfter";
             this.tsmiFilesArcDeleteAfter.RadioButtonGroupName = null;
-            this.tsmiFilesArcDeleteAfter.Size = new System.Drawing.Size(210, 22);
+            this.tsmiFilesArcDeleteAfter.Size = new System.Drawing.Size(199, 22);
             this.tsmiFilesArcDeleteAfter.Text = "Delete Files After Arhiving";
             this.tsmiFilesArcDeleteAfter.CheckedChanged += new System.EventHandler(this.tsmiFilesArcDelete_CheckedChanged);
             // 
             // toolStripSeparator6
             // 
             this.toolStripSeparator6.Name = "toolStripSeparator6";
-            this.toolStripSeparator6.Size = new System.Drawing.Size(235, 6);
+            this.toolStripSeparator6.Size = new System.Drawing.Size(243, 6);
             // 
             // tsmiFilesOrganize
             // 
             this.tsmiFilesOrganize.AssociatedEnumValue = null;
             this.tsmiFilesOrganize.Name = "tsmiFilesOrganize";
             this.tsmiFilesOrganize.RadioButtonGroupName = null;
-            this.tsmiFilesOrganize.Size = new System.Drawing.Size(238, 22);
-            this.tsmiFilesOrganize.Text = "Organize ArtistName Subfolders";
+            this.tsmiFilesOrganize.Size = new System.Drawing.Size(246, 22);
+            this.tsmiFilesOrganize.Text = "Organize Artist Name Subfolders";
             this.tsmiFilesOrganize.ToolTipText = resources.GetString("tsmiFilesOrganize.ToolTipText");
             this.tsmiFilesOrganize.Click += new System.EventHandler(this.tsmiFilesOrganize_Click);
             // 
@@ -1720,7 +2322,7 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiFilesUnorganize.AssociatedEnumValue = null;
             this.tsmiFilesUnorganize.Name = "tsmiFilesUnorganize";
             this.tsmiFilesUnorganize.RadioButtonGroupName = null;
-            this.tsmiFilesUnorganize.Size = new System.Drawing.Size(238, 22);
+            this.tsmiFilesUnorganize.Size = new System.Drawing.Size(246, 22);
             this.tsmiFilesUnorganize.Text = "Restore CDLC to the \'dlc\' Folder";
             this.tsmiFilesUnorganize.ToolTipText = resources.GetString("tsmiFilesUnorganize.ToolTipText");
             this.tsmiFilesUnorganize.Click += new System.EventHandler(this.tsmiFilesUnorganize_Click);
@@ -1733,10 +2335,9 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiFilesIncludeODLC.ForeColor = System.Drawing.Color.Red;
             this.tsmiFilesIncludeODLC.Name = "tsmiFilesIncludeODLC";
             this.tsmiFilesIncludeODLC.RadioButtonGroupName = null;
-            this.tsmiFilesIncludeODLC.Size = new System.Drawing.Size(238, 22);
+            this.tsmiFilesIncludeODLC.Size = new System.Drawing.Size(246, 22);
             this.tsmiFilesIncludeODLC.Text = "Include ODLC Files";
-            this.tsmiFilesIncludeODLC.ToolTipText = "If checked, ODLC files will be organized\r\ntoo, even though they are not selectabl" +
-                "e.";
+            this.tsmiFilesIncludeODLC.ToolTipText = "If checked, ODLC files will be organized\r\ntoo, even if they are not selected.";
             this.tsmiFilesIncludeODLC.Click += new System.EventHandler(this.tsmiFilesIncludeODLC_Click);
             // 
             // tsmiHelp
@@ -1750,7 +2351,7 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiHelp.Image = ((System.Drawing.Image)(resources.GetObject("tsmiHelp.Image")));
             this.tsmiHelp.Name = "tsmiHelp";
             this.tsmiHelp.RadioButtonGroupName = null;
-            this.tsmiHelp.Size = new System.Drawing.Size(56, 20);
+            this.tsmiHelp.Size = new System.Drawing.Size(60, 20);
             this.tsmiHelp.Text = "Help";
             // 
             // tsmiHelpGeneral
@@ -1759,14 +2360,14 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiHelpGeneral.Image = ((System.Drawing.Image)(resources.GetObject("tsmiHelpGeneral.Image")));
             this.tsmiHelpGeneral.Name = "tsmiHelpGeneral";
             this.tsmiHelpGeneral.RadioButtonGroupName = null;
-            this.tsmiHelpGeneral.Size = new System.Drawing.Size(154, 22);
+            this.tsmiHelpGeneral.Size = new System.Drawing.Size(150, 22);
             this.tsmiHelpGeneral.Text = "General Help";
             this.tsmiHelpGeneral.Click += new System.EventHandler(this.tsmiHelpGeneral_Click);
             // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(151, 6);
+            this.toolStripSeparator3.Size = new System.Drawing.Size(147, 6);
             // 
             // tsmiHelpRepairs
             // 
@@ -1774,7 +2375,7 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiHelpRepairs.Image = ((System.Drawing.Image)(resources.GetObject("tsmiHelpRepairs.Image")));
             this.tsmiHelpRepairs.Name = "tsmiHelpRepairs";
             this.tsmiHelpRepairs.RadioButtonGroupName = null;
-            this.tsmiHelpRepairs.Size = new System.Drawing.Size(154, 22);
+            this.tsmiHelpRepairs.Size = new System.Drawing.Size(150, 22);
             this.tsmiHelpRepairs.Text = "Repairs Help";
             this.tsmiHelpRepairs.Click += new System.EventHandler(this.tsmiHelpRepairs_Click);
             // 
@@ -1784,125 +2385,16 @@ namespace CustomsForgeSongManager.UControls
             this.tsmiHelpErrorLog.Image = ((System.Drawing.Image)(resources.GetObject("tsmiHelpErrorLog.Image")));
             this.tsmiHelpErrorLog.Name = "tsmiHelpErrorLog";
             this.tsmiHelpErrorLog.RadioButtonGroupName = null;
-            this.tsmiHelpErrorLog.Size = new System.Drawing.Size(154, 22);
+            this.tsmiHelpErrorLog.Size = new System.Drawing.Size(150, 22);
             this.tsmiHelpErrorLog.Text = "View Error Log";
             this.tsmiHelpErrorLog.Click += new System.EventHandler(this.tsmiHelpErrorLog_Click);
             // 
-            // cmsActions
+            // tsmiDevUseOnly
             // 
-            this.cmsActions.AssociatedEnumValue = null;
-            this.cmsActions.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cmsActions.Name = "cmsActions";
-            this.cmsActions.RadioButtonGroupName = null;
-            this.cmsActions.Size = new System.Drawing.Size(209, 22);
-            this.cmsActions.Text = "Actions:";
-            this.cmsActions.ToolTipText = resources.GetString("cmsActions.ToolTipText");
-            // 
-            // cmsOpenSongPage
-            // 
-            this.cmsOpenSongPage.AssociatedEnumValue = null;
-            this.cmsOpenSongPage.Image = ((System.Drawing.Image)(resources.GetObject("cmsOpenSongPage.Image")));
-            this.cmsOpenSongPage.Name = "cmsOpenSongPage";
-            this.cmsOpenSongPage.RadioButtonGroupName = null;
-            this.cmsOpenSongPage.Size = new System.Drawing.Size(209, 22);
-            this.cmsOpenSongPage.Text = "Open Song Page";
-            this.cmsOpenSongPage.ToolTipText = "Open Song Page on CF Ignition\r\n(requires an internet connection)";
-            this.cmsOpenSongPage.Click += new System.EventHandler(this.cmsOpenSongPage_Click);
-            // 
-            // cmsCheckForUpdate
-            // 
-            this.cmsCheckForUpdate.AssociatedEnumValue = null;
-            this.cmsCheckForUpdate.Image = ((System.Drawing.Image)(resources.GetObject("cmsCheckForUpdate.Image")));
-            this.cmsCheckForUpdate.Name = "cmsCheckForUpdate";
-            this.cmsCheckForUpdate.RadioButtonGroupName = null;
-            this.cmsCheckForUpdate.Size = new System.Drawing.Size(209, 22);
-            this.cmsCheckForUpdate.Text = "Check for Update";
-            this.cmsCheckForUpdate.ToolTipText = "Check for Update on CF Ignition\r\n(requires an internet connection)";
-            this.cmsCheckForUpdate.Click += new System.EventHandler(this.cmsCheckForUpdate_Click);
-            // 
-            // cmsEdit
-            // 
-            this.cmsEdit.AssociatedEnumValue = null;
-            this.cmsEdit.Image = ((System.Drawing.Image)(resources.GetObject("cmsEdit.Image")));
-            this.cmsEdit.Name = "cmsEdit";
-            this.cmsEdit.RadioButtonGroupName = null;
-            this.cmsEdit.Size = new System.Drawing.Size(209, 22);
-            this.cmsEdit.Text = "Edit Song Information";
-            this.cmsEdit.Click += new System.EventHandler(this.cmsEdit_Click);
-            // 
-            // cmsGetCharterName
-            // 
-            this.cmsGetCharterName.AssociatedEnumValue = null;
-            this.cmsGetCharterName.Name = "cmsGetCharterName";
-            this.cmsGetCharterName.RadioButtonGroupName = null;
-            this.cmsGetCharterName.Size = new System.Drawing.Size(209, 22);
-            this.cmsGetCharterName.Text = "Get Charter\'s Name";
-            this.cmsGetCharterName.Visible = false;
-            this.cmsGetCharterName.Click += new System.EventHandler(this.cmsGetCharterName_Click);
-            // 
-            // cmsTaggerPreview
-            // 
-            this.cmsTaggerPreview.AssociatedEnumValue = null;
-            this.cmsTaggerPreview.Name = "cmsTaggerPreview";
-            this.cmsTaggerPreview.RadioButtonGroupName = null;
-            this.cmsTaggerPreview.Size = new System.Drawing.Size(209, 22);
-            this.cmsTaggerPreview.Text = "Tagger Preview";
-            this.cmsTaggerPreview.ToolTipText = "The full feature to \'Tag Album Artwork\'\r\ncan be found in the \'Custom Mods\' menu.";
-            this.cmsTaggerPreview.Visible = false;
-            // 
-            // cmsShowSongInfo
-            // 
-            this.cmsShowSongInfo.AssociatedEnumValue = null;
-            this.cmsShowSongInfo.Image = ((System.Drawing.Image)(resources.GetObject("cmsShowSongInfo.Image")));
-            this.cmsShowSongInfo.Name = "cmsShowSongInfo";
-            this.cmsShowSongInfo.RadioButtonGroupName = null;
-            this.cmsShowSongInfo.Size = new System.Drawing.Size(209, 22);
-            this.cmsShowSongInfo.Text = "Show Song Info";
-            this.cmsShowSongInfo.Click += new System.EventHandler(this.cmsShowSongInfo_Click);
-            // 
-            // cmsOpenSongLocation
-            // 
-            this.cmsOpenSongLocation.AssociatedEnumValue = null;
-            this.cmsOpenSongLocation.Image = ((System.Drawing.Image)(resources.GetObject("cmsOpenSongLocation.Image")));
-            this.cmsOpenSongLocation.Name = "cmsOpenSongLocation";
-            this.cmsOpenSongLocation.RadioButtonGroupName = null;
-            this.cmsOpenSongLocation.Size = new System.Drawing.Size(209, 22);
-            this.cmsOpenSongLocation.Text = "Open Song Location";
-            this.cmsOpenSongLocation.Click += new System.EventHandler(this.cmsOpenDLCLocation_Click);
-            // 
-            // cmsDelete
-            // 
-            this.cmsDelete.AssociatedEnumValue = null;
-            this.cmsDelete.Image = ((System.Drawing.Image)(resources.GetObject("cmsDelete.Image")));
-            this.cmsDelete.Name = "cmsDelete";
-            this.cmsDelete.RadioButtonGroupName = null;
-            this.cmsDelete.Size = new System.Drawing.Size(209, 22);
-            this.cmsDelete.Text = "Delete Songs";
-            this.cmsDelete.ToolTipText = "WARNING\r\nDeletion can not be undone.\r\nSelect must be checked.";
-            this.cmsDelete.Click += new System.EventHandler(this.cmsDelete_Click);
-            // 
-            // cmsBackup
-            // 
-            this.cmsBackup.AssociatedEnumValue = null;
-            this.cmsBackup.Image = ((System.Drawing.Image)(resources.GetObject("cmsBackup.Image")));
-            this.cmsBackup.Name = "cmsBackup";
-            this.cmsBackup.RadioButtonGroupName = null;
-            this.cmsBackup.Size = new System.Drawing.Size(209, 22);
-            this.cmsBackup.Text = "Backup Songs";
-            this.cmsBackup.ToolTipText = "Select must be checked.\r\nSee Log for backup file location.";
-            this.cmsBackup.Click += new System.EventHandler(this.cmsBackup_Click);
-            // 
-            // testToolStripMenuItem
-            // 
-            this.testToolStripMenuItem.AssociatedEnumValue = null;
-            this.testToolStripMenuItem.Checked = true;
-            this.testToolStripMenuItem.CheckOnClick = true;
-            this.testToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.testToolStripMenuItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.testToolStripMenuItem.Name = "testToolStripMenuItem";
-            this.testToolStripMenuItem.RadioButtonGroupName = null;
-            this.testToolStripMenuItem.Size = new System.Drawing.Size(106, 22);
-            this.testToolStripMenuItem.Text = "Test";
+            this.tsmiDevUseOnly.Name = "tsmiDevUseOnly";
+            this.tsmiDevUseOnly.Size = new System.Drawing.Size(89, 20);
+            this.tsmiDevUseOnly.Text = "Dev Use Only";
+            this.tsmiDevUseOnly.Click += new System.EventHandler(this.tsmiDevUseOnly_Click);
             // 
             // SongManager
             // 
@@ -1919,11 +2411,11 @@ namespace CustomsForgeSongManager.UControls
             this.cmsSongManager.ResumeLayout(false);
             this.gb_Main_Grid.ResumeLayout(false);
             this.gb_Main_Grid.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvSongsDetail)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvSongsMaster)).EndInit();
             this.cmsSongManagerColumns.ResumeLayout(false);
             this.menuStrip.ResumeLayout(false);
             this.menuStrip.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvSongsDetail)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvSongsMaster)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1945,7 +2437,6 @@ namespace CustomsForgeSongManager.UControls
         private CustomControls.ToolStripEnhancedMenuItem cmsDelete;
         private CustomControls.ToolStripEnhancedMenuItem cmsBackup;
         private System.Windows.Forms.ContextMenuStrip cmsSongManager;
-        private RADataGridView dgvSongsMaster;
         private System.Windows.Forms.LinkLabel lnkLblSelectAll;
         private System.Windows.Forms.GroupBox gb_Main_Grid;
         private System.Windows.Forms.ContextMenuStrip cmsSongManagerColumns;
@@ -1954,7 +2445,7 @@ namespace CustomsForgeSongManager.UControls
         private CustomControls.ToolStripEnhancedMenuItem cmsTaggerPreview;
         private CustomControls.ToolStripEnhancedMenuItem tsmiModsChangeAppId;
         private System.Windows.Forms.LinkLabel lnklblToggle;
-        private System.Windows.Forms.CheckBox chkSubFolders;
+        private System.Windows.Forms.CheckBox chkIncludeSubfolders;
         private CustomControls.ToolStripEnhancedMenuItem tsmiModsPitchShifter;
         private System.Windows.Forms.MenuStrip menuStrip;
         private CustomControls.ToolStripEnhancedMenuItem tsmiRescan;
@@ -2011,25 +2502,21 @@ namespace CustomsForgeSongManager.UControls
         private CustomControls.ToolStripEnhancedMenuItem tsmiAddDDRemoveSustain;
         private CustomControls.ToolStripSpringTextBox tsmiAddDDCfgPath;
         private CustomControls.ToolStripSpringTextBox tsmiAddDDRampUpPath;
-        private CustomControls.ToolStripEnhancedMenuItem tsmiAddDDSettings;
+        private CustomControls.ToolStripEnhancedMenuItem tsmiDDSettings;
         private CustomControls.ToolStripNumericUpDown tsmiAddDDNumericUpDown;
-        private CustomControls.ToolStripEnhancedMenuItem tsmiProcessDLFolder;
-        private CustomControls.ToolStripEnhancedMenuItem tsmiMonitorDLFolder;
+        private CustomControls.ToolStripEnhancedMenuItem tsmiDLFolderProcess;
+        private CustomControls.ToolStripEnhancedMenuItem tsmiDLFolderMonitor;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator13;
         private CustomControls.ToolStripEnhancedMenuItem tsmiFilesRestoreBak;
         private CustomControls.ToolStripEnhancedMenuItem tsmiFilesArcBak;
         private CustomControls.ToolStripEnhancedMenuItem tsmiModsPitchShiftOverwrite;
         private CustomControls.ToolStripEnhancedMenuItem tsmiFilesCheckODLC;
-        private System.Windows.Forms.ToolStripMenuItem cmsEnableDisable;
+        private CustomControls.ToolStripEnhancedMenuItem cmsEnableDisable;
         private System.Windows.Forms.ToolStripMenuItem cmsPlaySelected;
         private CustomControls.ToolStripEnhancedMenuItem tsmiFilesOrganize;
         private CustomControls.ToolStripEnhancedMenuItem tsmiFilesUnorganize;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator14;
         private CustomControls.ToolStripEnhancedMenuItem tsmiFilesIncludeODLC;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn8;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn9;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn10;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn11;
         private SubclassedDataGridView dgvSongsDetail;
         private CustomControls.ToolStripEnhancedMenuItem tsmiModsPitchShiftStandard;
         private CustomControls.ToolStripEnhancedMenuItem tsmiModsPreserveStats;
@@ -2037,8 +2524,14 @@ namespace CustomsForgeSongManager.UControls
         private ToolStripSeparator toolStripSeparator15;
         private ToolStripSeparator toolStripSeparator2;
         private CustomControls.ToolStripEnhancedMenuItem tsmiFixLowBass;
-        private ToolStripMenuItem tsmiDevDebugUse;
+        private ToolStripMenuItem tsmiDevUseOnly;
         private ToolStripSeparator toolStripSeparator11;
+        private ToolStripMenuItem tsmiDLFolderSupport;
+        private CheckBox chkProtectODLC;
+        private ToolStripSeparator toolStripSeparator16;
+        private CustomControls.ToolStripEnhancedMenuItem tsmiAdjustScrollSpeed;
+        private CustomControls.ToolStripEnhancedMenuItem tsmiSSSettings;
+        private CustomControls.ToolStripNumericUpDown tsmiNudScrollSpeed;
         private DataGridViewTextBoxColumn colDetailKey;
         private DataGridViewTextBoxColumn colDetailPID;
         private DataGridViewTextBoxColumn colDetailArrangement;
@@ -2046,6 +2539,17 @@ namespace CustomsForgeSongManager.UControls
         private DataGridViewTextBoxColumn colDetailPitch;
         private DataGridViewTextBoxColumn colDetailToneBase;
         private DataGridViewTextBoxColumn colDetailDDMax;
+        private ToolStripSeparator toolStripSeparator17;
+        private CustomControls.ToolStripEnhancedMenuItem tsmiCustomTitleTag;
+        private CustomControls.ToolStripLabelTextBox tsmiCustomTitleTagTextBox;
+        private ToolStripSeparator toolStripSeparator19;
+        private CustomControls.ToolStripEnhancedMenuItem tsmiCustomTitleTagPrefix;
+        private CustomControls.ToolStripEnhancedMenuItem tsmiCustomTitleTagSuffix;
+        private ToolStripSeparator toolStripSeparator18;
+        private CustomControls.ToolStripButton tsmiCustomTitleTagAdd;
+        private CustomControls.ToolStripButton tsmiCustomTitleTagRemove;
+        private RADataGridView dgvSongsMaster;
+        private CheckBox chkAdvancedSearch;
         private DataGridViewImageColumn colShowDetail;
         private DataGridViewAutoFilterTextBoxColumn colKey;
         private DataGridViewCheckBoxColumn colSelect;
@@ -2059,24 +2563,25 @@ namespace CustomsForgeSongManager.UControls
         private DataGridViewAutoFilterTextBoxColumn colTitle;
         private DataGridViewAutoFilterTextBoxColumn colAlbum;
         private DataGridViewAutoFilterTextBoxColumn colSongYear;
-        private DataGridViewAutoFilterTextBoxColumn colArrangements;
-        private DataGridViewAutoFilterTextBoxColumn colTunings;
-        private DataGridViewAutoFilterTextBoxColumn colTones;
-        private DataGridViewAutoFilterTextBoxColumn colDD;
         private DataGridViewAutoFilterTextBoxColumn colSongLength;
         private DataGridViewAutoFilterTextBoxColumn colSongAverageTempo;
         private DataGridViewAutoFilterTextBoxColumn colSongVolume;
-        private DataGridViewAutoFilterTextBoxColumn colAppID;
+        private DataGridViewAutoFilterTextBoxColumn colLastConversionDateTime;
+        private DataGridViewAutoFilterTextBoxColumn colDD;
+        private DataGridViewAutoFilterTextBoxColumn colArrangements;
+        private DataGridViewAutoFilterTextBoxColumn colTunings;
+        private DataGridViewAutoFilterTextBoxColumn colTones;
         private DataGridViewAutoFilterTextBoxColumn colFileName;
         private DataGridViewAutoFilterTextBoxColumn colFilePath;
         private DataGridViewAutoFilterTextBoxColumn colFileDate;
         private DataGridViewAutoFilterTextBoxColumn colFileSize;
         private DataGridViewAutoFilterTextBoxColumn colStatus;
-        private DataGridViewAutoFilterTextBoxColumn colConversionDate;
+        private DataGridViewAutoFilterTextBoxColumn colAppID;
         private DataGridViewAutoFilterTextBoxColumn colToolkitVersion;
         private DataGridViewAutoFilterTextBoxColumn colPackageAuthor;
         private DataGridViewAutoFilterTextBoxColumn colPackageVersion;
         private DataGridViewAutoFilterTextBoxColumn colPackageComment;
+        private DataGridViewRatingColumn colPackageRating;
         private DataGridViewAutoFilterTextBoxColumn colTagged;
         private DataGridViewAutoFilterTextBoxColumn colIgnitionID;
         private DataGridViewAutoFilterTextBoxColumn colIgnitionDate;
@@ -2087,6 +2592,22 @@ namespace CustomsForgeSongManager.UControls
         private DataGridViewAutoFilterTextBoxColumn colArtistSort;
         private DataGridViewAutoFilterTextBoxColumn colTitleSort;
         private DataGridViewAutoFilterTextBoxColumn colAlbumSort;
-
+        private DataGridViewAutoFilterTextBoxColumn colAudioBitRate;
+        private DataGridViewAutoFilterTextBoxColumn colHasCustomFont;
+        private CustomControls.ToolStripEnhancedMenuItem tsmiFixAppId;
+        private ToolStripSeparator toolStripSeparator20;
+        private ToolStripSeparator toolStripSeparator21;
+        private CustomControls.ToolStripEnhancedMenuItem tsmiAutoAdjustVolume;
+        private CustomControls.ToolStripEnhancedMenuItem tsmiPocText;
+        private ToolStripSeparator toolStripSeparator22;
+        private CustomControls.ToolStripNumericUpDown tsmiCorrectionMultiplier;
+        private CustomControls.ToolStripNumericUpDown tsmiTargetAudioVolume;
+        private CustomControls.ToolStripNumericUpDown tsmiTargetPreviewVolume;
+        private CustomControls.ToolStripNumericUpDown tsmiTargetToneVolume;
+        private CustomControls.ToolStripNumericUpDown tsmiTargetLUFS;
+        private CustomControls.ToolStripNumericUpDown tsmiCorrectionFactor;
+        private CustomControls.ToolStripEnhancedMenuItem tsmiSkipDupes;
+        private ToolStripMenuItem tsmiChangeMonitoredFolders;
+        private ToolStripMenuItem tsmiChangeDestinationFolder;
     }
 }

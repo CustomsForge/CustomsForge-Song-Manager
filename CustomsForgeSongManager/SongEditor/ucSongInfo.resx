@@ -120,4 +120,18 @@
   <metadata name="toolTip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </metadata>
+  <data name="txtNote.ToolTip" xml:space="preserve">
+    <value>Enter any custom user note about this CDLC,
+e.g. bad volume, easy to play, too hard, or
+just about anything else you like.  Then use
+the SongManager&gt;PackageComments column
+to view/search on user notes.
+
+These notes are for your personal use and
+no one will ever see them unless you share
+your copy of the CDLC with someone else,
+or update it in the CF Ignition database.
+
+Reserved Characters ':[]' (Do Not Use)</value>
+  </data>
 </root>

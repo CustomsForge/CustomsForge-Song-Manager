@@ -11,6 +11,11 @@ using GenTools;
 using RocksmithToolkitLib;
 using RocksmithToolkitLib.XmlRepository;
 using CustomsForgeSongManager.Properties;
+using System.Collections;
+using System.Threading.Tasks;
+using System.Threading;
+using CustomControls;
+using System.Drawing;
 
 //
 // Reusable background worker class for parsing songs
@@ -21,7 +26,7 @@ namespace CustomsForgeSongManager.LocalTools
     internal sealed class Worker : IDisposable
     {
         private AbortableBackgroundWorker bWorker;
-        private Stopwatch counterStopwatch = new Stopwatch();
+        private Stopwatch counterStopwatch = new Stopwatch(); // initialized here to prevent null exceptions later
         public List<SongData> bwSongCollection = new List<SongData>();
         private Control workOrder;
 
@@ -111,15 +116,14 @@ namespace CustomsForgeSongManager.LocalTools
         private void ParseSongs(object sender, DoWorkEventArgs e)
         {
             Globals.IsScanning = true;
-            List<string> filesList;
+            List<string> filesList = FilesList(Constants.Rs2DlcFolder, AppSettings.Instance.IncludeRS1CompSongs, AppSettings.Instance.IncludeRS2BaseSongs, AppSettings.Instance.IncludeCustomPacks);
 
-            // is this a full rescan
-            if (Globals.MasterCollection.Count == 0)
-                filesList = FilesList(Constants.Rs2DlcFolder, AppSettings.Instance.IncludeRS1CompSongs, AppSettings.Instance.IncludeRS2BaseSongs, AppSettings.Instance.IncludeCustomPacks);
+            // remove inlays
+            if (!Globals.IncludeInlays)
+                filesList = filesList.Where(fi => !fi.ToLower().Contains("inlay")).ToList();
             else
-                filesList = FilesList(Constants.Rs2DlcFolder, false, false, false);
+                Globals.Log("Duplicates scan includes any custom inlays ...");
 
-            filesList = filesList.Where(fi => !fi.ToLower().Contains("inlay")).ToList();
 
             // initialization
             bwSongCollection = Globals.MasterCollection.ToList();
@@ -130,33 +134,53 @@ namespace CustomsForgeSongManager.LocalTools
             if (filesList.Count == 0)
                 return;
 
+            List<string> songPathsList = new List<string>();
+            var showLegacyMsg = true;
+            var coreCount = SysExtensions.GetCoreCount();
+            if (coreCount == null || coreCount == 0)
+                coreCount = 1;
+
+            // optimize tasks for multicore processors
+            if (Globals.MasterCollection.ToList().Count == 0 && coreCount > 1 && AppSettings.Instance.MultiThread == -1)
+            {
+                var diaMsg = ".NET Framework reports that you have a (" + coreCount + ") core processor ...  " + Environment.NewLine +
+                             "Would you like to try running the CFSM song rescan using" + Environment.NewLine +
+                             "the new multicore support feature?" + Environment.NewLine + Environment.NewLine +
+                             "Rescan can be done using the old method if you answer 'No'" + Environment.NewLine +
+                             "Please send your feedback and 'debug.log' file to Cozy1." + Environment.NewLine + Environment.NewLine +
+                             "Threading selection can be reset in 'Settings' tabmenu.";
+
+                if (DialogResult.Yes == BetterDialog2.ShowDialog(diaMsg, "Multicore Processor Beta Test ...", null, "Yes", "No", Bitmap.FromHicon(SystemIcons.Hand.Handle), "ReadMe", 0, 150))
+                    AppSettings.Instance.MultiThread = 1;
+                else
+                    AppSettings.Instance.MultiThread = 0;
+
+                Globals.Settings.SaveSettingsToFile(Globals.DgvCurrent);
+            }
+
+            counterStopwatch = new Stopwatch();
             counterStopwatch.Restart();
             int songCounter = 0;
             int oldCount = bwSongCollection.Count();
+
+            // remove songs from collection when the FilePath does not exist
             bwSongCollection.RemoveAll(sd => !File.Exists(sd.FilePath));
-
-            int removed = bwSongCollection.Count() - oldCount;
-            if (removed > 0)
-                Globals.Log(String.Format(Resources.RemovedX0ObsoleteSongs, removed));
-
-            // skip dup check of songs.psarc or compatibility and song packs
-            List<SongData> checkThese = bwSongCollection
-                .Where(x => !x.FileName.ToLower().Contains(Constants.RS1COMP) &&
-                !x.FileName.ToLower().Contains(Constants.SONGPACK) &&
-                !x.FileName.ToLower().Contains(Constants.ABVSONGPACK) &&
-                !x.FileName.ToLower().EndsWith(Constants.BASESONGS)) 
-                .ToList() as List<SongData>;
-
-            // this is improbable ... two songs have same FilePath
-            var dupPaths = checkThese.GroupBy(x => x.FilePath).Where(group => group.Count() > 1);
-            if (dupPaths.Count() > 0)
+            // remove songs from collection that are not in the fileList
+            bwSongCollection.RemoveAll(sd => !filesList.Exists(x => x.Equals(sd.FilePath)));
+            // remove duplicate songs from collection that have same FilePath and DLCKey (prevents multiple count of song pack songs)
+            var duplicates = bwSongCollection.GroupBy(x => new { x.FilePath, x.DLCKey }).Where(group => group.Count() > 1).ToList();
+            if (duplicates.Count() > 0)
             {
-                foreach (var x in dupPaths)
+                foreach (var x in duplicates)
                 {
                     var toDelete = x.Where(z => z != x.First());
                     bwSongCollection.RemoveAll(sd => toDelete.Contains(sd));
                 }
             }
+
+            int removed = Math.Abs(bwSongCollection.Count() - oldCount);
+            if (removed > 0)
+                Globals.Log(String.Format("Removed ({0}) obsolete songs/inlays from songsInfo.xml ...", removed));
 
             Globals.DebugLog("Parsing files ...");
             foreach (string file in filesList)
@@ -177,14 +201,65 @@ namespace CustomsForgeSongManager.LocalTools
                 if (sInfo != null)
                 {
                     var fInfo = new FileInfo(file);
-                    if ((int)fInfo.Length == sInfo.FileSize && fInfo.LastWriteTimeUtc == sInfo.FileDate)
+                    if ((int)fInfo.Length == sInfo.FileSize && fInfo.LastWriteTime == sInfo.FileDate)
                         canScan = false;
                     else
                         bwSongCollection.Remove(sInfo);
                 }
 
                 if (canScan)
-                    ParsePSARC(file);
+                {
+                    if (AppSettings.Instance.MultiThread == 1)
+                        songPathsList.Add(file);
+                    else
+                    {
+                        if (showLegacyMsg) // do one time
+                        {
+                            Globals.Log("Using legacy single thread rescan method ...");
+                            showLegacyMsg = false;
+                        }
+
+                        ParsePsarcFile(file);
+                    }
+                }
+            }
+
+            if (AppSettings.Instance.MultiThread == 1 && songPathsList.Count > 0)
+            {
+                Task[] tasks = new Task[coreCount];
+                var songsSubLists = GenExtensions.SplitList(songPathsList, coreCount);
+
+                for (int ndx = 0; ndx < coreCount; ndx++)
+                {
+                    int ndxLocal = ndx; // prevent data not available error
+                    Globals.Log("Starting multi-thread task in core (" + ndxLocal + ") ...");
+                    tasks[ndx] = Task.Factory.StartNew(() =>
+                    {
+                        // cross threading protection
+                        GenExtensions.InvokeIfRequired(workOrder, delegate
+                        {
+                            ParsePsarcFiles(songsSubLists[ndxLocal]);
+                        });
+                    });
+
+                    try
+                    {
+                        var cpuCounter = new PerformanceCounter("Processor", "% Processor Time", "_Total"); // , "MyComputer"
+                        cpuCounter.NextValue();
+                        Thread.Sleep(1000);
+                        Globals.Log("CPU usage for core (" + ndxLocal + "): " + (int)cpuCounter.NextValue() + "% ...");
+                    }
+                    catch
+                    {
+                        Globals.Log("<WARNING> CPU usage for core (" + ndxLocal + ") is not available ...");
+                    }
+                }
+
+                Thread.Sleep(100);
+                Task.WaitAll(tasks);
+
+                foreach (var task in tasks)
+                    task.Dispose();
             }
 
             // cleanup and sort
@@ -225,7 +300,15 @@ namespace CustomsForgeSongManager.LocalTools
             counterStopwatch.Stop();
         }
 
-        private void ParsePSARC(string filePath)
+        private void ParsePsarcFiles(List<string> filePaths)
+        {
+            foreach (var filePath in filePaths)
+            {
+                ParsePsarcFile(filePath);
+            }
+        }
+
+        private void ParsePsarcFile(string filePath)
         {
             // 2x speed hack ... preload the TuningDefinition and fix for tuning 'Other' issue           
             if (Globals.TuningXml == null || Globals.TuningXml.Count == 0)
@@ -253,16 +336,22 @@ namespace CustomsForgeSongManager.LocalTools
             }
             catch (Exception ex)
             {
-                // move to Quarantine folder
+                // corrupt CDLC move to Quarantine folder
                 if (ex.Message.StartsWith("Error reading JObject"))
-                    Globals.Log(String.Format("<ERROR> {0}  -  CDLC is corrupt!", filePath));
+                    Globals.Log(String.Format("<ERROR> CDLC is corrupt: {0}", filePath));
                 else if (ex.Message.StartsWith("Object reference not set"))
-                    Globals.Log(String.Format("<ERROR> {0}  -  CDLC is missing data!", filePath));
+                    Globals.Log(String.Format("<ERROR> CDLC is missing data: {0}", filePath));
                 else
-                    Globals.Log(String.Format("<ERROR> {0}  -  {1}", filePath, ex.Message));
+                    Globals.Log(String.Format("<ERROR> {1}: {0}", filePath, ex.Message));
 
                 if (AppSettings.Instance.EnableQuarantine)
                 {
+                    if (ex.Message.Contains("xblock file"))
+                    {
+                        Globals.Log("Assuming the current file is not a song psarc, skipping the quarantine process...");
+                        return;
+                    }
+                        
                     var corFileName = String.Format("{0}{1}", Path.GetFileName(filePath), ".cor");
                     var corFilePath = Path.Combine(Constants.QuarantineFolder, corFileName);
 
@@ -270,12 +359,12 @@ namespace CustomsForgeSongManager.LocalTools
                         Directory.CreateDirectory(Constants.QuarantineFolder);
 
                     File.Move(filePath, corFilePath);
-                    Globals.Log(String.Format("File has been quarantined to: {0}", Constants.QuarantineFolder));
+                    Globals.Log(String.Format("File was quarantined to: {0}", Constants.QuarantineFolder));
                 }
                 else
                 {
                     Globals.Log(String.Format("<WARNING> File was not quarantined ..."));
-                    Globals.Log(String.Format(" - Auto quarantine may be enabled in the 'Settings' menu ..."));
+                    Globals.Log(String.Format(" - Auto quarantine may be enabled in the 'Settings' tabmenu ..."));
                 }
             }
         }
@@ -285,11 +374,6 @@ namespace CustomsForgeSongManager.LocalTools
         {
         }
 
-        // Invoke Template if needed
-        // GenExtensions.InvokeIfRequired(workOrder, delegate
-        //    {
-        //    });
-
         public static List<string> FilesList(string filePath, bool includeRS1Pack = false, bool includeRS2014BaseSongs = false, bool includeCustomPacks = false)
         {
             if (String.IsNullOrEmpty(filePath))
@@ -298,17 +382,62 @@ namespace CustomsForgeSongManager.LocalTools
             if (!Directory.Exists(filePath))
                 Directory.CreateDirectory(filePath);
 
-            var files = Directory.EnumerateFiles(filePath, "*" + Constants.PsarcExtension, SearchOption.AllDirectories).ToList();
-            files.AddRange(Directory.EnumerateFiles(filePath, "*" + Constants.DisabledPsarcExtension, SearchOption.AllDirectories).ToList());
+            var files = Directory.EnumerateFiles(filePath, "*" + Constants.EnabledExtension, SearchOption.AllDirectories).ToList();
+            files.AddRange(Directory.EnumerateFiles(filePath, "*" + Constants.DisabledExtension, SearchOption.AllDirectories).ToList());
 
+            // removes enabled/disabled RS1Packs
             if (!includeRS1Pack)
                 files = files.Where(file => !file.ToLower().Contains(Constants.RS1COMP)).ToList();
 
+            // removes enabled/disabled CustomPacks
             if (!includeCustomPacks)
                 files = files.Where(file => !file.ToLower().Contains(Constants.SONGPACK) && !file.ToLower().Contains(Constants.ABVSONGPACK)).ToList();
 
             if (includeRS2014BaseSongs)
-                files.Add(Constants.SongsPsarcPath);
+            {
+                var baseSongs = Directory.EnumerateFiles(AppSettings.Instance.RSInstalledDir, Constants.BASESONGS, SearchOption.TopDirectoryOnly).ToList();
+                baseSongs.AddRange(Directory.EnumerateFiles(AppSettings.Instance.RSInstalledDir, Constants.BASESONGSDISABLED, SearchOption.TopDirectoryOnly).ToList());
+
+                // Check for duplicate enable/disabled files and remove disabled file
+                //if (baseSongs.Count > 1)
+                //{
+                //    Globals.Log("<WARNING> Invalid songs*.psarc file count ...");
+
+                //    for (int i = 1; i < baseSongs.Count; i++)
+                //    {
+                //        var baseSong = Path.Combine(AppSettings.Instance.RSInstalledDir, baseSongs[i]);
+                //        File.Delete(baseSong);
+                //        baseSongs.RemoveAt(i);
+                //        Globals.Log("- Deleted file: " + baseSong + " ...");
+                //    }
+                //}
+
+                files.AddRange(baseSongs);
+            }
+
+            // Check for duplicate enable/disabled files in same directory and move the disabled file to CFSM/Duplicates folder
+            var dups = files.Select(fullPath => new { Name = Path.Combine(Path.GetDirectoryName(fullPath), Path.GetFileNameWithoutExtension(Path.GetFileNameWithoutExtension(fullPath))), FullPath = fullPath })
+                .GroupBy(file => file.Name).Where(fileGroup => fileGroup.Count() > 1).ToList();
+
+            foreach (var dup in dups)
+            {
+                foreach (var item in dup)
+                {
+                    var dupPath = item.FullPath;
+                    // if (dupPath.Contains(Constants.DisabledExtension)) // does not detect songs.disabled.psarc
+                    if (dupPath.Contains(".disabled."))
+                    {
+                        // File.Delete(dupPath); // a bit too harsh
+                        var destFilePath = Path.Combine(Constants.DuplicatesFolder, Path.GetFileName(dupPath));
+                        if (!GenExtensions.MoveFile(dupPath, destFilePath, true, true))
+                            continue;
+
+                        files.Remove(dupPath);
+                        Globals.Log("- Moved disabled duplicate file: " + dupPath);
+                        Globals.Log("- To: " + destFilePath);
+                    }
+                }
+            }
 
             return files;
         }

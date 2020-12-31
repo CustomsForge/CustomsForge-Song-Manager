@@ -9,6 +9,7 @@
     <AssemblyName>CustomsForgeSongManager</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -21,7 +22,6 @@
     <MapFileExtensions>true</MapFileExtensions>
     <ApplicationRevision>0</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
@@ -37,7 +37,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;WINDOWS;TAGGER;INNOBETA</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;WINDOWS;TAGGER;INNOBUILD</DefineConstants>
     <DebugType>full</DebugType>
     <PlatformTarget>x86</PlatformTarget>
     <RunCodeAnalysis>true</RunCodeAnalysis>
@@ -45,14 +45,16 @@
     <CodeAnalysisIgnoreBuiltInRuleSets>false</CodeAnalysisIgnoreBuiltInRuleSets>
     <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
     <CodeAnalysisFailOnMissingRules>false</CodeAnalysisFailOnMissingRules>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE;WINDOWS;TAGGER;INNORELEASE</DefineConstants>
+    <DefineConstants>TRACE;WINDOWS;TAGGER;INNOBUILD</DefineConstants>
     <Optimize>true</Optimize>
     <DebugType>none</DebugType>
     <PlatformTarget>x86</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'InnoBeta|x86'">
     <OutputPath>bin\Release\</OutputPath>
@@ -74,13 +76,13 @@
   <PropertyGroup />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'InnoBeta|x86'">
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>WINDOWS;TAGGER;INNOBETA;AUTOUPDATE</DefineConstants>
+    <DefineConstants>WINDOWS;TAGGER;INNOBETA</DefineConstants>
     <PlatformTarget>x86</PlatformTarget>
     <Optimize>true</Optimize>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'InnoRelease|x86'">
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>WINDOWS;TAGGER;INNORELEASE;AUTOUPDATE</DefineConstants>
+    <DefineConstants>WINDOWS;TAGGER;INNORELEASE</DefineConstants>
     <PlatformTarget>x86</PlatformTarget>
     <Optimize>true</Optimize>
     <DebugType>none</DebugType>
@@ -94,14 +96,29 @@
     </AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <PropertyGroup />
-  <PropertyGroup>
-    <ApplicationManifest>app.manifest</ApplicationManifest>
-  </PropertyGroup>
+  <PropertyGroup />
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject />
+    <StartupObject>CustomsForgeSongManager.Program</StartupObject>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'InnoBuild|x86'">
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>WINDOWS;TAGGER;INNOBUILD</DefineConstants>
+    <Optimize>true</Optimize>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisIgnoreBuiltInRuleSets>false</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+  </PropertyGroup>
+  <PropertyGroup />
+  <PropertyGroup />
+  <PropertyGroup>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ProjectConfigFileName>App.config</ProjectConfigFileName>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Antlr3.Runtime">
@@ -131,8 +148,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\libs\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="RocksmithToolkitLib, Version=2.6.1.0, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="RocksmithToolkitLib">
       <HintPath>..\libs\RocksmithToolkitLib.dll</HintPath>
     </Reference>
     <Reference Include="SevenZipSharp, Version=0.64.3890.29348, Culture=neutral, PublicKeyToken=20de82c62b055c88, processorArchitecture=MSIL">
@@ -140,6 +156,7 @@
       <HintPath>..\libs\SevenZipSharp.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Management" />
@@ -152,6 +169,10 @@
     <Reference Include="System.Deployment" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="UserProfileLib, Version=1.0.4.0, Culture=neutral, PublicKeyToken=c30af0b0b55fd5cd, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\libs\UserProfileLib.dll</HintPath>
+    </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="X360">
       <HintPath>..\libs\X360.dll</HintPath>
@@ -162,13 +183,27 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataObjects\ArrangementData.cs" />
+    <Compile Include="DataObjects\IgnitionSong.cs" />
     <Compile Include="DataObjects\OfficialSong.cs" />
-    <Compile Include="Forms\frmCODLCDuplicates.cs">
+    <Compile Include="Forms\frmLocalProfiles.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\frmCODLCDuplicates.Designer.cs">
-      <DependentUpon>frmCODLCDuplicates.cs</DependentUpon>
+    <Compile Include="Forms\frmLocalProfiles.designer.cs">
+      <DependentUpon>frmLocalProfiles.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\frmCODLCReplacements.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmCODLCReplacements.Designer.cs">
+      <DependentUpon>frmCODLCReplacements.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmMonitoredFolders.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmMonitoredFolders.Designer.cs">
+      <DependentUpon>frmMonitoredFolders.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LocalTools\AudioNormalizer.cs" />
     <Compile Include="LocalTools\FileTools.cs" />
     <Compile Include="LocalTools\DynamicDifficulty.cs" />
     <Compile Include="LocalTools\GenericWorker.cs" />
@@ -237,14 +272,14 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="SongEditor\DLCPackageEditorControlBase.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
     <Compile Include="SongEditor\frmArrangement.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="SongEditor\frmArrangement.designer.cs">
+    <Compile Include="SongEditor\frmArrangement.Designer.cs">
       <DependentUpon>frmArrangement.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SongEditor\DLCPackageEditorControlBase.cs">
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="SongEditor\ToneControl.cs">
       <SubType>UserControl</SubType>
@@ -314,6 +349,12 @@
     <Compile Include="UControls\ArrangementAnalyzer.Designer.cs">
       <DependentUpon>ArrangementAnalyzer.cs</DependentUpon>
     </Compile>
+    <Compile Include="UControls\ProfileSongLists.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UControls\ProfileSongLists.Designer.cs">
+      <DependentUpon>ProfileSongLists.cs</DependentUpon>
+    </Compile>
     <Compile Include="UControls\SongPacks.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -377,9 +418,16 @@
       <DependentUpon>ThemePreview.cs</DependentUpon>
     </Compile>
     <Compile Include="LocalTools\Worker.cs" />
-    <EmbeddedResource Include="Forms\frmCODLCDuplicates.resx">
-      <DependentUpon>frmCODLCDuplicates.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\frmLocalProfiles.resx">
+      <DependentUpon>frmLocalProfiles.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmCODLCReplacements.resx">
+      <DependentUpon>frmCODLCReplacements.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmMonitoredFolders.resx">
+      <DependentUpon>frmMonitoredFolders.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmProfileBackups.resx">
       <DependentUpon>frmProfileBackups.cs</DependentUpon>
@@ -389,6 +437,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmHtmlViewer.resx">
       <DependentUpon>frmHtmlViewer.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmOutdatedSongs.resx">
       <DependentUpon>frmOutdatedSongs.cs</DependentUpon>
@@ -405,6 +454,15 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="Resources\tags\default_stars\Background.png" />
+    <EmbeddedResource Include="Resources\tags\default_stars\Custom_Stars.png" />
+    <EmbeddedResource Include="Resources\tags\default_stars\Default.tagtheme" />
+    <EmbeddedResource Include="Resources\tags\default_stars\info.txt" />
+    <EmbeddedResource Include="Resources\tags\default_stars\Stars_1.png" />
+    <EmbeddedResource Include="Resources\tags\default_stars\Stars_2.png" />
+    <EmbeddedResource Include="Resources\tags\default_stars\Stars_3.png" />
+    <EmbeddedResource Include="Resources\tags\default_stars\Stars_4.png" />
+    <EmbeddedResource Include="Resources\tags\default_stars\Stars_5.png" />
     <EmbeddedResource Include="SongEditor\frmArrangement.resx">
       <DependentUpon>frmArrangement.cs</DependentUpon>
     </EmbeddedResource>
@@ -442,8 +500,13 @@
       <DependentUpon>ArrangementAnalyzer.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="UControls\ProfileSongLists.resx">
+      <DependentUpon>ProfileSongLists.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="UControls\SongPacks.resx">
       <DependentUpon>SongPacks.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UControls\Duplicates.resx">
       <DependentUpon>Duplicates.cs</DependentUpon>
@@ -451,6 +514,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UControls\Renamer.resx">
       <DependentUpon>Renamer.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UControls\SetlistManager.resx">
       <DependentUpon>SetlistManager.cs</DependentUpon>
@@ -458,12 +522,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UControls\Settings.resx">
       <DependentUpon>Settings.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UControls\About.resx">
       <DependentUpon>About.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UControls\Blank.resx">
       <DependentUpon>Blank.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UControls\SongManager.resx">
       <DependentUpon>SongManager.cs</DependentUpon>
@@ -477,6 +544,106 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\christmas.png" />
+    <None Include="Resources\hat.png" />
+    <Content Include="VersionInfo.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <EmbeddedResource Include="Resources\tags\default_stars_prev.png" />
+    <EmbeddedResource Include="Resources\tags\default_tags_prev.png" />
+    <EmbeddedResource Include="Resources\tags\default_tags_stars_prev.png" />
+    <EmbeddedResource Include="Resources\tags\default_tags_stars\Background.png" />
+    <EmbeddedResource Include="Resources\tags\default_tags_stars\Bass.png" />
+    <EmbeddedResource Include="Resources\tags\default_tags_stars\Bass_Bonus.png" />
+    <EmbeddedResource Include="Resources\tags\default_tags_stars\Custom_Tags_Stars.png" />
+    <EmbeddedResource Include="Resources\tags\default_tags_stars\info.txt" />
+    <EmbeddedResource Include="Resources\tags\default_tags_stars\Lead.png" />
+    <EmbeddedResource Include="Resources\tags\default_tags_stars\Lead_Bonus.png" />
+    <EmbeddedResource Include="Resources\tags\default_tags_stars\Photoshop-Export-Layers-to-Files-Fast\Export Layers To Files %28Fast%29.jsx" />
+    <EmbeddedResource Include="Resources\tags\default_tags_stars\ReadMe.txt" />
+    <EmbeddedResource Include="Resources\tags\default_tags_stars\Rhythm.png" />
+    <EmbeddedResource Include="Resources\tags\default_tags_stars\Rhythm_Bonus.png" />
+    <EmbeddedResource Include="Resources\tags\default_tags_stars\Stars_1.png" />
+    <EmbeddedResource Include="Resources\tags\default_tags_stars\Stars_2.png" />
+    <EmbeddedResource Include="Resources\tags\default_tags_stars\Stars_3.png" />
+    <EmbeddedResource Include="Resources\tags\default_tags_stars\Stars_4.png" />
+    <EmbeddedResource Include="Resources\tags\default_tags_stars\Stars_5.png" />
+    <EmbeddedResource Include="Resources\tags\default_tags_stars\Vocals.png" />
+    <EmbeddedResource Include="Resources\tags\default_tags\Background.png" />
+    <EmbeddedResource Include="Resources\tags\default_tags\Bass.png" />
+    <EmbeddedResource Include="Resources\tags\default_tags\Bass_Bonus.png" />
+    <EmbeddedResource Include="Resources\tags\default_tags\Custom_Tags.png" />
+    <EmbeddedResource Include="Resources\tags\default_tags\info.txt" />
+    <EmbeddedResource Include="Resources\tags\default_tags\Lead.png" />
+    <EmbeddedResource Include="Resources\tags\default_tags\Lead_Bonus.png" />
+    <EmbeddedResource Include="Resources\tags\default_tags\Rhythm.png" />
+    <EmbeddedResource Include="Resources\tags\default_tags\Rhythm_Bonus.png" />
+    <EmbeddedResource Include="Resources\tags\default_tags\Vocals.png" />
+    <EmbeddedResource Include="Resources\tags\frack\Background.png" />
+    <EmbeddedResource Include="Resources\tags\frack\Bass.png" />
+    <EmbeddedResource Include="Resources\tags\frack\Bass_Bonus.png" />
+    <EmbeddedResource Include="Resources\tags\frack\Custom_Tags.png" />
+    <EmbeddedResource Include="Resources\tags\frack\info.txt" />
+    <EmbeddedResource Include="Resources\tags\frack\Lead.png" />
+    <EmbeddedResource Include="Resources\tags\frack\Lead_Bonus.png" />
+    <EmbeddedResource Include="Resources\tags\frack\Rhythm.png" />
+    <EmbeddedResource Include="Resources\tags\frack\Rhythm_Bonus.png" />
+    <EmbeddedResource Include="Resources\tags\frack\Vocals.png" />
+    <EmbeddedResource Include="Resources\tags\motive_1\Background.png" />
+    <EmbeddedResource Include="Resources\tags\motive_1\Bass.png" />
+    <EmbeddedResource Include="Resources\tags\motive_1\Bass_Bonus.png" />
+    <EmbeddedResource Include="Resources\tags\motive_1\Custom_Tags.png" />
+    <EmbeddedResource Include="Resources\tags\motive_1\info.txt" />
+    <EmbeddedResource Include="Resources\tags\motive_1\Lead.png" />
+    <EmbeddedResource Include="Resources\tags\motive_1\Lead_Bonus.png" />
+    <EmbeddedResource Include="Resources\tags\motive_1\Motive.png" />
+    <EmbeddedResource Include="Resources\tags\motive_1\Rhythm.png" />
+    <EmbeddedResource Include="Resources\tags\motive_1\Rhythm_Bonus.png" />
+    <EmbeddedResource Include="Resources\tags\motive_1\Vocals.png" />
+    <EmbeddedResource Include="Resources\tags\motive_bl\Background.png" />
+    <EmbeddedResource Include="Resources\tags\motive_bl\Bass.png" />
+    <EmbeddedResource Include="Resources\tags\motive_bl\Bass_Bonus.png" />
+    <EmbeddedResource Include="Resources\tags\motive_bl\Custom_Tags.png" />
+    <EmbeddedResource Include="Resources\tags\motive_bl\info.txt" />
+    <EmbeddedResource Include="Resources\tags\motive_bl\Lead.png" />
+    <EmbeddedResource Include="Resources\tags\motive_bl\Lead_Bonus.png" />
+    <EmbeddedResource Include="Resources\tags\motive_bl\Rhythm.png" />
+    <EmbeddedResource Include="Resources\tags\motive_bl\Rhythm_Bonus.png" />
+    <EmbeddedResource Include="Resources\tags\motive_bl\Vocals.png" />
+    <EmbeddedResource Include="Resources\tags\motive_nv\Background.png" />
+    <EmbeddedResource Include="Resources\tags\motive_nv\Bass.png" />
+    <EmbeddedResource Include="Resources\tags\motive_nv\Bass_Bonus.png" />
+    <EmbeddedResource Include="Resources\tags\motive_nv\Custom_Tags.png" />
+    <EmbeddedResource Include="Resources\tags\motive_nv\info.txt" />
+    <EmbeddedResource Include="Resources\tags\motive_nv\Lead.png" />
+    <EmbeddedResource Include="Resources\tags\motive_nv\Lead_Bonus.png" />
+    <EmbeddedResource Include="Resources\tags\motive_nv\Rhythm.png" />
+    <EmbeddedResource Include="Resources\tags\motive_nv\Rhythm_Bonus.png" />
+    <EmbeddedResource Include="Resources\tags\motive_nv\Vocals.png" />
+    <EmbeddedResource Include="Resources\tags\motive_ws\Background.png" />
+    <EmbeddedResource Include="Resources\tags\motive_ws\Bass.png" />
+    <EmbeddedResource Include="Resources\tags\motive_ws\Bass_Bonus.png" />
+    <EmbeddedResource Include="Resources\tags\motive_ws\Custom_Tags.png" />
+    <EmbeddedResource Include="Resources\tags\motive_ws\info.txt" />
+    <EmbeddedResource Include="Resources\tags\motive_ws\Lead.png" />
+    <EmbeddedResource Include="Resources\tags\motive_ws\Lead_Bonus.png" />
+    <EmbeddedResource Include="Resources\tags\motive_ws\Rhythm.png" />
+    <EmbeddedResource Include="Resources\tags\motive_ws\Rhythm_ Bonus.png" />
+    <EmbeddedResource Include="Resources\tags\motive_ws\Vocals.png" />
+    <EmbeddedResource Include="Resources\tags\zagatozee\Background.png" />
+    <EmbeddedResource Include="Resources\tags\zagatozee\Bass.png" />
+    <EmbeddedResource Include="Resources\tags\zagatozee\Bass_Bonus.png" />
+    <EmbeddedResource Include="Resources\tags\zagatozee\Custom_Tags.png" />
+    <EmbeddedResource Include="Resources\tags\zagatozee\DD.png" />
+    <EmbeddedResource Include="Resources\tags\zagatozee\info.txt" />
+    <EmbeddedResource Include="Resources\tags\zagatozee\Lead.png" />
+    <EmbeddedResource Include="Resources\tags\zagatozee\Lead_Bonus.png" />
+    <EmbeddedResource Include="Resources\tags\zagatozee\Rhythm.png" />
+    <EmbeddedResource Include="Resources\tags\zagatozee\Rhythm_Bonus.png" />
+    <EmbeddedResource Include="Resources\tags\frack_prev.png" />
+    <EmbeddedResource Include="Resources\tags\motive_1_prev.png" />
+    <EmbeddedResource Include="Resources\tags\motive_ws_prev.png" />
+    <EmbeddedResource Include="Resources\tags\zagatozee_prev.png" />
     <EmbeddedResource Include="Resources\renamer_properties.json" />
     <EmbeddedResource Include="Resources\HelpGeneral.rtf" />
     <Content Include="..\libs\D3DX9_42.dll.new">
@@ -487,11 +654,14 @@
       <Link>D3DX9_42.dll.old</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <None Include="app.manifest">
+    <None Include="App.config">
       <SubType>Designer</SubType>
     </None>
     <EmbeddedResource Include="Resources\HelpDuplicates.rtf" />
     <EmbeddedResource Include="Resources\HelpArrangements.rtf" />
+    <EmbeddedResource Include="Resources\HelpSongLists.rtf" />
+    <EmbeddedResource Include="Resources\HelpSongListsManual.rtf" />
+    <None Include="app.manifest" />
     <None Include="Resources\logo_black.png" />
   </ItemGroup>
   <ItemGroup>
@@ -516,6 +686,15 @@
     <None Include="Resources\cfsm_48x48.ico" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Resources\tags\zagatozee\Default.tagtheme" />
+    <EmbeddedResource Include="Resources\tags\default_tags\Default.tagtheme" />
+    <EmbeddedResource Include="Resources\tags\default_tags_stars\Default.tagtheme" />
+    <EmbeddedResource Include="Resources\tags\default_tags_stars\Photoshop-Export-Layers-to-Files-Fast\Export Layers To Files %28Fast%29-dialog.json" />
+    <EmbeddedResource Include="Resources\tags\default_tags_stars\Photoshop-Export-Layers-to-Files-Fast\Export Layers To Files %28Fast%29-progress_bar.json" />
+    <EmbeddedResource Include="Resources\tags\default_tags_stars\Photoshop-Export-Layers-to-Files-Fast\LICENSE" />
+    <EmbeddedResource Include="Resources\tags\default_tags_stars\Photoshop-Export-Layers-to-Files-Fast\README.md" />
+    <EmbeddedResource Include="Resources\tags\default_tags_stars\Template Example.psd" />
+    <EmbeddedResource Include="Resources\tags\frack\Default.tagtheme" />
     <None Include="Resources\zip.png" />
     <None Include="Licenses.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -552,17 +731,6 @@
     <None Include="Resources\Help.png" />
     <None Include="Resources\Open.png" />
     <None Include="Resources\SelectRow.png" />
-    <EmbeddedResource Include="Resources\tags\zagatozeeddtextprev.png" />
-    <EmbeddedResource Include="Resources\tags\zagatozeeddtext\Background.png" />
-    <EmbeddedResource Include="Resources\tags\zagatozeeddtext\Bass Bonus.png" />
-    <EmbeddedResource Include="Resources\tags\zagatozeeddtext\Bass.png" />
-    <EmbeddedResource Include="Resources\tags\zagatozeeddtext\Custom.png" />
-    <EmbeddedResource Include="Resources\tags\zagatozeeddtext\DD.png" />
-    <EmbeddedResource Include="Resources\tags\zagatozeeddtext\info.txt" />
-    <EmbeddedResource Include="Resources\tags\zagatozeeddtext\Lead Bonus.png" />
-    <EmbeddedResource Include="Resources\tags\zagatozeeddtext\Lead.png" />
-    <EmbeddedResource Include="Resources\tags\zagatozeeddtext\Rhythm Bonus.png" />
-    <EmbeddedResource Include="Resources\tags\zagatozeeddtext\Rhythm.png" />
     <None Include="Resources\enabledisable.png" />
     <None Include="Resources\refresh.png" />
     <None Include="Resources\onoff.png" />
@@ -582,65 +750,13 @@
     <None Include="Resources\shift.png" />
     <None Include="Resources\rescan1.png" />
     <None Include="Resources\tag.png" />
+    <None Include="Resources\dollarsign.png" />
+    <None Include="Resources\download.png" />
     <Content Include="Resources\TaggerHelp.html" />
     <None Include="Resources\trashcan.png" />
     <None Include="Resources\Unleashed2k.png" />
-    <EmbeddedResource Include="Resources\tags\frackDefaultprev.png" />
-    <EmbeddedResource Include="Resources\tags\frackDefault\Background.png" />
-    <EmbeddedResource Include="Resources\tags\frackDefault\Bass Bonus.png" />
-    <EmbeddedResource Include="Resources\tags\frackDefault\Bass.png" />
-    <EmbeddedResource Include="Resources\tags\frackDefault\Custom.png" />
-    <EmbeddedResource Include="Resources\tags\frackDefault\info.txt" />
-    <EmbeddedResource Include="Resources\tags\frackDefault\Lead Bonus.png" />
-    <EmbeddedResource Include="Resources\tags\frackDefault\Lead.png" />
-    <EmbeddedResource Include="Resources\tags\frackDefault\Rhythm Bonus.png" />
-    <EmbeddedResource Include="Resources\tags\frackDefault\Rhythm.png" />
-    <EmbeddedResource Include="Resources\tags\frackDefault\Vocal.png" />
-    <EmbeddedResource Include="Resources\tags\motive1prev.png" />
-    <EmbeddedResource Include="Resources\tags\motive1\Background.png" />
-    <EmbeddedResource Include="Resources\tags\motive1\Bass Bonus.png" />
-    <EmbeddedResource Include="Resources\tags\motive1\Bass.png" />
-    <EmbeddedResource Include="Resources\tags\motive1\Custom.png" />
-    <EmbeddedResource Include="Resources\tags\motive1\info.txt" />
-    <EmbeddedResource Include="Resources\tags\motive1\Lead Bonus.png" />
-    <EmbeddedResource Include="Resources\tags\motive1\Lead.png" />
-    <EmbeddedResource Include="Resources\tags\motive1\Motive.png" />
-    <EmbeddedResource Include="Resources\tags\motive1\Rhythm Bonus.png" />
-    <EmbeddedResource Include="Resources\tags\motive1\Rhythm.png" />
-    <EmbeddedResource Include="Resources\tags\motive1\Vocal.png" />
     <EmbeddedResource Include="Resources\tags\motive_bl_prev.png" />
-    <EmbeddedResource Include="Resources\tags\motive_bl_\Background.png" />
-    <EmbeddedResource Include="Resources\tags\motive_bl_\Bass Bonus.png" />
-    <EmbeddedResource Include="Resources\tags\motive_bl_\Bass.png" />
-    <EmbeddedResource Include="Resources\tags\motive_bl_\Custom.png" />
-    <EmbeddedResource Include="Resources\tags\motive_bl_\info.txt" />
-    <EmbeddedResource Include="Resources\tags\motive_bl_\Lead Bonus.png" />
-    <EmbeddedResource Include="Resources\tags\motive_bl_\Lead.png" />
-    <EmbeddedResource Include="Resources\tags\motive_bl_\Rhythm Bonus.png" />
-    <EmbeddedResource Include="Resources\tags\motive_bl_\Rhythm.png" />
-    <EmbeddedResource Include="Resources\tags\motive_bl_\Vocal.png" />
     <EmbeddedResource Include="Resources\tags\motive_nv_prev.png" />
-    <EmbeddedResource Include="Resources\tags\motive_nv_\Background.png" />
-    <EmbeddedResource Include="Resources\tags\motive_nv_\Bass Bonus.png" />
-    <EmbeddedResource Include="Resources\tags\motive_nv_\Bass.png" />
-    <EmbeddedResource Include="Resources\tags\motive_nv_\Custom.png" />
-    <EmbeddedResource Include="Resources\tags\motive_nv_\info.txt" />
-    <EmbeddedResource Include="Resources\tags\motive_nv_\Lead Bonus.png" />
-    <EmbeddedResource Include="Resources\tags\motive_nv_\Lead.png" />
-    <EmbeddedResource Include="Resources\tags\motive_nv_\Rhythm Bonus.png" />
-    <EmbeddedResource Include="Resources\tags\motive_nv_\Rhythm.png" />
-    <EmbeddedResource Include="Resources\tags\motive_nv_\Vocal.png" />
-    <EmbeddedResource Include="Resources\tags\motive_ws_prev.png" />
-    <EmbeddedResource Include="Resources\tags\motive_ws_\Background.png" />
-    <EmbeddedResource Include="Resources\tags\motive_ws_\Bass Bonus.png" />
-    <EmbeddedResource Include="Resources\tags\motive_ws_\Bass.png" />
-    <EmbeddedResource Include="Resources\tags\motive_ws_\Custom.png" />
-    <EmbeddedResource Include="Resources\tags\motive_ws_\info.txt" />
-    <EmbeddedResource Include="Resources\tags\motive_ws_\Lead Bonus.png" />
-    <EmbeddedResource Include="Resources\tags\motive_ws_\Lead.png" />
-    <EmbeddedResource Include="Resources\tags\motive_ws_\Rhythm Bonus.png" />
-    <EmbeddedResource Include="Resources\tags\motive_ws_\Rhythm.png" />
-    <EmbeddedResource Include="Resources\tags\motive_ws_\Vocal.png" />
     <None Include="Resources\DreddFoxx.png" />
     <EmbeddedResource Include="Resources\HelpSongMgr.rtf" />
     <None Include="Resources\minus.png" />
@@ -658,9 +774,8 @@
     <None Include="Resources\clear.png" />
     <EmbeddedResource Include="Resources\tags\Default.tagtheme" />
     <EmbeddedResource Include="Resources\tags\example1.tagtheme" />
-    <EmbeddedResource Include="Resources\tags\zagatozeeddtext\Default.tagtheme" />
     <EmbeddedResource Include="Resources\sltsv1_aggregategraph.nt" />
-    <None Include="Resources\OfficialSongs.json" />
+    <EmbeddedResource Include="Resources\OfficialSongs.json" />
     <None Include="Resources\update.png" />
     <None Include="Resources\backup.png" />
     <None Include="Resources\disable.png" />
@@ -676,7 +791,7 @@
     <None Include="Resources\folder_open.png" />
     <None Include="Resources\edit.png" />
     <None Include="Resources\cozy1.png" />
-    <None Include="Resources\StartRs.jpg" />
+    <None Include="Resources\StartRS.jpg" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
@@ -687,10 +802,6 @@
     <ProjectReference Include="..\CFSM.Libraries\CFSM.ImageTools\CFSM.ImageTools.csproj">
       <Project>{E6565985-C477-46F4-8A42-08E04CD40B65}</Project>
       <Name>CFSM.ImageTools</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\CFSM.Libraries\CFSM.RSTKLib\CFSM.RSTKLib.csproj">
-      <Project>{B59A7CDF-086B-4B94-A917-4CFA4D42F981}</Project>
-      <Name>CFSM.RSTKLib</Name>
     </ProjectReference>
     <ProjectReference Include="..\CFSM.Libraries\CustomControls\CustomControls.csproj">
       <Project>{CBB57466-4341-49BC-A61D-43A7CC656A95}</Project>
@@ -719,7 +830,41 @@
 REM spacing around == and ( is important
 REM upper lower case is important for Directory and File names
 
-if $(ConfigurationName) ==InnoRelease (
+if $(ConfigurationName) == Release (
+   del /S /Q "$(TargetDir)*.pdb"
+   del /S /Q "$(TargetDir)*.vshost.exe"
+   del /S /Q "$(TargetDir)MiscUtil.xml"
+   del /S /Q "$(TargetDir)NLog.xml"
+   del /S /Q "$(TargetDir)Newtonsoft.Json.xml"
+   del /S /Q "$(TargetDir)X360.xml"
+ )
+
+if $(ConfigurationName) == InnoBuild (
+   CD "$(SolutionDir)ThirdParty\CFSM_Setup\"
+   DEL /Q *.txt
+   DEL /Q *.exe 
+   DEL /Q *.rar
+   DEL /S /Q " "$(ProjectDir)bin\ConfuserEx\*"
+   RD /S /Q "$(ProjectDir)bin\ConfuserEx\"
+   MKDIR "$(ProjectDir)bin\ConfuserEx\"
+   XCOPY /Y /E /D "$(TargetDir)*.*" "$(ProjectDir)bin\ConfuserEx\*.*"
+   CD "$(SolutionDir)ThirdParty\ConfuserEx_bin\"
+   "Confuser.CLI.exe" "$(SolutionDir)ThirdParty\ConfuserExScripts\ConfuserExInno.crproj"
+
+   rem must be connected to internet for signtool to work properly
+   rem CD "$(ProjectDir)bin\ConfuserEx\"
+   rem "%25programfiles%25\Microsoft SDKs\Windows\v7.0A\bin\signtool.exe"  sign /f CFSM_Certificate.pfx /p cozylov /t http://timestamp.verisign.com/scripts/timstamp.dll CustomsForgeSongManager.exe
+   CD "$(SolutionDir)ThirdParty\Inno_bin\"
+   "ISCC.exe" /DBUILD "$(SolutionDir)ThirdParty\InnoScripts\genericInstaller.iss"
+   CD "$(SolutionDir)ThirdParty\CFSM_Setup\"   
+   COPY /Y "$(TargetDir)ReleaseNotes.txt" "ReleaseNotes.txt"
+   COPY /Y "$(TargetDir)VersionInfo.txt" "VersionInfo.txt"
+   "C:\Program Files\WinRAR\WinRar.exe" a  -ma4 -r "CFSMSetup.rar" "CFSMSetup.exe" "ReleaseNotes.txt" "VersionInfo.txt"
+)
+
+REM  depricated InnoRelease Post-build Events
+REM ==========================
+if $(ConfigurationName) == InnoRelease (
 CD "$(SolutionDir)ThirdParty\CFSM_Setup_Release\"
 DEL /Q *.txt
 DEL /Q *.exe
@@ -734,14 +879,16 @@ rem must be connected to internet for signtool to work properly
 rem CD "$(ProjectDir)bin\ConfuserEx\"
 rem "%25programfiles%25\Microsoft SDKs\Windows\v7.0A\bin\signtool.exe"  sign /f CFSM_Certificate.pfx /p cozylov /t http://timestamp.verisign.com/scripts/timstamp.dll CustomsForgeSongManager.exe
 CD "$(SolutionDir)ThirdParty\Inno_bin\"
-"ISCC.exe" "$(SolutionDir)ThirdParty\InnoScripts\genericInstaller.iss"
+"ISCC.exe" /DRELEASE "$(SolutionDir)ThirdParty\InnoScripts\genericInstaller.iss"
 CD "$(SolutionDir)ThirdParty\CFSM_Setup_Release\"   
-"D:\Program Files\WinRAR\WinRar.exe" a -r "CFSMSetup.rar" "CFSMSetup.exe"
 COPY /Y "$(TargetDir)ReleaseNotes.txt" "ReleaseNotes.txt"
-COPY /Y "$(SolutionDir)ThirdParty\VersionInfo.txt" "VersionInfo.txt"
+COPY /Y "$(TargetDir)VersionInfo.txt" "VersionInfo.txt"
+"C:\Program Files\WinRAR\WinRar.exe" a  -ma4 -r "CFSMSetupRelease.rar" "CFSMSetup.exe" "ReleaseNotes.txt"
 )
 
-if $(ConfigurationName) ==InnoBeta (
+REM  depricated InnoBeta Post-build Events
+REM ==========================
+if $(ConfigurationName) == InnoBeta (
 CD "$(SolutionDir)ThirdParty\CFSM_Setup_Beta\"
 DEL /Q *.txt
 DEL /Q *.exe
@@ -758,17 +905,18 @@ rem "%25programfiles%25\Microsoft SDKs\Windows\v7.0A\bin\signtool.exe"  sign /f 
 CD "$(SolutionDir)ThirdParty\Inno_bin\"
 "ISCC.exe" /DBETA "$(SolutionDir)ThirdParty\InnoScripts\genericInstaller.iss"
 CD "$(SolutionDir)ThirdParty\CFSM_Setup_Beta\"   
-"D:\Program Files\WinRAR\WinRar.exe" a -r "CFSMSetupBeta.rar" "CFSMSetup.exe"
 COPY /Y "$(TargetDir)ReleaseNotes.txt" "ReleaseNotes.txt"
-COPY /Y "$(SolutionDir)ThirdParty\VersionInfo.txt" "VersionInfo.txt"
+COPY /Y "$(TargetDir)VersionInfo.txt" "VersionInfo.txt"
+"D:\Program Files\WinRAR\WinRar.exe" a -r "CFSMSetupBeta.rar" "CFSMSetup.exe"  "ReleaseNotes.txt"
 )
 
 rem if $(ConfigurationName This line will throw an error for post build debugging purposes purposes</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
-    <PreBuildEvent>XCOPY /Y /D "$(SolutionDir)libs\*.xml" "$(TargetDir)*.xml" 
+    <PreBuildEvent>XCOPY /Y /D "$(SolutionDir)libs\*.xml" "$(TargetDir)*.xml"
 XCOPY /Y /E /D "$(SolutionDir)libs\tools\*.*" "$(TargetDir)tools\*.*"
 XCOPY /Y /E /D "$(SolutionDir)libs\ddc\*.*" "$(TargetDir)ddc\*.*"
+XCOPY /Y /E /D "$(SolutionDir)libs\ffmpeg\*.*"  "$(TargetDir)ffmpeg\*.*" 
 
 REM if $(ConfigurationName This line will throw an error for debugging</PreBuildEvent>
   </PropertyGroup>

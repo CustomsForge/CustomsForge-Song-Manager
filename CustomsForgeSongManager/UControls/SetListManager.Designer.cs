@@ -66,29 +66,18 @@ namespace CustomsForgeSongManager.UControls
             this.colSetlistEnabled = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colSetlistName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.gbButtons = new System.Windows.Forms.GroupBox();
+            this.chkProtectODLC = new System.Windows.Forms.CheckBox();
             this.btnCombineSetlists = new System.Windows.Forms.Button();
+            this.chkIncludeSubfolders = new System.Windows.Forms.CheckBox();
             this.label2 = new System.Windows.Forms.Label();
             this.btnCreateSetlist = new System.Windows.Forms.Button();
-            this.label11 = new System.Windows.Forms.Label();
-            this.btnRemoveSetlistSong = new System.Windows.Forms.Button();
-            this.btnToggleSetlistSong = new System.Windows.Forms.Button();
-            this.label16 = new System.Windows.Forms.Label();
             this.btnEnDiSetlist = new System.Windows.Forms.Button();
-            this.btnRemoveSetlist = new System.Windows.Forms.Button();
-            this.label15 = new System.Windows.Forms.Label();
-            this.btnEnDiSetlistSong = new System.Windows.Forms.Button();
+            this.btnDeleteSetlist = new System.Windows.Forms.Button();
             this.label14 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.gbSongs = new System.Windows.Forms.GroupBox();
-            this.btnMoveSongs = new System.Windows.Forms.Button();
-            this.label5 = new System.Windows.Forms.Label();
-            this.btnToggleDlcSongs = new System.Windows.Forms.Button();
-            this.label9 = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
-            this.btnEnDiDlcSongs = new System.Windows.Forms.Button();
-            this.btnCopySongs = new System.Windows.Forms.Button();
             this.dgvSetlistMaster = new DataGridViewTools.RADataGridView();
             this.colSelect = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.colEnabled = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
@@ -101,33 +90,30 @@ namespace CustomsForgeSongManager.UControls
             this.colFilePath = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
             this.colArtistTitleAlbum = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
             this.colFileName = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
+            this.colRepairStatus = new DataGridViewTools.DataGridViewAutoFilterTextBoxColumn();
             this.gbSongPacks = new System.Windows.Forms.GroupBox();
-            this.chkProtectODLC = new System.Windows.Forms.CheckBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.btnEnDiSongPack = new System.Windows.Forms.Button();
             this.dgvSongPacks = new DataGridViewTools.RADataGridView();
             this.colSongPackSelect = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.colSongPackEnabled = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colSongPackPath = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colSongPackFileName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.gbSearch = new System.Windows.Forms.GroupBox();
-            this.btnDelete = new System.Windows.Forms.Button();
-            this.btnMove = new System.Windows.Forms.Button();
-            this.btnCopy = new System.Windows.Forms.Button();
-            this.chkShowSetlistSongs = new System.Windows.Forms.CheckBox();
+            this.btnRescan = new System.Windows.Forms.Button();
             this.lnkClearSearch = new System.Windows.Forms.LinkLabel();
-            this.label1 = new System.Windows.Forms.Label();
             this.btnRunRSWithSetlist = new System.Windows.Forms.Button();
             this.cueSearch = new DataGridViewTools.CueTextBox();
             this.lnkSetlistMgrHelp = new System.Windows.Forms.LinkLabel();
             this.cmsSetlistManager = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.cmsCopy = new System.Windows.Forms.ToolStripMenuItem();
-            this.cmsMove = new System.Windows.Forms.ToolStripMenuItem();
-            this.cmsDelete = new System.Windows.Forms.ToolStripMenuItem();
-            this.cmsEnableDisable = new System.Windows.Forms.ToolStripMenuItem();
+            this.cmsActions = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.cmsToggle = new System.Windows.Forms.ToolStripMenuItem();
             this.cmsSelectAllNone = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.cmsShow = new System.Windows.Forms.ToolStripMenuItem();
+            this.cmsEnableDisable = new System.Windows.Forms.ToolStripMenuItem();
+            this.cmsDelete = new System.Windows.Forms.ToolStripMenuItem();
+            this.cmsMove = new System.Windows.Forms.ToolStripMenuItem();
+            this.cmsCopy = new System.Windows.Forms.ToolStripMenuItem();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
@@ -227,10 +213,10 @@ namespace CustomsForgeSongManager.UControls
             this.dgvSetlistSongs.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvSetlistSongs.Size = new System.Drawing.Size(525, 201);
             this.dgvSetlistSongs.TabIndex = 34;
-            this.toolTip.SetToolTip(this.dgvSetlistSongs, "Left mouse click on row to select or check \'Select\' checkbox\r\nRight mouse click o" +
-                    "n row to show file operation options");
-            this.dgvSetlistSongs.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvSetlistSongs_CellMouseUp);
-            this.dgvSetlistSongs.SelectionChanged += new System.EventHandler(this.dgvSetlistSongs_SelectionChanged);
+            this.toolTip.SetToolTip(this.dgvSetlistSongs, "Left mouse click the \'Select\' checkbox to select a row\r\nRight mouse click on row " +
+                    "to show file operation options");
+            this.dgvSetlistSongs.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.dgvCurrent_CellFormatting);
+            this.dgvSetlistSongs.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvCurrent_CellMouseUp);
             // 
             // colSetlistSongsSelect
             // 
@@ -277,7 +263,7 @@ namespace CustomsForgeSongManager.UControls
             // 
             // colSetlistSongsArrangements
             // 
-            this.colSetlistSongsArrangements.DataPropertyName = "Arrangements";
+            this.colSetlistSongsArrangements.DataPropertyName = "Arrangements1D";
             this.colSetlistSongsArrangements.HeaderText = "Arrangements";
             this.colSetlistSongsArrangements.Name = "colSetlistSongsArrangements";
             this.colSetlistSongsArrangements.ReadOnly = true;
@@ -285,8 +271,8 @@ namespace CustomsForgeSongManager.UControls
             // 
             // colSetlistSongsSongTuning
             // 
-            this.colSetlistSongsSongTuning.DataPropertyName = "Tuning";
-            this.colSetlistSongsSongTuning.HeaderText = "Tuning";
+            this.colSetlistSongsSongTuning.DataPropertyName = "Tunings1D";
+            this.colSetlistSongsSongTuning.HeaderText = "Tunings";
             this.colSetlistSongsSongTuning.Name = "colSetlistSongsSongTuning";
             this.colSetlistSongsSongTuning.ReadOnly = true;
             this.colSetlistSongsSongTuning.Width = 70;
@@ -360,7 +346,7 @@ namespace CustomsForgeSongManager.UControls
             this.dgvSetlists.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvSetlists.Size = new System.Drawing.Size(196, 201);
             this.dgvSetlists.TabIndex = 35;
-            this.toolTip.SetToolTip(this.dgvSetlists, "Left mouse click on row to select or check \'Select\' checkbox");
+            this.toolTip.SetToolTip(this.dgvSetlists, "Click on the \'Select\' checkbox to load a Setlist");
             this.dgvSetlists.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvSetlists_CellMouseUp);
             this.dgvSetlists.SelectionChanged += new System.EventHandler(this.dgvSetlists_SelectionChanged);
             // 
@@ -396,17 +382,13 @@ namespace CustomsForgeSongManager.UControls
             // 
             // gbButtons
             // 
+            this.gbButtons.Controls.Add(this.chkProtectODLC);
             this.gbButtons.Controls.Add(this.btnCombineSetlists);
+            this.gbButtons.Controls.Add(this.chkIncludeSubfolders);
             this.gbButtons.Controls.Add(this.label2);
             this.gbButtons.Controls.Add(this.btnCreateSetlist);
-            this.gbButtons.Controls.Add(this.label11);
-            this.gbButtons.Controls.Add(this.btnRemoveSetlistSong);
-            this.gbButtons.Controls.Add(this.btnToggleSetlistSong);
-            this.gbButtons.Controls.Add(this.label16);
             this.gbButtons.Controls.Add(this.btnEnDiSetlist);
-            this.gbButtons.Controls.Add(this.btnRemoveSetlist);
-            this.gbButtons.Controls.Add(this.label15);
-            this.gbButtons.Controls.Add(this.btnEnDiSetlistSong);
+            this.gbButtons.Controls.Add(this.btnDeleteSetlist);
             this.gbButtons.Controls.Add(this.label14);
             this.gbButtons.Controls.Add(this.label10);
             this.gbButtons.Controls.Add(this.label12);
@@ -417,22 +399,56 @@ namespace CustomsForgeSongManager.UControls
             this.gbButtons.TabIndex = 5;
             this.gbButtons.TabStop = false;
             // 
+            // chkProtectODLC
+            // 
+            this.chkProtectODLC.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.chkProtectODLC.AutoSize = true;
+            this.chkProtectODLC.BackColor = System.Drawing.Color.LightGray;
+            this.chkProtectODLC.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.chkProtectODLC.ForeColor = System.Drawing.Color.Red;
+            this.chkProtectODLC.Location = new System.Drawing.Point(53, 157);
+            this.chkProtectODLC.Name = "chkProtectODLC";
+            this.chkProtectODLC.Padding = new System.Windows.Forms.Padding(5, 3, 0, 3);
+            this.chkProtectODLC.Size = new System.Drawing.Size(124, 23);
+            this.chkProtectODLC.TabIndex = 50;
+            this.chkProtectODLC.Text = "Protect Official DLC";
+            this.toolTip.SetToolTip(this.chkProtectODLC, "If checked, prevents ODLC\r\nfrom being selected, enabled,\r\ndisabled, copied, moved" +
+                    ", or deleted.");
+            this.chkProtectODLC.UseVisualStyleBackColor = false;
+            this.chkProtectODLC.MouseUp += new System.Windows.Forms.MouseEventHandler(this.chkProtectODLC_MouseUp);
+            // 
             // btnCombineSetlists
             // 
-            this.btnCombineSetlists.Location = new System.Drawing.Point(15, 103);
+            this.btnCombineSetlists.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.btnCombineSetlists.Image = global::CustomsForgeSongManager.Properties.Resources.refresh_plus;
+            this.btnCombineSetlists.Location = new System.Drawing.Point(20, 111);
             this.btnCombineSetlists.Name = "btnCombineSetlists";
-            this.btnCombineSetlists.Size = new System.Drawing.Size(22, 22);
+            this.btnCombineSetlists.Size = new System.Drawing.Size(26, 26);
             this.btnCombineSetlists.TabIndex = 64;
-            this.btnCombineSetlists.Text = "C";
             this.toolTip.SetToolTip(this.btnCombineSetlists, "The \'Select\' checkboxes must be\r\nckecked when combining Setlists.\r\n\r\nIndividual s" +
                     "ongs do not need to \r\nbe selected when using Combine.");
             this.btnCombineSetlists.UseVisualStyleBackColor = true;
             this.btnCombineSetlists.Click += new System.EventHandler(this.btnCombineSetlists_Click);
             // 
+            // chkIncludeSubfolders
+            // 
+            this.chkIncludeSubfolders.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.chkIncludeSubfolders.AutoSize = true;
+            this.chkIncludeSubfolders.Location = new System.Drawing.Point(53, 188);
+            this.chkIncludeSubfolders.Name = "chkIncludeSubfolders";
+            this.chkIncludeSubfolders.Padding = new System.Windows.Forms.Padding(5, 3, 0, 3);
+            this.chkIncludeSubfolders.Size = new System.Drawing.Size(119, 23);
+            this.chkIncludeSubfolders.TabIndex = 49;
+            this.chkIncludeSubfolders.Text = "Include Subfolders";
+            this.toolTip.SetToolTip(this.chkIncludeSubfolders, "If checked, shows and highlights\r\nsongs in the Master Songs grid\r\nthat are from s" +
+                    "etlist subfolders.");
+            this.chkIncludeSubfolders.UseVisualStyleBackColor = true;
+            this.chkIncludeSubfolders.MouseUp += new System.Windows.Forms.MouseEventHandler(this.chkIncludeSubfolders_MouseUp);
+            // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(43, 107);
+            this.label2.Location = new System.Drawing.Point(52, 118);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(131, 13);
             this.label2.TabIndex = 65;
@@ -440,104 +456,51 @@ namespace CustomsForgeSongManager.UControls
             // 
             // btnCreateSetlist
             // 
-            this.btnCreateSetlist.Location = new System.Drawing.Point(15, 19);
+            this.btnCreateSetlist.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.btnCreateSetlist.Image = global::CustomsForgeSongManager.Properties.Resources.plus;
+            this.btnCreateSetlist.Location = new System.Drawing.Point(20, 15);
             this.btnCreateSetlist.Name = "btnCreateSetlist";
-            this.btnCreateSetlist.Size = new System.Drawing.Size(22, 22);
+            this.btnCreateSetlist.Size = new System.Drawing.Size(26, 26);
             this.btnCreateSetlist.TabIndex = 51;
-            this.btnCreateSetlist.Text = "C";
             this.btnCreateSetlist.UseVisualStyleBackColor = true;
             this.btnCreateSetlist.Click += new System.EventHandler(this.btnCreateSetlist_Click);
             // 
-            // label11
-            // 
-            this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(43, 191);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(179, 13);
-            this.label11.TabIndex = 63;
-            this.label11.Text = "Remove selected song(s) from setlist";
-            // 
-            // btnRemoveSetlistSong
-            // 
-            this.btnRemoveSetlistSong.Location = new System.Drawing.Point(15, 187);
-            this.btnRemoveSetlistSong.Name = "btnRemoveSetlistSong";
-            this.btnRemoveSetlistSong.Size = new System.Drawing.Size(22, 22);
-            this.btnRemoveSetlistSong.TabIndex = 62;
-            this.btnRemoveSetlistSong.Text = "R";
-            this.btnRemoveSetlistSong.UseVisualStyleBackColor = true;
-            this.btnRemoveSetlistSong.Click += new System.EventHandler(this.btnRemoveSetlistSong_Click);
-            // 
-            // btnToggleSetlistSong
-            // 
-            this.btnToggleSetlistSong.Location = new System.Drawing.Point(15, 131);
-            this.btnToggleSetlistSong.Name = "btnToggleSetlistSong";
-            this.btnToggleSetlistSong.Size = new System.Drawing.Size(22, 22);
-            this.btnToggleSetlistSong.TabIndex = 59;
-            this.btnToggleSetlistSong.Text = "T";
-            this.btnToggleSetlistSong.UseVisualStyleBackColor = true;
-            this.btnToggleSetlistSong.Click += new System.EventHandler(this.btnToggleSetlistSongs_Click);
-            // 
-            // label16
-            // 
-            this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(43, 135);
-            this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(154, 13);
-            this.label16.TabIndex = 60;
-            this.label16.Text = "Toggle selected songs in setlist";
-            // 
             // btnEnDiSetlist
             // 
-            this.btnEnDiSetlist.Location = new System.Drawing.Point(15, 47);
+            this.btnEnDiSetlist.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.btnEnDiSetlist.Image = global::CustomsForgeSongManager.Properties.Resources.enabledisable;
+            this.btnEnDiSetlist.Location = new System.Drawing.Point(20, 47);
             this.btnEnDiSetlist.Name = "btnEnDiSetlist";
-            this.btnEnDiSetlist.Size = new System.Drawing.Size(22, 22);
+            this.btnEnDiSetlist.Size = new System.Drawing.Size(26, 26);
             this.btnEnDiSetlist.TabIndex = 49;
-            this.btnEnDiSetlist.Text = "E";
             this.btnEnDiSetlist.UseVisualStyleBackColor = true;
             this.btnEnDiSetlist.Click += new System.EventHandler(this.btnEnDiSetlist_Click);
             // 
-            // btnRemoveSetlist
+            // btnDeleteSetlist
             // 
-            this.btnRemoveSetlist.Location = new System.Drawing.Point(15, 75);
-            this.btnRemoveSetlist.Name = "btnRemoveSetlist";
-            this.btnRemoveSetlist.Size = new System.Drawing.Size(22, 22);
-            this.btnRemoveSetlist.TabIndex = 50;
-            this.btnRemoveSetlist.Text = "R";
-            this.btnRemoveSetlist.UseVisualStyleBackColor = true;
-            this.btnRemoveSetlist.Click += new System.EventHandler(this.btnRemoveSetlist_Click);
-            // 
-            // label15
-            // 
-            this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(43, 163);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(158, 13);
-            this.label15.TabIndex = 58;
-            this.label15.Text = "Enable/disable selected song(s)";
-            // 
-            // btnEnDiSetlistSong
-            // 
-            this.btnEnDiSetlistSong.Location = new System.Drawing.Point(15, 159);
-            this.btnEnDiSetlistSong.Name = "btnEnDiSetlistSong";
-            this.btnEnDiSetlistSong.Size = new System.Drawing.Size(22, 22);
-            this.btnEnDiSetlistSong.TabIndex = 57;
-            this.btnEnDiSetlistSong.Text = "E";
-            this.btnEnDiSetlistSong.UseVisualStyleBackColor = true;
-            this.btnEnDiSetlistSong.Click += new System.EventHandler(this.btnEnDiSetlistSong_Click);
+            this.btnDeleteSetlist.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.btnDeleteSetlist.Image = global::CustomsForgeSongManager.Properties.Resources.minus;
+            this.btnDeleteSetlist.Location = new System.Drawing.Point(20, 79);
+            this.btnDeleteSetlist.Name = "btnDeleteSetlist";
+            this.btnDeleteSetlist.Size = new System.Drawing.Size(26, 26);
+            this.btnDeleteSetlist.TabIndex = 50;
+            this.toolTip.SetToolTip(this.btnDeleteSetlist, "Warning:\r\nDeletes entire setlist and \r\nall setlist songs in the setlist.");
+            this.btnDeleteSetlist.UseVisualStyleBackColor = true;
+            this.btnDeleteSetlist.Click += new System.EventHandler(this.btnDeleteSetlist_Click);
             // 
             // label14
             // 
             this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(43, 79);
+            this.label14.Location = new System.Drawing.Point(52, 86);
             this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(130, 13);
+            this.label14.Size = new System.Drawing.Size(121, 13);
             this.label14.TabIndex = 56;
-            this.label14.Text = "Remove selected setlist(s)";
+            this.label14.Text = "Delete selected setlist(s)";
             // 
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(43, 23);
+            this.label10.Location = new System.Drawing.Point(52, 22);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(90, 13);
             this.label10.TabIndex = 53;
@@ -546,7 +509,7 @@ namespace CustomsForgeSongManager.UControls
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(43, 51);
+            this.label12.Location = new System.Drawing.Point(52, 54);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(161, 13);
             this.label12.TabIndex = 54;
@@ -573,13 +536,6 @@ namespace CustomsForgeSongManager.UControls
             // 
             // gbSongs
             // 
-            this.gbSongs.Controls.Add(this.btnMoveSongs);
-            this.gbSongs.Controls.Add(this.label5);
-            this.gbSongs.Controls.Add(this.btnToggleDlcSongs);
-            this.gbSongs.Controls.Add(this.label9);
-            this.gbSongs.Controls.Add(this.label8);
-            this.gbSongs.Controls.Add(this.btnEnDiDlcSongs);
-            this.gbSongs.Controls.Add(this.btnCopySongs);
             this.gbSongs.Controls.Add(this.dgvSetlistMaster);
             this.gbSongs.Dock = System.Windows.Forms.DockStyle.Fill;
             this.gbSongs.Location = new System.Drawing.Point(1, 1);
@@ -589,80 +545,6 @@ namespace CustomsForgeSongManager.UControls
             this.gbSongs.TabIndex = 8;
             this.gbSongs.TabStop = false;
             this.gbSongs.Text = "Master Songs";
-            // 
-            // btnMoveSongs
-            // 
-            this.btnMoveSongs.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnMoveSongs.Location = new System.Drawing.Point(30, 230);
-            this.btnMoveSongs.Name = "btnMoveSongs";
-            this.btnMoveSongs.Size = new System.Drawing.Size(22, 22);
-            this.btnMoveSongs.TabIndex = 39;
-            this.btnMoveSongs.Text = "M";
-            this.btnMoveSongs.UseVisualStyleBackColor = true;
-            this.btnMoveSongs.Click += new System.EventHandler(this.btnMoveSongs_Click);
-            // 
-            // label5
-            // 
-            this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(453, 235);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(83, 13);
-            this.label5.TabIndex = 38;
-            this.label5.Text = "Toggle selected";
-            // 
-            // btnToggleDlcSongs
-            // 
-            this.btnToggleDlcSongs.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnToggleDlcSongs.Location = new System.Drawing.Point(431, 231);
-            this.btnToggleDlcSongs.Name = "btnToggleDlcSongs";
-            this.btnToggleDlcSongs.Size = new System.Drawing.Size(22, 22);
-            this.btnToggleDlcSongs.TabIndex = 37;
-            this.btnToggleDlcSongs.Text = "T";
-            this.btnToggleDlcSongs.UseVisualStyleBackColor = true;
-            this.btnToggleDlcSongs.Click += new System.EventHandler(this.btnToggleSetlistMasterSongs_Click);
-            // 
-            // label9
-            // 
-            this.label9.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(52, 235);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(147, 13);
-            this.label9.TabIndex = 36;
-            this.label9.Text = "Copy/Move selected to setlist";
-            // 
-            // label8
-            // 
-            this.label8.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(270, 236);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(121, 13);
-            this.label8.TabIndex = 35;
-            this.label8.Text = "Enable/disable selected";
-            // 
-            // btnEnDiDlcSongs
-            // 
-            this.btnEnDiDlcSongs.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnEnDiDlcSongs.Location = new System.Drawing.Point(249, 231);
-            this.btnEnDiDlcSongs.Name = "btnEnDiDlcSongs";
-            this.btnEnDiDlcSongs.Size = new System.Drawing.Size(22, 22);
-            this.btnEnDiDlcSongs.TabIndex = 34;
-            this.btnEnDiDlcSongs.Text = "E";
-            this.btnEnDiDlcSongs.UseVisualStyleBackColor = true;
-            this.btnEnDiDlcSongs.Click += new System.EventHandler(this.btnEnDiSetlistMaster_Click);
-            // 
-            // btnCopySongs
-            // 
-            this.btnCopySongs.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnCopySongs.Location = new System.Drawing.Point(5, 230);
-            this.btnCopySongs.Name = "btnCopySongs";
-            this.btnCopySongs.Size = new System.Drawing.Size(22, 22);
-            this.btnCopySongs.TabIndex = 33;
-            this.btnCopySongs.Text = "C";
-            this.btnCopySongs.UseVisualStyleBackColor = true;
-            this.btnCopySongs.Click += new System.EventHandler(this.btnCopySongs_Click);
             // 
             // dgvSetlistMaster
             // 
@@ -693,22 +575,21 @@ namespace CustomsForgeSongManager.UControls
             this.colDD,
             this.colFilePath,
             this.colArtistTitleAlbum,
-            this.colFileName});
+            this.colFileName,
+            this.colRepairStatus});
             this.dgvSetlistMaster.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
             this.dgvSetlistMaster.Location = new System.Drawing.Point(6, 16);
             this.dgvSetlistMaster.Name = "dgvSetlistMaster";
             this.dgvSetlistMaster.RowHeadersVisible = false;
-            this.dgvSetlistMaster.Size = new System.Drawing.Size(552, 211);
+            this.dgvSetlistMaster.Size = new System.Drawing.Size(552, 234);
             this.dgvSetlistMaster.TabIndex = 32;
             this.dgvSetlistMaster.Tag = "Setlist Manager";
-            this.toolTip.SetToolTip(this.dgvSetlistMaster, "Left mouse click on row to select or check \'Select\' checkbox\r\nRight mouse click o" +
-                    "n row to show file operation options");
-            this.dgvSetlistMaster.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.dgvSetlistMaster_CellFormatting);
+            this.toolTip.SetToolTip(this.dgvSetlistMaster, "Left mouse click the \'Select\' checkbox to select a row\r\nRight mouse click on row " +
+                    "to show file operation options");
+            this.dgvSetlistMaster.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.dgvCurrent_CellFormatting);
             this.dgvSetlistMaster.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvSetlistMaster_CellMouseDown);
-            this.dgvSetlistMaster.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvSetlistMaster_CellMouseUp);
-            this.dgvSetlistMaster.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvSetlistMaster_ColumnHeaderMouseClick);
+            this.dgvSetlistMaster.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvCurrent_CellMouseUp);
             this.dgvSetlistMaster.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.dgvSetlistMaster_DataBindingComplete);
-            this.dgvSetlistMaster.SelectionChanged += new System.EventHandler(this.dgvSetlistMaster_SelectionChanged);
             this.dgvSetlistMaster.Paint += new System.Windows.Forms.PaintEventHandler(this.dgvSetlistMaster_Paint);
             // 
             // colSelect
@@ -720,6 +601,8 @@ namespace CustomsForgeSongManager.UControls
             this.colSelect.HeaderText = "Select";
             this.colSelect.IndeterminateValue = "false";
             this.colSelect.Name = "colSelect";
+            this.colSelect.ToolTipText = "Left mouse click the \'Select\' checkbox to select a row\r\nRight mouse click on row " +
+                "to show file operation options";
             this.colSelect.TrueValue = "true";
             this.colSelect.Width = 43;
             // 
@@ -760,7 +643,7 @@ namespace CustomsForgeSongManager.UControls
             // 
             // colArrangements
             // 
-            this.colArrangements.DataPropertyName = "Arrangements";
+            this.colArrangements.DataPropertyName = "Arrangements1D";
             this.colArrangements.HeaderText = "Arrangements";
             this.colArrangements.Name = "colArrangements";
             this.colArrangements.ReadOnly = true;
@@ -768,8 +651,8 @@ namespace CustomsForgeSongManager.UControls
             // 
             // colSongTuning
             // 
-            this.colSongTuning.DataPropertyName = "Tuning";
-            this.colSongTuning.HeaderText = "Tuning";
+            this.colSongTuning.DataPropertyName = "Tunings1D";
+            this.colSongTuning.HeaderText = "Tunings";
             this.colSongTuning.Name = "colSongTuning";
             this.colSongTuning.ReadOnly = true;
             this.colSongTuning.Resizable = System.Windows.Forms.DataGridViewTriState.True;
@@ -810,11 +693,14 @@ namespace CustomsForgeSongManager.UControls
             this.colFileName.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.colFileName.Width = 140;
             // 
+            // colRepairStatus
+            // 
+            this.colRepairStatus.DataPropertyName = "RepairStatus";
+            this.colRepairStatus.HeaderText = "RepairStatus";
+            this.colRepairStatus.Name = "colRepairStatus";
+            // 
             // gbSongPacks
             // 
-            this.gbSongPacks.Controls.Add(this.chkProtectODLC);
-            this.gbSongPacks.Controls.Add(this.label4);
-            this.gbSongPacks.Controls.Add(this.btnEnDiSongPack);
             this.gbSongPacks.Controls.Add(this.dgvSongPacks);
             this.gbSongPacks.Dock = System.Windows.Forms.DockStyle.Fill;
             this.gbSongPacks.Location = new System.Drawing.Point(732, 3);
@@ -823,40 +709,6 @@ namespace CustomsForgeSongManager.UControls
             this.gbSongPacks.TabIndex = 6;
             this.gbSongPacks.TabStop = false;
             this.gbSongPacks.Text = "Song Packs";
-            // 
-            // chkProtectODLC
-            // 
-            this.chkProtectODLC.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.chkProtectODLC.AutoSize = true;
-            this.chkProtectODLC.Checked = true;
-            this.chkProtectODLC.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkProtectODLC.Location = new System.Drawing.Point(18, 228);
-            this.chkProtectODLC.Name = "chkProtectODLC";
-            this.chkProtectODLC.Size = new System.Drawing.Size(216, 17);
-            this.chkProtectODLC.TabIndex = 50;
-            this.chkProtectODLC.Text = "Protect Official DLC from Deletion/Move";
-            this.chkProtectODLC.UseVisualStyleBackColor = true;
-            // 
-            // label4
-            // 
-            this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(46, 197);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(179, 13);
-            this.label4.TabIndex = 36;
-            this.label4.Text = "Enable/disable selected song packs";
-            // 
-            // btnEnDiSongPack
-            // 
-            this.btnEnDiSongPack.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnEnDiSongPack.Location = new System.Drawing.Point(18, 192);
-            this.btnEnDiSongPack.Name = "btnEnDiSongPack";
-            this.btnEnDiSongPack.Size = new System.Drawing.Size(22, 22);
-            this.btnEnDiSongPack.TabIndex = 35;
-            this.btnEnDiSongPack.Text = "E";
-            this.btnEnDiSongPack.UseVisualStyleBackColor = true;
-            this.btnEnDiSongPack.Click += new System.EventHandler(this.btnEnDiSongPack_Click);
             // 
             // dgvSongPacks
             // 
@@ -885,11 +737,14 @@ namespace CustomsForgeSongManager.UControls
             this.dgvSongPacks.Name = "dgvSongPacks";
             this.dgvSongPacks.RowHeadersVisible = false;
             this.dgvSongPacks.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvSongPacks.Size = new System.Drawing.Size(241, 170);
+            this.dgvSongPacks.Size = new System.Drawing.Size(241, 232);
             this.dgvSongPacks.TabIndex = 34;
-            this.toolTip.SetToolTip(this.dgvSongPacks, "Left mouse click on row to select or check \'Select\' checkbox");
-            this.dgvSongPacks.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvSongPacks_CellMouseUp);
-            this.dgvSongPacks.SelectionChanged += new System.EventHandler(this.dgvSongPacks_SelectionChanged);
+            this.toolTip.SetToolTip(this.dgvSongPacks, "Left mouse click the \'Select\' checkbox to select a row\r\nRight mouse click on row " +
+                    "to show file operation options");
+            this.dgvSongPacks.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.dgvCurrent_CellFormatting);
+            this.dgvSongPacks.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvCurrent_CellMouseUp);
+            this.dgvSongPacks.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvSongPacks_CellValueChanged);
+            this.dgvSongPacks.CurrentCellDirtyStateChanged += new System.EventHandler(this.dgvSongPacks_CurrentCellDirtyStateChanged);
             // 
             // colSongPackSelect
             // 
@@ -935,102 +790,51 @@ namespace CustomsForgeSongManager.UControls
             // 
             // gbSearch
             // 
-            this.gbSearch.Controls.Add(this.btnDelete);
-            this.gbSearch.Controls.Add(this.btnMove);
-            this.gbSearch.Controls.Add(this.btnCopy);
-            this.gbSearch.Controls.Add(this.chkShowSetlistSongs);
+            this.gbSearch.Controls.Add(this.btnRescan);
             this.gbSearch.Controls.Add(this.lnkClearSearch);
-            this.gbSearch.Controls.Add(this.label1);
             this.gbSearch.Controls.Add(this.btnRunRSWithSetlist);
             this.gbSearch.Controls.Add(this.cueSearch);
             this.gbSearch.Controls.Add(this.lnkSetlistMgrHelp);
             this.gbSearch.Dock = System.Windows.Forms.DockStyle.Fill;
             this.gbSearch.Location = new System.Drawing.Point(569, 3);
             this.gbSearch.Name = "gbSearch";
+            this.gbSearch.Padding = new System.Windows.Forms.Padding(0);
             this.gbSearch.Size = new System.Drawing.Size(157, 254);
             this.gbSearch.TabIndex = 7;
             this.gbSearch.TabStop = false;
             // 
-            // btnDelete
+            // btnRescan
             // 
-            this.btnDelete.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.btnDelete.Location = new System.Drawing.Point(108, 65);
-            this.btnDelete.Name = "btnDelete";
-            this.btnDelete.Size = new System.Drawing.Size(22, 22);
-            this.btnDelete.TabIndex = 52;
-            this.btnDelete.Text = "D";
-            this.btnDelete.UseVisualStyleBackColor = true;
-            this.btnDelete.Visible = false;
-            this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
-            // 
-            // btnMove
-            // 
-            this.btnMove.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.btnMove.Location = new System.Drawing.Point(64, 65);
-            this.btnMove.Name = "btnMove";
-            this.btnMove.Size = new System.Drawing.Size(22, 22);
-            this.btnMove.TabIndex = 51;
-            this.btnMove.Text = "M";
-            this.btnMove.UseVisualStyleBackColor = true;
-            this.btnMove.Visible = false;
-            this.btnMove.Click += new System.EventHandler(this.btnMove_Click);
-            // 
-            // btnCopy
-            // 
-            this.btnCopy.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.btnCopy.Location = new System.Drawing.Point(23, 65);
-            this.btnCopy.Name = "btnCopy";
-            this.btnCopy.Size = new System.Drawing.Size(22, 22);
-            this.btnCopy.TabIndex = 50;
-            this.btnCopy.Text = "C";
-            this.btnCopy.UseVisualStyleBackColor = true;
-            this.btnCopy.Visible = false;
-            this.btnCopy.Click += new System.EventHandler(this.btnCopy_Click);
-            // 
-            // chkShowSetlistSongs
-            // 
-            this.chkShowSetlistSongs.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.chkShowSetlistSongs.AutoSize = true;
-            this.chkShowSetlistSongs.Checked = true;
-            this.chkShowSetlistSongs.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkShowSetlistSongs.Location = new System.Drawing.Point(22, 231);
-            this.chkShowSetlistSongs.Name = "chkShowSetlistSongs";
-            this.chkShowSetlistSongs.Size = new System.Drawing.Size(117, 17);
-            this.chkShowSetlistSongs.TabIndex = 49;
-            this.chkShowSetlistSongs.Text = "Show Setlist Songs";
-            this.chkShowSetlistSongs.UseVisualStyleBackColor = true;
-            this.chkShowSetlistSongs.CheckedChanged += new System.EventHandler(this.chkShowSetlistSongs_CheckedChanged);
-            this.chkShowSetlistSongs.MouseUp += new System.Windows.Forms.MouseEventHandler(this.chkShowSetlistSongs_MouseUp);
+            this.btnRescan.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnRescan.Image = global::CustomsForgeSongManager.Properties.Resources.restorewindow;
+            this.btnRescan.Location = new System.Drawing.Point(6, 222);
+            this.btnRescan.Name = "btnRescan";
+            this.btnRescan.Size = new System.Drawing.Size(27, 26);
+            this.btnRescan.TabIndex = 49;
+            this.toolTip.SetToolTip(this.btnRescan, "Emergency Full Rescan\r\nHint: Click if grids don\'t look right.");
+            this.btnRescan.UseVisualStyleBackColor = true;
+            this.btnRescan.Click += new System.EventHandler(this.btnRescan_Click);
             // 
             // lnkClearSearch
             // 
             this.lnkClearSearch.AutoSize = true;
             this.lnkClearSearch.ForeColor = System.Drawing.Color.DimGray;
             this.lnkClearSearch.LinkColor = System.Drawing.SystemColors.ActiveCaption;
-            this.lnkClearSearch.Location = new System.Drawing.Point(39, 39);
+            this.lnkClearSearch.Location = new System.Drawing.Point(3, 39);
             this.lnkClearSearch.Name = "lnkClearSearch";
             this.lnkClearSearch.Size = new System.Drawing.Size(68, 13);
             this.lnkClearSearch.TabIndex = 48;
             this.lnkClearSearch.TabStop = true;
             this.lnkClearSearch.Text = "Clear Search";
+            this.toolTip.SetToolTip(this.lnkClearSearch, "HINT:\r\nQuickly clears any Filters, \r\nas well as, any Search, \r\nand preserves exis" +
+                    "ting sort.");
             this.lnkClearSearch.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkClearSearch_LinkClicked);
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(26, 175);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(107, 13);
-            this.label1.TabIndex = 47;
-            this.label1.Text = "with enabled setlist(s)";
-            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // btnRunRSWithSetlist
             // 
-            this.btnRunRSWithSetlist.Enabled = false;
             this.btnRunRSWithSetlist.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnRunRSWithSetlist.Image = global::CustomsForgeSongManager.Properties.Resources.StartRs;
-            this.btnRunRSWithSetlist.Location = new System.Drawing.Point(32, 125);
+            this.btnRunRSWithSetlist.Location = new System.Drawing.Point(35, 132);
             this.btnRunRSWithSetlist.Name = "btnRunRSWithSetlist";
             this.btnRunRSWithSetlist.Size = new System.Drawing.Size(94, 44);
             this.btnRunRSWithSetlist.TabIndex = 46;
@@ -1046,6 +850,7 @@ namespace CustomsForgeSongManager.UControls
             this.cueSearch.Name = "cueSearch";
             this.cueSearch.Size = new System.Drawing.Size(144, 20);
             this.cueSearch.TabIndex = 44;
+            this.toolTip.SetToolTip(this.cueSearch, "Type characters to search for then hit return ...");
             this.cueSearch.KeyUp += new System.Windows.Forms.KeyEventHandler(this.cueSearch_KeyUp);
             // 
             // lnkSetlistMgrHelp
@@ -1054,7 +859,7 @@ namespace CustomsForgeSongManager.UControls
             this.lnkSetlistMgrHelp.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lnkSetlistMgrHelp.ForeColor = System.Drawing.Color.Black;
             this.lnkSetlistMgrHelp.LinkColor = System.Drawing.SystemColors.ActiveCaption;
-            this.lnkSetlistMgrHelp.Location = new System.Drawing.Point(12, 90);
+            this.lnkSetlistMgrHelp.Location = new System.Drawing.Point(17, 80);
             this.lnkSetlistMgrHelp.Name = "lnkSetlistMgrHelp";
             this.lnkSetlistMgrHelp.Size = new System.Drawing.Size(133, 16);
             this.lnkSetlistMgrHelp.TabIndex = 45;
@@ -1065,47 +870,30 @@ namespace CustomsForgeSongManager.UControls
             // cmsSetlistManager
             // 
             this.cmsSetlistManager.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.cmsCopy,
-            this.cmsMove,
-            this.cmsDelete,
-            this.cmsEnableDisable,
+            this.cmsActions,
+            this.toolStripSeparator2,
             this.cmsToggle,
             this.cmsSelectAllNone,
-            this.cmsShow});
+            this.toolStripSeparator1,
+            this.cmsShow,
+            this.cmsEnableDisable,
+            this.cmsDelete,
+            this.cmsMove,
+            this.cmsCopy});
             this.cmsSetlistManager.Name = "contextMenuStrip_MainManager";
-            this.cmsSetlistManager.Size = new System.Drawing.Size(158, 158);
+            this.cmsSetlistManager.Size = new System.Drawing.Size(158, 192);
             // 
-            // cmsCopy
+            // cmsActions
             // 
-            this.cmsCopy.Image = global::CustomsForgeSongManager.Properties.Resources.copy;
-            this.cmsCopy.Name = "cmsCopy";
-            this.cmsCopy.Size = new System.Drawing.Size(157, 22);
-            this.cmsCopy.Text = "Copy";
-            this.cmsCopy.Click += new System.EventHandler(this.cmsCopy_Click);
+            this.cmsActions.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cmsActions.Name = "cmsActions";
+            this.cmsActions.Size = new System.Drawing.Size(157, 22);
+            this.cmsActions.Text = "Actions:";
             // 
-            // cmsMove
+            // toolStripSeparator2
             // 
-            this.cmsMove.Image = global::CustomsForgeSongManager.Properties.Resources.export;
-            this.cmsMove.Name = "cmsMove";
-            this.cmsMove.Size = new System.Drawing.Size(157, 22);
-            this.cmsMove.Text = "Move";
-            this.cmsMove.Click += new System.EventHandler(this.cmsMove_Click);
-            // 
-            // cmsDelete
-            // 
-            this.cmsDelete.Image = global::CustomsForgeSongManager.Properties.Resources.delete;
-            this.cmsDelete.Name = "cmsDelete";
-            this.cmsDelete.Size = new System.Drawing.Size(157, 22);
-            this.cmsDelete.Text = "Delete";
-            this.cmsDelete.Click += new System.EventHandler(this.cmsDelete_Click);
-            // 
-            // cmsEnableDisable
-            // 
-            this.cmsEnableDisable.Image = global::CustomsForgeSongManager.Properties.Resources.enabledisable;
-            this.cmsEnableDisable.Name = "cmsEnableDisable";
-            this.cmsEnableDisable.Size = new System.Drawing.Size(157, 22);
-            this.cmsEnableDisable.Text = "Enable/Disable";
-            this.cmsEnableDisable.Click += new System.EventHandler(this.cmsEnableDisable_Click);
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(154, 6);
             // 
             // cmsToggle
             // 
@@ -1123,6 +911,11 @@ namespace CustomsForgeSongManager.UControls
             this.cmsSelectAllNone.Text = "Select All/None";
             this.cmsSelectAllNone.Click += new System.EventHandler(this.cmsSelectAllNone_Click);
             // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(154, 6);
+            // 
             // cmsShow
             // 
             this.cmsShow.Image = global::CustomsForgeSongManager.Properties.Resources.Open;
@@ -1131,11 +924,48 @@ namespace CustomsForgeSongManager.UControls
             this.cmsShow.Text = "Show";
             this.cmsShow.Click += new System.EventHandler(this.cmsShow_Click);
             // 
+            // cmsEnableDisable
+            // 
+            this.cmsEnableDisable.Image = global::CustomsForgeSongManager.Properties.Resources.enabledisable;
+            this.cmsEnableDisable.Name = "cmsEnableDisable";
+            this.cmsEnableDisable.Size = new System.Drawing.Size(157, 22);
+            this.cmsEnableDisable.Text = "Enable/Disable";
+            this.cmsEnableDisable.ToolTipText = "Select must be checked.";
+            this.cmsEnableDisable.Click += new System.EventHandler(this.cmsEnableDisable_Click);
+            // 
+            // cmsDelete
+            // 
+            this.cmsDelete.Image = global::CustomsForgeSongManager.Properties.Resources.delete;
+            this.cmsDelete.Name = "cmsDelete";
+            this.cmsDelete.Size = new System.Drawing.Size(157, 22);
+            this.cmsDelete.Text = "Delete";
+            this.cmsDelete.ToolTipText = "WARNING\r\nDeletion can not be undone.\r\nSelect must be checked.";
+            this.cmsDelete.Click += new System.EventHandler(this.cmsDelete_Click);
+            // 
+            // cmsMove
+            // 
+            this.cmsMove.Image = global::CustomsForgeSongManager.Properties.Resources.export;
+            this.cmsMove.Name = "cmsMove";
+            this.cmsMove.Size = new System.Drawing.Size(157, 22);
+            this.cmsMove.Text = "Move";
+            this.cmsMove.ToolTipText = "Select must be checked.";
+            this.cmsMove.Click += new System.EventHandler(this.cmsMove_Click);
+            // 
+            // cmsCopy
+            // 
+            this.cmsCopy.Image = global::CustomsForgeSongManager.Properties.Resources.copy;
+            this.cmsCopy.Name = "cmsCopy";
+            this.cmsCopy.Size = new System.Drawing.Size(157, 22);
+            this.cmsCopy.Text = "Copy";
+            this.cmsCopy.ToolTipText = "Select must be checked.";
+            this.cmsCopy.Click += new System.EventHandler(this.cmsCopy_Click);
+            // 
             // toolTip
             // 
             this.toolTip.AutomaticDelay = 100;
             this.toolTip.AutoPopDelay = 8000;
             this.toolTip.InitialDelay = 100;
+            this.toolTip.IsBalloon = true;
             this.toolTip.ReshowDelay = 50;
             // 
             // SetlistManager
@@ -1154,10 +984,8 @@ namespace CustomsForgeSongManager.UControls
             this.gbButtons.PerformLayout();
             this.tableLayoutPanel3.ResumeLayout(false);
             this.gbSongs.ResumeLayout(false);
-            this.gbSongs.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvSetlistMaster)).EndInit();
             this.gbSongPacks.ResumeLayout(false);
-            this.gbSongPacks.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvSongPacks)).EndInit();
             this.gbSearch.ResumeLayout(false);
             this.gbSearch.PerformLayout();
@@ -1178,46 +1006,27 @@ namespace CustomsForgeSongManager.UControls
         private System.Windows.Forms.DataGridViewTextBoxColumn colSetlistName;
         private System.Windows.Forms.GroupBox gbButtons;
         private System.Windows.Forms.Button btnCreateSetlist;
-        private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.Button btnRemoveSetlistSong;
-        private System.Windows.Forms.Button btnToggleSetlistSong;
-        private System.Windows.Forms.Label label16;
         private System.Windows.Forms.Button btnEnDiSetlist;
-        private System.Windows.Forms.Button btnRemoveSetlist;
-        private System.Windows.Forms.Label label15;
-        private System.Windows.Forms.Button btnEnDiSetlistSong;
+        private System.Windows.Forms.Button btnDeleteSetlist;
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.GroupBox gbSetlistSongs;
         private RADataGridView dgvSetlistSongs;
         private System.Windows.Forms.GroupBox gbSongPacks;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Button btnEnDiSongPack;
         private RADataGridView dgvSongPacks;
         private System.Windows.Forms.GroupBox gbSearch;
         private System.Windows.Forms.GroupBox gbSongs;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Button btnToggleDlcSongs;
-        private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.Button btnEnDiDlcSongs;
-        private System.Windows.Forms.Button btnCopySongs;
         private RADataGridView dgvSetlistMaster;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Button btnRunRSWithSetlist;
         private CueTextBox cueSearch;
         private System.Windows.Forms.LinkLabel lnkSetlistMgrHelp;
         private System.Windows.Forms.LinkLabel lnkClearSearch;
-        private CheckBox chkShowSetlistSongs;
+        private CheckBox chkIncludeSubfolders;
         private ContextMenuStrip cmsSetlistManager;
         private ToolStripMenuItem cmsDelete;
         private ToolStripMenuItem cmsCopy;
         private Button btnCombineSetlists;
         private Label label2;
-        private Button btnDelete;
-        private Button btnMove;
-        private Button btnCopy;
         private ToolStripMenuItem cmsMove;
         private CheckBox chkProtectODLC;
         private ToolStripMenuItem cmsShow;
@@ -1225,7 +1034,15 @@ namespace CustomsForgeSongManager.UControls
         private ToolStripMenuItem cmsEnableDisable;
         private ToolStripMenuItem cmsToggle;
         private ToolStripMenuItem cmsSelectAllNone;
-        private Button btnMoveSongs;
+        private DataGridViewCheckBoxColumn colSongPackSelect;
+        private DataGridViewTextBoxColumn colSongPackEnabled;
+        private DataGridViewTextBoxColumn colSongPackPath;
+        private DataGridViewTextBoxColumn colSongPackFileName;
+        private ToolStripSeparator toolStripSeparator1;
+        private ToolStripMenuItem cmsActions;
+        private ToolStripSeparator toolStripSeparator2;
+        private Button btnRunRSWithSetlist;
+        private Button btnRescan;
         private DataGridViewCheckBoxColumn colSetlistSongsSelect;
         private DataGridViewTextBoxColumn colSetlistSongsEnabled;
         private DataGridViewTextBoxColumn colSetlistSongsSongArtist;
@@ -1237,10 +1054,6 @@ namespace CustomsForgeSongManager.UControls
         private DataGridViewTextBoxColumn colSetlistSongsPath;
         private DataGridViewTextBoxColumn colSetlistSongsArtistTitleAlbum;
         private DataGridViewTextBoxColumn colSetlistFileName;
-        private DataGridViewCheckBoxColumn colSongPackSelect;
-        private DataGridViewTextBoxColumn colSongPackEnabled;
-        private DataGridViewTextBoxColumn colSongPackPath;
-        private DataGridViewTextBoxColumn colSongPackFileName;
         private DataGridViewCheckBoxColumn colSelect;
         private DataGridViewAutoFilterTextBoxColumn colEnabled;
         private DataGridViewAutoFilterTextBoxColumn colArtist;
@@ -1252,6 +1065,7 @@ namespace CustomsForgeSongManager.UControls
         private DataGridViewAutoFilterTextBoxColumn colFilePath;
         private DataGridViewAutoFilterTextBoxColumn colArtistTitleAlbum;
         private DataGridViewAutoFilterTextBoxColumn colFileName;
+        private DataGridViewAutoFilterTextBoxColumn colRepairStatus;
 
 
 

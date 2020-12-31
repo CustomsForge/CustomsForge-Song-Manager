@@ -513,7 +513,7 @@ namespace CFSM.AudioTools
 
             if (0 != _loop_count)
             {
-                cout(string.Format("loop from {0} to {1}", _loop_start, _loop_end));
+                cout(String.Format("loop from {0} to {1}", _loop_start, _loop_end));
             }
 
             if (_old_packet_headers)

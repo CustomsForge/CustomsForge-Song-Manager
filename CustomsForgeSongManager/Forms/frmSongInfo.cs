@@ -3,8 +3,8 @@ using System.Drawing;
 using System.Windows.Forms;
 using System.IO;
 using CFSM.ImageTools;
-using CFSM.RSTKLib.PSARC;
 using CustomsForgeSongManager.DataObjects;
+using RocksmithToolkitLib.PSARC;
 
 namespace CustomsForgeSongManager.Forms
 {

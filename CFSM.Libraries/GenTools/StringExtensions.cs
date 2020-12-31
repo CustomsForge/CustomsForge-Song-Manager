@@ -12,7 +12,7 @@ namespace GenTools
     {
         public static string Capitalize(this string input)
         {
-            return string.Format("{0}{1}", input.Substring(0, 1).ToUpper(), input.Substring(1).ToLower());
+            return String.Format("{0}{1}", input.Substring(0, 1).ToUpper(), input.Substring(1).ToLower());
         }
 
         public static string ConvertToAscii(this string input)
@@ -169,7 +169,7 @@ namespace GenTools
                 }
                 cutText = cutText.RightStrip(1);
             }
-            return string.Format("{0}{1}", cutText.Replace("[...]", ""), addSuspensionPoints && hasToBeCut ? "..." : string.Empty);
+            return String.Format("{0}{1}", cutText.Replace("[...]", ""), addSuspensionPoints && hasToBeCut ? "..." : string.Empty);
         }
 
         public static List<string> SplitToList(this string input, params char[] separator)
@@ -270,6 +270,49 @@ namespace GenTools
             return result;
         }
 
+        /// <summary>
+        /// Removes the suffix from a string, otherwise leave string unchanged
+        /// </summary>
+        /// <param name="str"></param>
+        /// <param name="suffix"></param>
+        /// <returns></returns>
+        public static string RemoveSuffix(this string str, string suffix)
+        {
+            if (str.EndsWith(suffix))
+                str = str.Remove(str.Length - suffix.Length, suffix.Length);
+
+            return str;
+        }
+
+        /// <summary>
+        /// Removes the prefix from a string, otherwise leave string unchanged
+        /// </summary>
+        /// <param name="str"></param>
+        /// <param name="prefix"></param>
+        /// <returns></returns>
+        public static string RemovePrefix(this string str, string prefix)
+        {
+            if (str.StartsWith(prefix))
+                str = str.Remove(0, prefix.Length);
+
+            return str;
+        }
+
+        public static string GetStringInBetween(string strBegin, string strEnd, string strSource)
+        {
+            string result = "";
+            int iIndexOfBegin = strSource.IndexOf(strBegin);
+            if (iIndexOfBegin != -1)
+            {
+                strSource = strSource.Substring(iIndexOfBegin + strBegin.Length);
+                int iEnd = strSource.IndexOf(strEnd);
+                if (iEnd != -1)
+                {
+                    result = strSource.Substring(0, iEnd);
+                }
+            }
+            return result;
+        }
 
     }
 }

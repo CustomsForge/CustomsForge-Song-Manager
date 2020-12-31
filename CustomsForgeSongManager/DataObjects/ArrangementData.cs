@@ -39,6 +39,7 @@ namespace CustomsForgeSongManager.DataObjects
         public string PackageAuthor { get; set; }
         public string PackageVersion { get; set; }
         public string PackageComment { get; set; }
+        public string PackageRating { get; set; }
         public string FilePath { get; set; }
         public DateTime FileDate { get; set; }
         public int FileSize { get; set; }
@@ -54,15 +55,19 @@ namespace CustomsForgeSongManager.DataObjects
 
         // Arrangement Attributes
         public string PersistentID { get; set; } // unique ID
-        public string Name { get; set; } // arrangement name
+        public string ArrangementName { get; set; }
         public int? CapoFret { get; set; }
         public int? DDMax { get; set; }
+        public float? ScrollSpeed { get; set; } // stored as int in toolkit (x10)
         public string Tuning { get; set; }
         public double? TuningPitch { get; set; } // tuning frequency, see Cents2Frequency method
         public string ToneBase { get; set; }
         public string Tones { get; set; } // concatinated string of the tones used in arrangement
-        public int? SectionsCount { get; set; }
         public int? TonesCount { get; set; }
+        public int? SectionsCount { get; set; }
+
+        // Arrangement Attributes from HSAN file
+        public double? SongDifficulty { get; set; } 
 
         // Arrangement Levels
         public int? ChordCount { get; set; }
@@ -89,12 +94,18 @@ namespace CustomsForgeSongManager.DataObjects
         public int? TremoloCount { get; set; }
         public int? VibratoCount { get; set; }
         public int? ThumbCount { get; set; }
+        public int? PitchedChordSlideCount { get; set; }
+        public int? TimeSignatureChangeCount { get; set; }
+        public int? BPMChangeCount { get; set; }
+        public float? MinBPM { get; set; }
+        public float? MaxBPM { get; set; }
         // useful calculated content taken from SongData
         public bool Selected { get; set; }
         public string ChordNamesCounts { get; set; }
         public bool IsOfficialDLC { get; set; }
         public bool IsRsCompPack { get; set; }
         public string IsBassPick { get; set; }
+        public string IsDefaultBonusAlternate { get; set; }
         public string ArtistTitleAlbum { get; set; }
         public string ArtistTitleAlbumDate { get; set; }
         public string FileName { get; set; }

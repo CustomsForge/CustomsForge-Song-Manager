@@ -3,14 +3,14 @@
         { "Key": "artist", "Description": "Song Artist/Band Name" },
         { "Key": "title", "Description": "Song Title" },
 		{ "Key": "album", "Description": "Album Title" },
-		{ "Key": "tuning", "Description": "Song Tuning" },
-        { "Key": "dd", "Description": "Has Dynamic Difficulty" },
 		{ "Key": "year", "Description": "Album Year" },
-        { "Key": "version", "Description": "Version (of the song)" },
+		{ "Key": "tuning", "Description": "Tuning" },
+        { "Key": "arrangements", "Description": "Arrangements (BLRV)" },
+        { "Key": "dd", "Description": "Dynamic Difficulty (DD or NDD)" },
+        { "Key": "ddlvl", "Description": "Dynamic Difficulty Max Level (Number)" },
         { "Key": "author", "Description": "CDLC Author" },
+        { "Key": "version", "Description": "CDLC Version" },
         { "Key": "filename", "Description": "Original Filename" },        
-        { "Key": "arrangements", "Description": "Song Arrangements BLRV (in memory of LaceyB)" },
-        { "Key": "ddlvl", "Description": "Dynamic Difficulty Level" },
         { "Key": "_", "Description": "underscore" }
     ]
 }

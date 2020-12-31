@@ -120,20 +120,6 @@
   <metadata name="toolTip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>54, 15</value>
   </metadata>
-  <data name="rbCleanOnClosing.ToolTip" xml:space="preserve">
-    <value>NOTE:
--------
-This is a resettable toggle button
-so the action occurs only one time.
-
-Removes working directories and files 
-from the 'My Documents/CFSM' folder.
-
-Restores default GUI view and functiion.
-
-Frees up HDD space but may result
-in slower loading on initial restart.</value>
-  </data>
   <data name="chkMacMode.ToolTip" xml:space="preserve">
     <value>If checked, switch CFSM to Mac
 compatibility mode to use with
@@ -143,6 +129,59 @@ when running on a PC.
 NOTE: CFSM will automatically restart
 and rescan the 'dlc' folder when 
 switching compatibility modes.</value>
+  </data>
+  <data name="btnSettingsSave.ToolTip" xml:space="preserve">
+    <value>Settings are saved automatically when
+you exit the Settings tabmenu.  You can
+manually save settings at any time by
+using this button.
+
+Advanced Users Note: If 'Load Grid Settings File'
+is not empty then you will be able to specify a
+'Save As' custom grid setting file name for the
+current settings.</value>
+  </data>
+  <metadata name="colVisible.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="colDisplayIndex.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="colWidth.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="colHeaderText.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="colColumnIndex.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="colColumnName.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <data name="lblDgvSettingsPath.ToolTip" xml:space="preserve">
+    <value>Hint: Use the 'Reset CFSM On Closing'
+to restore all default grid settings ...
+
+The grid settings files are initially created
+when the matching tabmenu is selected.
+Subsequently the grid settings file path
+will then be available for selection here.</value>
+  </data>
+  <data name="chkCleanOnClosing.ToolTip" xml:space="preserve">
+    <value>NOTE:
+-------
+This is an auto resettable checkbox, i.e.
+the reset action occurs only one time.
+
+- Removes working directories and files 
+from the 'My Documents/CFSM' folder.
+- Restores default GUI view and functiion.
+- Frees up HDD space but may result
+in slower loading on initial restart.
+- Restores default grid settings.
+- Eliminates System.NullReferenceException
+errors.</value>
   </data>
   <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>39</value>

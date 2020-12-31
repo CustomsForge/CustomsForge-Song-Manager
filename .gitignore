@@ -68,9 +68,11 @@ packages/
 *.testsettings 
 
 #others
-CleanupBeforeGitPullRequest.bat
-index*.html
 dev*.bat
-BeerMoneyCode.txt
+dev*.txt
+dev*.html
+dev Folder/
+dev SandboxToy/
+.vs/
 
 

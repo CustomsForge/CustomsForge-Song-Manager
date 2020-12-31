@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
@@ -17,6 +19,10 @@ namespace CustomsForgeSongManager.UControls
         {
             InitializeComponent();
             PopulateAbout(); // only done one time
+
+            // display Christmas logo
+            if (DateTimeExtensions.TisTheSeason())
+                this.picCF.Image = CustomsForgeSongManager.Properties.Resources.christmas;
         }
 
         public void PopulateAbout()
@@ -72,26 +78,29 @@ namespace CustomsForgeSongManager.UControls
 
             if (AutoUpdater.NeedsUpdate(appSetupPath, versInfoUrl))
             {
+                GenExtensions.InvokeIfRequired(Globals.TsProgressBar_Main.GetCurrentParent(), delegate { Globals.TsProgressBar_Main.Value = 0; });
                 ZipUtilities.DeleteDirectory(downloadDir);
                 Directory.CreateDirectory(downloadDir);
                 Globals.Log("Downloading WebApp: " + appArchive + " ...");
 
                 // TODO: generate a programatic click to update google stats 
                 Process.Start(new ProcessStartInfo(versInfoUrl)
-                    {
-                        UseShellExecute = false,
-                        CreateNoWindow = true, 
-                        WindowStyle = ProcessWindowStyle.Hidden                        
-                    });
+                {
+                    UseShellExecute = false,
+                    CreateNoWindow = true,
+                    WindowStyle = ProcessWindowStyle.Hidden
+                });
 
                 if (AutoUpdater.DownloadWebApp(downloadUrl, appArchive, downloadDir))
                 {
                     Globals.Log(appExe + " download ... SUCCESSFUL");
+                    GenExtensions.InvokeIfRequired(Globals.TsProgressBar_Main.GetCurrentParent(), delegate { Globals.TsProgressBar_Main.Value = 30; });
 
                     if (ZipUtilities.UnrarDir(Path.Combine(downloadDir, appArchive), downloadDir))
                     {
                         File.Delete(Path.Combine(downloadDir, appArchive));
                         Globals.Log(appAcro + " Archive Unpacked ... SUCCESSFUL");
+                        GenExtensions.InvokeIfRequired(Globals.TsProgressBar_Main.GetCurrentParent(), delegate { Globals.TsProgressBar_Main.Value = 60; });
 
                         var ret = GenExtensions.RunExtExe(Path.Combine(downloadDir, appSetup), false, arguments: @"/SP /VERYSILENT /SUPPRESSMSGBOXES ");
                         //if (AutoUpdater.UpdateWithInno(Path.Combine(downloadDir, appSetup)))                  
@@ -100,6 +109,7 @@ namespace CustomsForgeSongManager.UControls
                             // CGT user prefs are auto preserved by CGT (not overwritten)
                             Globals.Log(appAcro + " shortcut added to Start Menu ... SUCCESSFUL");
                             Globals.Log(appAcro + " Update ... SUCCESSFUL");
+                            GenExtensions.InvokeIfRequired(Globals.TsProgressBar_Main.GetCurrentParent(), delegate { Globals.TsProgressBar_Main.Value = 100; });
                         }
                         else
                             Globals.Log(appAcro + " Update ... FAILED");
@@ -163,6 +173,7 @@ namespace CustomsForgeSongManager.UControls
 
             if (needsUpdate)
             {
+                GenExtensions.InvokeIfRequired(Globals.TsProgressBar_Main.GetCurrentParent(), delegate { Globals.TsProgressBar_Main.Value = 0; });
                 // save user prefs
                 Globals.Log(appExe + " [" + versInstalled + "] needs updating ...");
 
@@ -175,16 +186,19 @@ namespace CustomsForgeSongManager.UControls
                 if (AutoUpdater.DownloadWebApp(updateUrl, appArchive, downloadDir))
                 {
                     Globals.Log(appArchive + " download ... SUCCESSFUL");
+                    GenExtensions.InvokeIfRequired(Globals.TsProgressBar_Main.GetCurrentParent(), delegate { Globals.TsProgressBar_Main.Value = 30; });
 
                     if (ZipUtilities.UnzipDir(Path.Combine(downloadDir, appArchive), downloadDir))
                     {
                         File.Delete(Path.Combine(downloadDir, appArchive));
                         Globals.Log(appArchive + " archive unpacked ... SUCCESSFUL");
+                        GenExtensions.InvokeIfRequired(Globals.TsProgressBar_Main.GetCurrentParent(), delegate { Globals.TsProgressBar_Main.Value = 50; });
 
                         if (File.Exists(Path.Combine(Constants.WorkFolder, appCfg)))
                         {
                             File.Copy(Path.Combine(Path.GetTempPath(), appCfg), Path.Combine(downloadDir, appCfg));
                             Globals.Log(appAcro + " configuration restored ...");
+                            GenExtensions.InvokeIfRequired(Globals.TsProgressBar_Main.GetCurrentParent(), delegate { Globals.TsProgressBar_Main.Value = 70; });
                         }
 
                         var dirInfo = new DirectoryInfo(downloadDir);
@@ -195,6 +209,7 @@ namespace CustomsForgeSongManager.UControls
                         GenExtensions.AddShortcut(Environment.SpecialFolder.Programs, exeShortcutLink: "EOF.lnk", exePath: exePath, exeIconPath: iconPath, shortcutDescription: "Editor on Fire", destSubDirectory: "Editor on Fire");
 
                         Globals.Log(appAcro + " shortcut added to Start Menu, Programs ... SUCCESSFUL");
+                        GenExtensions.InvokeIfRequired(Globals.TsProgressBar_Main.GetCurrentParent(), delegate { Globals.TsProgressBar_Main.Value = 100; });
                     }
                     else
                         Globals.Log(appAcro + " archive unpacked ... FAILED");
@@ -210,7 +225,7 @@ namespace CustomsForgeSongManager.UControls
         }
 
         private void lnkDeployRSTK_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
+        {           
             ToggleUIControls(false);
             const string updateUrl = Constants.RSToolkitURL;
             const string versInfoUrl = updateUrl + "/builds/latest_test";
@@ -218,10 +233,13 @@ namespace CustomsForgeSongManager.UControls
             const string appAcro = "RSTK";
             const string dlSubDir = appAcro + "_BIN";
             var downloadDir = Path.Combine(Constants.WorkFolder, dlSubDir);
-            var appExePath = Path.Combine(downloadDir, appExe);
+            var appExePath = Path.Combine(downloadDir, "RocksmithToolkit", appExe);
 
             if (AutoUpdater.NeedsUpdate(appExePath, versInfoUrl))
             {
+                // Fire up a progress bar
+                GenExtensions.InvokeIfRequired(Globals.TsProgressBar_Main.GetCurrentParent(), delegate { Globals.TsProgressBar_Main.Value = 0; });
+
                 // save user prefs
                 Globals.Log(appAcro + " needs updating ...");
                 if (File.Exists(Path.Combine(downloadDir, "RocksmithToolkitLib.TuningDefinition.xml")))
@@ -231,22 +249,26 @@ namespace CustomsForgeSongManager.UControls
                     File.Copy(Path.Combine(downloadDir, "RocksmithToolkitLib.TuningDefinition.xml"), Path.Combine(Path.GetTempPath(), "RocksmithToolkitLib.TuningDefinition.xml"));
                 }
 
+                GenExtensions.InvokeIfRequired(Globals.TsProgressBar_Main.GetCurrentParent(), delegate { Globals.TsProgressBar_Main.Value = 10; });
                 ZipUtilities.DeleteDirectory(downloadDir);
                 Directory.CreateDirectory(downloadDir);
 
-                Globals.Log("Extracting " + appAcro + " Beta download link ...");
-                var urlLinks = AutoUpdater.ExtractUrlData(updateUrl);
-                // latest_test.zip data for testing
-                // urlLinks.Add(Path.Combine(Constants.RSToolkitURL, "builds", "latest_test.zip"));
+                Globals.Log("Extracting " + appAcro + " Download ...");
+                var urlLinks = new List<string>();
+                // urlLinks = AutoUpdater.ExtractUrlData(updateUrl);
+                // using latest_test.zip (much faster than ExctractUrlData method)
+                urlLinks.Add(Path.Combine(Constants.RSToolkitURL, "builds", "latest_test.zip"));
+                GenExtensions.InvokeIfRequired(Globals.TsProgressBar_Main.GetCurrentParent(), delegate { Globals.TsProgressBar_Main.Value = 30; });
 
                 if (urlLinks.Any())
                 {
-                    // update beta version number here
-                    var downloadLink = urlLinks.FirstOrDefault(url => url.ToLower().Contains("rstoolkit-2.7.1.0-") && url.ToLower().Contains("-win.zip"));
+                    // TODO: manually update beta version number here
+                    // var downloadLink = urlLinks.FirstOrDefault(url => url.ToLower().Contains("rstoolkit-2.9.2.0-") && url.ToLower().Contains("-win.zip"));
+                    var downloadLink = urlLinks.FirstOrDefault(url => url.ToLower().EndsWith("latest_test.zip"));
 
                     if (downloadLink == null)
                     {
-                        Globals.Log(appAcro + "  Beta download link ... NOT FOUND");
+                        Globals.Log(appAcro + "  Download ... NOT FOUND");
                         ToggleUIControls(true);
                         return;
                     }
@@ -255,12 +277,17 @@ namespace CustomsForgeSongManager.UControls
 
                     if (AutoUpdater.DownloadWebApp(downloadLink, appArchive, downloadDir))
                     {
-                        Globals.Log(appAcro + " download ... SUCCESSFUL");
+                        Globals.Log(appAcro + " Download ... SUCCESSFUL");
+                        GenExtensions.InvokeIfRequired(Globals.TsProgressBar_Main.GetCurrentParent(), delegate { Globals.TsProgressBar_Main.Value = 50; });
 
                         if (ZipUtilities.UnzipDir(Path.Combine(downloadDir, appArchive), downloadDir))
                         {
                             File.Delete(Path.Combine(downloadDir, appArchive));
-                            Globals.Log(appAcro + " archive unpacked ... SUCCESSFUL");
+                            Globals.Log(appAcro + " Archive unpacked ... SUCCESSFUL");
+                            GenExtensions.InvokeIfRequired(Globals.TsProgressBar_Main.GetCurrentParent(), delegate { Globals.TsProgressBar_Main.Value = 70; });
+
+                            // use the toolkit new directory structure
+                            downloadDir = Path.Combine(downloadDir, "RocksmithToolkit");
 
                             if (File.Exists(Path.Combine(Constants.WorkFolder, "RocksmithToolkitLib.TuningDefinition.xml")))
                             {
@@ -270,21 +297,21 @@ namespace CustomsForgeSongManager.UControls
                                 config.Merge(Path.Combine(Path.GetTempPath(), "RocksmithToolkitLib.Config.xml"), Path.Combine(downloadDir, "RocksmithToolkitLib.Config.xml"));
                                 appid.Merge(Path.Combine(Path.GetTempPath(), "RocksmithToolkitLib.SongAppId.xml"), Path.Combine(downloadDir, "RocksmithToolkitLib.SongAppId.xml"));
                                 tuning.Merge(Path.Combine(Path.GetTempPath(), "RocksmithToolkitLib.TuningDefinition.xml"), Path.Combine(downloadDir, "RocksmithToolkitLib.TuningDefinition.xml"));
-                                Globals.Log(appAcro + " configurations restored ...");
+                                Globals.Log(appAcro + " Configurations Restored ...");
+                                GenExtensions.InvokeIfRequired(Globals.TsProgressBar_Main.GetCurrentParent(), delegate { Globals.TsProgressBar_Main.Value = 80; });
                             }
 
                             var exePath = Path.Combine(downloadDir, appExe);
                             var iconPath = Path.Combine(downloadDir, "songcreator.ico");
-
-                            GenExtensions.AddShortcut(Environment.SpecialFolder.Programs, exeShortcutLink: "RSTK.lnk", exePath: exePath, exeIconPath: iconPath, shortcutDescription: "Rocksmith Custom Song Toolkit", destSubDirectory: "Rocksmith Custom Song Toolkit");
-
-                            Globals.Log(appAcro + " shortcut added to Start Menu, Programs ... SUCCESSFUL");
+                            GenExtensions.AddShortcut(Environment.SpecialFolder.Programs, exeShortcutLink: "RocksmithToolkit.lnk", exePath: exePath, exeIconPath: iconPath, shortcutDescription: "Rocksmith Custom Song Toolkit", destSubDirectory: "RocksmithToolkit");
+                            Globals.Log(appAcro + " Shortcut added to Start Menu, Programs ... SUCCESSFUL");
+                            GenExtensions.InvokeIfRequired(Globals.TsProgressBar_Main.GetCurrentParent(), delegate { Globals.TsProgressBar_Main.Value = 100; });
                         }
                         else
-                            Globals.Log(appAcro + " archive unpacked ... FAILED");
+                            Globals.Log(appAcro + " Archive unpacked ... FAILED");
                     }
                     else
-                        Globals.Log(appAcro + " download ... FAILED");
+                        Globals.Log(appAcro + " Download ... FAILED");
                 }
                 else
                     Globals.Log("Link Extraction ... FAILED");
@@ -305,7 +332,7 @@ namespace CustomsForgeSongManager.UControls
 
         private void lnkForum_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            Process.Start(Constants.CustomsForgeURL + "/forum/81-customsforge-song-manager/");
+            Process.Start(Constants.CustomsForgeURL + "forum/122-issues/");
         }
 
         private void lnkHelp_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -330,7 +357,7 @@ namespace CustomsForgeSongManager.UControls
 
         private void lnkRequests_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            Process.Start(Constants.RequestURL + "/?b");
+            Process.Start(Constants.RequestURL);
         }
 
         private void lnkUserProfile_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -351,6 +378,13 @@ namespace CustomsForgeSongManager.UControls
         {
             Process.Start(Constants.IgnitionURL);
         }
+
+        private void lnkOfficialGuide_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            Process.Start(Constants.CustomsForgeURL + "topic/51771-customsforge-song-manager-official-guide-2019/");
+        }
+
+
     }
 }
 

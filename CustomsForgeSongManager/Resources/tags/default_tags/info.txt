@@ -1,0 +1,14 @@
+Custom Tags = CDLC on Purple Background with Boarder
+
+
+Arrangement Tags
+==================================
+Lead = Red Arrow Upper Quill
+Lead Bonus = Red Arrow Lower Quill
+Rhythm = Green Arrow Upper Quill
+Rhythm Bonus = Green Arrow Lower Quill
+Bass = Blue Arrow Upper Quill
+Bass Bonus = Blue Arrow Lower Quill
+Vocals = Yellow Arrow Head
+
+

@@ -12,6 +12,7 @@ using CustomsForgeSongManager.DataObjects;
 using CustomsForgeSongManager.LocalTools;
 using GenTools;
 using Newtonsoft.Json;
+using System.Threading;
 
 // TODO: localize all messages that are single usage
 namespace CustomsForgeSongManager.UControls
@@ -26,6 +27,76 @@ namespace CustomsForgeSongManager.UControls
             PopulateRenamer();
             if (!String.IsNullOrEmpty(AppSettings.Instance.RenameTemplate))
                 txtRenameTemplate.Text = AppSettings.Instance.RenameTemplate;
+        }
+
+        public string GetNewSongName(SongData data)
+        {
+            if (chkTheMover.Checked)
+                if (data.Artist.StartsWith("The ", StringComparison.CurrentCultureIgnoreCase))
+                    data.Artist = String.Format("{0}, The", data.Artist.Substring(4, data.Artist.Length - 4)).Trim();
+
+            Template template = new Template(txtRenameTemplate.Text);
+            template.Add("artist", data.Artist.Replace('\\', '_'));
+            template.Add("title", data.Title.Replace('\\', '_'));
+            template.Add("album", data.Album.Replace('\\', '_'));
+            template.Add("filename", data.FileName);
+            template.Add("tuning", data.Tunings1D.Split(new[] { ", " }, StringSplitOptions.None).FirstOrDefault());
+            template.Add("dd", data.DD > 0 ? "DD" : "NDD");
+            template.Add("ddlvl", data.DD);
+            template.Add("year", data.SongYear);
+            var pkgVersion = data.PackageVersion;
+            if (pkgVersion == "N/A" || pkgVersion == "Null") pkgVersion = "1";
+            if (data.PackageAuthor == "Ubisoft") pkgVersion = "0";
+            template.Add("version", String.Format("v{0}", pkgVersion));
+            template.Add("author", String.IsNullOrEmpty(data.PackageAuthor) ? "Unknown" : data.PackageAuthor.Replace('\\', '_'));
+            template.Add("arrangements", data.ArrangementsInitials);
+            template.Add("_", "_");
+
+            // CAREFUL - lots to go wrong in this simple method :(
+            // there could be setlist directories or user added directory(s)
+            // beethoven_p.psarc is a good song to use for testing
+            var oldFilePath = data.FilePath;
+            var newFileName = template.Render();
+            var dlcDir = Constants.Rs2DlcFolder;
+
+            // renamed files could be enabled or disabled
+            if (Path.GetFileName(oldFilePath).ToLower().Contains("disabled"))
+                newFileName = String.Format("{0}" + Constants.DisabledExtension, newFileName);
+            else
+                newFileName = String.Format("{0}" + Constants.EnabledExtension, newFileName);
+
+            // strip any user added a directory(s) from file name and add to file path
+            var dirSeperator = new string[] { "\\" };
+            var parts = newFileName.Split(dirSeperator, StringSplitOptions.None);
+            if (parts.Any())
+            {
+                for (int i = 0; i < parts.Count() - 1; i++)
+                {
+                    // validate each directory name before concatination
+                    dlcDir = Path.Combine(dlcDir, GenExtensions.MakeValidDirName(parts[i]));
+                }
+
+                newFileName = parts[parts.Count() - 1];
+            }
+
+            newFileName = GenExtensions.MakeValidFileName(newFileName);
+            newFileName = newFileName.Replace("__", "_");
+
+            if (chkRemoveSpaces.Checked)
+                newFileName = newFileName.Replace(" ", "");
+
+            // test file path length is valid
+            var newFilePath = Path.Combine(dlcDir, newFileName);
+
+            if (!newFilePath.IsFilePathValid())
+            {
+                var diaMsg = "New file path: " + newFilePath + Environment.NewLine + Environment.NewLine +
+                    "is not valid.  Check file path for excessive length and/or invalid characters try again.";
+                var iconMsg = "Warning: File Path Length May Exceed System Capabilities";
+                BetterDialog2.ShowDialog(diaMsg, "Renamer", "OK", null, null, Bitmap.FromHicon(SystemIcons.Warning.Handle), iconMsg, 150, 150);
+            }
+
+            return newFilePath;
         }
 
         public void PopulateRenamer()
@@ -49,96 +120,6 @@ namespace CustomsForgeSongManager.UControls
             {
                 Globals.Log(e.Message);
             }
-        }
-
-        public void ShowRenamePreview()
-        {
-            SongData sd = null;
-            List<SongData> List = renSongList.Count > 0 ? renSongList : Globals.MasterCollection.ToList();
-            if (List.Count == 0)
-                Globals.Log("No songs found for rename preview.");
-            int x = Globals.random.Next(List.Count() - 1);
-            sd = List[x];
-            if (sd != null)
-                Globals.Log(String.Format("Renamer preview : {0}", GetNewSongName(sd)));
-        }
-
-        private void btnPreview_Click(object sender, EventArgs e)
-        {
-            if (!ValidateInput())
-                return;
-
-            AppSettings.Instance.ShowLogWindow = true;
-            ShowRenamePreview();
-        }
-
-        public string GetNewSongName(SongData data)
-        {
-            if (chkTheMover.Checked)
-                if (data.Artist.StartsWith("The ", StringComparison.CurrentCultureIgnoreCase))
-                    data.Artist = String.Format("{0}, The", data.Artist.Substring(4, data.Artist.Length - 4)).Trim();
-
-            Template template = new Template(txtRenameTemplate.Text);
-            template.Add("artist", data.Artist.Replace('\\', '_'));
-            template.Add("title", data.Title.Replace('\\', '_'));
-            template.Add("album", data.Album.Replace('\\', '_'));
-            template.Add("filename", data.FileName);
-            template.Add("tuning", data.Tunings1D.Split(new[] { ", " }, StringSplitOptions.None).FirstOrDefault());
-            template.Add("dd", data.DD > 0 ? "DD" : "");
-            template.Add("ddlvl", data.DD);
-            template.Add("year", data.SongYear);
-            var pkgVersion = data.PackageVersion;
-            if (pkgVersion == "N/A" || pkgVersion == "Null") pkgVersion = "1";
-            if (data.PackageAuthor == "Ubisoft") pkgVersion = "0";
-            template.Add("version", String.Format("v{0}", pkgVersion));
-            template.Add("author", String.IsNullOrEmpty(data.PackageAuthor) ? "Unknown" : data.PackageAuthor.Replace('\\', '_'));
-            template.Add("arrangements", data.ArrangementsInitials);
-            template.Add("_", "_");
-
-            // CAREFUL - lots to go wrong in this simple method :(
-            // there could be setlist directories or user added directory(s)
-            // beethoven_p.psarc is a good song to use for testing
-            var oldFilePath = data.FilePath;
-            var newFileName = template.Render();
-            var dlcDir = Constants.Rs2DlcFolder;
-
-            // renamed files could be enabled or disabled
-            if (Path.GetFileName(oldFilePath).ToLower().Contains("disabled"))
-                newFileName = String.Format("{0}" + Constants.DisabledPsarcExtension, newFileName);
-            else
-                newFileName = String.Format("{0}" + Constants.PsarcExtension, newFileName);
-
-            // strip any user added a directory(s) from file name and add to file path
-            var dirSeperator = new string[] { "\\" };
-            var parts = newFileName.Split(dirSeperator, StringSplitOptions.None);
-            if (parts.Any())
-            {
-                for (int i = 0; i < parts.Count() - 1; i++)
-                    dlcDir = Path.Combine(dlcDir, parts[i]);
-
-                newFileName = parts[parts.Count() - 1];
-            }
-
-            // file name, path and file path length validations
-            dlcDir = String.Join("", dlcDir.Split(Path.GetInvalidPathChars()));
-            newFileName = String.Join("", newFileName.Split(Path.GetInvalidFileNameChars()));
-            newFileName = newFileName.Replace("__", "_");
-
-            if (chkRemoveSpaces.Checked)
-                newFileName = newFileName.Replace(" ", "");
-
-            // test file path length is valid
-            var newFilePath = Path.Combine(dlcDir, newFileName);
-
-            if (!newFilePath.IsFilePathValid())
-            {
-                var diaMsg = "New file path: " + newFilePath + Environment.NewLine + Environment.NewLine +
-                    "is not valid.  Check file path for excessive length and/or invalid characters try again.";
-                var iconMsg = "Warning: File Path Length May Exceed System Capabilities";
-                BetterDialog2.ShowDialog(diaMsg, "Renamer", "OK", null, null, Bitmap.FromHicon(SystemIcons.Warning.Handle), iconMsg, 150, 150);
-            }
-
-            return newFilePath;
         }
 
         public void RenameSongs()
@@ -172,6 +153,18 @@ namespace CustomsForgeSongManager.UControls
             }
         }
 
+        public void ShowRenamePreview()
+        {
+            SongData sd = null;
+            List<SongData> List = renSongList.Count > 0 ? renSongList : Globals.MasterCollection.ToList();
+            if (List.Count == 0)
+                Globals.Log("No songs found for rename preview.");
+            int x = Globals.random.Next(List.Count() - 1);
+            sd = List[x];
+            if (sd != null)
+                Globals.Log(String.Format("Renamer preview : {0}", GetNewSongName(sd)));
+        }
+
         public void UpdateToolStrip()
         {
             if (Globals.WorkerFinished == Globals.Tristate.Cancelled)
@@ -180,7 +173,7 @@ namespace CustomsForgeSongManager.UControls
                 return;
             }
 
-            Globals.TsLabel_MainMsg.Text = string.Format(Properties.Resources.RocksmithSongsCountFormat, Globals.MasterCollection.Count);
+            Globals.TsLabel_MainMsg.Text = String.Format(Properties.Resources.RocksmithSongsCountFormat, Globals.MasterCollection.Count);
             Globals.TsLabel_MainMsg.Visible = true;
             var selectedDLC = Globals.MasterCollection.Where(song => song.Selected).ToList().Count();
             var tsldcMsg = String.Format("Selected Songs in SongManager Count: {0}", selectedDLC);
@@ -202,7 +195,10 @@ namespace CustomsForgeSongManager.UControls
             {
                 worker.BackgroundScan(this);
                 while (Globals.WorkerFinished == Globals.Tristate.False)
+                {
                     Application.DoEvents();
+                    Thread.Sleep(100);
+                }
             }
 
             ToggleUiControls(true);
@@ -251,7 +247,10 @@ namespace CustomsForgeSongManager.UControls
             var dups = renSongList.GroupBy(x => new { Song = x.Title, x.Album, x.Artist }).Where(group => group.Count() > 1).SelectMany(group => group).ToList();
             if (dups.Any())
             {
-                MessageBox.Show("Please remove duplicate songs" + Environment.NewLine + "using the Duplicates tab first.", Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                var diaMsg = "Can not rename song collection quite yet ..." + Environment.NewLine +
+                             "Please resolve duplicate song conflicts" + Environment.NewLine +
+                             "using the Duplicates tabmenu ...";
+                BetterDialog2.ShowDialog(diaMsg, "Renamer ...", null, null, "Ok", Bitmap.FromHicon(SystemIcons.Warning.Handle), "Warning", 0, 150);
                 return false;
             }
 
@@ -261,6 +260,15 @@ namespace CustomsForgeSongManager.UControls
         private void btnClearTemplate_Click(object sender, EventArgs e)
         {
             txtRenameTemplate.Text = String.Empty;
+        }
+
+        private void btnPreview_Click(object sender, EventArgs e)
+        {
+            if (!ValidateInput())
+                return;
+
+            AppSettings.Instance.ShowLogWindow = true;
+            ShowRenamePreview();
         }
 
         private void btnRenameAll_Click(object sender, System.EventArgs e)

@@ -2,6 +2,8 @@
 using System.Diagnostics;
 using System.IO;
 using GenTools;
+using CustomsForgeSongManager.DataObjects;
+using RocksmithToolkitLib.Extensions;
 
 namespace CustomsForgeSongManager.LocalTools
 {
@@ -12,30 +14,27 @@ namespace CustomsForgeSongManager.LocalTools
         /// </summary>
         public static void CreateVersionInfo()
         {
-            // only is performed when IDE Mode is running
-            if (!GenExtensions.IsInDesignMode)
-            {
-                // MessageBox.Show("The debugger is not attached");
+            // return if not IDE Mode
+            if (!GeneralExtension.IsInDesignMode)
                 return;
-            }
 
             const string relNotesFile = "ReleaseNotes.txt";
             const string verInfoFile = "VersionInfo.txt";
 
             var projectDir = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName;
+            var verInfoPath = Path.Combine(projectDir, verInfoFile);
             var relNotesPath = Path.Combine(projectDir, relNotesFile);
-            var verInfoPath = Path.Combine(Path.GetDirectoryName(projectDir), "ThirdParty", verInfoFile);
 
             if (!Directory.Exists(Path.GetDirectoryName(verInfoPath)))
-                throw new Exception("Directory: " + Path.GetDirectoryName(projectDir)+ "\\ThirdParty can not be found");
+                throw new Exception("<ERROR> Could not find directory: " + Path.GetDirectoryName(verInfoPath));
 
             if (!File.Exists(relNotesPath))
-                throw new Exception("ReleaseNotes not found");
+                throw new Exception("<ERROR> Could not find file: " + relNotesPath);
 
             var txt = GenExtensions.GetFullAppVersion();
-            Debug.WriteLine("Current Application Version: " + txt);
+            Globals.Log("<DEV ONLY> Current CFSM Version: " + txt);
             File.WriteAllText(verInfoPath, txt);
-            Debug.WriteLine("CreateVersionInfo was sucessful");
+            Globals.Log("<DEV ONLY> CreateVersionInfo was sucessful: " + verInfoPath);
         }
     }
 }

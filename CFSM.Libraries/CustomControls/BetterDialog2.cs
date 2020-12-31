@@ -15,6 +15,7 @@ using System;
 using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
+using System.Runtime.InteropServices;
 
 namespace CustomControls
 {
@@ -23,6 +24,15 @@ namespace CustomControls
     /// </summary>
     public partial class BetterDialog2 : Form
     {
+        private static readonly IntPtr HWND_TOPMOST = new IntPtr(-1);
+        private const UInt32 SWP_NOSIZE = 0x0001;
+        private const UInt32 SWP_NOMOVE = 0x0002;
+        private const UInt32 TOPMOST_FLAGS = SWP_NOMOVE | SWP_NOSIZE;
+
+        [DllImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int X, int Y, int cx, int cy, uint uFlags);
+
         // System Icons example: Bitmap.FromHicon(SystemIcons.Exclamation.Handle)
         // Resource PNG Icons/Images example: Properties.Resources.LedGuitar
         //
@@ -37,9 +47,9 @@ namespace CustomControls
         /// <param name="dialogIcon">Image displayed left side</param>
         /// <param name="iconMessage">Promenent bold message displayed to right of icon</param>
         /// <param name="dialogMessage">Main dialog message, if 'null' then not displayed</param>
-        /// <param name="textDialogButton1">Message box 1 button text, if 'null' then not displayed</param>
-        /// <param name="textDialogButton2">Message box 2 button text, if 'null' then not displayed</param>
-        /// <param name="textDialogButton3">Message box 3 button text, if 'null' then not displayed</param>
+        /// <param name="textDialogButton1">Message box 1 left button text, if 'null' then not displayed</param>
+        /// <param name="textDialogButton2">Message box 2 middle button text, if 'null' then not displayed</param>
+        /// <param name="textDialogButton3">Message box 3 right (first) button text, if 'null' then not displayed</param>
         /// <param name="topFromCenter">Positive pixel distance up from screen center, default location is centered on screen</param>
         /// <param name="leftFromCenter">Positive pixel distance left from screen center, default location is centered on screen</param>
         public static DialogResult ShowDialog(string dialogMessage, string dialogTitle,
@@ -55,9 +65,9 @@ namespace CustomControls
         }
 
         /// <summary>
-        /// The private constructor. This is only called by the static method ShowDialog.
+        /// The constructor. This called by the static method ShowDialog or may be used as popup window.
         /// </summary>
-        private BetterDialog2(string dialogMessage, string dialogTitle, string textDialogButton1, string textDialogButton2,
+        public BetterDialog2(string dialogMessage, string dialogTitle, string textDialogButton1, string textDialogButton2,
             string textDialogButton3, Image dialogIcon, string iconMessage, int topFromCenter, int leftFromCenter)
         {
             InitializeComponent();
@@ -267,12 +277,13 @@ namespace CustomControls
                     this.Width = bigger + minIconWidth + widthTweak;
             }
 
-            int buttonCount = 1;
+            int buttonCount = 0;
+            if (!String.IsNullOrEmpty(textDialogButton3))
+                buttonCount++;
             if (!String.IsNullOrEmpty(textDialogButton2))
                 buttonCount++;
             if (!String.IsNullOrEmpty(textDialogButton1))
                 buttonCount++;
-
 
             // setup buttons
             switch (buttonCount)
@@ -301,7 +312,7 @@ namespace CustomControls
                     this.AcceptButton = btn2;
                     buttonWidth = buttonWidth * 2;
                     break;
-                default:  // 1 button                  
+                case 1:  // 1 button                  
                     btn3.Text = textDialogButton3;
                     btn1.Visible = false;
                     btn2.Visible = false;
@@ -309,6 +320,14 @@ namespace CustomControls
                     btn3.DialogResult = DialogResult.OK;
                     this.AcceptButton = btn3;
                     buttonWidth = buttonWidth * 2; // double wide
+                    break;
+                case 0:  // 0 button                  
+                    btn1.Visible = false;
+                    btn2.Visible = false;
+                    btn3.Visible = false;
+                    pbLine.Dispose();
+                    this.Height -= 30;
+                    tlpDialog.Dock = DockStyle.Fill;
                     break;
             }
 
@@ -324,6 +343,11 @@ namespace CustomControls
                 if (this.Height < maxIconHeight)
                     this.Height = maxIconHeight;
             }
+        }
+
+        private void BetterDialog2_Load(object sender, EventArgs e)
+        {
+            SetWindowPos(this.Handle, HWND_TOPMOST, 0, 0, 0, 0, TOPMOST_FLAGS);
         }
 
 

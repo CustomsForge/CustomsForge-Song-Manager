@@ -15,19 +15,17 @@ using CustomsForgeSongManager.UITheme;
 using GenTools;
 using DataGridViewTools;
 using CustomsForgeSongManager.Properties;
+using System.Reflection;
+using UserProfileLib;
 
 // cache.psarc may not be renamed
+// TODO: somebody please rewrite SetlistMaster code completely ...
 
 namespace CustomsForgeSongManager.UControls
 {
     public partial class SetlistManager : UserControl, IDataGridViewHolder, INotifyTabChanged
     {
-        #region Constants
-
-        private const string MESSAGE_CAPTION = "Setlist Manager";
-
-        #endregion
-
+        private string MESSAGE_CAPTION = MethodBase.GetCurrentMethod().DeclaringType.Name;
         private bool allSelected = false;
         private bool bindingCompleted = false;
         private Color cdlcColor = Color.Cyan;
@@ -39,8 +37,11 @@ namespace CustomsForgeSongManager.UControls
         private string rs1CompDlcPath;
         private DataGridViewRow selectedRow;
         private Color setlistColor = Color.Yellow;
-        private List<SongData> setlistList = new List<SongData>(); // prevents filtering from being inherited
+        // setlistMaster declared as BindingList causes update when dgv is edited
+        private BindingList<SongData> setlistMaster = new BindingList<SongData>(); // prevents filtering from being inherited
+        private List<SongData> setlistSongs;
         private List<SongData> songSearch = new List<SongData>();
+        private DgvStatus statusSetlistMaster = new DgvStatus();
 
         public SetlistManager()
         {
@@ -54,12 +55,11 @@ namespace CustomsForgeSongManager.UControls
             Globals.Log("Populating SetlistManager GUI ...");
             DgvExtensions.DoubleBuffered(dgvSetlistMaster);
             Globals.Settings.LoadSettingsFromFile(dgvSetlistMaster, true);
-            chkShowSetlistSongs.Checked = AppSettings.Instance.ShowSetlistSongs;
 
-            // theoretically this error condition should never exist
+            // theoretically this error condition should not exist
             if (String.IsNullOrEmpty(AppSettings.Instance.RSInstalledDir) || !Directory.Exists(AppSettings.Instance.RSInstalledDir))
             {
-                MessageBox.Show(@"Please fix the Rocksmith installation directory!  " + Environment.NewLine + @"This can be changed in the 'Settings' menu tab.", MESSAGE_CAPTION, MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                MessageBox.Show(@"Please fix the Rocksmith installation directory!  " + Environment.NewLine + @"This can be changed in the 'Settings' tabmenu.", MESSAGE_CAPTION, MessageBoxButtons.OK, MessageBoxIcon.Stop);
                 return;
             }
 
@@ -73,37 +73,63 @@ namespace CustomsForgeSongManager.UControls
 
             dlcDir = Constants.Rs2DlcFolder;
             cdlcDir = Path.Combine(dlcDir, "CDLC").ToLower();
+
+            // bind datasource to grid
+            IncludeSubfolders();
+            ProtectODLC();
+
             if (!LoadSetlistMaster())
                 return;
 
-            LoadSetLists(); // this generates a selection change
-            // LoadSetlistSongs(); // so this is not needed
+            LoadSetLists(); // call LoadSetlistSongs
             LoadSongPacks();
         }
 
         public void UpdateToolStrip()
         {
+            chkIncludeSubfolders.Checked = AppSettings.Instance.IncludeSubfolders;
+            chkProtectODLC.Checked = AppSettings.Instance.ProtectODLC;
+
             if (Globals.RescanSetlistManager)
             {
+                Settings.ToogleRescan(false);
                 Rescan();
                 PopulateSetlistManager();
             }
             else if (Globals.ReloadSetlistManager)
+            {
+                Globals.ReloadSetlistManager = false;
                 PopulateSetlistManager();
+            }
+            else
+            {
+                IncludeSubfolders();
+                ProtectODLC();
+            }
 
-            Globals.RescanSetlistManager = false;
-            Globals.ReloadSetlistManager = false;
-            Globals.TsLabel_MainMsg.Text = string.Format(Properties.Resources.RocksmithSongsCountFormat, setlistList.Count);
+            dgvSetlistMaster.AllowUserToAddRows = false; // corrects initial Song Count
+            Globals.TsLabel_MainMsg.Text = String.Format(Properties.Resources.RocksmithSongsCountFormat, dgvSetlistMaster.Rows.Count);
             Globals.TsLabel_MainMsg.Visible = true;
             Globals.TsLabel_DisabledCounter.Alignment = ToolStripItemAlignment.Right;
-            Globals.TsLabel_DisabledCounter.Text = String.Format("Songs in '{0}' Setlist: {1}", curSetlistName, dgvSetlistSongs.Rows.Count);
+            Globals.TsLabel_DisabledCounter.Text = String.Format("Setlist Song Count: {0}", dgvSetlistSongs.Rows.Count);
             Globals.TsLabel_DisabledCounter.Visible = true;
             Globals.TsLabel_StatusMsg.Visible = false;
         }
 
-        private string CreateSetlist()
+        private string CreateSetlist(bool uncheckExisting, string customLabel = "Enter a new setlist name:")
         {
-            string newSetlistName = Microsoft.VisualBasic.Interaction.InputBox(Properties.Resources.PleaseEnterSetlistName, "Setlist name");
+            var newSetlistName = String.Empty;
+            using (var userInput = new FormUserInput(false))
+            {
+                userInput.CustomInputLabel = customLabel;
+                userInput.FrmHeaderText = "Create New Setlist ...";
+
+                if (DialogResult.OK != userInput.ShowDialog())
+                    return null;
+
+                newSetlistName = userInput.CustomInputText;
+            }
+
             if (String.IsNullOrEmpty(newSetlistName))
                 return null;
 
@@ -122,13 +148,26 @@ namespace CustomsForgeSongManager.UControls
                     // NOTE: 'Add' auto generates a call to dgvSetlists_SelectionChanged
                     if (Directory.Exists(setlistPath))
                     {
-                        dgvSetlists.Rows.Add(false, "Yes", newSetlistName);
+                        // uncheck and unselect existing rows
+                        foreach (DataGridViewRow row in dgvSetlists.Rows)
+                        {
+                            if (uncheckExisting)
+                                dgvSetlists.Rows[row.Index].Cells[colSelect.Index].Value = false;
+
+                            dgvSetlists.Rows[row.Index].Selected = false;
+                        }
+
+                        // add new row and select it
+                        dgvSetlists.Rows.Add(true, "Yes", newSetlistName);
                         dgvSetlists.Rows[dgvSetlists.Rows.Count - 1].Selected = true;
+                        curSetlistName = dgvSetlists.Rows[dgvSetlists.Rows.Count - 1].Cells["colSetlistName"].Value.ToString();
+                        dgvSetlists.Sort(dgvSetlists.Columns["colSetlistName"], ListSortDirection.Ascending);
+                        LoadSetlistSongs(curSetlistName);
                     }
                 }
                 else
                 {
-                    MessageBox.Show(string.Format(Properties.Resources.ASetlistNamedX0AlreadyExists, newSetlistName), MESSAGE_CAPTION, MessageBoxButtons.OK, MessageBoxIcon.Hand);
+                    MessageBox.Show(String.Format(Properties.Resources.ASetlistNamedX0AlreadyExists, newSetlistName), MESSAGE_CAPTION, MessageBoxButtons.OK, MessageBoxIcon.Hand);
                     return null;
                 }
             }
@@ -141,165 +180,23 @@ namespace CustomsForgeSongManager.UControls
             return newSetlistName;
         }
 
-        private void FileEnableDisable(DataGridView dgvCurrent)
+        private void IncludeSubfolders()
         {
-            var colNdxSelected = DgvExtensions.GetDataPropertyColumnIndex(dgvCurrent, "Selected");
-            var selectedCount = dgvCurrent.Rows.Cast<DataGridViewRow>().Count(r => Convert.ToBoolean(r.Cells[colNdxSelected].Value));
+            cueSearch.Text = String.Empty;
+            // filter out any SongPacks
+            setlistMaster = new BindingList<SongData>(Globals.MasterCollection.Where(x => !x.IsRsCompPack && !x.IsSongsPsarc && !x.IsSongPack).ToList());
 
-            if (selectedCount == 0)
-                return;
+            if (!chkIncludeSubfolders.Checked)
+                setlistMaster = new BindingList<SongData>(setlistMaster.Where(x => Path.GetFileName(Path.GetDirectoryName(x.FilePath)) == "dlc").ToList());
 
-            var colNdxEnabled = DgvExtensions.GetDataPropertyColumnIndex(dgvCurrent, "Enabled");
-            var colNdxPath = DgvExtensions.GetDataPropertyColumnIndex(dgvCurrent, "FilePath");
-            var selectedDisabled = dgvCurrent.Rows.Cast<DataGridViewRow>().Count(r => Convert.ToBoolean(r.Cells[colNdxSelected].Value) && r.Cells[colNdxEnabled].Value.ToString() == "No" && Path.GetFileName(Path.GetDirectoryName(r.Cells[colNdxPath].Value.ToString().ToLower())).Contains("dlc"));
-
-            if (dgvCurrent.Name == "dgvSetlistMaster" && selectedDisabled > 0)
-                if (MessageBox.Show("Enabling Master DLC/CDLC songs can cause Setlists   " + Environment.NewLine + "to not work as expected.  Do you want to continue?", "Enable Master DLC/CDLC ...", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.No)
-                    return;
-
-            foreach (DataGridViewRow row in dgvCurrent.Rows)
-            {
-                if (Convert.ToBoolean(row.Cells[colNdxSelected].Value))
-                {
-                    var originalPath = row.Cells[colNdxPath].Value.ToString();
-
-                    try
-                    {
-                        if (row.Cells[colNdxEnabled].Value.ToString() == "Yes")
-                        {
-                            var disabledPath = originalPath.Replace(Constants.PsarcExtension, Constants.DisabledPsarcExtension);
-                            File.Move(originalPath, disabledPath);
-                            row.Cells[colNdxPath].Value = disabledPath;
-                            row.Cells[colNdxEnabled].Value = "No";
-                        }
-                        else
-                        {
-                            var enabledPath = originalPath.Replace(Constants.DisabledPsarcExtension, Constants.PsarcExtension);
-                            File.Move(originalPath, enabledPath);
-                            row.Cells[colNdxPath].Value = enabledPath;
-                            row.Cells[colNdxEnabled].Value = "Yes";
-                        }
-
-                        // row.Cells[colNdxSelected].Value = false;
-                    }
-                    catch (IOException ex)
-                    {
-                        MessageBox.Show(@"Unable to enable/disable " + dgvCurrent.Name + ": " + Path.GetFileName(originalPath) + Environment.NewLine + "<Error>: " + ex.Message, MESSAGE_CAPTION, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
-                }
-            }
-
-            // update setlist
-            if (dgvCurrent.Name == "dgvSetlistMaster")
-                LoadSetlistSongs(curSetlistName);
-
-            RefreshAllDgv();
-        }
-
-        private void FileOperations(string mode, DataGridView dgvCurrent, DgvExtensions.TristateSelect selected = DgvExtensions.TristateSelect.Selected)
-        {
-            if (dgvCurrent == null || dgvCurrent.Rows.Count == 0)
-                return;
-
-            var debugHere = dgvCurrent.Name;
-            var songsList = DgvExtensions.GetObjectsFromRows<SongData>(dgvCurrent, selected).ToList();
-            if (!songsList.Any() || songsList[0] == null)
-            {
-                MessageBox.Show("Please select the checkbox next to song(s)." + Environment.NewLine + "First left mouse click the row to select it then" + Environment.NewLine + "right mouse click to quickly Copy, Move or Delete.  ", Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                return;
-            }
-
-            if (String.IsNullOrEmpty(curSetlistName))
-            {
-                MessageBox.Show("Please select or create a Setlist.", Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                return;
-            }
-
-            var setlistDir = Path.Combine(dlcDir, curSetlistName);
-            var isSetlistDisabled = curSetlistName.ToLower().Contains("disabled");
-            mode = mode.ToLower();
-
-            if (mode == "delete")
-                if (MessageBox.Show("Are you sure you want to delete the selected songs?  " + Environment.NewLine + "Warning ... This action is can not be undone!", "File Deletion Warning ...", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.No)
-                    return;
-
-            foreach (var song in songsList)
-            {
-                var srcPath = song.FilePath;
-                var srcDir = Path.GetDirectoryName(srcPath);
-                var srcFileName = Path.GetFileName(srcPath);
-                var srcFnEnabled = srcFileName.Replace(Constants.DisabledPsarcExtension, Constants.PsarcExtension);
-                var srcFnDisabled = srcFileName.Replace(Constants.PsarcExtension, Constants.DisabledPsarcExtension);
-                bool isSrcDlcDir = Path.GetFileName(srcDir).ToLower().Contains("dlc");
-                bool isSrcDisabled = srcFileName.ToLower().Contains("disabled");
-                var destPath = String.Empty;
-
-                if (mode == "copy" || mode == "move")
-                {
-                    if (isSrcDlcDir)
-                    {
-                        if (isSetlistDisabled)
-                            destPath = Path.Combine(setlistDir, srcFnDisabled);
-                        else
-                            destPath = Path.Combine(setlistDir, srcFnEnabled);
-
-                        if (File.Exists(destPath))
-                            File.Delete(destPath);
-
-                        File.Copy(srcPath, destPath);
-
-                        // add song from dgvCurrent
-                        SongData newSong = new SongData();
-                        var propInfo = song.GetType().GetProperties();
-
-                        foreach (var item in propInfo)
-                            if (item.CanWrite)
-                                newSong.GetType().GetProperty(item.Name).SetValue(newSong, item.GetValue(song, null), null);
-
-                        newSong.FilePath = destPath;
-                        setlistList.Add(newSong);
-
-                        if (!isSrcDisabled && mode == "copy")
-                        {
-                            song.FilePath = Path.Combine(dlcDir, srcFnDisabled);
-                            File.Copy(srcPath, song.FilePath);
-                            File.Delete(srcPath);
-                        }
-                    }
-                }
-
-                if (mode == "move" || mode == "delete")
-                {
-                    // remove song from dgvSetlistMaster if it exists
-                    foreach (DataGridViewRow row in dgvSetlistMaster.Rows)
-                    {
-                        var sdRow = DgvExtensions.GetObjectFromRow<SongData>(dgvSetlistMaster, row.Index);
-                        if (sdRow.FilePath == srcPath)
-                            dgvSetlistMaster.Rows.RemoveAt(row.Index);
-                    }
-
-                    File.Delete(srcPath);
-                }
-            }
-
-            // do seperately to prevent clearing selections
-            LoadSetlistMaster();
-            LoadSetlistSongs(curSetlistName);
-            UpdateToolStrip();
-            RefreshAllDgv(false);
-
-            // force reload/rescan
-            Globals.RescanDuplicates = true;
-            Globals.ReloadSongManager = true;
-            Globals.ReloadRenamer = true;
-            Globals.ReloadSetlistManager = true;
+            LoadFilteredBindingList(setlistMaster);
         }
 
         private void LoadFilteredBindingList(dynamic list)
         {
             bindingCompleted = false;
             dgvPainted = false;
-            // sortable binding list with drop down filtering
+            // sortable binding list with dropdown filtering
             dgvSetlistMaster.AutoGenerateColumns = false;
             var fbl = new FilteredBindingList<SongData>(list);
             var bs = new BindingSource { DataSource = fbl };
@@ -311,9 +208,10 @@ namespace CustomsForgeSongManager.UControls
             dgvSetlists.Rows.Clear();
 
             // find all existing Setlists (directories) in the dlc directory
-            string[] setlistDirs = Directory.GetDirectories(dlcDir, "*", SearchOption.TopDirectoryOnly);
+            var setlistDirs = Directory.GetDirectories(dlcDir, "*", SearchOption.TopDirectoryOnly).ToList();
             // ignore the inlay(s) folder
-            setlistDirs = setlistDirs.Where(x => !x.ToLower().Contains("inlay")).ToArray();
+            setlistDirs = setlistDirs.Where(x => !x.ToLower().Contains("inlay")).ToList();
+            setlistDirs = setlistDirs.OrderBy(x => x).ToList();
 
             // populate dgvSetlists
             foreach (var setlistDir in setlistDirs)
@@ -326,7 +224,7 @@ namespace CustomsForgeSongManager.UControls
 
             if (dgvSetlists.Rows.Count > 0)
             {
-                //dgvSetlists.Rows[0].Selected = true; // this triggers selection change
+                // dgvSetlists.Rows[0].Selected = true; // this triggers selection change
                 dgvSetlists.Rows[0].Cells["colSetlistSelect"].Value = true;
                 curSetlistName = dgvSetlists.Rows[0].Cells["colSetlistName"].Value.ToString();
                 LoadSetlistSongs(curSetlistName);
@@ -338,44 +236,22 @@ namespace CustomsForgeSongManager.UControls
             bindingCompleted = false;
             dgvPainted = false;
 
-            if (AppSettings.Instance.IncludeRS1CompSongs)
+            // double check that SongPacks have been filtered out ... JIC
+            if (setlistMaster.Any(x => x.IsRsCompPack || x.IsSongsPsarc || x.IsSongPack))
             {
-                Globals.Settings.chkIncludeRS1CompSongs.Checked = false;
-                Globals.Settings.chkIncludeRS2BaseSongs.Checked = false;
-                // ask user to rescan song collection to remove all RS1 Compatibility songs
-                MessageBox.Show(Properties.Resources.CanNotIncludeRS1CompatibilityFiles, MESSAGE_CAPTION, MessageBoxButtons.OK, MessageBoxIcon.Hand);
+                AppSettings.Instance.IncludeRS1CompSongs = false;
+                AppSettings.Instance.IncludeRS2BaseSongs = false;
+                AppSettings.Instance.IncludeCustomPacks = false;
+                // ask user to rescan song collection to remove all Song Pack songs
+                var diaMsg = "Can not include RS2014 Base Song file or" + Environment.NewLine +
+                             "RS1 Compatibility files as individual songs" + Environment.NewLine +
+                             "in a setlist.  Please return to Song Manager " + Environment.NewLine +
+                             "and perform a Full Rescan before resuming." + Environment.NewLine;
+                BetterDialog2.ShowDialog(diaMsg, "Setlist Manager ...", null, null, "Ok", Bitmap.FromHicon(SystemIcons.Warning.Handle), "ReadMe", 0, 150);
                 return false;
             }
 
-
-            // commented out for testing ... do duplicates really cause game hangs?
-            // check for duplicates
-            //var dups = Globals.SongCollection.GroupBy(x => new { ArtistSongAlbum = x.ArtistTitleAlbum }).Where(group => group.Count() > 1).SelectMany(group => group).ToList();
-            //// this was a requested feature but it comes with a WARNING ...
-            //// if user enables a duplicate in SetlistManager it will likely crash the game
-            //dups.RemoveAll(x => x.FileName.ToLower().Contains("disabled"));
-            //var dupsEnabled = dups.GroupBy(x => new { ArtistSongAlbum = x.ArtistTitleAlbum }).Where(group => group.Count() > 1).SelectMany(group => group).ToList();
-            //if (dupsEnabled.Any())
-            //{
-            //    // recommend that duplicates be removed before using SetlistManager
-            //    MessageBox.Show("Found duplicates in the song collection." + Environment.NewLine +
-            //                    "Please use the 'Duplicates' menu tab to remove" + Environment.NewLine +
-            //                    "or disable songs before working in SetlistManager.  ", MESSAGE_CAPTION,
-            //                    MessageBoxButtons.OK, MessageBoxIcon.Hand);
-            //    return false;
-            //}
-
-            //if (dups.Count - dupsEnabled.Count > 0)
-            //{
-            //    MessageBox.Show("Found disabled duplicates in the song collection.  " + Environment.NewLine + Environment.NewLine +
-            //                    "Warning:  The game will freeze if multiple" + Environment.NewLine +
-            //                    "duplicates are enabled in SetlistManager.  ", MESSAGE_CAPTION,
-            //                    MessageBoxButtons.OK, MessageBoxIcon.Information);
-            //}
-
-            // local setlistCollection is loaded with Globals SongCollection
-            setlistList = Globals.MasterCollection.ToList();
-            LoadFilteredBindingList(setlistList);
+            DgvExtensions.DoubleBuffered(dgvSetlistMaster);
             CFSMTheme.InitializeDgvAppearance(dgvSetlistMaster);
 
             return true;
@@ -386,72 +262,100 @@ namespace CustomsForgeSongManager.UControls
             var selectedRows = dgvSetlists.Rows.Cast<DataGridViewRow>().Where(slr => Convert.ToBoolean(slr.Cells["colSetlistSelect"].Value)).ToList();
             if (dgvSetlists.Rows.Count == 0 || !selectedRows.Any())
             {
-                // preserve custom column headers and clear the table
+                // preserve custom column headers and clear the grid
                 dgvSetlistSongs.AutoGenerateColumns = false;
                 dgvSetlistSongs.DataSource = null;
                 gbSetlistSongs.Text = "Setlist Songs";
-                Globals.TsLabel_DisabledCounter.Text = "Setlist Songs: 0";
                 curSetlistName = String.Empty;
+                Globals.TsLabel_DisabledCounter.Text = "Setlist Song Count: 0";
                 return;
             }
 
-            // var setlistName = selectedRows.First().Cells["colSetlistName"].Value.ToString();
             var setlistPath = Path.Combine(dlcDir, setlistName);
-
             if (Directory.Exists(setlistPath))
             {
-                // var setlistSongs = Directory.EnumerateFiles(setlistPath, "*.psarc", SearchOption.AllDirectories).ToList();
+                var availableSongs = new BindingList<SongData>(Globals.MasterCollection.Where(x => !x.IsRsCompPack && !x.IsSongsPsarc && !x.IsSongPack).ToList());
 
                 // CAREFUL - brain damage area
                 // the use of LINQ 'Select' defeats the FilteredBindingList feature and locks data                
-                var setlistSongs = setlistList.Where(sng => (sng.ArtistTitleAlbum.ToLower().Contains(search) || sng.Tunings1D.ToLower().Contains(search) || sng.FilePath.ToLower().Contains(search)) && Path.GetDirectoryName(sng.FilePath) == setlistPath).ToList();
+                setlistSongs = availableSongs.Where(sng => (sng.ArtistTitleAlbum.ToLower().Contains(search) ||
+                sng.Tunings1D.ToLower().Contains(search) || sng.FilePath.ToLower().Contains(search)) &&
+                Path.GetDirectoryName(sng.FilePath) == setlistPath).ToList();
 
-                // the use of .Select breaks binding
+                // FYI the use of .Select breaks the binding
                 // .Select(x => new { x.Selected, x.Enabled, x.Artist, x.Song, x.Album, x.Tuning, x.Path }).ToList();
 
+                dgvSetlistSongs.Rows.Clear();
                 dgvSetlistSongs.AutoGenerateColumns = false;
                 dgvSetlistSongs.DataSource = new FilteredBindingList<SongData>(setlistSongs);
             }
 
+            RefreshAllDgv(false);
             gbSetlistSongs.Text = String.Format("Setlist Songs from: {0}", setlistName);
-            Globals.TsLabel_DisabledCounter.Text = String.Format("Songs in '{0}' Setlist: {1}", setlistName, dgvSetlistSongs.Rows.Count);
-            RefreshAllDgv();
+            Globals.TsLabel_DisabledCounter.Text = String.Format("Setlist Song Count: {0}", setlistSongs.Count);
         }
 
         private void LoadSongPacks()
         {
-            // populate dgvSongPacks that can be enabled/disabled (not all can be)           
+            // populate dgvSongPacks that can be enabled/disabled
             dgvSongPacks.Rows.Clear();
 
-            // Directory.GetFiles is not case sensitive so pick up case through LINQ
-            string[] rs1CompDiscFiles = Directory.GetFiles(dlcDir, "rs1compatibilitydisc*.psarc");
-            if (rs1CompDiscFiles.Any())
-            {
-                rs1CompDiscPath = rs1CompDiscFiles.First(x => x.ToLower().Contains("rs1compatibilitydisc"));
-                dgvSongPacks.Rows.Add(false, rs1CompDiscPath.Contains("disabled") ? "No" : "Yes", rs1CompDiscPath);
-            }
+            // NOTE: use SongPacks to enable/disable songs.psarc via cache.psarc enable/disable method
+            var baseSongFiles = Directory.GetFiles(AppSettings.Instance.RSInstalledDir, "*").Where(file => file.ToLower().Contains("songs") && file.ToLower().EndsWith(".psarc")).ToList();
+            if (baseSongFiles.Any())
+                foreach (var baseSongFile in baseSongFiles)
+                    dgvSongPacks.Rows.Add(false, baseSongFile.Contains("disabled") ? "No" : "Yes", baseSongFile, Path.GetFileName(baseSongFile));
 
-            string[] rs1CompDlcFiles = Directory.GetFiles(dlcDir, "rs1compatibilitydlc*.psarc");
-            if (rs1CompDlcFiles.Any())
-            {
-                rs1CompDlcPath = rs1CompDlcFiles.First(x => x.ToLower().Contains("rs1compatibilitydlc"));
-                dgvSongPacks.Rows.Add(false, rs1CompDlcPath.Contains("disabled") ? "No" : "Yes", rs1CompDlcPath);
-            }
+            var rs1CompFiles = Directory.GetFiles(dlcDir, "*").Where(file => file.ToLower().Contains(Constants.RS1COMP)).ToList();
+            if (rs1CompFiles.Any())
+                foreach (var rs1CompFile in rs1CompFiles)
+                    dgvSongPacks.Rows.Add(false, rs1CompFile.Contains("disabled") ? "No" : "Yes", rs1CompFile, Path.GetFileName(rs1CompFile));
 
-            string[] customSongPacks = Directory.GetFiles(dlcDir, "*.*").Where(file => file.ToLower().EndsWith(".psarc") && file.ToLower().Contains("songpack")).ToArray();
-            if (customSongPacks.Any())
-                foreach (var customPackPath in customSongPacks)
-                    dgvSongPacks.Rows.Add(false, customPackPath.Contains("disabled") ? "No" : "Yes", customPackPath);
+            var songPackFiles = Directory.GetFiles(dlcDir, "*", SearchOption.AllDirectories).Where(file => file.ToLower().Contains(Constants.SONGPACK) || file.ToLower().Contains(Constants.ABVSONGPACK)).ToList();
+            if (songPackFiles.Any())
+                foreach (var songPackFile in songPackFiles)
+                    dgvSongPacks.Rows.Add(false, songPackFile.Contains("disabled") ? "No" : "Yes", songPackFile, Path.GetFileName(songPackFile));
 
             dgvSongPacks.Columns["colSongPackPath"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
         }
 
-        private void RefreshAllDgv(bool unSelectAll = false)
+        private void ProtectODLC()
+        {
+            // deselect and protect ODLC 
+            if (chkProtectODLC.Checked)
+            {
+                var dgvList = new List<DataGridView>() { dgvSetlistMaster, dgvSetlistSongs, dgvSongPacks };
+                foreach (var dgvCurrent in dgvList)
+                {
+                    var debugMe = dgvCurrent.Name;
+
+                    foreach (DataGridViewRow row in dgvCurrent.Rows)
+                    {
+                        var sd = DgvExtensions.GetObjectFromRow<SongData>(dgvCurrent, row.Index);
+                        if (sd != null && (sd.IsODLC || sd.IsRsCompPack || sd.IsSongsPsarc))
+                            dgvCurrent.Rows[row.Index].Cells[colSelect.Index].Value = false;
+
+                        if (dgvCurrent == dgvSongPacks)
+                            dgvCurrent.Rows[row.Index].Cells[colSelect.Index].Value = false;
+                    }
+                }
+
+                chkProtectODLC.ForeColor = Color.Green;
+                chkProtectODLC.BackColor = Color.LightGray;
+            }
+            else
+            {
+                chkProtectODLC.ForeColor = Color.Red;
+                chkProtectODLC.BackColor = Color.LightGray;
+            }
+        }
+
+        private void RefreshAllDgv(bool unSelectAll)
         {
             // uncheck (deselect)
             if (unSelectAll)
             {
-                foreach (var song in setlistList)
+                foreach (var song in setlistMaster)
                     song.Selected = false;
 
                 foreach (DataGridViewRow row in dgvSongPacks.Rows)
@@ -467,8 +371,9 @@ namespace CustomsForgeSongManager.UControls
         private void RemoveFilter()
         {
             Globals.Settings.SaveSettingsToFile(dgvSetlistMaster);
-            DataGridViewAutoFilterTextBoxColumn.RemoveFilter(dgvSetlistMaster);
-            LoadFilteredBindingList(setlistList);
+            var filterStatus = DataGridViewAutoFilterColumnHeaderCell.GetFilterStatus(dgvSetlistMaster);
+            if (!String.IsNullOrEmpty(filterStatus))
+                DataGridViewAutoFilterTextBoxColumn.RemoveFilter(dgvSetlistMaster);
 
             // reset alternating row color
             foreach (DataGridViewRow row in dgvSetlistMaster.Rows)
@@ -496,22 +401,26 @@ namespace CustomsForgeSongManager.UControls
             }
 
             // force reload
-            //Globals.ReloadSetlistManager = true;
             Globals.ReloadDuplicates = true;
             Globals.ReloadRenamer = true;
             Globals.ReloadSongManager = true;
+            Globals.ReloadArrangements = true;
+            Globals.ReloadProfileSongLists = true;
 
             if (Globals.WorkerFinished == Globals.Tristate.Cancelled)
             {
                 Globals.Log(Resources.UserCancelledProcess);
                 return;
             }
+
+            // filter out any SongPacks
+            setlistMaster = new BindingList<SongData>(Globals.MasterCollection.Where(x => !x.IsRsCompPack && !x.IsSongsPsarc && !x.IsSongPack).ToList());
         }
 
         private void SearchCDLC(string criteria)
         {
             var lowerCriteria = criteria.ToLower();
-            var results = setlistList.Where(x => x.ArtistTitleAlbum.ToLower().Contains(lowerCriteria) || x.Tunings1D.ToLower().Contains(lowerCriteria) && Path.GetFileName(Path.GetDirectoryName(x.FilePath)) == "dlc").ToList();
+            var results = setlistMaster.Where(x => x.ArtistTitleAlbum.ToLower().Contains(lowerCriteria) || x.Tunings1D.ToLower().Contains(lowerCriteria) && Path.GetFileName(Path.GetDirectoryName(x.FilePath)) == "dlc").ToList();
 
             LoadFilteredBindingList(results);
             songSearch.Clear();
@@ -519,184 +428,219 @@ namespace CustomsForgeSongManager.UControls
             LoadSetlistSongs(curSetlistName, lowerCriteria);
         }
 
-        private void ToggleSongs(DataGridView dgvCurrent)
+        private void SelectionCopyMoveDelete(string mode, DataGridView dgvCurrent)
         {
+            // TODO: this method needs to be completely rewritten
+
+            if (dgvCurrent == null || dgvCurrent.Rows.Count == 0)
+                return;
+
+            var selection = DgvExtensions.GetObjectsFromRows<SongData>(dgvCurrent);
+            if (!selection.Any())
+            {
+                if (dgvCurrent != dgvSongPacks)
+                    MessageBox.Show("Please select the checkbox next to song(s)." + Environment.NewLine + "First left mouse click the select checkbox and then" + Environment.NewLine + "right mouse click to quickly Copy, Move or Delete.  ", Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                return;
+            }
+
+            if (String.IsNullOrEmpty(curSetlistName))
+            {
+                MessageBox.Show("Please select or create a Setlist.", Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            var setlistDir = Path.Combine(dlcDir, curSetlistName);
+            mode = mode.ToLower();
+
+            if (mode == "delete")
+            {
+                var diaMsg = "You are about to permenantly delete the selected songs." + Environment.NewLine + "This action can not be undone." + Environment.NewLine + Environment.NewLine + "Are you sure you want to continue?";
+                if (DialogResult.No == BetterDialog2.ShowDialog(diaMsg, "Delete Song(s) ...", null, "Yes", "No", Bitmap.FromHicon(SystemIcons.Warning.Handle), "Warning", 0, 150))
+                    return;
+            }
+
+            foreach (var song in selection)
+            {
+                var srcPath = song.FilePath;
+                var srcDir = Path.GetDirectoryName(srcPath);
+                var srcFileName = Path.GetFileName(srcPath);
+                var destPath = String.Empty;
+                var dgvDest = new DataGridView();
+
+                if (dgvCurrent == dgvSetlistMaster)
+                {
+                    destPath = Path.Combine(setlistDir, srcFileName);
+                    dgvDest = dgvSetlistSongs;
+                }
+                else if (dgvCurrent == dgvSetlistSongs)
+                {
+                    destPath = Path.Combine(dlcDir, srcFileName);
+                    dgvDest = dgvSetlistMaster;
+                }
+
+                if (mode == "copy" || mode == "move")
+                {
+                    GenExtensions.CopyFile(srcPath, destPath, true);
+
+                    // add song from dgvDest
+                    SongData newSong = new SongData();
+                    var propInfo = song.GetType().GetProperties();
+                    foreach (var item in propInfo)
+                        if (item.CanWrite)
+                            newSong.GetType().GetProperty(item.Name).SetValue(newSong, item.GetValue(song, null), null);
+
+                    newSong.FilePath = destPath;
+
+                    setlistSongs.Add(newSong);
+                    if (mode == "copy")
+                        setlistMaster.Add(newSong);
+
+                    // reset bound DataSource to refesh dgvSongListSongs
+                    dgvSetlistSongs.DataSource = null;
+                    dgvSetlistSongs.AutoGenerateColumns = false;
+                    dgvSetlistSongs.DataSource = new FilteredBindingList<SongData>(setlistSongs);
+                }
+
+                if (mode == "delete" || mode == "move")
+                {
+                    // remove rows from datagridview going backward to avoid index issues
+                    for (int rowIndex = dgvCurrent.Rows.Count - 1; rowIndex >= 0; rowIndex--)
+                    {
+                        var sd = DgvExtensions.GetObjectFromRow<SongData>(dgvCurrent, rowIndex);
+                        if (sd.FilePath == srcPath)
+                        {
+                            dgvCurrent.Rows.RemoveAt(rowIndex);
+                            break;
+                        }
+                    }
+
+                    for (int rowIndex = dgvDest.Rows.Count - 1; rowIndex >= 0; rowIndex--)
+                    {
+                        var sd = DgvExtensions.GetObjectFromRow<SongData>(dgvDest, rowIndex);
+                        if (sd.FilePath == srcPath)
+                        {
+                            dgvDest.Rows.RemoveAt(rowIndex);
+                            break;
+                        }
+                    }
+
+                    GenExtensions.DeleteFile(srcPath);
+                }
+            }
+
+            // reset bound DataSource to refesh dgvSetlistMaster
+            LoadFilteredBindingList(setlistMaster);
+            RefreshAllDgv(true);
+            UpdateToolStrip();
+
+            // force rescan
+            Globals.RescanDuplicates = true;
+            Globals.RescanSongManager = true;
+            Globals.RescanRenamer = true;
+            Globals.RescanProfileSongLists = true;
+        }
+
+        private void SelectionEnableDisable(DataGridView dgvCurrent)
+        {
+            var debugMe = dgvCurrent.Name;
             var colNdxSelected = DgvExtensions.GetDataPropertyColumnIndex(dgvCurrent, "Selected");
+            var selectedCount = dgvCurrent.Rows.Cast<DataGridViewRow>().Count(r => Convert.ToBoolean(r.Cells[colNdxSelected].Value));
+            if (selectedCount == 0)
+            {
+                MessageBox.Show("Please select the checkbox next to song(s)." + Environment.NewLine + "First left mouse click the select checkbox and" + Environment.NewLine + "then right mouse click to quickly Enable/Disable.  ", Constants.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            var colNdxEnabled = DgvExtensions.GetDataPropertyColumnIndex(dgvCurrent, "Enabled");
+            var colNdxPath = DgvExtensions.GetDataPropertyColumnIndex(dgvCurrent, "FilePath");
+            var selectedDisabled = dgvCurrent.Rows.Cast<DataGridViewRow>().Count(r => Convert.ToBoolean(r.Cells[colNdxSelected].Value) && r.Cells[colNdxEnabled].Value.ToString() == "No" && Path.GetFileName(Path.GetDirectoryName(r.Cells[colNdxPath].Value.ToString().ToLower())).Contains("dlc"));
+
+            if (dgvCurrent.Name == "dgvSetlistMaster" && selectedDisabled > 0)
+                if (MessageBox.Show("Enabling Master Songs DLC/CDLC can cause Setlists   " + Environment.NewLine + "to not work as expected.  Do you want to continue?", "Enable Master Songs DLC/CDLC ...", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.No)
+                    return;
 
             foreach (DataGridViewRow row in dgvCurrent.Rows)
             {
-                row.Cells[colNdxSelected].Value = !Convert.ToBoolean(row.Cells[colNdxSelected].Value);
-                dgvCurrent.Refresh();
-            }
-        }
-
-        private void btnCopySongs_Click(object sender, EventArgs e)
-        {
-            FileOperations("Copy", dgvSetlistMaster);
-        }
-
-        private void btnMoveSongs_Click(object sender, EventArgs e)
-        {
-            FileOperations("Move", dgvSetlistMaster);
-        }
-
-        private void btnCombineSetlists_Click(object sender, EventArgs e)
-        {
-            var comboSetlistName = CreateSetlist();
-
-            if (String.IsNullOrEmpty(comboSetlistName))
-                return;
-
-            var combinedSetlistDir = Path.Combine(dlcDir, comboSetlistName);
-
-            if (!Directory.Exists(combinedSetlistDir))
-                Directory.CreateDirectory(combinedSetlistDir);
-
-            foreach (DataGridViewRow row in dgvSetlists.Rows.Cast<DataGridViewRow>().Where(row => Convert.ToBoolean(row.Cells["colSetlistSelect"].Value))) //row.Selected || 
-            {
-                // kickout clause ... don't add combo to itself
-                if (row.Cells["colSetlistName"].Value.ToString() == comboSetlistName)
-                    continue;
-
-                var setlistPath = Path.Combine(dlcDir, row.Cells["colSetlistName"].Value.ToString());
-
-                foreach (var songPath in Directory.GetFiles(setlistPath, "*.psarc"))
+                if (Convert.ToBoolean(row.Cells[colNdxSelected].Value))
                 {
-                    var newSongPath = Path.Combine(combinedSetlistDir, Path.GetFileName(songPath).Replace(".disabled", ""));
-                    DataGridViewRow masterRow = dgvSetlistMaster.Rows.Cast<DataGridViewRow>().Where(r => r.Cells["colFilePath"].Value.ToString() == songPath).First();
-                    SongData oldSong = DgvExtensions.GetObjectFromRow<SongData>(masterRow);
-
-                    if (oldSong != null)
+                    if (chkProtectODLC.Checked)
                     {
-                        SongData newSong = new SongData();
-                        var propInfo = oldSong.GetType().GetProperties();
+                        var sd = DgvExtensions.GetObjectFromRow<SongData>(dgvCurrent, row.Index);
+                        if (sd != null && sd.IsODLC)
+                            continue;
+                    }
 
-                        foreach (var item in propInfo)
+                    var originalPath = row.Cells[colNdxPath].Value.ToString();
+
+                    try
+                    {
+                        if (row.Cells[colNdxEnabled].Value.ToString() == "Yes")
                         {
-                            if (item.CanWrite)
-                            {
-                                newSong.GetType().GetProperty(item.Name).SetValue(newSong, item.GetValue(oldSong, null), null);
-                            }
+                            var disabledPath = originalPath.Replace(Constants.EnabledExtension, Constants.DisabledExtension);
+                            if (originalPath.EndsWith(Constants.BASESONGS))
+                                disabledPath = originalPath.Replace(Constants.BASESONGS, Constants.BASESONGSDISABLED);
+                            File.Move(originalPath, disabledPath);
+                            row.Cells[colNdxPath].Value = disabledPath;
+                            row.Cells[colNdxEnabled].Value = "No";
                         }
-
-                        newSong.FilePath = newSongPath;
-
-                        if (File.Exists(newSongPath))
-                            File.Delete(newSongPath);
-
-                        File.Copy(songPath, newSongPath);
-                        Globals.Log("Copied: " + oldSong.FilePath);
-                        Globals.Log("To: " + newSong.FilePath);
-                        setlistList.Add(newSong);
+                        else
+                        {
+                            var enabledPath = originalPath.Replace(Constants.DisabledExtension, Constants.EnabledExtension);
+                            if (originalPath.EndsWith(Constants.BASESONGSDISABLED))
+                                enabledPath = originalPath.Replace(Constants.BASESONGSDISABLED, Constants.BASESONGS);
+                            File.Move(originalPath, enabledPath);
+                            row.Cells[colNdxPath].Value = enabledPath;
+                            row.Cells[colNdxEnabled].Value = "Yes";
+                        }
+                    }
+                    catch (IOException ex)
+                    {
+                        MessageBox.Show(@"Unable to enable/disable " + dgvCurrent.Name + ": " + Path.GetFileName(originalPath) + Environment.NewLine + "<Error>: " + ex.Message, MESSAGE_CAPTION, MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
             }
 
-            RefreshAllDgv();
+            // update setlist
+            if (dgvCurrent.Name == "dgvSetlistMaster")
+                LoadSetlistSongs(curSetlistName);
+
+            dgvCurrent.Refresh();
+            this.Refresh();
         }
 
-        private void btnCopy_Click(object sender, EventArgs e)
+        private void TemporaryDisableDatabindEvent(Action action)
         {
-            FileOperations("Copy", dgvSetlistMaster);
+            dgvSetlistMaster.DataBindingComplete -= dgvSetlistMaster_DataBindingComplete;
+            try
+            {
+                action();
+            }
+            finally
+            {
+                dgvSetlistMaster.DataBindingComplete += dgvSetlistMaster_DataBindingComplete;
+            }
         }
 
-        private void btnCreateSetlist_Click(object sender, System.EventArgs e)
+        private void ToggleSongs(DataGridView dgvCurrent)
         {
-            CreateSetlist();
-        }
-
-        private void btnDelete_Click(object sender, EventArgs e)
-        {
-            FileOperations("Delete", dgvSetlistMaster);
-        }
-
-        private void btnEnDiSetlistMaster_Click(object sender, EventArgs e)
-        {
-            FileEnableDisable(dgvSetlistMaster);
+            foreach (DataGridViewRow row in dgvCurrent.Rows)
+            {
+                var sd = DgvExtensions.GetObjectFromRow<SongData>(dgvCurrent, row.Index);
+                if (sd == null)
+                    continue;
+                else if ((sd.IsODLC || sd.IsRsCompPack || sd.IsSongsPsarc) && chkProtectODLC.Checked)
+                    dgvCurrent.Rows[row.Index].Cells[colSelect.Index].Value = false;
+                else if (dgvCurrent == dgvSongPacks && chkProtectODLC.Checked)
+                    dgvCurrent.Rows[row.Index].Cells[colSelect.Index].Value = false;
+                else
+                    row.Cells[colSelect.Index].Value = !Convert.ToBoolean(row.Cells[colSelect.Index].Value);
+            }
         }
 
         private void btnEnDiSetlistSong_Click(object sender, EventArgs e)
         {
-            FileEnableDisable(dgvSetlistSongs);
-        }
-
-        private void btnEnDiSetlist_Click(object sender, EventArgs e)
-        {
-            // required to catch otherwise error causing conditons
-            if (dgvSetlists.Rows.Count == 0 || dgvSetlists.SelectedRows.Count.Equals(0))
-                return;
-
-            // only one setlist seleted at a time, less code confusion
-            // determine currently selected setlist name, make sure it is checked
-            var rowNdx = dgvSetlists.SelectedRows[0].Index;
-            DataGridViewRow slRow = dgvSetlists.Rows[rowNdx];
-            var setlistName = slRow.Cells["colSetlistName"].Value.ToString();
-            var setlistChecked = Convert.ToBoolean(slRow.Cells["colSetlistSelect"].Value);
-
-            if (String.IsNullOrEmpty(setlistName) || !setlistChecked)
-                return;
-
-            var setlistDir = Path.Combine(dlcDir, setlistName);
-            var setlistEnabled = !setlistName.Contains("disabled");
-
-            // rename setlist directory with current songs
-            var newSetlistDir = String.Empty;
-
-            if (setlistEnabled)
-                newSetlistDir = String.Format("{0}_disabled", setlistDir);
-            else
-                newSetlistDir = setlistDir.Replace("_disabled", "");
-
-            try
-            {
-                Directory.Move(setlistDir, newSetlistDir);
-                slRow.Cells["colSetlistName"].Value = Path.GetFileName(newSetlistDir);
-                slRow.Cells["colSetlistEnabled"].Value = setlistEnabled ? "No" : "Yes";
-                slRow.Cells["colSetlistSelect"].Value = false;
-            }
-            catch (IOException ex)
-            {
-                MessageBox.Show(@"Unable to enable/disable setlist: " + setlistName + Environment.NewLine + "<Error>: " + ex.Message, MESSAGE_CAPTION, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-
-            // rename setlist songs to match new directory name enabled/disabled setting
-            foreach (DataGridViewRow row in dgvSetlistSongs.Rows)
-            {
-                var songName = Path.GetFileName(row.Cells["colSetlistSongsPath"].Value.ToString());
-                var newSongName = String.Empty;
-
-                if (setlistEnabled)
-                    newSongName = songName.Replace(Constants.PsarcExtension, Constants.DisabledPsarcExtension);
-                else
-                    newSongName = songName.Replace(Constants.DisabledPsarcExtension, Constants.PsarcExtension);
-
-                var songPath = Path.Combine(newSetlistDir, songName);
-                var newSongPath = Path.Combine(newSetlistDir, newSongName);
-
-                try
-                {
-                    File.Move(songPath, newSongPath);
-                    row.Cells["colSetlistSongsPath"].Value = newSongPath;
-                    row.Cells["colSetlistSongsEnabled"].Value = setlistEnabled ? "No" : "Yes";
-                }
-                catch (IOException ex)
-                {
-                    MessageBox.Show(@"Unable to enable/disable setlist song: " + songName + Environment.NewLine + "<Error>: " + ex.Message, MESSAGE_CAPTION, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-            }
-
-            RefreshAllDgv();
-        }
-
-        private void btnEnDiSongPack_Click(object sender, EventArgs e)
-        {
-            FileEnableDisable(dgvSongPacks);
-        }
-
-        private void btnMove_Click(object sender, EventArgs e)
-        {
-            FileOperations("Move", dgvSetlistMaster);
+            SelectionEnableDisable(dgvSetlistSongs);
         }
 
         private void btnRemoveSetlistSong_Click(object sender, EventArgs e)
@@ -741,10 +685,107 @@ namespace CustomsForgeSongManager.UControls
             LoadSetlistSongs(curSetlistName);
         }
 
-        private void btnRemoveSetlist_Click(object sender, System.EventArgs e)
+        private void btnToggleSetlistMasterSongs_Click(object sender, EventArgs e)
+        {
+            ToggleSongs(dgvSetlistMaster);
+        }
+
+        private void btnToggleSetlistSongs_Click(object sender, EventArgs e)
+        {
+            ToggleSongs(dgvSetlistSongs);
+        }
+
+        private void chkIncludeSubfolders_MouseUp(object sender, MouseEventArgs e)
+        {
+            AppSettings.Instance.IncludeSubfolders = chkIncludeSubfolders.Checked;
+            UpdateToolStrip();
+        }
+
+        private void chkProtectODLC_MouseUp(object sender, MouseEventArgs e)
+        {
+            AppSettings.Instance.ProtectODLC = chkProtectODLC.Checked;
+            ProtectODLC();
+        }
+
+        private void btnCombineSetlists_Click(object sender, EventArgs e)
+        {
+            var comboSetlistName = CreateSetlist(false, "Enter name of combined setlist:");
+
+            if (String.IsNullOrEmpty(comboSetlistName))
+                return;
+
+            var combinedSetlistDir = Path.Combine(dlcDir, comboSetlistName);
+
+            if (!Directory.Exists(combinedSetlistDir))
+                Directory.CreateDirectory(combinedSetlistDir);
+
+            foreach (DataGridViewRow row in dgvSetlists.Rows.Cast<DataGridViewRow>().Where(row => Convert.ToBoolean(row.Cells["colSetlistSelect"].Value))) //row.Selected || 
+            {
+                // kickout clause ... don't add combo to itself
+                if (row.Cells["colSetlistName"].Value.ToString() == comboSetlistName)
+                    continue;
+
+                var setlistPath = Path.Combine(dlcDir, row.Cells["colSetlistName"].Value.ToString());
+
+                foreach (var songPath in Directory.GetFiles(setlistPath, "*.psarc"))
+                {
+                    var newSongPath = Path.Combine(combinedSetlistDir, Path.GetFileName(songPath).Replace(".disabled", ""));
+                    DataGridViewRow masterRow = dgvSetlistMaster.Rows.Cast<DataGridViewRow>().Where(r => r.Cells["colFilePath"].Value.ToString() == songPath).First();
+                    SongData oldSong = DgvExtensions.GetObjectFromRow<SongData>(masterRow);
+
+                    if (oldSong != null)
+                    {
+                        SongData newSong = new SongData();
+                        var propInfo = oldSong.GetType().GetProperties();
+
+                        foreach (var item in propInfo)
+                        {
+                            if (item.CanWrite)
+                            {
+                                newSong.GetType().GetProperty(item.Name).SetValue(newSong, item.GetValue(oldSong, null), null);
+                            }
+                        }
+
+                        newSong.FilePath = newSongPath;
+
+                        if (File.Exists(newSongPath))
+                            File.Delete(newSongPath);
+
+                        File.Copy(songPath, newSongPath);
+                        Globals.Log("Copied: " + oldSong.FilePath);
+                        Globals.Log("To: " + newSong.FilePath);
+                        setlistMaster.Add(newSong);
+                    }
+                }
+            }
+
+            foreach (DataGridViewRow row in dgvSetlists.Rows)
+            {
+                if (curSetlistName != dgvSetlists.Rows[dgvSetlists.Rows.Count - 1].Cells["colSetlistName"].Value.ToString())
+                    dgvSetlists.Rows[row.Index].Cells[colSelect.Index].Value = false;
+            }
+
+            LoadSetlistSongs(curSetlistName);
+            RefreshAllDgv(false);
+        }
+
+        private void btnCreateSetlist_Click(object sender, System.EventArgs e)
+        {
+            CreateSetlist(true);
+        }
+
+        private void btnDeleteSetlist_Click(object sender, System.EventArgs e)
         {
             var selectedRows = dgvSetlists.Rows.Cast<DataGridViewRow>().Where(slr => Convert.ToBoolean(slr.Cells["colSetlistSelect"].Value)).ToList();
             if (dgvSetlists.Rows.Count == 0 || !selectedRows.Any())
+                return;
+
+            // DANGER ZONE ... give user adequate warning
+            var diaMsg = "You are about to permanently delete setlist: '" + curSetlistName + "'" + Environment.NewLine + "Including all songs contained in the setlist!" + Environment.NewLine + Environment.NewLine + "Are you sure you want to permanently delete the setlist?";
+            if (selectedRows.Count > 1)
+                diaMsg = "You are about to permanently delete multiple setlists." + Environment.NewLine + "Including all songs contained in these setlists!" + Environment.NewLine + Environment.NewLine + "Are you sure you want to permanently delete these setlists?";
+
+            if (DialogResult.No == BetterDialog2.ShowDialog(diaMsg, "Permanent Deletion Warning ...", null, "Yes", "No", Bitmap.FromHicon(SystemIcons.Warning.Handle), "Warning", 0, 150))
                 return;
 
             foreach (DataGridViewRow row in selectedRows)
@@ -759,7 +800,7 @@ namespace CustomsForgeSongManager.UControls
                 // try to prevent the user from deleting their entire CDLC collection if possible
                 if (row.Cells["colSetlistName"].Value.ToString().ToLower().Contains("cdlc"))
                 {
-                    var errMsg = "You are about to permanently delete setlist '" + curSetlistName + "'" + Environment.NewLine + "Including all songs contained in the setlist!" + Environment.NewLine + Environment.NewLine + "Are you sure you want to permanently delete setlist '" + curSetlistName + "' and its' songs?  ";
+                    var errMsg = "You are about to permanently delete setlist '" + curSetlistName + "'" + Environment.NewLine + "Including all songs contained in the setlist!" + Environment.NewLine + Environment.NewLine + "Are you sure you want to permanently delete setlist:" + Environment.NewLine + curSetlistName + " and its' songs?";
 
                     if (row.Cells["colSetlistName"].Value.ToString().ToLower().Contains("cdlc"))
                         errMsg = "Oops ... Looks like this might be your CDLC folder." + Environment.NewLine + errMsg;
@@ -810,21 +851,96 @@ namespace CustomsForgeSongManager.UControls
             }
 
             // reset dgvSetlistSongs
-            if (dgvSetlistSongs.Rows.Count > 0)
-                dgvSetlistSongs.Rows.Clear();
+            LoadSetlistSongs(null);
+        }
 
-            // LoadSetlistSongs(curSetlistName);
+        private void btnEnDiSetlist_Click(object sender, EventArgs e)
+        {
+            // required to catch otherwise error causing conditons
+            if (dgvSetlists.Rows.Count == 0 || dgvSetlists.SelectedRows.Count.Equals(0))
+                return;
+
+            // only one setlist seleted at a time, less code confusion
+            // determine currently selected setlist name, make sure it is checked
+            var rowNdx = dgvSetlists.SelectedRows[0].Index;
+            DataGridViewRow slRow = dgvSetlists.Rows[rowNdx];
+            var setlistName = slRow.Cells["colSetlistName"].Value.ToString();
+            var setlistChecked = Convert.ToBoolean(slRow.Cells["colSetlistSelect"].Value);
+
+            if (String.IsNullOrEmpty(setlistName) || !setlistChecked)
+                return;
+
+            var setlistDir = Path.Combine(dlcDir, setlistName);
+            var setlistEnabled = !setlistName.Contains("disabled");
+
+            // rename setlist directory with current songs
+            var newSetlistDir = String.Empty;
+
+            if (setlistEnabled)
+                newSetlistDir = String.Format("{0}_disabled", setlistDir);
+            else
+                newSetlistDir = setlistDir.Replace("_disabled", "");
+
+            try
+            {
+                Directory.Move(setlistDir, newSetlistDir);
+                slRow.Cells["colSetlistName"].Value = Path.GetFileName(newSetlistDir);
+                slRow.Cells["colSetlistEnabled"].Value = setlistEnabled ? "No" : "Yes";
+                // do not deselect the Setlist
+                // slRow.Cells["colSetlistSelect"].Value = false;
+            }
+            catch (IOException ex)
+            {
+                MessageBox.Show(@"Unable to enable/disable setlist: " + setlistName + Environment.NewLine + "<Error>: " + ex.Message, MESSAGE_CAPTION, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            // rename setlist songs to match new directory name enabled/disabled setting
+            foreach (DataGridViewRow row in dgvSetlistSongs.Rows)
+            {
+                var songName = Path.GetFileName(row.Cells["colSetlistSongsPath"].Value.ToString());
+                var newSongName = String.Empty;
+
+                if (setlistEnabled)
+                    newSongName = songName.Replace(Constants.EnabledExtension, Constants.DisabledExtension);
+                else
+                    newSongName = songName.Replace(Constants.DisabledExtension, Constants.EnabledExtension);
+
+                var songPath = Path.Combine(newSetlistDir, songName);
+                var newSongPath = Path.Combine(newSetlistDir, newSongName);
+
+                try
+                {
+                    File.Move(songPath, newSongPath);
+                    row.Cells["colSetlistSongsPath"].Value = newSongPath;
+                    row.Cells["colSetlistSongsEnabled"].Value = setlistEnabled ? "No" : "Yes";
+                }
+                catch (IOException ex)
+                {
+                    MessageBox.Show(@"Unable to enable/disable setlist song: " + songName + Environment.NewLine + "<Error>: " + ex.Message, MESSAGE_CAPTION, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+
+            RefreshAllDgv(false);
+        }
+
+        private void btnRescan_Click(object sender, EventArgs e)
+        {
+            Globals.RescanSetlistManager = true;
+            UpdateToolStrip();
         }
 
         private void btnRunRSWithSetlist_Click(object sender, EventArgs e)
         {
-            // TODO: confirm this method works correctly and then enable button
+            //if (!Constants.DebugMode)
+            //    return;
+
+            // TODO: Lovro, plz confirm this method works as intended
             string rs2014Pack = String.Empty;
             string rs1MainPack = String.Empty;
             string rs1DLCPack = String.Empty;
             var rocksmithProcess = Process.GetProcessesByName("Rocksmith2014.exe");
 
-            // TODO: determine if EnumerateFiles is case insensitive
             List<string> rs1DLCFiles = Directory.EnumerateFiles(dlcDir, "rs1compatibilitydlc*", SearchOption.AllDirectories).Where(sp => !sp.Contains(".disabled")).ToList();
             List<string> rs1Files = Directory.EnumerateFiles(dlcDir, "rs1compatibilitydisc*", SearchOption.AllDirectories).Where(sp => !sp.Contains(".disabled")).ToList();
             List<string> rs2014Files = Directory.EnumerateFiles(dlcDir, "cache.psarc*", SearchOption.AllDirectories).Where(sp => !sp.Contains(".disabled")).ToList();
@@ -878,7 +994,7 @@ namespace CustomsForgeSongManager.UControls
                 if (rs1DLCPack != "Select a setlist")
                     foreach (string rs1DLCFile in rs1DLCFiles)
                         if (Path.GetDirectoryName(rs1DLCFile) != Path.Combine(dlcDir, rs1DLCPack))
-                            File.Move(rs1DLCFile, rs1DLCFile.Replace(Constants.PsarcExtension, Constants.DisabledPsarcExtension));
+                            File.Move(rs1DLCFile, rs1DLCFile.Replace(Constants.EnabledExtension, Constants.DisabledExtension));
             }
 
             if (rs1Files.Count > 1)
@@ -901,7 +1017,7 @@ namespace CustomsForgeSongManager.UControls
                 {
                     foreach (string rs1File in rs1Files)
                         if (Path.GetDirectoryName(rs1File) != Path.Combine(dlcDir, rs1MainPack))
-                            File.Move(rs1File, rs1File.Replace(Constants.PsarcExtension, Constants.DisabledPsarcExtension));
+                            File.Move(rs1File, rs1File.Replace(Constants.EnabledExtension, Constants.DisabledExtension));
                 }
             }
 
@@ -910,35 +1026,14 @@ namespace CustomsForgeSongManager.UControls
             else
             {
                 Application.DoEvents();
-                Process.Start("steam://rungameid/221680");
+                // Process.Start("steam://rungameid/221680");
+
+                string output;
+                if (Steam.IsSteamInstallationValid(out output))
+                    Steam.RunSteamExecutable("-applaunch 221680");
+                else
+                    Globals.Log(output);
             }
-        }
-
-        private void btnToggleSetlistMasterSongs_Click(object sender, EventArgs e)
-        {
-            ToggleSongs(dgvSetlistMaster);
-        }
-
-        private void btnToggleSetlistSongs_Click(object sender, EventArgs e)
-        {
-            ToggleSongs(dgvSetlistSongs);
-        }
-
-        private void chkShowSetlistSongs_CheckedChanged(object sender, EventArgs e)
-        {
-            AppSettings.Instance.ShowSetlistSongs = chkShowSetlistSongs.Checked;
-        }
-
-        private void chkShowSetlistSongs_MouseUp(object sender, MouseEventArgs e)
-        {
-            if (!chkShowSetlistSongs.Checked)
-            {
-                var results = setlistList.Where(x => Path.GetFileName(Path.GetDirectoryName(x.FilePath)) == "dlc").ToList();
-
-                LoadFilteredBindingList(results);
-            }
-            else
-                RemoveFilter();
         }
 
         private void cmsCopy_Click(object sender, EventArgs e)
@@ -950,14 +1045,14 @@ namespace CustomsForgeSongManager.UControls
 
             var tsmi = sender as ToolStripMenuItem; // Copy
             if (tsmi != null && tsmi.Owner.Tag != null)
-                FileOperations("Copy", tsmi.Owner.Tag as DataGridView);
+                SelectionCopyMoveDelete("Copy", tsmi.Owner.Tag as DataGridView);
         }
 
         private void cmsDelete_Click(object sender, EventArgs e)
         {
             var tsmi = sender as ToolStripMenuItem; // Delete
             if (tsmi != null && tsmi.Owner.Tag != null)
-                FileOperations("Delete", tsmi.Owner.Tag as DataGridView);
+                SelectionCopyMoveDelete("Delete", tsmi.Owner.Tag as DataGridView);
         }
 
         private void cmsEnableDisable_Click(object sender, EventArgs e)
@@ -967,14 +1062,14 @@ namespace CustomsForgeSongManager.UControls
                 return;
 
             var dgvCurrent = tsmi.Owner.Tag as DataGridView;
-            FileEnableDisable(dgvCurrent);
+            SelectionEnableDisable(dgvCurrent);
         }
 
         private void cmsMove_Click(object sender, EventArgs e)
         {
             var tsmi = sender as ToolStripMenuItem; // Move
             if (tsmi != null && tsmi.Owner.Tag != null)
-                FileOperations("Move", tsmi.Owner.Tag as DataGridView);
+                SelectionCopyMoveDelete("Move", tsmi.Owner.Tag as DataGridView);
         }
 
         private void cmsSelectAllNone_Click(object sender, EventArgs e)
@@ -985,12 +1080,11 @@ namespace CustomsForgeSongManager.UControls
                 var dgvCurrent = tsmi.Owner.Tag as DataGridView;
                 foreach (DataGridViewRow row in dgvCurrent.Rows)
                 {
-                    DataGridViewCheckBoxCell chk = (DataGridViewCheckBoxCell)row.Cells["colSelect"];
+                    DataGridViewCheckBoxCell chk = (DataGridViewCheckBoxCell)row.Cells[colSelect.Index];
                     chk.Value = !allSelected;
                 }
 
                 allSelected = !allSelected;
-                dgvCurrent.Refresh();
             }
         }
 
@@ -1002,11 +1096,11 @@ namespace CustomsForgeSongManager.UControls
 
             var dgvCurrent = tsmi.Owner.Tag as DataGridView;
             var colNdxPath = DgvExtensions.GetDataPropertyColumnIndex(dgvCurrent, "FilePath");
-            var path = selectedRow.Cells[colNdxPath].Value.ToString();
+            var path = dgvCurrent.SelectedRows[0].Cells[colNdxPath].Value.ToString();
             var directory = new FileInfo(path);
 
             if (directory.DirectoryName != null)
-                Process.Start("explorer.exe", string.Format("/select,\"{0}\"", directory.FullName));
+                Process.Start("explorer.exe", String.Format("/select,\"{0}\"", directory.FullName));
         }
 
         private void cmsToggle_Click(object sender, EventArgs e)
@@ -1021,64 +1115,142 @@ namespace CustomsForgeSongManager.UControls
 
         private void cueSearch_KeyUp(object sender, KeyEventArgs e)
         {
+            // wait for return key to run search, and re-run search on backspace/left arrow
+            if (e.KeyCode != Keys.Return && e.KeyCode != Keys.Back && e.KeyCode != Keys.Left)
+                return;
+
+            // debounce KeyUp to eliminate intermittent NullReferenceException
+            Thread.Sleep(50);
+
             if (cueSearch.Text.Length > 0) // && e.KeyCode == Keys.Enter)
                 SearchCDLC(cueSearch.Text);
             else
-                LoadFilteredBindingList(setlistList);
+                LoadFilteredBindingList(setlistMaster);
         }
 
-        private void dgvSetlistMaster_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        private void dgvCurrent_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
             // HACK: data from other grids ends up here when filter is removed causing error ... figure out why?
             var grid = (DataGridView)sender;
-            if (grid.Name != "dgvSetlistMaster")
-                return;
+            var debugMe = grid.Name;
 
             // speed hacks ...
             if (e.RowIndex == -1)
                 return;
-            if (dgvSetlistMaster.Columns[e.ColumnIndex] is DataGridViewCheckBoxColumn)
+            if (grid.Columns[e.ColumnIndex] is DataGridViewCheckBoxColumn)
                 return;
-            if (dgvSetlistMaster.Rows[e.RowIndex].IsNewRow) // || !dgvSetlistMaster.IsCurrentRowDirty)
+            if (grid.Rows[e.RowIndex].IsNewRow) // || !dgvCurrent.IsCurrentRowDirty)
                 return;
-            if (dgvSetlistMaster.Rows.Count < 1) // needed in case filter was set that returns no items
+            if (grid.Rows.Count < 1) // needed in case filter was set that returns no items
                 return;
 
-            SongData song = new SongData();
-            try
+            var sd = grid.Rows[e.RowIndex].DataBoundItem as SongData;
+            if (sd != null)
             {
-                song = dgvSetlistMaster.Rows[e.RowIndex].DataBoundItem as SongData;
-            }
-            catch (Exception ex)
-            {
-                var debugMe = ""; //
-            }
-
-            if (song != null && song.DLCKey != null)
-            {
-                if (song.IsOfficialDLC)
+                if (sd.IsODLC)
                 {
                     e.CellStyle.Font = Constants.OfficialDLCFont;
-                    // prevent checking (selecting) ODCL all together ... evil genious code
-                    //DataGridViewCell cell = dgvSetlistMaster.Rows[e.RowIndex].Cells["colSelect"];
-                    //DataGridViewCheckBoxCell chkCell = cell as DataGridViewCheckBoxCell;
-                    //chkCell.Value = false;
-                    //chkCell.FlatStyle = FlatStyle.Flat;
-                    //chkCell.Style.ForeColor = Color.DarkGray;
-                    //cell.ReadOnly = true;
+                    DataGridViewCell cell = grid.Rows[e.RowIndex].Cells[colSelect.Index];
+                    DataGridViewCheckBoxCell chkCell = cell as DataGridViewCheckBoxCell;
+                    if (chkProtectODLC.Checked)
+                    {
+                        chkCell.Style.ForeColor = Color.DarkGray;
+                        chkCell.FlatStyle = FlatStyle.Flat;
+                        chkCell.Value = false;
+                        cell.ReadOnly = true;
+                    }
+                    else
+                    {
+                        chkCell.Style.ForeColor = Color.Black;
+                        chkCell.FlatStyle = FlatStyle.Popup;
+                        cell.ReadOnly = false;
+                    }
                 }
 
-                // colorize the enabled and path columns depending on cdlc location
-                if (e.ColumnIndex == colEnabled.Index || e.ColumnIndex == colFilePath.Index)
+                if (grid == dgvSetlistMaster)
                 {
-                    var songPath = Path.GetDirectoryName(song.FilePath).ToLower();
-                    if (songPath == cdlcDir)
-                        e.CellStyle.BackColor = cdlcColor;
-                    else if (songPath != dlcDir.ToLower())
-                        e.CellStyle.BackColor = setlistColor;
+                    // colorize the enabled and path columns depending on cdlc location
+                    if (e.ColumnIndex == colEnabled.Index || e.ColumnIndex == colFilePath.Index)
+                    {
+                        var songPath = Path.GetDirectoryName(sd.FilePath).ToLower();
+                        if (songPath == cdlcDir)
+                            e.CellStyle.BackColor = cdlcColor;
+                        else if (songPath != dlcDir.ToLower())
+                            e.CellStyle.BackColor = setlistColor;
+                    }
                 }
             }
         }
+
+        private void dgvCurrent_CellMouseUp(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            var grid = (DataGridView)sender;
+            // work around for Win10 right click header hang ... check seperate and first
+            if (e.RowIndex == -1)
+                return;
+
+            if (grid.Rows.Count == 0)
+                return;
+
+            var sd = DgvExtensions.GetObjectFromRow<SongData>(grid, e.RowIndex);
+            if (sd == null && e.RowIndex != -1 && grid != dgvSongPacks)
+                return;
+
+            if (e.Button == MouseButtons.Right)
+            {
+                grid.Rows[e.RowIndex].Selected = true;
+                cmsCopy.Enabled = true;
+                cmsDelete.Enabled = true;
+                cmsMove.Enabled = true;
+                cmsEnableDisable.Enabled = true;
+                // known VS bug .. SourceControl returns null ... using tag for work around
+                cmsSetlistManager.Tag = grid;
+                cmsSetlistManager.Show(Cursor.Position);
+
+                if (grid == dgvSongPacks)
+                {
+                    cmsCopy.Enabled = false;
+                    cmsDelete.Enabled = false;
+                    cmsMove.Enabled = false;
+
+                    if (chkProtectODLC.Checked)
+                        cmsEnableDisable.Enabled = false;
+                }
+                else
+                {
+                    if (chkProtectODLC.Checked && (sd.IsODLC || sd.IsRsCompPack || sd.IsSongsPsarc))
+                    {
+                        cmsCopy.Enabled = false;
+                        cmsDelete.Enabled = false;
+                        cmsMove.Enabled = false;
+                        cmsEnableDisable.Enabled = false;
+                    }
+                }
+            }
+
+            // user complained that clicking a row should not autocheck select
+            // programmatic left clicking on colSelect
+            if (e.Button == MouseButtons.Left && e.RowIndex != -1 && e.ColumnIndex == colSelect.Index)
+            {
+                try
+                {
+                    if (chkProtectODLC.Checked && (sd.IsODLC || sd.IsRsCompPack || sd.IsSongsPsarc))
+                        grid.Rows[e.RowIndex].Cells[colSelect.Index].Value = false;
+                    else if (grid == dgvSongPacks && chkProtectODLC.Checked)
+                        grid.Rows[e.RowIndex].Cells[colSelect.Index].Value = false;
+                    else
+                        grid.Rows[e.RowIndex].Cells[colSelect.Index].Value = !(bool)(grid.Rows[e.RowIndex].Cells[colSelect.Index].Value);
+                }
+                catch
+                {
+                    // debounce excess clicking
+                    Thread.Sleep(50);
+                }
+            }
+
+            TemporaryDisableDatabindEvent(() => { grid.EndEdit(); });
+        }
+
         private void dgvSetlistMaster_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
         {
             if (e.RowIndex == -1)
@@ -1090,8 +1262,8 @@ namespace CustomsForgeSongManager.UControls
                 // select a single row by Ctrl-Click
                 if (ModifierKeys == Keys.Control)
                 {
-                    var s = DgvExtensions.GetObjectFromRow<SongData>(dgvSetlistMaster, e.RowIndex);
-                    s.Selected = !s.Selected;
+                    var sd = DgvExtensions.GetObjectFromRow<SongData>(dgvSetlistMaster, e.RowIndex);
+                    sd.Selected = !sd.Selected;
                 }
                 // select multiple rows by Shift-Click on two outer rows
                 else if (ModifierKeys == Keys.Shift)
@@ -1112,80 +1284,13 @@ namespace CustomsForgeSongManager.UControls
                         {
                             for (int i = start; i < end; i++)
                             {
-                                var s = DgvExtensions.GetObjectFromRow<SongData>(dgvSetlistMaster, i);
-                                s.Selected = !s.Selected;
+                                var sd = DgvExtensions.GetObjectFromRow<SongData>(dgvSetlistMaster, i);
+                                sd.Selected = !sd.Selected;
                             }
                         });
                     }
                 }
             }
-        }
-
-        // use to manipulate data with causing error
-        private void TemporaryDisableDatabindEvent(Action action)
-        {
-            dgvSetlistMaster.DataBindingComplete -= dgvSetlistMaster_DataBindingComplete;
-            try
-            {
-                action();
-            }
-            finally
-            {
-                dgvSetlistMaster.DataBindingComplete += dgvSetlistMaster_DataBindingComplete;
-            }
-        }
-
-        private void dgvSetlistMaster_CellMouseUp(object sender, DataGridViewCellMouseEventArgs e)
-        {
-            // TODO: make consistent with other grids
-            // has precedent over a ColumnHeader_MouseClick
-            // MouseUp detection is more reliable than MouseDown
-            var grid = (DataGridView)sender;
-            var rowIndex = e.RowIndex;
-
-            if (e.Button == MouseButtons.Right)
-            {
-                if (rowIndex != -1)
-                {
-                    grid.Rows[e.RowIndex].Selected = true;
-                    cmsCopy.Enabled = true;
-                    cmsMove.Enabled = true;
-                    cmsDelete.Enabled = true;
-
-                    if (chkProtectODLC.Checked)
-                    {
-                        var sng = DgvExtensions.GetObjectFromRow<SongData>(dgvSetlistMaster, e.RowIndex);
-                        // cmsCopy.Enabled = !sng.OfficialDLC;
-                        cmsMove.Enabled = !sng.IsOfficialDLC;
-                        cmsDelete.Enabled = !sng.IsOfficialDLC;
-                    }
-
-                    // known VS bug .. SourceControl returns null .. using tag for work around
-                    cmsSetlistManager.Tag = dgvSetlistMaster;
-                    cmsSetlistManager.Show(Cursor.Position);
-
-                }
-                else
-                {
-                    // TODO: impliment ContextMenu for columns
-                    //PopulateMenuWithColumnHeaders(cmsSetlistManagerColumns);
-                    //cmsSetlistManagerColumns.Show(Cursor.Position);
-                }
-            }
-
-            // programmatic left clicking on colSelect
-            if (e.Button == MouseButtons.Left && e.RowIndex != -1 && e.ColumnIndex == colSelect.Index)
-            {
-                TemporaryDisableDatabindEvent(() => { dgvSetlistMaster.EndEdit(); });
-            }
-
-            Thread.Sleep(50); // debounce multiple clicks
-            dgvSetlistMaster.Refresh();
-        }
-
-        private void dgvSetlistMaster_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
-        {
-            //dgvSetlistMaster.Invalidate();
         }
 
         private void dgvSetlistMaster_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
@@ -1232,82 +1337,19 @@ namespace CustomsForgeSongManager.UControls
             }
         }
 
-        private void dgvSetlistMaster_SelectionChanged(object sender, EventArgs e)
-        {
-            return; // for testing
-
-            // save selected row info
-            if (dgvSetlistMaster.SelectedRows.Count > 0)
-                selectedRow = dgvSetlistMaster.SelectedRows[0];
-            // remove row selection highlighting for cells of different colors
-            dgvSetlistMaster.ClearSelection();
-        }
-
-        private void dgvSetlistSongs_CellMouseUp(object sender, DataGridViewCellMouseEventArgs e)
-        {
-            var grid = (DataGridView)sender;
-            // work around for Win10 right click header hang ... check seperate and first
-            if (e.RowIndex == -1)
-                return;
-
-            if (grid.Rows.Count == 0)
-                return;
-
-            if (e.Button == MouseButtons.Right)
-            {
-                grid.Rows[e.RowIndex].Selected = true;
-                cmsCopy.Enabled = false;
-                cmsMove.Enabled = true;
-                cmsDelete.Enabled = true;
-
-                //if (chkProtectODLC.Checked)
-                //{
-                //    var sng = DgvExtensions.GetObjectFromRow<SongData>(dgvSetlistSongs, e.RowIndex);
-                //    // cmsCopy.Enabled = !sng.OfficialDLC;
-                //    cmsMove.Enabled = !sng.OfficialDLC;
-                //    cmsDelete.Enabled = !sng.OfficialDLC;
-                //}
-
-                // known VS bug .. SourceControl returns null ... using tag for work around
-                cmsSetlistManager.Tag = dgvSetlistSongs;
-                cmsSetlistManager.Show(Cursor.Position);
-            }
-
-            // programmatic left clicking row to check/uncheck 'Select'
-            if (e.Button == MouseButtons.Left)
-            {
-                try
-                {
-                    grid.Rows[e.RowIndex].Cells["colSetlistSongsSelect"].Value = !(bool)(grid.Rows[e.RowIndex].Cells["colSetlistSongsSelect"].Value);
-                    RefreshAllDgv();
-                }
-                catch
-                {
-                    Thread.Sleep(50); // debounce multiple clicks
-                }
-            }
-        }
-
-        private void dgvSetlistSongs_SelectionChanged(object sender, EventArgs e)
-        {
-            return; // for testing
-
-            if (dgvSetlistSongs.SelectedRows.Count > 0)
-                selectedRow = dgvSetlistSongs.SelectedRows[0];
-            dgvSetlistSongs.ClearSelection();
-        }
-
         private void dgvSetlists_CellMouseUp(object sender, DataGridViewCellMouseEventArgs e)
         {
             var grid = (DataGridView)sender;
+            var debugMe = grid.Name;
             // work around for Win10 right click header hang ... check seperate and first
             if (e.RowIndex == -1)
                 return;
             if (grid.Rows.Count == 0)
                 return;
 
-            // programmatic left clicking row to check/uncheck 'Select'
-            if (e.Button == MouseButtons.Left)
+            // user complained that clicking a row should not autocheck select
+            // programmatic left clicking on colSelect
+            if (e.Button == MouseButtons.Left && e.RowIndex != -1 && e.ColumnIndex == colSelect.Index)
             {
                 try
                 {
@@ -1337,43 +1379,19 @@ namespace CustomsForgeSongManager.UControls
                     Thread.Sleep(50); // debounce multiple clicks
                 }
             }
+
+            grid.EndEdit();
         }
 
         private void dgvSetlists_SelectionChanged(object sender, EventArgs e)
         {
-            return; // for testing
-
-            dgvSetlists.ClearSelection();
+            // UpdateToolStrip();
         }
 
-        private void dgvSongPacks_CellMouseUp(object sender, DataGridViewCellMouseEventArgs e)
+        private void dgvSongPacks_CurrentCellDirtyStateChanged(object sender, EventArgs e)
         {
-            var grid = (DataGridView)sender;
-            // work around for Win10 right click header hang ... check seperate and first
-            if (e.RowIndex == -1)
-                return;
-            if (grid.Rows.Count == 0)
-                return;
-
-            // programmatic left clicking row to check/uncheck 'Select'
-            if (e.Button == MouseButtons.Left)
-            {
-                try
-                {
-                    grid.Rows[e.RowIndex].Cells["colSongPackSelect"].Value = !(bool)(grid.Rows[e.RowIndex].Cells["colSongPackSelect"].Value);
-                }
-                catch
-                {
-                    Thread.Sleep(50); // debounce multiple clicks
-                }
-            }
-        }
-
-        private void dgvSongPacks_SelectionChanged(object sender, EventArgs e)
-        {
-            return; // for testing
-
-            dgvSongPacks.ClearSelection();
+            // makes checkbox mark appear correctly in unbound datagrid
+            dgvSongPacks.EndEdit();
         }
 
         private void lnkClearSearch_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -1381,6 +1399,11 @@ namespace CustomsForgeSongManager.UControls
             cueSearch.Text = String.Empty;
             cueSearch.Cue = "Search";
             RemoveFilter();
+
+            // save current sorting before clearing search
+            statusSetlistMaster.SaveSorting(dgvSetlistMaster);
+            UpdateToolStrip();
+            statusSetlistMaster.RestoreSorting(dgvSetlistMaster);
         }
 
         private void lnkSetlistMgrHelp_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -1401,13 +1424,45 @@ namespace CustomsForgeSongManager.UControls
         public void TabEnter()
         {
             Globals.DgvCurrent = dgvSetlistMaster;
+            GetGrid().ResetBindings(); // force grid data to rebind/refresh
+            statusSetlistMaster.RestoreSorting(Globals.DgvCurrent);
             Globals.Log("Setlist Manager GUI Activated...");
         }
 
         public void TabLeave()
         {
-            Globals.Settings.SaveSettingsToFile(dgvSetlistMaster);
+            statusSetlistMaster.SaveSorting(Globals.DgvCurrent);
+            GetGrid().ResetBindings(); // force grid data to rebind/refresh
+            Globals.Settings.SaveSettingsToFile(Globals.DgvCurrent);
             Globals.Log("Setlist Manager GUI Deactivated ...");
+        }
+
+        private void dgvSongPacks_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            var grid = (DataGridView)sender;
+            var row = e.RowIndex;
+            var col = e.ColumnIndex;
+
+            if (row != -1 && col == colEnabled.Index)
+            {
+                var _fileName = grid.Rows[row].Cells["colSongPackFileName"].Value.ToString().ToLower();
+                if (_fileName.ToLower().EndsWith(Constants.BASESONGS) ||
+                    _fileName.ToLower().EndsWith(Constants.BASESONGSDISABLED))
+                //||
+                //_fileName.ToLower().Contains(Constants.RS1COMP) ||
+                //_fileName.ToLower().Contains(Constants.SONGPACK) ||
+                //_fileName.ToLower().Contains(Constants.ABVSONGPACK))
+                {
+                    var diaMsg = "Base Songs should be enabled/disabled using the" + Environment.NewLine +
+                                 "Song Packs tabmenu to add/remove them from in game." + Environment.NewLine +
+                                 "Otherwise they will just appear greyed out in game" + Environment.NewLine +
+                                 "and will only disappear one at a time as selected ...";
+                    BetterDialog2.ShowDialog(diaMsg, "Setlist Manager ...", null, null, "Ok", Bitmap.FromHicon(SystemIcons.Warning.Handle), "ReadMe", 0, 150);
+                }
+
+                // force reload
+                Globals.ReloadSongManager = true;
+            }
         }
 
     }

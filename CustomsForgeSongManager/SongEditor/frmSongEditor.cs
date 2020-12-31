@@ -1,16 +1,21 @@
 ﻿using System;
+using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
-using CFSM.RSTKLib.PSARC;
 using CustomsForgeSongManager.DataObjects;
+using RocksmithToolkitLib;
 using RocksmithToolkitLib.DLCPackage;
+using RocksmithToolkitLib.DLCPackage.Manifest2014.Tone;
 using RocksmithToolkitLib.Extensions;
 using RocksmithToolkitLib.Sng;
 using RocksmithToolkitLib.XML;
 using Arrangement = RocksmithToolkitLib.DLCPackage.Arrangement;
+using RocksmithToolkitLib.PSARC;
+using CustomsForgeSongManager.LocalTools;
+
 
 namespace CustomsForgeSongManager.SongEditor
 {
@@ -18,8 +23,9 @@ namespace CustomsForgeSongManager.SongEditor
     {
         private DLCPackageData packageData;
         private string filePath;
-
         private List<DLCPackageEditorControlBase> editorControls = new List<DLCPackageEditorControlBase>();
+
+        public bool IsTagged { get; set; }
 
         public frmSongEditor()
         {
@@ -32,19 +38,18 @@ namespace CustomsForgeSongManager.SongEditor
             {
                 if (String.IsNullOrEmpty(songPath))
                     return;
- 
+
                 Globals.Log("Loading song information from: " + Path.GetFileName(songPath));
                 Cursor.Current = Cursors.WaitCursor;
                 Globals.TsProgressBar_Main.Value = 10;
-                Globals.TsProgressBar_Main.Value = 20;
 
                 InitializeComponent();
+
                 this.Icon = Properties.Resources.cfsm_48x48;
-                tslExit.Alignment = ToolStripItemAlignment.Right;  
-
-                var psarc = new PsarcPackage();
+                tslExit.Alignment = ToolStripItemAlignment.Right;
+                Globals.TsProgressBar_Main.Value = 20;
+                var psarc = new PsarcPackager();
                 packageData = psarc.ReadPackage(songPath);
-
                 filePath = songPath;
                 Globals.TsProgressBar_Main.Value = 80;
                 LoadSongInfo();
@@ -69,19 +74,23 @@ namespace CustomsForgeSongManager.SongEditor
             get { return editorControls.Where(x => x.Dirty).Count() > 0; }
         }
 
-        private void Save(string outputPath)
+        private void Save(string destPath, string srcPath)
         {
-            Globals.Log("Saving song information for: " + Path.GetFileName(outputPath));
+            // force validation of user controls
+            this.ValidateChildren();
+            // halt on any error
+            if (editorControls.Where(ec => ec.HaltOnError).Any())
+                return;
+
+            Globals.Log("Saving song information to: " + Path.GetFileName(destPath));
             Cursor.Current = Cursors.WaitCursor;
-            tsProgressBar.Value = 30;              
+            tsProgressBar.Value = 30;
             tsMsg.Text = "Working ...";
             statusStripMain.Refresh();
 
-            // force validation of user controls
-            this.ValidateChildren();
-
             try
             {
+                // update (only dirty) SongData
                 editorControls.ForEach(ec => { if (ec.Dirty) ec.Save(); });
 
                 //Generate metronome arrangemnts here
@@ -95,7 +104,8 @@ namespace CustomsForgeSongManager.SongEditor
 
                 var msg = "The song information has been changed." + Environment.NewLine + "Do you want to update the 'Persistent ID'?" + Environment.NewLine + "Answering 'Yes' will reduce the risk of CDLC" + Environment.NewLine + "in game hanging and song stats will be reset.  ";
                 //only ask if it's a new filename.
-                bool updateArrangementID = (outputPath != filePath) ? MessageBox.Show(msg, "Song Editor ...", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes : false;
+                bool updateArrangementID = (destPath != filePath) ? MessageBox.Show(msg, "Song Editor ...", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes : false;
+                this.Refresh();
 
                 // Update Xml arrangements song info
                 foreach (var arr in packageData.Arrangements)
@@ -109,7 +119,7 @@ namespace CustomsForgeSongManager.SongEditor
                     if (arr.ArrangementType == ArrangementType.Guitar || arr.ArrangementType == ArrangementType.Bass)
                     {
                         var isCommented = false;
-                        var cfsmComment = String.Format("CFSM v{0}", Constants.CustomVersion());
+                        var cfsmComment = String.Format("Modified with CFSM v{0} SongEditor", Constants.CustomVersion());
                         var commentNodes = arr.XmlComments as List<XComment> ?? arr.XmlComments.ToList();
 
                         foreach (var commentNode in commentNodes)
@@ -120,64 +130,107 @@ namespace CustomsForgeSongManager.SongEditor
 
                         if (!isCommented)
                             Song2014.WriteXmlComments(arr.SongXml.File, commentNodes, customComment: cfsmComment);
+                        else
+                            Song2014.WriteXmlComments(arr.SongXml.File, commentNodes);
                     }
                 }
 
-                tsProgressBar.Value = 60;
+                tsProgressBar.Value = 50;
+                // write edited packageData
+                using (var psarc = new PsarcPackager())
+                    psarc.WritePackage(destPath, packageData, srcPath);
 
-                using (var psarc = new PsarcPackage(true))
-                    psarc.WritePackage(outputPath, packageData);
+                // re-write tagger.org to destPath
+                if (IsTagged)
+                {
+                    var unpackedDir = Path.GetDirectoryName(Path.GetDirectoryName(packageData.AlbumArtPath));
+                    var orgArtwork = Path.Combine(unpackedDir, "Toolkit", "album_org_256.dds");
+                    if (File.Exists(orgArtwork))
+                    {
+                        tsProgressBar.Value = 70;
+                        using (PSARC archive = new PSARC(true))
+                        {
+                            using (var fs = File.OpenRead(destPath))
+                                archive.Read(fs);
 
-                //unfortunately needed a hack for replacing images
+                            using (var fs = File.Create(destPath))
+                            using (var fsArt = File.OpenRead(orgArtwork))
+                            {
+                                archive.AddEntry("tagger.org", fsArt);
+                                archive.Write(fs, true);
+                            }
+                        }
+                    }
+                }
+
+                // hack for replacing artwork
                 var x = editorControls.Where(e => e.NeedsAfterSave());
                 if (x.Count() > 0)
                 {
-                    if (!outputPath.ToLower().EndsWith(Constants.PsarcExtension))
-                        outputPath += Constants.PsarcExtension;
+                    if (!destPath.ToLower().EndsWith(Constants.EnabledExtension))
+                        destPath += Constants.EnabledExtension;
 
                     tsProgressBar.Value = 80;
-                    var p = new PSARC();
-                    using (var fs = File.OpenRead(outputPath))
-                        p.Read(fs);
-                    bool needsSave = false;
-                    foreach (var ec in x)
+                    using (PSARC archive = new PSARC(true))
                     {
-                        if (ec.AfterSave(p))
-                            needsSave = true;
-                    }
-                    if (needsSave)
-                    {
-                        using (var fs = File.Create(outputPath))
-                            p.Write(fs, true);
+                        using (var fs = File.OpenRead(destPath))
+                            archive.Read(fs);
+
+                        bool needsSave = false;
+                        foreach (var ec in x)
+                        {
+                            if (ec.AfterSave(archive))
+                                needsSave = true;
+                        }
+                        if (needsSave)
+                        {
+                            using (var fs = File.Create(destPath))
+                                archive.Write(fs, true);
+                        }
                     }
                 }
+
+                Globals.Log("Song information saved ... ");
+                tsProgressBar.Value = 100;
+                tsMsg.Text = "Done ...";
             }
             finally
             {
-                tsProgressBar.Value = 100;
-                tsMsg.Text = "Done ...";
                 statusStripMain.Refresh();
                 Cursor.Current = Cursors.Default;
-                Globals.Log("Song information saved ... ");
-                // changed update behaviour ... only update this CDLC
+                // force reload of CDLC
                 Globals.ReloadSongManager = true;
+                Globals.ReloadArrangements = true;
+                Globals.ReloadDuplicates = true;
+                Globals.ReloadRenamer = true;
+                Globals.ReloadSetlistManager = true;
+                this.Close(); // need to prevent re-editing error
             }
         }
 
         private void tslSave_Click(object sender, EventArgs e)
         {
-            Save(filePath);
+            Save(filePath, filePath);
         }
 
         private void tslSaveAs_Click(object sender, EventArgs e)
         {
+            // force validation of user controls
+            this.ValidateChildren();
+
+            // update packageData needed for creating fileName
+            editorControls.ForEach(ec => { if (ec.Dirty) ec.Save(); });
+
             using (var sfd = new SaveFileDialog())
             {
-                sfd.FileName = StringExtensions.GetValidShortFileName(packageData.SongInfo.ArtistSort, packageData.SongInfo.SongDisplayNameSort, packageData.ToolkitInfo.PackageVersion.Replace(".", "_"), false);
+                var fileNameprefix = StringExtensions.GetValidShortFileName(packageData.SongInfo.ArtistSort, packageData.SongInfo.SongDisplayNameSort, "v" + packageData.ToolkitInfo.PackageVersion.Replace(".", "_"), false);
+                var fileName = String.Format("{0}{1}", fileNameprefix, Constants.EnabledExtension);
+
+                sfd.FileName = fileName;
                 sfd.InitialDirectory = Path.GetDirectoryName(filePath);
 
                 if (sfd.ShowDialog() == DialogResult.OK)
-                    Save(sfd.FileName);
+                    Save(sfd.FileName, filePath);
             }
         }
 
@@ -304,15 +357,30 @@ namespace CustomsForgeSongManager.SongEditor
             if (arr.ArrangementType == ArrangementType.ShowLight)
                 return;
 
+            // D:\Documents and Settings\Administrator\Local Settings\Temp\Three Days Grace_One X_vNA_BLRV_RS2014_Pc\EOF\threedaysgrace_bass.xml
             var songXml = Song2014.LoadFromFile(arr.SongXml.File);
             arr.ClearCache();
+
             songXml.AlbumName = info.SongInfo.Album;
-            songXml.AlbumYear = info.SongInfo.SongYear.ToString();
+            songXml.AlbumNameSort = info.SongInfo.AlbumSort;
             songXml.ArtistName = info.SongInfo.Artist;
             songXml.ArtistNameSort = info.SongInfo.ArtistSort;
-            songXml.AverageTempo = info.SongInfo.AverageTempo;
             songXml.Title = info.SongInfo.SongDisplayName;
+            songXml.SongNameSort = info.SongInfo.SongDisplayNameSort;
+            songXml.AlbumYear = info.SongInfo.SongYear.ToString();
+            songXml.AverageTempo = info.SongInfo.AverageTempo;
             songXml.Tuning = arr.TuningStrings;
+
+            // add optional properties
+            if (!String.IsNullOrEmpty(info.SongInfo.JapaneseSongName) || !String.IsNullOrEmpty(info.SongInfo.JapaneseArtistName))
+            {
+                songXml.OptionalProperties = new OptionalProperties()
+                {
+                    JapaneseArtistName = info.SongInfo.JapaneseArtistName,
+                    JapaneseSongName = info.SongInfo.JapaneseSongName
+                };
+            }
+
             if (!String.IsNullOrEmpty(arr.ToneBase)) songXml.ToneBase = arr.ToneBase;
             if (!String.IsNullOrEmpty(arr.ToneA)) songXml.ToneA = arr.ToneA;
             if (!String.IsNullOrEmpty(arr.ToneB)) songXml.ToneB = arr.ToneB;
@@ -349,7 +417,7 @@ namespace CustomsForgeSongManager.SongEditor
 
         public Arrangement GenMetronomeArr(Arrangement arr)
         {
-            var mArr = GeneralExtensions.Copy<Arrangement>(arr);
+            var mArr = GeneralExtension.Copy<Arrangement>(arr);
             var songXml = Song2014.LoadFromFile(mArr.SongXml.File);
             var newXml = Path.GetTempFileName();
             mArr.SongXml = new RocksmithToolkitLib.DLCPackage.AggregateGraph.SongXML { File = newXml };

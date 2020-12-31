@@ -150,7 +150,6 @@ namespace CustomControls
 
         void timer_Tick(object sender, EventArgs e)
         {
-            // not my code ... kinda pointless ... don't you think
             timer.Stop();
             try
             {

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
+using System.Drawing;
+
 
 namespace CustomControls
 {
@@ -8,9 +10,14 @@ namespace CustomControls
     {
         public bool IsProfileId = false;
 
-        public string FrmHeaderText
+        public FormUserInput(bool validateInput = false)
         {
-            set { this.Text = value; }
+            InitializeComponent();
+            if (validateInput)
+            {
+                txtCustomInput.TextChanged += CustomInputText_TextChanged;
+                txtCustomInput.KeyDown += CustomInputText_KeyDown;
+            }
         }
 
         public string BtnText
@@ -29,26 +36,14 @@ namespace CustomControls
             set { txtCustomInput.Text = value; }
         }
 
-        public FormUserInput()
+        public string FrmHeaderText
         {
-            InitializeComponent();
+            set { this.Text = value; }
         }
 
-        private void btnOk_Click(object sender, System.EventArgs e)
+        private void CustomInputText_KeyDown(object sender, KeyEventArgs e)
         {
-            this.DialogResult = DialogResult.OK;
-            Close();
-        }
-
-        private void txtCustomInput_TextChanged(object sender, EventArgs e)
-        {
-            CustomInputText = txtCustomInput.Text;
-            // move cursor to end
-            txtCustomInput.SelectionStart = txtCustomInput.Text.Length;
-        }
-
-        private void txtCustomInput_KeyDown(object sender, KeyEventArgs e)
-        {
+            // modify this as needed
             if (e.KeyCode == Keys.Delete)
                 txtCustomInput.Text = "";
             if ((e.KeyCode == Keys.Back) || (e.KeyCode == Keys.Delete))
@@ -68,6 +63,61 @@ namespace CustomControls
                 // validate entry as it is typed for nice action
                 CustomInputText = ValidateProfileId(txtCustomInput.Text.ToUpper());
             }
+        }
+
+        private void CustomInputText_TextChanged(object sender, EventArgs e)
+        {
+            CustomInputText = txtCustomInput.Text;
+            // move cursor to end
+            txtCustomInput.SelectionStart = txtCustomInput.Text.Length;
+        }
+
+        private void FormUserInput_Load(object sender, EventArgs e)
+        {
+            SetHeightWidth();
+        }
+
+        public void SetHeightWidth()
+        {
+            // auto adjust the width and height of the UserInput form
+            //int lineCount = 1;
+            //int len = lblCustomInput.Text.Length;
+
+            //for (int i = 0; i < len; i++)
+            //{
+            //    switch (lblCustomInput.Text[i])
+            //    {
+            //        case '\r':
+            //            lineCount++;
+            //            if (i + 1 != len && lblCustomInput.Text[i + 1] == '\n')
+            //                i++;
+            //            break;
+            //        case '\n':
+            //            lineCount++;
+            //            break;
+            //    }
+            //}
+
+            Font f = new Font("Microsoft Sans Serif", 10F, FontStyle.Regular);
+            Bitmap b = new Bitmap(2200, 2200);
+            Graphics g = Graphics.FromImage(b);
+            SizeF sizeOfInput = new SizeF();
+            sizeOfInput = g.MeasureString(lblCustomInput.Text, f);
+            SizeF sizeOfHeader = new SizeF();
+            sizeOfHeader = g.MeasureString(this.Text, f);
+
+            if (sizeOfHeader.Width > sizeOfInput.Width)
+                sizeOfInput.Width = sizeOfHeader.Width;
+
+            this.Width = (int)sizeOfInput.Width;
+            // sizeOfString.Height smartly accounts for the number of lines
+            this.Height += (int)sizeOfInput.Height - 15; // minus approx height of one line
+        }
+
+        private void btnOk_Click(object sender, System.EventArgs e)
+        {
+            this.DialogResult = DialogResult.OK;
+            Close();
         }
 
         public static string ValidateProfileId(string userInput)

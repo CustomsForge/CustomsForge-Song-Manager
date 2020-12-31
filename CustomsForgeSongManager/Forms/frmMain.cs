@@ -8,6 +8,7 @@ using System.Text;
 using System.Collections.Generic;
 using CustomsForgeSongManager.DataObjects;
 using CustomsForgeSongManager.LocalTools;
+using CustomsForgeSongManager.UControls;
 using CustomsForgeSongManager.UITheme;
 using GenTools;
 using System.Diagnostics;
@@ -19,6 +20,10 @@ using DataGridViewTools;
 using CustomControls;
 using RocksmithToolkitLib;
 using System.Data;
+using System.Threading;
+using RocksmithToolkitLib.Extensions;
+using System.Configuration;
+using System.Globalization;
 
 // NOTE: the app is designed for default user screen resolution of 1024x768
 // dev screen resolution should be set to this when designing forms and controls
@@ -37,17 +42,34 @@ namespace CustomsForgeSongManager.Forms
         private static Point UCLocation = new Point(5, 10);
         private static Size UCSize = new Size(990, 490);
         private Control currentControl = null;
-
         public delegate void PlayCall();
         private event PlayCall playFunction;
+        private const string APP_SETUP = "CFSMSetup.exe";
+        private const string APP_EXE = "CustomsForgeSongManager.exe";
+
+#if INNORELEASE
+        // depricated method
+        private const string SERVER_URL = "http://ignition.customsforge.com/cfsm_uploads/release";
+        private const string APP_ARCHIVE = "CFSMSetupRelease.rar";
+#endif
+#if INNOBETA
+        // depricated method
+        private const string SERVER_URL = "http://ignition.customsforge.com/cfsm_uploads/beta";
+        private const string APP_ARCHIVE = "CFSMSetupBeta.rar";
+#endif
+#if INNOBUILD // the default build method
+        private const string SERVER_URL = "http://ignition.customsforge.com/cfsm_uploads";
+        private const string APP_ARCHIVE = "CFSMSetup.rar";
+#endif
 
         public frmMain(DLogNet.DLogger myLog)
         {
             InitializeComponent();
+            Globals.MyLog = myLog;
 
-            // TODO: future progress tracker feature
-            if (!Constants.DebugMode)
-                tcMain.TabPages.RemoveByKey("tpProgTracker");
+            // verify application directory structure
+            FileTools.VerifyCfsmFolders();
+            // FileTools.VerifyCfsmFiles(); 
 
             // create VersionInfo.txt file
             VersionInfo.CreateVersionInfo();
@@ -55,30 +77,19 @@ namespace CustomsForgeSongManager.Forms
             //this will initialize classes that need to be initialized right away.
             TypeExtensions.InitializeClasses(new string[] { "UTILS_INIT", "CFSM_INIT" }, new Type[] { }, new object[] { });
 
-            // prevent toolstrip from growing/changing at runtime
+            // important prevent toolstrip from growing/changing at runtime
             // toolstrip may appear changed in design mode (this is a known VS bug)
             TopToolStripPanel.MaximumSize = new Size(0, 28); // force height and makes tsLable_Tagger positioning work
             tsUtilities.AutoSize = false; // a key to preventing movement
-            tsAudioPlayer.AutoSize = false; // a key to preventing movement
             tsUtilities.Location = new Point(0, 0); // force location
-            tsAudioPlayer.Location = new Point(tsUtilities.Width + 20, 0); // force location
+            tsAudioPlayer.AutoSize = false; // a key to preventing movement
+            tsAudioPlayer.Visible = false;
+            tsAudioPlayer.Location = new Point(tsUtilities.Width + 40, 0); // force location
+            tsAudioPlayer.Visible = true;
+            playFunction += new PlayCall(PlaySong);
 
             SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.UserPaint | ControlStyles.DoubleBuffer, true);
 
-            // event handler to maybe get rid of notifier icon on closing
-            this.Closing += (object sender, CancelEventArgs e) =>
-            {
-                Globals.MyLog.RemoveTargetNotifyIcon(Globals.Notifier);
-                notifyIcon_Main.Visible = false;
-                notifyIcon_Main.Icon = null;
-                notifyIcon_Main.Dispose();
-            };
-
-            // bring CFSM to the front on startup
-            this.WindowState = FormWindowState.Minimized;
-            this.BringToFront();
-
-            Globals.MyLog = myLog;
             Globals.Notifier = this.notifyIcon_Main;
             Globals.TsProgressBar_Main = this.tsProgressBar_Main;
             Globals.TsLabel_MainMsg = this.tsLabel_MainMsg;
@@ -90,6 +101,15 @@ namespace CustomsForgeSongManager.Forms
             Globals.MyLog.AddTargetTextBox(tbLog);
             //    Globals.CFMTheme.AddListener(this);
 
+            // event handler to maybe get rid of notifier icon on closing
+            this.Closing += (object sender, CancelEventArgs e) =>
+            {
+                Globals.MyLog.RemoveTargetNotifyIcon(Globals.Notifier);
+                notifyIcon_Main.Visible = false;
+                notifyIcon_Main.Icon = null;
+                notifyIcon_Main.Dispose();
+            };
+
             Globals.OnScanEvent += (s, e) =>
             {
                 GenExtensions.InvokeIfRequired(tcMain, a =>
@@ -97,9 +117,6 @@ namespace CustomsForgeSongManager.Forms
                     tcMain.Enabled = !e.IsScanning;
                 });
             };
-
-            // verify application directory structure
-            FileTools.VerifyCfsmFolders();
 
             // initialize show log event handler before loading settings
             AppSettings.Instance.PropertyChanged += (s, e) =>
@@ -111,40 +128,91 @@ namespace CustomsForgeSongManager.Forms
                 }
             };
 
+            // load settings
+            Globals.Settings.LoadSettingsFromFile();
+
             // set app title
             var strFormatVersion = "{0} (v{1} - {2})";
-#if INNOBETA
-            strFormatVersion = "{0} (v{1} - {2} BETA VERSION)";
-#endif
 #if INNORELEASE
-            strFormatVersion = "{0} (v{1} - {2} RELEASE VERSION)";
+            strFormatVersion = "{0} (v{1} - {2} RELEASE)";
+#endif
+#if INNOBETA
+            strFormatVersion = "{0} (v{1} - {2} BETA)";
+#endif
+#if INNOBUILD
+            strFormatVersion = "{0} (v{1} - {2} BUILD)";
 #endif
 
             if (Constants.DebugMode)
                 strFormatVersion = "{0} (v{1} - {2} DEBUG)";
 
-            Constants.AppTitle = String.Format(strFormatVersion, Constants.ApplicationName, Constants.CustomVersion(), Constants.OnMac ? "MAC" : "PC");
+            Constants.AppTitle = String.Format(strFormatVersion, Constants.ApplicationName, Constants.CustomVersion(), AppSettings.Instance.MacMode ? "MAC" : "PC");
             this.Text = Constants.AppTitle;
-
-            // log application environment
-            Globals.Log("+ " + Constants.AppTitle);
-            Globals.Log("+ .NET (v" + SysExtensions.DotNetVersion + ")");
-            Globals.Log("+ RocksmithToolkitLib (v" + ToolkitVersion.RSTKLibVersion() + ")");
-         
-            // load settings
-            Globals.Settings.LoadSettingsFromFile();
-
-            this.Show();
+            // bring CFSM to the front on startup
+            this.BringToFront();
             this.WindowState = AppSettings.Instance.FullScreen ? FormWindowState.Maximized : FormWindowState.Normal;
+            this.Show(); // triggers Form.Shown event
+
+            // confirm and log App.config was properly loaded at runtime
+            var appConfigStatus = "<ERROR> Load Failed";
+            if (Convert.ToBoolean(ConfigurationSettings.AppSettings["key"]))
+                appConfigStatus = "Load Successful";
+
+            var assembly = Assembly.LoadFile(typeof(RocksmithToolkitLib.ToolkitVersion).Assembly.Location);
+            var assemblyConfiguration = assembly.GetCustomAttributes(typeof(AssemblyConfigurationAttribute), false).Cast<AssemblyConfigurationAttribute>().FirstOrDefault().Configuration.ToString() ?? "";
+            DateTime dtuLib = new DateTime();
+
+            try
+            {
+                dtuLib = DateTime.Parse(assemblyConfiguration, CultureInfo.InvariantCulture, DateTimeStyles.AdjustToUniversal);
+            }
+            catch
+            {
+                // exception returns [1/1/0001 12:00:00 AM] 
+            }
+
+            // log application runtime environment
+            Globals.Log(String.Format("+ {0}", Constants.AppTitle));
+            Globals.Log(String.Format("+ OS {0} ({1} bit)", Environment.OSVersion, Environment.Is64BitOperatingSystem ? "64" : "32"));
+            Globals.Log(String.Format("+ .NET Framework (v{0})", SysExtensions.DotNetVersion));
+            Globals.Log(String.Format("+ CultureInfo ({0})", CultureInfo.CurrentCulture.ToString()));
+            Globals.Log(String.Format("+ Current Local DateTime [{0}]", DateTime.Now.ToString()));
+            Globals.Log(String.Format("+ Current UTC DateTime [{0}]", DateTime.UtcNow.ToString()));
+            Globals.Log(String.Format("+ RocksmithToolkitLib (v{0}) [{1}]", ToolkitVersion.RSTKLibVersion(), dtuLib));
+            Globals.Log(String.Format("+ Dynamic Difficulty Creator (v{0})", FileVersionInfo.GetVersionInfo(Path.Combine(ExternalApps.TOOLKIT_ROOT, ExternalApps.APP_DDC)).ProductVersion));
+            Globals.Log(String.Format("+ App.config Status ({0})", appConfigStatus));
+            Globals.Log(String.Format("+ System Display DPI Setting ({0})", GeneralExtension.GetDisplayDpi(this)));
+            Globals.Log(String.Format("+ System Display Screen Scale Factor ({0}%)", GeneralExtension.GetDisplayScalingFactor(this) * 100));
+
+            // This was a great idea while RSTK lib was still regularly updated, but now has become a timebomb which breaks expired build, just as current & working builds 
+            /*if (!ToolkitVersion.IsRSTKLibValid())
+            {
+                // throw new ApplicationException(Environment.NewLine + "<WARNING> This version of CFSM has expired." + Environment.NewLine + "Please download and install the latest version.");
+                AppSettings.Instance.EnableAutoUpdate = true;
+                Globals.Settings.SaveSettingsToFile(Globals.DgvCurrent);
+
+                var diaMsg = "This version of CFSM is no longer supported.  Please close now" + Environment.NewLine +
+                             "and restart to automatically update to the latest supported version.";
+                CustomControls.BetterDialog2.ShowDialog(diaMsg, "Time To Update ...", null, null, "Ok", Bitmap.FromHicon(SystemIcons.Warning.Handle), "WARNING ...", 0, 150);
+            }*/
+
+            if (AppSettings.Instance.FirstRun)
+            {
+                if (!GeneralExtension.ValidateDisplaySettings(this, this)) // , true, true)) // uncomment for debugging
+                    Globals.Log("+ Adjusted AutoScaleDimensions, AutoScaleMode, and AutoSize ...");
+
+                var debugMe = Globals.DgvCurrent.Name;
+                Globals.Settings.SaveSettingsToFile(Globals.DgvCurrent);
+            }
 
             if (AppSettings.Instance.EnableNotifications)
                 Globals.MyLog.AddTargetNotifyIcon(Globals.Notifier);
             else
                 Globals.MyLog.RemoveTargetNotifyIcon(Globals.Notifier);
 
-            tsAudioPlayer.Visible = true;
-
-            playFunction += new PlayCall(PlaySong);
+            // enable/disable ProfileSongLists feature here
+            //if (!Constants.DebugMode)
+            //    tcMain.TabPages.RemoveByKey("tpProfileSongLists");
 
             // load Song Manager Tab
             LoadSongManager();
@@ -159,6 +227,7 @@ namespace CustomsForgeSongManager.Forms
 
         private void LoadSongManager()
         {
+            // don't clear the tab after the initial load
             if (!tpSongManager.Controls.Contains(Globals.SongManager))
             {
                 this.tpSongManager.Controls.Clear();
@@ -169,7 +238,12 @@ namespace CustomsForgeSongManager.Forms
                 Globals.SongManager.Size = UCSize;
             }
 
-            currentControl = Globals.SongManager;
+            Globals.SongManager.UpdateToolStrip();
+
+            if (AppSettings.Instance.FirstRun)
+                currentControl = Globals.Settings;
+            else
+                currentControl = Globals.SongManager;
         }
 
         private void ShowHelp()
@@ -184,13 +258,26 @@ namespace CustomsForgeSongManager.Forms
 
         private void frmMain_FormClosing(object sender, FormClosingEventArgs e)
         {
+            if (Globals.PrfldbNeedsUpdate)
+                Globals.ProfileSongLists.UpdateProfileSongLists();
+
+            if (Globals.PackageRatingNeedsUpdate && !Globals.UpdateInProgress)
+                PackageDataTools.UpdatePackageRating();
+
+            // always wait for any PackageRating updates to finish
+            while (Globals.UpdateInProgress)
+            {
+                Application.DoEvents();
+                Thread.Sleep(200);
+            }
+
             AppSettings.Instance.FullScreen = WindowState == FormWindowState.Maximized;
             AppSettings.Instance.WindowWidth = this.Width;
             AppSettings.Instance.WindowHeight = this.Height;
             AppSettings.Instance.WindowTop = this.Location.Y;
             AppSettings.Instance.WindowLeft = this.Location.X;
 
-            Globals.Log("Application is Closing");
+            Globals.Log("Application is closing ...");
             Globals.CancelBackgroundScan = true;
 
             if (Globals.Settings == null || Globals.SongManager == null)
@@ -217,16 +304,30 @@ namespace CustomsForgeSongManager.Forms
             }
             else
             {
-                Globals.SongManager.SetRepairOptions();
-                Globals.Settings.SaveSettingsToFile(Globals.DgvCurrent);
+                if (Globals.DgvCurrent.Name == "dgvSongsMaster")
+                    Globals.SongManager.TabLeave();
+                else if (Globals.DgvCurrent.Name == "dgvArrangements")
+                    Globals.ArrangementAnalyzer.TabLeave();
+                else
+                    Globals.Settings.SaveSettingsToFile(Globals.DgvCurrent);
 
                 // do not SaveSongCollectionToFile when changing compatibility mode
                 if (File.Exists(Constants.SongsInfoPath))
                 {
-                    DataGridViewAutoFilterColumnHeaderCell.RemoveFilter(Globals.SongManager.GetGrid());
-                    Globals.SongManager.SaveSongCollectionToFile();
+                    try
+                    {
+                        DataGridViewAutoFilterColumnHeaderCell.RemoveFilter(Globals.SongManager.GetGrid());
+                        Globals.SongManager.SaveSongCollectionToFile();
+                    }
+                    catch (Exception ex)
+                    {
+                        // catch RemoveFilter error on closing (system timing issue???)
+                        Debug.WriteLine(ex.Message);
+                    }
                 }
             }
+
+            Globals.Log("Application closed normally ...");
         }
 
         private void frmMain_KeyDown(object sender, KeyEventArgs e)
@@ -246,9 +347,12 @@ namespace CustomsForgeSongManager.Forms
                     tstripContainer.BottomToolStripPanelVisible = tstripContainer.TopToolStripPanelVisible;
                     e.Handled = true;
                     break;
-                case Keys.F9:
-                    using (ThemeDesigner ts = new ThemeDesigner())
-                        ts.ShowDialog();
+                case Keys.F9: // easter egg - DF ThemeDesigner sandbox
+                    if (Constants.DebugMode)
+                    {
+                        using (ThemeDesigner ts = new ThemeDesigner())
+                            ts.ShowDialog();
+                    }
                     e.Handled = true;
                     break;
             }
@@ -271,83 +375,100 @@ namespace CustomsForgeSongManager.Forms
             else
                 tsAudioPlayer.Visible = true;
 
-            if (currentControl != null)
-                if (currentControl is INotifyTabChanged)
-                    (currentControl as INotifyTabChanged).TabLeave();
+            if (currentControl != null && currentControl is INotifyTabChanged)
+                (currentControl as INotifyTabChanged).TabLeave();
 
             switch (tcMain.SelectedTab.Text)
             {
                 // passing variables(objects) by value to UControl
+                // processing order is important to prevent flashing/jumping display
                 case "Song Manager":
                     LoadSongManager();
-                    Globals.SongManager.UpdateToolStrip();
                     break;
                 case "Arrangement Analyzer":
-                    this.tpArrangements.Controls.Clear();
-                    this.tpArrangements.Controls.Add(Globals.ArrangementAnalyzer);
-                    Globals.ArrangementAnalyzer.Dock = DockStyle.Fill;
+                    // don't reload grid if already loaded
+                    if (!tpArrangements.Controls.Contains(Globals.ArrangementAnalyzer))
+                    {
+                        this.tpArrangements.Controls.Clear();
+                        this.tpArrangements.Controls.Add(Globals.ArrangementAnalyzer);
+                        Globals.ArrangementAnalyzer.Dock = DockStyle.Fill;
+                        Globals.ArrangementAnalyzer.Location = UCLocation;
+                        Globals.ArrangementAnalyzer.Size = UCSize;
+                    }
+
                     Globals.ArrangementAnalyzer.UpdateToolStrip();
-                    Globals.ArrangementAnalyzer.Location = UCLocation;
-                    Globals.ArrangementAnalyzer.Size = UCSize;
                     currentControl = Globals.ArrangementAnalyzer;
                     break;
                 case "Duplicates":
+                    // force Duplicates check of Custom Inlays
+                    Globals.IncludeInlays = true;
+                    // force full rescan on load
+                    Globals.RescanDuplicates = true;
+
                     this.tpDuplicates.Controls.Clear();
                     this.tpDuplicates.Controls.Add(Globals.Duplicates);
                     Globals.Duplicates.Dock = DockStyle.Fill;
-                    Globals.Duplicates.UpdateToolStrip();
                     Globals.Duplicates.Location = UCLocation;
                     Globals.Duplicates.Size = UCSize;
+                    Globals.Duplicates.UpdateToolStrip();
                     currentControl = Globals.Duplicates;
                     break;
                 case "Renamer":
                     this.tpRenamer.Controls.Clear();
                     this.tpRenamer.Controls.Add(Globals.Renamer);
                     Globals.Renamer.Dock = DockStyle.Fill;
-                    Globals.Renamer.UpdateToolStrip();
                     Globals.Renamer.Location = UCLocation;
                     Globals.Renamer.Size = UCSize;
+                    Globals.Renamer.UpdateToolStrip();
                     currentControl = Globals.Renamer;
                     break;
                 case "Setlist Manager":
                     this.tpSetlistManager.Controls.Clear();
                     this.tpSetlistManager.Controls.Add(Globals.SetlistManager);
                     Globals.SetlistManager.Dock = DockStyle.Fill;
-                    Globals.SetlistManager.UpdateToolStrip();
                     Globals.SetlistManager.Location = UCLocation;
                     Globals.SetlistManager.Size = UCSize;
+                    Globals.SetlistManager.UpdateToolStrip();
                     currentControl = Globals.SetlistManager;
+                    break;
+                case "Profile Song Lists":
+                    this.tpProfileSongLists.Controls.Clear();
+                    this.tpProfileSongLists.Controls.Add(Globals.ProfileSongLists);
+                    Globals.ProfileSongLists.Dock = DockStyle.Fill;
+                    Globals.ProfileSongLists.Location = UCLocation;
+                    Globals.ProfileSongLists.Size = UCSize;
+                    Globals.ProfileSongLists.UpdateToolStrip();
+                    currentControl = Globals.ProfileSongLists;
                     break;
                 case "Song Packs":
                     this.tpSongPacks.Controls.Clear();
                     this.tpSongPacks.Controls.Add(Globals.SongPacks);
                     Globals.SongPacks.Dock = DockStyle.Fill;
-                    Globals.SongPacks.UpdateToolStrip();
                     Globals.SongPacks.Location = UCLocation;
                     Globals.SongPacks.Size = UCSize;
+                    Globals.SongPacks.UpdateToolStrip();
                     currentControl = Globals.SongPacks;
                     break;
                 case "Settings":
-                    this.tpSettings.Controls.Clear();
-                    this.tpSettings.Controls.Add(Globals.Settings);
+                    tpSettings.Controls.Clear();
+                    tpSettings.Controls.Add(Globals.Settings);
                     Globals.Settings.Dock = DockStyle.Fill;
-                    Globals.Settings.PopulateSettings(Globals.DgvCurrent);
                     Globals.Settings.Location = UCLocation;
                     Globals.Settings.Size = UCSize;
+                    Globals.Settings.PopulateSettings(Globals.DgvCurrent);
                     currentControl = Globals.Settings;
                     break;
                 case "About":
-                    if (!tpAbout.Controls.Contains(tpAbout))
-                        tpAbout.Controls.Add(Globals.About);
+                    tpAbout.Controls.Clear();
+                    tpAbout.Controls.Add(Globals.About);
                     Globals.About.Location = UCLocation;
                     Globals.About.Size = UCSize;
                     currentControl = Globals.About;
                     break;
             }
 
-            if (currentControl != null)
-                if (currentControl is INotifyTabChanged)
-                    (currentControl as INotifyTabChanged).TabEnter();
+            if (currentControl != null && currentControl is INotifyTabChanged)
+                (currentControl as INotifyTabChanged).TabEnter();
         }
 
         private void tsBtnUserProfiles_MouseUp(object sender, MouseEventArgs e)
@@ -377,6 +498,13 @@ namespace CustomsForgeSongManager.Forms
             Ignition.RequestSongOnCustomsForge();
         }
 
+        private void tsBtnUpdate_Click(object sender, EventArgs e)
+        {
+            tsBtnUpdate.Enabled = false;
+            UpdateCFSM();
+            tsBtnUpdate.Enabled = true;
+        }
+
         private void tsBtnUpload_Click(object sender, EventArgs e)
         {
             Ignition.UploadToCustomsForge();
@@ -401,49 +529,53 @@ namespace CustomsForgeSongManager.Forms
 
         private void frmMain_Load(object sender, EventArgs e) // done after frmMain()
         {
-            // be nice to the developers ... don't try to update in Debug mode
-#if AUTOUPDATE
-            //TODO: add Mac Autoupdate
-#if INNORELEASE
-            const string serverUrl = "http://ignition.customsforge.com/cfsm_uploads";
-            const string appArchive = "CFSMSetup.rar";
-#endif
-#if INNOBETA
-            const string serverUrl = "http://ignition.customsforge.com/cfsm_uploads/beta";
-            const string appArchive = "CFSMSetupBeta.rar";
-#endif
+            // be nice to devs don't check for updates
+            if (GeneralExtension.IsInDesignMode)
+                return;
 
-            if (AppSettings.Instance.EnableAutoUpdate)
+            tsBtnUpdate.Visible = false;
+            var appExePath = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), APP_EXE);
+            var versInfoUrl = String.Format("{0}/{1}", SERVER_URL, "VersionInfo.txt");
+
+            if (AutoUpdater.NeedsUpdate(appExePath, versInfoUrl))
             {
-                const string appSetup = "CFSMSetup.exe";
-                const string appExe = "CustomsForgeSongManager.exe";
-                var appExePath = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), appExe);
-                var versInfoUrl = String.Format("{0}/{1}", serverUrl, "VersionInfo.txt");
-
-                if (AutoUpdater.NeedsUpdate(appExePath, versInfoUrl))
+                if (AppSettings.Instance.EnableAutoUpdate)
                 {
-                    Globals.Log("Downloading WebApp: " + appArchive + " ...");
-                    var tempDir = Constants.TempWorkFolder;
-                    var downloadUrl = String.Format("{0}/{1}", serverUrl, appArchive);
-
-                    if (AutoUpdater.DownloadWebApp(downloadUrl, appArchive, tempDir))
-                    {
-                        if (ZipUtilities.UnrarDir(Path.Combine(tempDir, appArchive), tempDir))
-                        {
-                            Process proc = new Process();
-                            proc.StartInfo.FileName = Path.Combine(tempDir, appSetup);
-                            proc.StartInfo.Arguments = "-appupdate";
-                            proc.Start();
-                            // Kill app abruptly so InnoSetup completes
-                            // DO NOT use Application.Exit     
-                            Environment.Exit(0);
-                        }
-                        else
-                            MessageBox.Show(appSetup + " not found ..." + Environment.NewLine + "Please manually download CFSM from the webpage.");
-                    }
+                    Globals.Log("CFSM Auto Update Enabled ...");
+                    UpdateCFSM();
+                }
+                else
+                {
+                    Globals.Log("CFSM Update Available ...");
+                    tsBtnUpdate.Visible = true;
                 }
             }
-#endif
+
+            //if (Constants.OnMac)
+            //    tsBtnUpdate.Visible = true;
+        }
+
+        private void UpdateCFSM()
+        {
+            Globals.Log("Downloading WebApp: " + APP_ARCHIVE + " ...");
+            var tempDir = Constants.TempWorkFolder;
+            var downloadUrl = String.Format("{0}/{1}", SERVER_URL, APP_ARCHIVE);
+
+            if (AutoUpdater.DownloadWebApp(downloadUrl, APP_ARCHIVE, tempDir))
+            {
+                if (ZipUtilities.UnrarDir(Path.Combine(tempDir, APP_ARCHIVE), tempDir))
+                {
+                    Process proc = new Process();
+                    proc.StartInfo.FileName = Path.Combine(tempDir, APP_SETUP);
+                    proc.StartInfo.Arguments = "-appupdate";
+                    proc.Start();
+                    // Kill app abruptly so InnoSetup completes
+                    // DO NOT use Application.Exit     
+                    Environment.Exit(0);
+                }
+                else
+                    MessageBox.Show(APP_SETUP + " not found ..." + Environment.NewLine + "Please manually download CFSM from the webpage.");
+            }
         }
 
         private delegate void DoSomethingWithGridSelectionAction(DataGridView dg, IEnumerable<DataGridViewRow> selected, DataGridViewColumn colSel, List<int> IgnoreColums);
@@ -601,8 +733,13 @@ namespace CustomsForgeSongManager.Forms
             DoSomethingWithGrid((dataGrid, selection, colSel, ignoreColumns) =>
             {
                 var sbCSV = new StringBuilder();
+                char csvSep = ';';
 
-                const char csvSep = ';';
+                if (!String.IsNullOrEmpty(tsmiCSVSeperator.Text) && tsmiCSVSeperator.Text.Length == 1)
+                    csvSep = Convert.ToChar(tsmiCSVSeperator.Text);
+                else // reset CSV seperator to the default character
+                    tsmiCSVSeperator.Text = csvSep.ToString();
+
                 sbCSV.AppendLine(String.Format(@"sep={0}", csvSep)); // used by Excel to recognize seperator if Encoding.Unicode is used
                 string columns = String.Empty;
                 var orderedCols = dataGrid.Columns.Cast<DataGridViewColumn>()
@@ -624,7 +761,7 @@ namespace CustomsForgeSongManager.Forms
                         s += row.Cells[c.Index].Value == null ? csvSep.ToString() : row.Cells[c.Index].Value.ToString() + csvSep;
                     }
 
-                    sbCSV.AppendLine(s.Trim(new char[] { ',', ' ' }));
+                    sbCSV.AppendLine(s.Trim(new char[] { csvSep, ' ' }));
                 }
 
                 //using (var noteViewer = new frmNoteViewer())
@@ -671,14 +808,37 @@ namespace CustomsForgeSongManager.Forms
                     try
                     {
                         DataGridView dgvSelection = new DataGridView();
-                        foreach (DataGridViewColumn col in dataGrid.Columns)
+
+                        // legacy code method produces undesirable results
+                        //foreach (DataGridViewColumn col in dataGrid.Columns)
+                        //        dgvSelection.Columns.Add((DataGridViewColumn)col.Clone());
+
+                        //dgvSelection.Rows.Add(selection.Count() - 1);
+
+                        //foreach (DataGridViewRow row in selection)
+                        //    foreach (DataGridViewColumn col in dataGrid.Columns)
+                        //                        dgvSelection.Rows[row.Index].Cells[col.Index].Value = row.Cells[col.Index].Value == null ? DBNull.Value : row.Cells[col.Index].Value;
+
+                        var orderedCols = dataGrid.Columns.Cast<DataGridViewColumn>()
+                            .Where(c => !ignoreColumns.Contains(c.Index))
+                            .OrderBy(x => x.DisplayIndex).ToList();
+
+                        foreach (DataGridViewColumn col in orderedCols)
                             dgvSelection.Columns.Add((DataGridViewColumn)col.Clone());
 
-                        dgvSelection.Rows.Add(selection.Count());
+                        dgvSelection.Rows.Add(selection.Count() - 1);
 
-                        foreach (DataGridViewRow row in selection)
-                            foreach (DataGridViewColumn col in dataGrid.Columns)
-                                dgvSelection.Rows[row.Index].Cells[col.Index].Value = row.Cells[col.Index].Value == null ? DBNull.Value : row.Cells[col.Index].Value;
+                        var rowNdx = 0;
+                        foreach (DataGridViewRow row in selection.Where(x => x.Visible))
+                        {
+                            var colNdx = 0;
+                            foreach (DataGridViewColumn col in orderedCols)
+                            {
+                                dgvSelection.Rows[rowNdx].Cells[colNdx].Value = row.Cells[col.Index].Value == null ? DBNull.Value : row.Cells[col.Index].Value;
+                                colNdx++;
+                            }
+                            rowNdx++;
+                        }
 
                         DataTable dT = DgvConversion.DataGridViewToDataTable(dgvSelection, true);
                         dT.TableName = "item"; // row node name
@@ -719,14 +879,27 @@ namespace CustomsForgeSongManager.Forms
                 try
                 {
                     DataGridView dgvSelection = new DataGridView();
-                    foreach (DataGridViewColumn col in dataGrid.Columns)
+
+                    var orderedCols = dataGrid.Columns.Cast<DataGridViewColumn>()
+                       .Where(c => !ignoreColumns.Contains(c.Index))
+                       .OrderBy(x => x.DisplayIndex).ToList();
+
+                    foreach (DataGridViewColumn col in orderedCols)
                         dgvSelection.Columns.Add((DataGridViewColumn)col.Clone());
 
-                    dgvSelection.Rows.Add(selection.Count());
+                    dgvSelection.Rows.Add(selection.Count() - 1);
 
-                    foreach (DataGridViewRow row in selection)
-                        foreach (DataGridViewColumn col in dataGrid.Columns)
-                            dgvSelection.Rows[row.Index].Cells[col.Index].Value = row.Cells[col.Index].Value == null ? DBNull.Value : row.Cells[col.Index].Value;
+                    var rowNdx = 0;
+                    foreach (DataGridViewRow row in selection.Where(x => x.Visible))
+                    {
+                        var colNdx = 0;
+                        foreach (DataGridViewColumn col in orderedCols)
+                        {
+                            dgvSelection.Rows[rowNdx].Cells[colNdx].Value = row.Cells[col.Index].Value == null ? DBNull.Value : row.Cells[col.Index].Value;
+                            colNdx++;
+                        }
+                        rowNdx++;
+                    }
 
                     DataTable dT = DgvConversion.DataGridViewToDataTable(dgvSelection, true);
                     dT.TableName = Globals.DgvCurrent.Name;
@@ -764,6 +937,7 @@ namespace CustomsForgeSongManager.Forms
 
         private void tsmiCSV_Click(object sender, EventArgs e)
         {
+            tsBtnExport.HideDropDown();
             DGV2CSV();
         }
 
@@ -779,8 +953,9 @@ namespace CustomsForgeSongManager.Forms
 
         private void frmMain_Shown(object sender, EventArgs e)
         {
-            if (!AppSettings.Instance.FullScreen)
+            // if (!AppSettings.Instance.FullScreen)
             {
+                // restore user sreeen settings
                 int width = this.Width;
                 int height = this.Height;
                 int top = this.Location.Y;
@@ -860,6 +1035,18 @@ namespace CustomsForgeSongManager.Forms
         {
             return this;
         }
+
+        private void frmMain_ResizeEnd(object sender, EventArgs e)
+        {
+            // resize/reposition toolstrip items
+            tsUtilities.AutoSize = true;
+            tsAudioPlayer.AutoSize = true;
+            tsUtilities.Location = new Point(0, 0); // force location
+            tsAudioPlayer.Location = new Point(tsUtilities.Width + 40, 0); // force location
+            tsUtilities.AutoSize = false; // prevent movement
+            tsAudioPlayer.AutoSize = false; // prevent movement
+        }
+
 
     }
 }

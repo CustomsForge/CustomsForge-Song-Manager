@@ -58,13 +58,14 @@ namespace CustomsForgeSongManager.Forms
             // cmbAppId
             // 
             this.cmbAppId.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbAppId.DropDownWidth = 420;
             this.cmbAppId.FormattingEnabled = true;
             this.cmbAppId.Location = new System.Drawing.Point(15, 24);
             this.cmbAppId.Margin = new System.Windows.Forms.Padding(2);
             this.cmbAppId.Name = "cmbAppId";
             this.cmbAppId.Size = new System.Drawing.Size(279, 21);
             this.cmbAppId.TabIndex = 84;
-            this.cmbAppId.SelectedIndexChanged += new System.EventHandler(this.cmbAppId_SelectedIndexChanged);
+            this.cmbAppId.SelectedValueChanged += new System.EventHandler(this.cmbAppId_SelectedValueChanged);
             // 
             // lblAppID
             // 

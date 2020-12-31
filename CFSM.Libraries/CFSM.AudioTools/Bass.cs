@@ -295,7 +295,7 @@ namespace CFSM.AudioTools
 
         public override string ToString()
         {
-            return string.Format("Speakers={0}, MinRate={1}, MaxRate={2}, DX={3}, EAX={4}", this.speakers, this.minrate, this.maxrate, this.dsver, (this.eax ? true : false));
+            return String.Format("Speakers={0}, MinRate={1}, MaxRate={2}, DX={3}, EAX={4}", this.speakers, this.minrate, this.maxrate, this.dsver, (this.eax ? true : false));
         }
     }
 
