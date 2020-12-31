@@ -44,27 +44,17 @@ namespace CustomsForgeSongManager.UControls
             this.lnkFAQ = new System.Windows.Forms.LinkLabel();
             this.btnCFSMSite = new System.Windows.Forms.Button();
             this.btnEOFSite = new System.Windows.Forms.Button();
-            this.btnRSTKSite = new System.Windows.Forms.Button();
             this.btnCFSMSupport = new System.Windows.Forms.Button();
-            this.btnCGTSite = new System.Windows.Forms.Button();
             this.gbCredits = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel_Credits = new System.Windows.Forms.TableLayoutPanel();
-            this.linkLabel3 = new CustomControls.LinkLabelStatic();
             this.link_Credits = new CustomControls.LinkLabelStatic();
             this.link_CFOwner = new CustomControls.LinkLabelStatic();
             this.link_LeadDeveloper = new CustomControls.LinkLabelStatic();
             this.link_Developer1 = new CustomControls.LinkLabelStatic();
-            this.link_Developer2 = new CustomControls.LinkLabelStatic();
             this.lnkUnleashedProfile = new CustomControls.LinkLabelPopup();
             this.link_Credits_Description = new CustomControls.LinkLabelStatic();
-            this.linkLabel1 = new CustomControls.LinkLabelStatic();
-            this.link_Developer3 = new CustomControls.LinkLabelStatic();
-            this.linkLabel2 = new CustomControls.LinkLabelStatic();
             this.lnkCozy1Profile = new CustomControls.LinkLabelPopup();
-            this.lnkDarjuszProfile = new CustomControls.LinkLabelPopup();
             this.lnkLovromanProfile = new CustomControls.LinkLabelPopup();
-            this.lnkDreddFoxxProfile = new CustomControls.LinkLabelPopup();
-            this.lnkZerkzProfile = new CustomControls.LinkLabelPopup();
             this.gbInfo = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.picCF = new System.Windows.Forms.PictureBox();
@@ -78,6 +68,8 @@ namespace CustomsForgeSongManager.UControls
             this.lnkDeployRSTK = new System.Windows.Forms.LinkLabel();
             this.lnkDeployEOF = new System.Windows.Forms.LinkLabel();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.linkLabel2 = new CustomControls.LinkLabelStatic();
+            this.btnRSTKSite = new System.Windows.Forms.Button();
             this.tlpAbout.SuspendLayout();
             this.gbCFLinks.SuspendLayout();
             this.tableLayoutPanel_CFQuicklinks.SuspendLayout();
@@ -128,6 +120,7 @@ namespace CustomsForgeSongManager.UControls
             this.linkLabel4.Text = "Copyright 2017 - 2020, CustomsForge Song Manager";
             this.linkLabel4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.linkLabel4.VisitedLinkColor = System.Drawing.Color.Black;
+            this.linkLabel4.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel4_LinkClicked);
             // 
             // gbCFLinks
             // 
@@ -153,8 +146,7 @@ namespace CustomsForgeSongManager.UControls
             this.tableLayoutPanel_CFQuicklinks.Controls.Add(this.btnCFSMSite, 1, 1);
             this.tableLayoutPanel_CFQuicklinks.Controls.Add(this.btnEOFSite, 1, 3);
             this.tableLayoutPanel_CFQuicklinks.Controls.Add(this.btnRSTKSite, 1, 2);
-            this.tableLayoutPanel_CFQuicklinks.Controls.Add(this.btnCFSMSupport, 1, 5);
-            this.tableLayoutPanel_CFQuicklinks.Controls.Add(this.btnCGTSite, 1, 4);
+            this.tableLayoutPanel_CFQuicklinks.Controls.Add(this.btnCFSMSupport, 1, 4);
             this.tableLayoutPanel_CFQuicklinks.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel_CFQuicklinks.Location = new System.Drawing.Point(3, 16);
             this.tableLayoutPanel_CFQuicklinks.Name = "tableLayoutPanel_CFQuicklinks";
@@ -196,7 +188,7 @@ namespace CustomsForgeSongManager.UControls
             this.lnkIgnition.Size = new System.Drawing.Size(308, 36);
             this.lnkIgnition.TabIndex = 10;
             this.lnkIgnition.TabStop = true;
-            this.lnkIgnition.Text = "Ignition";
+            this.lnkIgnition.Text = "Ignition4";
             this.lnkIgnition.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.lnkIgnition.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkIgnition_LinkClicked);
             // 
@@ -286,24 +278,12 @@ namespace CustomsForgeSongManager.UControls
             this.btnEOFSite.UseVisualStyleBackColor = true;
             this.btnEOFSite.Click += new System.EventHandler(this.btnEOFSite_Click);
             // 
-            // btnRSTKSite
-            // 
-            this.btnRSTKSite.Image = global::CustomsForgeSongManager.Properties.Resources.RocksmithToolkitGUI_32512;
-            this.btnRSTKSite.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnRSTKSite.Location = new System.Drawing.Point(317, 51);
-            this.btnRSTKSite.Name = "btnRSTKSite";
-            this.btnRSTKSite.Size = new System.Drawing.Size(127, 22);
-            this.btnRSTKSite.TabIndex = 17;
-            this.btnRSTKSite.Text = "rscustom.net";
-            this.btnRSTKSite.UseVisualStyleBackColor = true;
-            this.btnRSTKSite.Click += new System.EventHandler(this.btnRSTKSite_Click);
-            // 
             // btnCFSMSupport
             // 
             this.btnCFSMSupport.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnCFSMSupport.Image = global::CustomsForgeSongManager.Properties.Resources.internet;
             this.btnCFSMSupport.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnCFSMSupport.Location = new System.Drawing.Point(317, 159);
+            this.btnCFSMSupport.Location = new System.Drawing.Point(317, 123);
             this.btnCFSMSupport.Name = "btnCFSMSupport";
             this.btnCFSMSupport.Size = new System.Drawing.Size(127, 22);
             this.btnCFSMSupport.TabIndex = 19;
@@ -311,19 +291,6 @@ namespace CustomsForgeSongManager.UControls
             this.btnCFSMSupport.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnCFSMSupport.UseVisualStyleBackColor = true;
             this.btnCFSMSupport.Click += new System.EventHandler(this.btnCFSMSupport_Click);
-            // 
-            // btnCGTSite
-            // 
-            this.btnCGTSite.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnCGTSite.Image = global::CustomsForgeSongManager.Properties.Resources.CGT_Logo;
-            this.btnCGTSite.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnCGTSite.Location = new System.Drawing.Point(317, 123);
-            this.btnCGTSite.Name = "btnCGTSite";
-            this.btnCGTSite.Size = new System.Drawing.Size(127, 22);
-            this.btnCGTSite.TabIndex = 20;
-            this.btnCGTSite.Text = "    Custom Game Toolkit";
-            this.btnCGTSite.UseVisualStyleBackColor = true;
-            this.btnCGTSite.Click += new System.EventHandler(this.btnCGTSite_Click);
             // 
             // gbCredits
             // 
@@ -344,22 +311,15 @@ namespace CustomsForgeSongManager.UControls
             this.tableLayoutPanel_Credits.ColumnCount = 2;
             this.tableLayoutPanel_Credits.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel_Credits.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel_Credits.Controls.Add(this.linkLabel3, 0, 7);
             this.tableLayoutPanel_Credits.Controls.Add(this.link_Credits, 0, 0);
             this.tableLayoutPanel_Credits.Controls.Add(this.link_CFOwner, 0, 1);
             this.tableLayoutPanel_Credits.Controls.Add(this.link_LeadDeveloper, 0, 2);
             this.tableLayoutPanel_Credits.Controls.Add(this.link_Developer1, 0, 3);
-            this.tableLayoutPanel_Credits.Controls.Add(this.link_Developer2, 0, 5);
             this.tableLayoutPanel_Credits.Controls.Add(this.lnkUnleashedProfile, 1, 1);
             this.tableLayoutPanel_Credits.Controls.Add(this.link_Credits_Description, 1, 0);
-            this.tableLayoutPanel_Credits.Controls.Add(this.linkLabel1, 0, 4);
-            this.tableLayoutPanel_Credits.Controls.Add(this.link_Developer3, 0, 6);
             this.tableLayoutPanel_Credits.Controls.Add(this.linkLabel2, 1, 7);
-            this.tableLayoutPanel_Credits.Controls.Add(this.lnkCozy1Profile, 1, 2);
-            this.tableLayoutPanel_Credits.Controls.Add(this.lnkDarjuszProfile, 1, 4);
-            this.tableLayoutPanel_Credits.Controls.Add(this.lnkLovromanProfile, 1, 3);
-            this.tableLayoutPanel_Credits.Controls.Add(this.lnkDreddFoxxProfile, 1, 5);
-            this.tableLayoutPanel_Credits.Controls.Add(this.lnkZerkzProfile, 1, 6);
+            this.tableLayoutPanel_Credits.Controls.Add(this.lnkCozy1Profile, 1, 3);
+            this.tableLayoutPanel_Credits.Controls.Add(this.lnkLovromanProfile, 1, 2);
             this.tableLayoutPanel_Credits.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tableLayoutPanel_Credits.ForeColor = System.Drawing.SystemColors.ActiveBorder;
             this.tableLayoutPanel_Credits.Location = new System.Drawing.Point(6, 19);
@@ -376,25 +336,6 @@ namespace CustomsForgeSongManager.UControls
             this.tableLayoutPanel_Credits.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel_Credits.Size = new System.Drawing.Size(465, 227);
             this.tableLayoutPanel_Credits.TabIndex = 3;
-            // 
-            // linkLabel3
-            // 
-            this.linkLabel3.ActiveLinkColor = System.Drawing.Color.Black;
-            this.linkLabel3.BackColor = System.Drawing.Color.Transparent;
-            this.linkLabel3.DisabledLinkColor = System.Drawing.Color.Black;
-            this.linkLabel3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.linkLabel3.Font = new System.Drawing.Font("Trebuchet MS", 10F);
-            this.linkLabel3.ForeColor = System.Drawing.Color.White;
-            this.linkLabel3.LinkBehavior = System.Windows.Forms.LinkBehavior.NeverUnderline;
-            this.linkLabel3.LinkColor = System.Drawing.SystemColors.ControlLightLight;
-            this.linkLabel3.Location = new System.Drawing.Point(3, 155);
-            this.linkLabel3.Name = "linkLabel3";
-            this.linkLabel3.Size = new System.Drawing.Size(226, 72);
-            this.linkLabel3.TabIndex = 3;
-            this.linkLabel3.TabStop = true;
-            this.linkLabel3.Text = "Special Thanks:";
-            this.linkLabel3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.linkLabel3.VisitedLinkColor = System.Drawing.Color.Black;
             // 
             // link_Credits
             // 
@@ -474,24 +415,6 @@ namespace CustomsForgeSongManager.UControls
             this.link_Developer1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.link_Developer1.VisitedLinkColor = System.Drawing.Color.Black;
             // 
-            // link_Developer2
-            // 
-            this.link_Developer2.ActiveLinkColor = System.Drawing.Color.Black;
-            this.link_Developer2.BackColor = System.Drawing.Color.Transparent;
-            this.link_Developer2.DisabledLinkColor = System.Drawing.Color.Black;
-            this.link_Developer2.Font = new System.Drawing.Font("Trebuchet MS", 10F);
-            this.link_Developer2.ForeColor = System.Drawing.Color.White;
-            this.link_Developer2.LinkBehavior = System.Windows.Forms.LinkBehavior.NeverUnderline;
-            this.link_Developer2.LinkColor = System.Drawing.SystemColors.ControlLightLight;
-            this.link_Developer2.Location = new System.Drawing.Point(3, 115);
-            this.link_Developer2.Name = "link_Developer2";
-            this.link_Developer2.Size = new System.Drawing.Size(226, 20);
-            this.link_Developer2.TabIndex = 0;
-            this.link_Developer2.TabStop = true;
-            this.link_Developer2.Text = "Developer:";
-            this.link_Developer2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.link_Developer2.VisitedLinkColor = System.Drawing.Color.Black;
-            // 
             // lnkUnleashedProfile
             // 
             this.lnkUnleashedProfile.Anchor = System.Windows.Forms.AnchorStyles.Left;
@@ -532,65 +455,6 @@ namespace CustomsForgeSongManager.UControls
             this.link_Credits_Description.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.link_Credits_Description.VisitedLinkColor = System.Drawing.Color.Black;
             // 
-            // linkLabel1
-            // 
-            this.linkLabel1.ActiveLinkColor = System.Drawing.Color.Black;
-            this.linkLabel1.BackColor = System.Drawing.Color.Transparent;
-            this.linkLabel1.DisabledLinkColor = System.Drawing.Color.Black;
-            this.linkLabel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.linkLabel1.Font = new System.Drawing.Font("Trebuchet MS", 10F);
-            this.linkLabel1.ForeColor = System.Drawing.Color.White;
-            this.linkLabel1.LinkBehavior = System.Windows.Forms.LinkBehavior.NeverUnderline;
-            this.linkLabel1.LinkColor = System.Drawing.SystemColors.ControlLightLight;
-            this.linkLabel1.Location = new System.Drawing.Point(3, 95);
-            this.linkLabel1.Name = "linkLabel1";
-            this.linkLabel1.Size = new System.Drawing.Size(226, 20);
-            this.linkLabel1.TabIndex = 0;
-            this.linkLabel1.TabStop = true;
-            this.linkLabel1.Text = "Developer:";
-            this.linkLabel1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.linkLabel1.VisitedLinkColor = System.Drawing.Color.Black;
-            // 
-            // link_Developer3
-            // 
-            this.link_Developer3.ActiveLinkColor = System.Drawing.Color.Black;
-            this.link_Developer3.BackColor = System.Drawing.Color.Transparent;
-            this.link_Developer3.DisabledLinkColor = System.Drawing.Color.Black;
-            this.link_Developer3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.link_Developer3.Font = new System.Drawing.Font("Trebuchet MS", 10F);
-            this.link_Developer3.ForeColor = System.Drawing.Color.White;
-            this.link_Developer3.LinkBehavior = System.Windows.Forms.LinkBehavior.NeverUnderline;
-            this.link_Developer3.LinkColor = System.Drawing.SystemColors.ControlLightLight;
-            this.link_Developer3.Location = new System.Drawing.Point(3, 135);
-            this.link_Developer3.Name = "link_Developer3";
-            this.link_Developer3.Size = new System.Drawing.Size(226, 20);
-            this.link_Developer3.TabIndex = 0;
-            this.link_Developer3.TabStop = true;
-            this.link_Developer3.Text = "Developer:";
-            this.link_Developer3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.link_Developer3.VisitedLinkColor = System.Drawing.Color.Black;
-            // 
-            // linkLabel2
-            // 
-            this.linkLabel2.ActiveLinkColor = System.Drawing.Color.Black;
-            this.linkLabel2.BackColor = System.Drawing.Color.Transparent;
-            this.linkLabel2.DisabledLinkColor = System.Drawing.Color.Black;
-            this.linkLabel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.linkLabel2.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.linkLabel2.ForeColor = System.Drawing.Color.White;
-            this.linkLabel2.LinkBehavior = System.Windows.Forms.LinkBehavior.NeverUnderline;
-            this.linkLabel2.LinkColor = System.Drawing.SystemColors.ControlLightLight;
-            this.linkLabel2.Location = new System.Drawing.Point(235, 155);
-            this.linkLabel2.Name = "linkLabel2";
-            this.linkLabel2.Size = new System.Drawing.Size(227, 72);
-            this.linkLabel2.TabIndex = 2;
-            this.linkLabel2.TabStop = true;
-            this.linkLabel2.Text = "ZagatoZee, DarkSeph, ForgeOn,\r\nrummhamm87, and\r\nCustomsForge Staff and Beta Teste" +
-                "rs";
-            this.linkLabel2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.linkLabel2.UseCompatibleTextRendering = true;
-            this.linkLabel2.VisitedLinkColor = System.Drawing.Color.Black;
-            // 
             // lnkCozy1Profile
             // 
             this.lnkCozy1Profile.Anchor = System.Windows.Forms.AnchorStyles.Left;
@@ -598,7 +462,7 @@ namespace CustomsForgeSongManager.UControls
             this.lnkCozy1Profile.BackColor = System.Drawing.Color.Transparent;
             this.lnkCozy1Profile.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lnkCozy1Profile.LinkColor = System.Drawing.Color.Cyan;
-            this.lnkCozy1Profile.Location = new System.Drawing.Point(235, 57);
+            this.lnkCozy1Profile.Location = new System.Drawing.Point(235, 77);
             this.lnkCozy1Profile.Name = "lnkCozy1Profile";
             this.lnkCozy1Profile.PopupImage = global::CustomsForgeSongManager.Properties.Resources.cozy1;
             this.lnkCozy1Profile.PopupImageSize = new System.Drawing.Size(72, 72);
@@ -610,25 +474,6 @@ namespace CustomsForgeSongManager.UControls
             this.lnkCozy1Profile.UrlLink = "4293-cozy1";
             this.lnkCozy1Profile.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkUserProfile_LinkClicked);
             // 
-            // lnkDarjuszProfile
-            // 
-            this.lnkDarjuszProfile.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.lnkDarjuszProfile.AutoSize = true;
-            this.lnkDarjuszProfile.BackColor = System.Drawing.Color.Transparent;
-            this.lnkDarjuszProfile.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lnkDarjuszProfile.LinkColor = System.Drawing.Color.Cyan;
-            this.lnkDarjuszProfile.Location = new System.Drawing.Point(235, 97);
-            this.lnkDarjuszProfile.Name = "lnkDarjuszProfile";
-            this.lnkDarjuszProfile.PopupImage = global::CustomsForgeSongManager.Properties.Resources.dardev;
-            this.lnkDarjuszProfile.PopupImageSize = new System.Drawing.Size(72, 72);
-            this.lnkDarjuszProfile.Size = new System.Drawing.Size(91, 16);
-            this.lnkDarjuszProfile.TabIndex = 7;
-            this.lnkDarjuszProfile.TabStop = true;
-            this.lnkDarjuszProfile.Text = "Darjusz (hiatus)";
-            this.lnkDarjuszProfile.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.lnkDarjuszProfile.UrlLink = "5299-darjusz";
-            this.lnkDarjuszProfile.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkUserProfile_LinkClicked);
-            // 
             // lnkLovromanProfile
             // 
             this.lnkLovromanProfile.Anchor = System.Windows.Forms.AnchorStyles.Left;
@@ -636,7 +481,7 @@ namespace CustomsForgeSongManager.UControls
             this.lnkLovromanProfile.BackColor = System.Drawing.Color.Transparent;
             this.lnkLovromanProfile.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lnkLovromanProfile.LinkColor = System.Drawing.Color.Cyan;
-            this.lnkLovromanProfile.Location = new System.Drawing.Point(235, 77);
+            this.lnkLovromanProfile.Location = new System.Drawing.Point(235, 57);
             this.lnkLovromanProfile.Name = "lnkLovromanProfile";
             this.lnkLovromanProfile.PopupImage = global::CustomsForgeSongManager.Properties.Resources.Lovroman;
             this.lnkLovromanProfile.PopupImageSize = new System.Drawing.Size(72, 72);
@@ -647,44 +492,6 @@ namespace CustomsForgeSongManager.UControls
             this.lnkLovromanProfile.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.lnkLovromanProfile.UrlLink = "43194-lovroman";
             this.lnkLovromanProfile.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkUserProfile_LinkClicked);
-            // 
-            // lnkDreddFoxxProfile
-            // 
-            this.lnkDreddFoxxProfile.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.lnkDreddFoxxProfile.AutoSize = true;
-            this.lnkDreddFoxxProfile.BackColor = System.Drawing.Color.Transparent;
-            this.lnkDreddFoxxProfile.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lnkDreddFoxxProfile.LinkColor = System.Drawing.Color.Cyan;
-            this.lnkDreddFoxxProfile.Location = new System.Drawing.Point(235, 117);
-            this.lnkDreddFoxxProfile.Name = "lnkDreddFoxxProfile";
-            this.lnkDreddFoxxProfile.PopupImage = global::CustomsForgeSongManager.Properties.Resources.DreddFoxx;
-            this.lnkDreddFoxxProfile.PopupImageSize = new System.Drawing.Size(72, 72);
-            this.lnkDreddFoxxProfile.Size = new System.Drawing.Size(111, 16);
-            this.lnkDreddFoxxProfile.TabIndex = 5;
-            this.lnkDreddFoxxProfile.TabStop = true;
-            this.lnkDreddFoxxProfile.Text = "DreddFoxx (hiatus)";
-            this.lnkDreddFoxxProfile.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.lnkDreddFoxxProfile.UrlLink = "40453-dreddfoxx";
-            this.lnkDreddFoxxProfile.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkUserProfile_LinkClicked);
-            // 
-            // lnkZerkzProfile
-            // 
-            this.lnkZerkzProfile.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.lnkZerkzProfile.AutoSize = true;
-            this.lnkZerkzProfile.BackColor = System.Drawing.Color.Transparent;
-            this.lnkZerkzProfile.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lnkZerkzProfile.LinkColor = System.Drawing.Color.Cyan;
-            this.lnkZerkzProfile.Location = new System.Drawing.Point(235, 137);
-            this.lnkZerkzProfile.Name = "lnkZerkzProfile";
-            this.lnkZerkzProfile.PopupImage = global::CustomsForgeSongManager.Properties.Resources.maintenance;
-            this.lnkZerkzProfile.PopupImageSize = new System.Drawing.Size(16, 16);
-            this.lnkZerkzProfile.Size = new System.Drawing.Size(83, 16);
-            this.lnkZerkzProfile.TabIndex = 6;
-            this.lnkZerkzProfile.TabStop = true;
-            this.lnkZerkzProfile.Text = "Zerkz (hiatus)";
-            this.lnkZerkzProfile.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.lnkZerkzProfile.UrlLink = "20759-zerkz";
-            this.lnkZerkzProfile.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkUserProfile_LinkClicked);
             // 
             // gbInfo
             // 
@@ -880,6 +687,39 @@ namespace CustomsForgeSongManager.UControls
                     "ms\' folder.");
             this.lnkDeployEOF.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkDeployEOF_LinkClicked);
             // 
+            // linkLabel2
+            // 
+            this.linkLabel2.ActiveLinkColor = System.Drawing.Color.Black;
+            this.linkLabel2.BackColor = System.Drawing.Color.Transparent;
+            this.linkLabel2.DisabledLinkColor = System.Drawing.Color.Black;
+            this.linkLabel2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.linkLabel2.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.linkLabel2.ForeColor = System.Drawing.Color.White;
+            this.linkLabel2.LinkBehavior = System.Windows.Forms.LinkBehavior.NeverUnderline;
+            this.linkLabel2.LinkColor = System.Drawing.SystemColors.ControlLightLight;
+            this.linkLabel2.Location = new System.Drawing.Point(235, 155);
+            this.linkLabel2.Name = "linkLabel2";
+            this.linkLabel2.Size = new System.Drawing.Size(227, 72);
+            this.linkLabel2.TabIndex = 2;
+            this.linkLabel2.TabStop = true;
+            this.linkLabel2.Text = "Special Thanks to all the past developers and staff/beta testers that helped!";
+            this.linkLabel2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.linkLabel2.UseCompatibleTextRendering = true;
+            this.linkLabel2.VisitedLinkColor = System.Drawing.Color.Black;
+            this.linkLabel2.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel2_LinkClicked);
+            // 
+            // btnRSTKSite
+            // 
+            this.btnRSTKSite.Image = global::CustomsForgeSongManager.Properties.Resources.RocksmithToolkitGUI_32512;
+            this.btnRSTKSite.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnRSTKSite.Location = new System.Drawing.Point(317, 51);
+            this.btnRSTKSite.Name = "btnRSTKSite";
+            this.btnRSTKSite.Size = new System.Drawing.Size(127, 22);
+            this.btnRSTKSite.TabIndex = 17;
+            this.btnRSTKSite.Text = "Rocksmith Toolkit";
+            this.btnRSTKSite.UseVisualStyleBackColor = true;
+            this.btnRSTKSite.Click += new System.EventHandler(this.btnRSTKSite_Click);
+            // 
             // About
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -913,14 +753,10 @@ namespace CustomsForgeSongManager.UControls
         private LinkLabelStatic link_CFOwner;
         private LinkLabelStatic link_LeadDeveloper;
         private LinkLabelStatic link_Developer1;
-        private LinkLabelStatic link_Developer2;
-        private LinkLabelStatic link_Developer3;
         private LinkLabelPopup lnkUnleashedProfile;
-        private LinkLabelPopup lnkDarjuszProfile;
         private System.Windows.Forms.GroupBox gbInfo;
         private System.Windows.Forms.GroupBox gbCFLinks;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel_CFQuicklinks;
-        private System.Windows.Forms.Button btnRSTKSite;
         private System.Windows.Forms.Button btnEOFSite;
         private System.Windows.Forms.LinkLabel lnkHomePage;
         private System.Windows.Forms.LinkLabel lnkIgnition;
@@ -930,26 +766,22 @@ namespace CustomsForgeSongManager.UControls
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         private System.Windows.Forms.LinkLabel lnkReleaseNotes;
         private System.Windows.Forms.LinkLabel lnkHelp;
-        private LinkLabelStatic linkLabel1;
-        private LinkLabelPopup lnkDreddFoxxProfile;
         private System.Windows.Forms.Button btnCFSMSite;
         private System.Windows.Forms.LinkLabel lnkDonations;
         private System.Windows.Forms.LinkLabel linkLabel4;
         private System.Windows.Forms.Button btnCFSMSupport;
         private LinkLabelPopup lnkLovromanProfile;
-        private LinkLabelPopup lnkZerkzProfile;
         private LinkLabelStatic link_Credits_Description;
         private LinkLabelPopup lnkCozy1Profile;
-        private LinkLabelStatic linkLabel3;
-        private LinkLabelStatic linkLabel2;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.LinkLabel lnkDeployCGT;
         private System.Windows.Forms.LinkLabel lnkDeployRSTK;
         private System.Windows.Forms.LinkLabel lnkDeployEOF;
-        private System.Windows.Forms.Button btnCGTSite;
         private System.Windows.Forms.ToolTip toolTip;
         private System.Windows.Forms.LinkLabel lnkForum;
         private System.Windows.Forms.LinkLabel lnkOfficialGuide;
+        private LinkLabelStatic linkLabel2;
+        private System.Windows.Forms.Button btnRSTKSite;
     }
 }
