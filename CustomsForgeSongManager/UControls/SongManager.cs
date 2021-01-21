@@ -1664,6 +1664,27 @@ namespace CustomsForgeSongManager.UControls
             if (dgvSongsMaster.Rows.Count < 1) // needed in case filter was set that returns no items
                 return;
 
+            try // If a filter is reapplied after changing a row (say enabling a song after having 'No' filter for Enabled column), a row without a bound item will remain and cause errors 
+            {
+                if (dgvSongsMaster.Rows[e.RowIndex].DataBoundItem == null)
+                    return;
+            }
+            catch (IndexOutOfRangeException ex)
+            {
+                for (int i = 0; i < dgvSongsMaster.Columns.Count; i++)
+                {
+                    if (dgvSongsMaster.Rows[e.RowIndex].Cells[i].Value == null) //Makeshift solution at best, but if this happens and the column a column doesn't have a value, it usually means it's due to the row not matching the filter any more
+                    {
+                        dgvSongsMaster.Rows[e.RowIndex].Visible = false;
+                        return;
+                    }
+                }
+
+                Globals.Log($"DGV error: {ex.Message}");
+                return;
+            }
+
+
             SongData sd = dgvSongsMaster.Rows[e.RowIndex].DataBoundItem as SongData;
             if (sd != null)
             {

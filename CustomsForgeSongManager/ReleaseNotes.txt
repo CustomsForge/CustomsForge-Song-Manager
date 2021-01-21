@@ -13,6 +13,9 @@ until you can confirm it is safe by working directly with your AV provider.
 ========================================================================
 
 CFSM Release Notes
+1.6.0.1
+- fixed the error where reapplying a filter after modifiying a song would cause the application to crash
+
 1.6
 - refreshed "about" section
 - updated copyright year
