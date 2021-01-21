@@ -1675,7 +1675,10 @@ namespace CustomsForgeSongManager.UControls
                 {
                     if (dgvSongsMaster.Rows[e.RowIndex].Cells[i].Value == null) //Makeshift solution at best, but if this happens and the column a column doesn't have a value, it usually means it's due to the row not matching the filter any more
                     {
+                        CurrencyManager cm = (CurrencyManager)BindingContext[dgvSongsMaster.DataSource];
+                        cm.SuspendBinding();
                         dgvSongsMaster.Rows[e.RowIndex].Visible = false;
+                        cm.ResumeBinding();
                         return;
                     }
                 }
