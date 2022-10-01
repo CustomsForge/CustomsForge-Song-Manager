@@ -175,6 +175,8 @@ namespace CustomsForgeSongManager.LocalTools
                         song.RepairStatus = RepairStatus.RepairedMaxFive;
                     else if (packageComment.Contains("Remastered"))
                         song.RepairStatus = RepairStatus.Repaired;
+                    else if (toolkitVersion.Contains("DLC Builder"))
+                        song.RepairStatus = RepairStatus.Repaired;
                     else
                         song.RepairStatus = RepairStatus.NotRepaired;
                 }
