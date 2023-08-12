@@ -187,11 +187,11 @@ namespace CustomsForgeSongManager.LocalTools
                             VersOnline = versOnlineRSTK.Revision; // returns github commit (4 bytes)
                             break;
                         }
-                        catch (WebException ex)
+                        catch (WebException)
                         {
                             // Globals.Log("NeedsUpdate Web Exception: " + ex.Message + " ...");
                         }
-                        catch (NotSupportedException ex)
+                        catch (NotSupportedException)
                         {
                             // Globals.Log("NeedsUpdate Not Supported Exception: " + ex.Message + " ...");
                         }

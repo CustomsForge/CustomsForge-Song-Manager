@@ -44,7 +44,6 @@ namespace CustomsForgeSongManager.UControls
         private string curSongListsName;
         private bool dgvPainted = false;
         private string dlcDir;
-        private DataGridViewRow selectedRow;
         private Color songListColor = Color.Yellow;
         private BindingList<SongData> songListMaster = new BindingList<SongData>(); // prevents filtering from being inherited
         private List<SongData> songListSongs;

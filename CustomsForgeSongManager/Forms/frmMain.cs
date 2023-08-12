@@ -251,7 +251,7 @@ namespace CustomsForgeSongManager.Forms
             frmNoteViewer.ViewResourcesFile("CustomsForgeSongManager.Resources.HelpGeneral.rtf", "General Help");
         }
 
-        private void ShowHideLog()
+        private static void ShowHideLog()
         {
             AppSettings.Instance.ShowLogWindow = !AppSettings.Instance.ShowLogWindow;
         }
@@ -559,7 +559,7 @@ namespace CustomsForgeSongManager.Forms
         {
             Globals.Log("Downloading WebApp: " + APP_ARCHIVE + " ...");
             var tempDir = Constants.TempWorkFolder;
-            var downloadUrl = String.Format("{0}/{1}", SERVER_URL, APP_ARCHIVE);
+            var downloadUrl = string.Format("{0}/{1}", SERVER_URL, APP_ARCHIVE);
 
             if (AutoUpdater.DownloadWebApp(downloadUrl, APP_ARCHIVE, tempDir))
             {

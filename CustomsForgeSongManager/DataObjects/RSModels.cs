@@ -11,7 +11,8 @@ namespace CustomsForgeSongManager.DataObjects
         public string AlbumArt { get; set; }
         public string ArrangementName { get; set; }
         public bool DLC { get; set; }
-        public int LeaderboardChallengeRating { get; set; }
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public int? LeaderboardChallengeRating { get; set; }
         public string ManifestUrn { get; set; }
         public int MasterID_RDV { get; set; }
         public string PersistentID { get; set; }
