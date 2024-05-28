@@ -18,7 +18,7 @@ namespace CustomsForgeSongManager.UControls
 {
     public partial class Settings : UserControl, INotifyTabChanged
     {
-        private bool isDirty;
+        private bool isDirty = false;
         private List<ColumnOrderItem> columnOrderList;
 
         public Settings()
@@ -686,7 +686,6 @@ namespace CustomsForgeSongManager.UControls
                     break;
                 default:
                     throw new DataException("<ERROR> Can not get grid control for " + dgvGridName);
-                    break;
             }
         }
 

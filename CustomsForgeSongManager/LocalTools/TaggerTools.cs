@@ -441,7 +441,7 @@ namespace CustomsForgeSongManager.LocalTools
 
                     // Globals.Log("Finished tagging song ...");
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     // commented out per user request ... silly users ;>)
                     // MessageBox.Show(Path.GetFileName(song.FilePath) + " is corrupt.  " + Environment.NewLine +

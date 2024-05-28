@@ -36,7 +36,7 @@ namespace DataGridViewTools
         {
             var debugMe = dgvCurrent.Name;
 
-            if (rowIndex == -1)
+            if (rowIndex == -1 || dgvCurrent.Rows[rowIndex].DataBoundItem == null)
                 return default(T);
 
             return (T)dgvCurrent.Rows[rowIndex].DataBoundItem;
@@ -44,6 +44,9 @@ namespace DataGridViewTools
 
         public static T GetObjectFromRow<T>(DataGridViewRow dataGridViewRow)
         {
+            if(dataGridViewRow.DataBoundItem == null)
+                return default(T);
+
             return (T)dataGridViewRow.DataBoundItem;
         }
 

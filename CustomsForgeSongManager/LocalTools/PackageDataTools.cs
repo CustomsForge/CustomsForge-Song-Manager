@@ -57,11 +57,10 @@ namespace CustomsForgeSongManager.LocalTools
         public static DLCPackageData GetDataWithFixedTones(string srcFilePath)
         {
             var packageData = new DLCPackageData();
-            var fnameWithoutExt = Path.GetFileNameWithoutExtension(srcFilePath);
+            //var fnameWithoutExt = Path.GetFileNameWithoutExtension(srcFilePath);
             Platform platform = Packer.GetPlatform(srcFilePath);
-            var unpackedDir = Path.Combine(Path.GetTempPath(), String.Format("{0}_{1}", fnameWithoutExt, platform.platform));
-            var songVersion = string.Empty;
-            var songName = string.Empty;
+            //var unpackedDir = Path.Combine(Path.GetTempPath(), String.Format("{0}_{1}", fnameWithoutExt, platform.platform));
+        
             var psarcOld = new PsarcPackager();
 
             try

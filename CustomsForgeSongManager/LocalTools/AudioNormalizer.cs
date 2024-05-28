@@ -22,6 +22,7 @@ using System.Reflection;
 using Newtonsoft.Json.Linq;
 using StringExtensions = RocksmithToolkitLib.Extensions.StringExtensions;
 using System.Drawing;
+using System.Globalization;
 
 // AudioNormalizer is a bit of a misnomer ... the audio is never re-encoded
 // algo uses normalizer analysis to auto adjust toolkit volume settings
@@ -202,13 +203,13 @@ namespace CustomsForgeSongManager.LocalTools
                     toneVol[i] = packageData.TonesRS2014[i].Volume;
 
                 // calculate and write new volumes
-                var lufsOffset = (Convert.ToSingle(input_i) + audioOptions.TargetLUFS * -1) * audioOptions.CorrectionFactor * audioOptions.CorrectionMultiplier;
+                var lufsOffset = (Convert.ToSingle(input_i, CultureInfo.InvariantCulture) + audioOptions.TargetLUFS * -1) * audioOptions.CorrectionFactor * audioOptions.CorrectionMultiplier;
                 packageData.Volume = audioOptions.TargetAudioVolume + lufsOffset;
                 packageData.PreviewVolume = audioOptions.TargetPreviewVolume + lufsOffset;
 
                 Globals.Log(" - POC Auto Adjust CDLC Volume Equation ...");
                 Globals.Log("   NewAudioVolume = TargetAudioVolume + (IntegratedLUFS + TargetLUFS * -1) * CorrectionFactor * CorrectionMultiplier");
-                Globals.Log("   New CDLC Audio Volume (Toolkit LF): " + packageData.Volume + " = " + audioOptions.TargetAudioVolume + " + (" + Convert.ToSingle(input_i) + " + " + audioOptions.TargetLUFS + " * -1) * " + audioOptions.CorrectionFactor + " * " + audioOptions.CorrectionMultiplier);
+                Globals.Log("   New CDLC Audio Volume (Toolkit LF): " + packageData.Volume + " = " + audioOptions.TargetAudioVolume + " + (" + Convert.ToSingle(input_i, CultureInfo.InvariantCulture) + " + " + audioOptions.TargetLUFS + " * -1) * " + audioOptions.CorrectionFactor + " * " + audioOptions.CorrectionMultiplier);
 
                 for (int i = 0; i < packageData.TonesRS2014.Count; i++)
                 {
@@ -241,7 +242,8 @@ namespace CustomsForgeSongManager.LocalTools
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex.Message);
+                Globals.Log("Unspecified error: " + ex.ToString());
+                //Debug.WriteLine(ex.Message);
                 return false;
             }
         }

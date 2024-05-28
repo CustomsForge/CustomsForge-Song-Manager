@@ -197,13 +197,13 @@ namespace CustomsForgeSongManager.DataObjects
         #region URL constants
 
         public const string RSToolkitURL = "https://www.rscustom.net/";
-        public const string CustomsForgeURL = "http://customsforge.com/";
+        public const string CustomsForgeURL = "https://customsforge.com/";
         public const string CustomsForgeUserURL_Format = CustomsForgeURL + "user/{0}/";
-        public const string EOFURL = IgnitionURL + "/eof";
-        public const string RequestURL = Constants.CustomsForgeURL + "topic/45859-cdlc-requests/?hl=request";
+        public const string EOFURL = "https://editoronfire.com/";
+        public const string RequestURL = Constants.CustomsForgeURL + "index.php?/topic/45859-cdlc-requests/";
         public const string DefaultCFSongUrl = CustomsForgeURL + "page/customsforge_rs_2014_cdlc.html/_/pc-enabled-rs-2014-cdlc/";
+        public const string IgnitionURL = "https://ignition4.customsforge.com/"; // valid link to ignition search page
         // TODO: update these 
-        public const string IgnitionURL = "http://ignition.customsforge.com/"; // valid link to ignition search page
         public const string DefaultInfoURL = "http://ignition.dev.customsforge.com/api/search"; // dead
         public const string DefaultDetailsURL = "http://ignition.dev.customsforge.com/api/details"; // dead
         public const string DefaultAuthURL = "http://ignition.dev.customsforge.com/api/auth"; // dead

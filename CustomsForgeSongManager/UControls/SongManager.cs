@@ -30,6 +30,7 @@ using System.Resources;
 using System.Reflection;
 using Newtonsoft.Json.Linq;
 using RocksmithToolkitLib;
+using System.Globalization;
 
 // TODO: convert SongManager, Duplicates, SetlistManager to use a common bound FilterBindingList<SongData>() dataset.
 // TODO: use binding source filtering to show/hide data
@@ -1664,6 +1665,30 @@ namespace CustomsForgeSongManager.UControls
             if (dgvSongsMaster.Rows.Count < 1) // needed in case filter was set that returns no items
                 return;
 
+            try // If a filter is reapplied after changing a row (say enabling a song after having 'No' filter for Enabled column), a row without a bound item will remain and cause errors 
+            {
+                if (dgvSongsMaster.Rows[e.RowIndex].DataBoundItem == null)
+                    return;
+            }
+            catch (IndexOutOfRangeException ex)
+            {
+                for (int i = 0; i < dgvSongsMaster.Columns.Count; i++)
+                {
+                    if (dgvSongsMaster.Rows[e.RowIndex].Cells[i].Value == null) //Makeshift solution at best, but if this happens and the column a column doesn't have a value, it usually means it's due to the row not matching the filter any more
+                    {
+                        CurrencyManager cm = (CurrencyManager)BindingContext[dgvSongsMaster.DataSource];
+                        cm.SuspendBinding();
+                        dgvSongsMaster.Rows[e.RowIndex].Visible = false;
+                        cm.ResumeBinding();
+                        return;
+                    }
+                }
+
+                Globals.Log($"DGV error: {ex.Message}");
+                return;
+            }
+
+
             SongData sd = dgvSongsMaster.Rows[e.RowIndex].DataBoundItem as SongData;
             if (sd != null)
             {
@@ -2722,12 +2747,12 @@ namespace CustomsForgeSongManager.UControls
         {
             AudioOptions audioOptions = new AudioOptions()
             {
-                CorrectionFactor = Convert.ToSingle(tsmiCorrectionFactor.DecimalValue),
-                CorrectionMultiplier = Convert.ToSingle(tsmiCorrectionMultiplier.DecimalValue),
-                TargetAudioVolume = Convert.ToSingle(tsmiTargetAudioVolume.DecimalValue),
-                TargetPreviewVolume = Convert.ToSingle(tsmiTargetPreviewVolume.DecimalValue),
-                TargetToneVolume = Convert.ToSingle(tsmiTargetToneVolume.DecimalValue),
-                TargetLUFS = Convert.ToSingle(tsmiTargetLUFS.DecimalValue)
+                CorrectionFactor = Convert.ToSingle(tsmiCorrectionFactor.DecimalValue, CultureInfo.InvariantCulture),
+                CorrectionMultiplier = Convert.ToSingle(tsmiCorrectionMultiplier.DecimalValue, CultureInfo.InvariantCulture),
+                TargetAudioVolume = Convert.ToSingle(tsmiTargetAudioVolume.DecimalValue, CultureInfo.InvariantCulture),
+                TargetPreviewVolume = Convert.ToSingle(tsmiTargetPreviewVolume.DecimalValue, CultureInfo.InvariantCulture),
+                TargetToneVolume = Convert.ToSingle(tsmiTargetToneVolume.DecimalValue, CultureInfo.InvariantCulture),
+                TargetLUFS = Convert.ToSingle(tsmiTargetLUFS.DecimalValue, CultureInfo.InvariantCulture)
             };
 
             AppSettings.Instance.AudioOptions = audioOptions;
@@ -2736,12 +2761,12 @@ namespace CustomsForgeSongManager.UControls
 
         private void GetAudioOptions()
         {
-            tsmiCorrectionFactor.DecimalValue = Convert.ToDecimal(AppSettings.Instance.AudioOptions.CorrectionFactor);
-            tsmiCorrectionMultiplier.DecimalValue = Convert.ToDecimal(AppSettings.Instance.AudioOptions.CorrectionMultiplier);
-            tsmiTargetAudioVolume.DecimalValue = Convert.ToDecimal(AppSettings.Instance.AudioOptions.TargetAudioVolume);
-            tsmiTargetPreviewVolume.DecimalValue = Convert.ToDecimal(AppSettings.Instance.AudioOptions.TargetPreviewVolume);
-            tsmiTargetToneVolume.DecimalValue = Convert.ToDecimal(AppSettings.Instance.AudioOptions.TargetToneVolume);
-            tsmiTargetLUFS.DecimalValue = Convert.ToDecimal(AppSettings.Instance.AudioOptions.TargetLUFS);
+            tsmiCorrectionFactor.DecimalValue = Convert.ToDecimal(AppSettings.Instance.AudioOptions.CorrectionFactor, CultureInfo.InvariantCulture);
+            tsmiCorrectionMultiplier.DecimalValue = Convert.ToDecimal(AppSettings.Instance.AudioOptions.CorrectionMultiplier, CultureInfo.InvariantCulture);
+            tsmiTargetAudioVolume.DecimalValue = Convert.ToDecimal(AppSettings.Instance.AudioOptions.TargetAudioVolume, CultureInfo.InvariantCulture);
+            tsmiTargetPreviewVolume.DecimalValue = Convert.ToDecimal(AppSettings.Instance.AudioOptions.TargetPreviewVolume, CultureInfo.InvariantCulture);
+            tsmiTargetToneVolume.DecimalValue = Convert.ToDecimal(AppSettings.Instance.AudioOptions.TargetToneVolume, CultureInfo.InvariantCulture);
+            tsmiTargetLUFS.DecimalValue = Convert.ToDecimal(AppSettings.Instance.AudioOptions.TargetLUFS, CultureInfo.InvariantCulture);
         }
 
         private void tsmiAudio_KeyUp(object sender, KeyEventArgs e)
@@ -2789,6 +2814,12 @@ namespace CustomsForgeSongManager.UControls
         private void tsmiChangeDestinationFolder_Click(object sender, EventArgs e)
         {
             FileTools.SetDLDestinationFolder();
+        }
+
+        private void tsmiCheckForUpdates_Click(object sender, EventArgs e)
+        {
+            frmOutdatedSongs frmOutdatedSongs = new frmOutdatedSongs();
+            frmOutdatedSongs.Show();
         }
     }
 }

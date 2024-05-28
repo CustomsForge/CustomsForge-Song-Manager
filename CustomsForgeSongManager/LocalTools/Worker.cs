@@ -137,7 +137,7 @@ namespace CustomsForgeSongManager.LocalTools
             List<string> songPathsList = new List<string>();
             var showLegacyMsg = true;
             var coreCount = SysExtensions.GetCoreCount();
-            if (coreCount == null || coreCount == 0)
+            if (coreCount == 0)
                 coreCount = 1;
 
             // optimize tasks for multicore processors

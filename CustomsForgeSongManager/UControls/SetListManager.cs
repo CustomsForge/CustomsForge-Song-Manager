@@ -33,9 +33,6 @@ namespace CustomsForgeSongManager.UControls
         private string curSetlistName;
         private bool dgvPainted = false;
         private string dlcDir;
-        private string rs1CompDiscPath;
-        private string rs1CompDlcPath;
-        private DataGridViewRow selectedRow;
         private Color setlistColor = Color.Yellow;
         // setlistMaster declared as BindingList causes update when dgv is edited
         private BindingList<SongData> setlistMaster = new BindingList<SongData>(); // prevents filtering from being inherited

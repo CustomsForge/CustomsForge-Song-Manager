@@ -174,7 +174,7 @@ namespace DF.WinForms.ThemeLib
             }
         }
 
-        public new event EventHandler RightToLeftLayoutChanged
+        public event EventHandler RightToLeftLayoutChanged
         {
             add
             {

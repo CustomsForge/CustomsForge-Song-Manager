@@ -439,7 +439,7 @@ namespace CustomsForgeSongManager.UControls
                 var songsList = songsJson["Entries"];
                 Globals.TsProgressBar_Main.Value = 50;
 
-                fullSongCollection = JsonConvert.DeserializeObject<RSDataJsonDictionary<T>>(songsList.ToString());
+                fullSongCollection = JsonConvert.DeserializeObject<RSDataJsonDictionary<T>>(songsList.ToString(), new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
                 AddSongsToNestedDictionary(fullSongCollection, songCollection, fullSongCollection, true);
                 Globals.TsProgressBar_Main.Value = 70;
 
@@ -447,14 +447,14 @@ namespace CustomsForgeSongManager.UControls
                 {
                     var disabledSongsList = songsJson["DisabledSongs"];
                     Globals.TsProgressBar_Main.Value = 90;
-                    fullDisabledSongCollection = JsonConvert.DeserializeObject<RSDataJsonDictionary<T>>(disabledSongsList.ToString());
+                    fullDisabledSongCollection = JsonConvert.DeserializeObject<RSDataJsonDictionary<T>>(disabledSongsList.ToString(), new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
                     AddSongsToNestedDictionary(fullDisabledSongCollection, disabledSongCollection, fullSongCollection, false);
                 }
                 else if (songsJson.ToString().Contains("DisabledEntries")) // allow CFSM to read/convert to standard DisabledEntries
                 {
                     var disabledSongsList = songsJson["DisabledEntries"];
                     Globals.TsProgressBar_Main.Value = 90;
-                    fullDisabledSongCollection = JsonConvert.DeserializeObject<RSDataJsonDictionary<T>>(disabledSongsList.ToString());
+                    fullDisabledSongCollection = JsonConvert.DeserializeObject<RSDataJsonDictionary<T>>(disabledSongsList.ToString(), new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
                     AddSongsToNestedDictionary(fullDisabledSongCollection, disabledSongCollection, fullSongCollection, false);
                 }
             }

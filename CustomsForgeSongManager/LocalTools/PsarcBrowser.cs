@@ -132,6 +132,7 @@ namespace CustomsForgeSongManager.LocalTools
                 xblockEntries = xblockEntries.Where(s => !s.Name.Contains("rs2")).ToList();
 
             var jsonData = new List<Manifest2014<Attributes2014>>();
+
             // this foreach loop addresses song packs otherwise it is only done one time
             foreach (var xblockEntry in xblockEntries)
             {
@@ -148,6 +149,7 @@ namespace CustomsForgeSongManager.LocalTools
                     FileDate = fInfo.LastWriteTime,
                     FileSize = (int)fInfo.Length
                 };
+
 
                 if (toolkitVersionFile == null || packageAuthor == "Ubisoft")
                 {
@@ -175,6 +177,8 @@ namespace CustomsForgeSongManager.LocalTools
                         song.RepairStatus = RepairStatus.RepairedMaxFive;
                     else if (packageComment.Contains("Remastered"))
                         song.RepairStatus = RepairStatus.Repaired;
+                    else if (toolkitVersion.Contains("DLC Builder"))
+                        song.RepairStatus = RepairStatus.Repaired;
                     else
                         song.RepairStatus = RepairStatus.NotRepaired;
                 }
@@ -192,6 +196,7 @@ namespace CustomsForgeSongManager.LocalTools
                 if (!jsonEntries.Any())
                     Debug.WriteLine("<WARNING> Could not find valid manifest file : " + _filePath);
 
+
                 // may be it is a songpack file
                 if (jsonEntries.Count > 6) // Remastered CDLC max with vocals
                     Debug.WriteLine("<WARNING> Manifest Count > 6 : " + _filePath);
@@ -200,6 +205,7 @@ namespace CustomsForgeSongManager.LocalTools
                 float songMinBPM = -1;
                 float songMaxBPM = -1;
                 int songTimeSignatureChangeCount = -1;
+
 
                 // looping through song multiple times gathering each arrangement
                 foreach (var jsonEntry in jsonEntries)
@@ -231,7 +237,7 @@ namespace CustomsForgeSongManager.LocalTools
                     // get song attributes from json entry
                     using (var ms = ExtractEntryData(x => x.Name.Equals(jsonEntry.Name)))
                     using (var readerJson = new StreamReader(ms, new UTF8Encoding(), true, 65536)) //4Kb is default alloc sise for windows.. 64Kb is default PSARC alloc
-                        manifest2014 = JsonConvert.DeserializeObject<Manifest2014<Attributes2014>>(readerJson.ReadToEnd());
+                        manifest2014 = JsonConvert.DeserializeObject<Manifest2014<Attributes2014>>(readerJson.ReadToEnd(), new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
 
                     var attributes = manifest2014.Entries.ToArray()[0].Value.ToArray()[0].Value;
 
@@ -386,7 +392,7 @@ namespace CustomsForgeSongManager.LocalTools
 
                             using (var ms = ExtractEntryData(x => x.Name.Equals(hsanEntry.Name)))
                             using (var readerJson = new StreamReader(ms, new UTF8Encoding(), true, 65536))
-                                hsanEntries = JsonConvert.DeserializeObject<ManifestHeader2014<AttributesHeader2014>>(readerJson.ReadToEnd());
+                                hsanEntries = JsonConvert.DeserializeObject<ManifestHeader2014<AttributesHeader2014>>(readerJson.ReadToEnd(), new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
 
                             // use unique PID instead of ArrangementName which may not be unique in ODLC
                             var arrPID = attributes.PersistentID;
@@ -657,6 +663,7 @@ namespace CustomsForgeSongManager.LocalTools
 
                 song.Arrangements2D = arrangements;
                 songsData.Add(song);
+
             }
 
             sw.Stop();

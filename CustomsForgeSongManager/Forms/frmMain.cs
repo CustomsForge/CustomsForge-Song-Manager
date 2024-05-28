@@ -58,7 +58,7 @@ namespace CustomsForgeSongManager.Forms
         private const string APP_ARCHIVE = "CFSMSetupBeta.rar";
 #endif
 #if INNOBUILD // the default build method
-        private const string SERVER_URL = "http://ignition.customsforge.com/cfsm_uploads";
+        private const string SERVER_URL = "https://ignition4.customsforge.com/files/cfsm/Windows/";
         private const string APP_ARCHIVE = "CFSMSetup.rar";
 #endif
 
@@ -251,7 +251,7 @@ namespace CustomsForgeSongManager.Forms
             frmNoteViewer.ViewResourcesFile("CustomsForgeSongManager.Resources.HelpGeneral.rtf", "General Help");
         }
 
-        private void ShowHideLog()
+        private static void ShowHideLog()
         {
             AppSettings.Instance.ShowLogWindow = !AppSettings.Instance.ShowLogWindow;
         }
@@ -559,7 +559,7 @@ namespace CustomsForgeSongManager.Forms
         {
             Globals.Log("Downloading WebApp: " + APP_ARCHIVE + " ...");
             var tempDir = Constants.TempWorkFolder;
-            var downloadUrl = String.Format("{0}/{1}", SERVER_URL, APP_ARCHIVE);
+            var downloadUrl = string.Format("{0}/{1}", SERVER_URL, APP_ARCHIVE);
 
             if (AutoUpdater.DownloadWebApp(downloadUrl, APP_ARCHIVE, tempDir))
             {
