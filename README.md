@@ -1,4 +1,4 @@
-<a href="https://customsforge.com/">
+3333333333333333333<a href="https://customsforge.com/">
     <img src="https://i.imgur.com/CeqvXYs.png" alt="CF logo" title="CustomsForge" align="right" height="60" />
 </a>
 
@@ -15,12 +15,12 @@ Developers
 ======================
 * Project Overview: Unleashed2k
 * Developer: LovroM8
-* Associate Developer: ZagatoZee
 
 
 Developers (Hiatus or non-active)
 ======================
-* Lead Developer: Cozy1(hiatus)
+* Lead Developer: Cozy1
 * Developer: Darjuz
 * Developer: DreddFoxx
 * Developer: Zerkz
+* Associate Developer: ZagatoZee
