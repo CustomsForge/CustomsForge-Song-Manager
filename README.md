@@ -1,4 +1,4 @@
-3333333333333333333<a href="https://customsforge.com/">
+<a href="https://customsforge.com/">
     <img src="https://i.imgur.com/CeqvXYs.png" alt="CF logo" title="CustomsForge" align="right" height="60" />
 </a>
 
