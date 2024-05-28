@@ -34,7 +34,6 @@ namespace CustomsForgeSongManager.UControls
         {
             GenExtensions.InvokeIfRequired(lnkDeployRSTK, delegate { lnkDeployRSTK.Enabled = enable; });
             GenExtensions.InvokeIfRequired(lnkDeployEOF, delegate { lnkDeployEOF.Enabled = enable; });
-            GenExtensions.InvokeIfRequired(lnkDeployCGT, delegate { lnkDeployCGT.Enabled = enable; });
         }
 
         private void btnCFSMSite_Click(object sender, EventArgs e)
