@@ -122,7 +122,6 @@ namespace CustomsForgeSongManager.LocalTools
             Globals.ReloadSongManager = true;
             Globals.ReloadProfileSongLists = true;
         }
-
         private void WorkerRepairSongs(object sender, DoWorkEventArgs e)
         {
             if (!bWorker.CancellationPending)
@@ -133,23 +132,9 @@ namespace CustomsForgeSongManager.LocalTools
                 if (coreCount == 0)
                     coreCount = 1;
 
-                // optimize tasks for multicore processors
-                if (coreCount > 1 && AppSettings.Instance.MultiThread == -1)
-                {
-                    var diaMsg = ".NET Framework reports that you have a (" + coreCount + ") core processor ..." + Environment.NewLine +
-                                 "Would you like to try running the CFSM repair options using" + Environment.NewLine +
-                                 "the new multi-core support feature?" + Environment.NewLine + Environment.NewLine +
-                                 "Repairs can be made using the old method if you answer 'No'" + Environment.NewLine +
-                                 "Please send your feedback and 'debug.log' file to Cozy1." + Environment.NewLine + Environment.NewLine +
-                                 "Threading selection can be reset in 'Settings' tabmenu";
-
-                    if (DialogResult.Yes == BetterDialog2.ShowDialog(diaMsg, "Multicore Processor Beta Test ...", null, "Yes", "No", Bitmap.FromHicon(SystemIcons.Hand.Handle), "ReadMe", 0, 150))
-                        AppSettings.Instance.MultiThread = 1;
-                    else
-                        AppSettings.Instance.MultiThread = 0;
-
-                    Globals.Settings.SaveSettingsToFile(Globals.DgvCurrent);
-                }
+                // Enable multicore processing by default
+                AppSettings.Instance.MultiThread = (coreCount > 1) ? 1 : 0;
+                Globals.Settings.SaveSettingsToFile(Globals.DgvCurrent);
 
                 if (AppSettings.Instance.MultiThread == 1)
                 {
@@ -194,9 +179,9 @@ namespace CustomsForgeSongManager.LocalTools
                     foreach (var task in tasks)
                         task.Dispose();
                 }
-                else // single core processor
+                else // fallback for single core processor
                 {
-                    Globals.Log("Using legacy single thread rescan method ...");
+                    Globals.Log("Using single thread rescan method ...");
                     workerResults = RepairTools.RepairSongs(WorkParm1, WorkParm2).ToString();
                 }
 
@@ -205,6 +190,7 @@ namespace CustomsForgeSongManager.LocalTools
                     RepairTools.ViewErrorLog();
             }
         }
+
 
         private void WorkerPitchShiftSongs(object sender, DoWorkEventArgs e)
         {
