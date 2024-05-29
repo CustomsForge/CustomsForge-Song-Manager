@@ -130,9 +130,9 @@ namespace CustomsForgeSongManager.DataObjects
         }
 
         [XmlIgnore]
-        public string ArtistTitleAlbum { get { return String.Format("{0};{1};{2}", Artist.Trim(), Title.Trim(), Album.Trim()); } }
+        public string ArtistTitleAlbum { get { return String.Format("{0};{1};{2}", Artist != null ? Artist.Trim() : "", Title != null ? Title.Trim() : "", Album != null ? Album.Trim() : ""); } }
         [XmlIgnore]
-        public string ArtistTitleAlbumDate { get { return String.Format("{0};{1};{2};{3}", Artist.Trim(), Title.Trim(), Album.Trim(), LastConversionDateTime.ToString("s")); } }
+        public string ArtistTitleAlbumDate { get { return String.Format("{0};{1};{2};{3}", Artist != null ? Artist.Trim() : "", Title != null ? Title.Trim() : "", Album != null ? Album.Trim() : "", LastConversionDateTime.ToString("s")); } }
         [XmlIgnore]
         public string FileName { get { return (Path.Combine(Path.GetFileName(Path.GetDirectoryName(FilePath)), Path.GetFileName(FilePath))); } }
 

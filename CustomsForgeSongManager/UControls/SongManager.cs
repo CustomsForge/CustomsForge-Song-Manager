@@ -339,8 +339,8 @@ namespace CustomsForgeSongManager.UControls
             }
             catch (Exception ex)
             {
-                Debug.WriteLine("<ERROR> Saved Search: " + ex.Message);
                 Globals.Log("<ERROR> Save Search caused exception ...");
+                Globals.Log("<ERROR> Saved Search: " + ex.Message);
                 ClearSearch();
             }
 
@@ -940,22 +940,25 @@ namespace CustomsForgeSongManager.UControls
             if (songList.Count == 0)
                 IncludeSubfolders(false);
 
-            List<SongData> results;
-            if (chkAdvancedSearch.Checked)
-                results = songList.Where(x => x.ArtistTitleAlbum.ToLower().Contains(lowerCriteria) ||
-                    x.Tunings1D.ToLower().Contains(lowerCriteria) ||
-                    x.Arrangements1D.ToLower().Contains(lowerCriteria) ||
-                    x.PackageAuthor.ToLower().Contains(lowerCriteria) ||
-                    (x.IgnitionAuthor != null && x.IgnitionAuthor.ToLower().Contains(lowerCriteria)) ||
-                    (x.IgnitionID != null && x.IgnitionID.ToLower().Contains(lowerCriteria)) ||
-                    x.SongYear.ToString().Contains(criteria) ||
-                    x.PackageComment.ToLower().Contains(criteria) ||
-                    x.FilePath.ToLower().Contains(lowerCriteria)).ToList();
-            else
-                results = songList.Where(x => x.ArtistTitleAlbum.ToLower().Contains(lowerCriteria)).ToList();
+            List<SongData> results = new List<SongData>();
+            if (songList != null && songList.Count > 0)
+            {
+                if (chkAdvancedSearch.Checked)
+                    results = songList.Where(x => x != null && x.ArtistTitleAlbum != null && x.ArtistTitleAlbum.ToLower().Contains(lowerCriteria) ||
+                        x.Tunings1D.ToLower().Contains(lowerCriteria) ||
+                        x.Arrangements1D.ToLower().Contains(lowerCriteria) ||
+                        x.PackageAuthor.ToLower().Contains(lowerCriteria) ||
+                        (x.IgnitionAuthor != null && x.IgnitionAuthor.ToLower().Contains(lowerCriteria)) ||
+                        (x.IgnitionID != null && x.IgnitionID.ToLower().Contains(lowerCriteria)) ||
+                        x.SongYear.ToString().Contains(criteria) ||
+                        x.PackageComment.ToLower().Contains(criteria) ||
+                        x.FilePath.ToLower().Contains(lowerCriteria)).ToList();
+                else
+                    results = songList.Where(x => x != null && x.ArtistTitleAlbum.ToLower().Contains(lowerCriteria)).ToList();
 
-            if (!chkIncludeSubfolders.Checked)
-                results = results.Where(x => Path.GetFileName(Path.GetDirectoryName(x.FilePath)) == "dlc").ToList();
+                if (!chkIncludeSubfolders.Checked)
+                    results = results.Where(x => x != null && Path.GetFileName(Path.GetDirectoryName(x.FilePath)) == "dlc").ToList();
+            }
 
             if (results.Any())
                 LoadFilteredBindingList(results);

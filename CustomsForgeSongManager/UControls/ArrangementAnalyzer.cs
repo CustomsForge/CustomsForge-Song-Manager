@@ -481,7 +481,7 @@ namespace CustomsForgeSongManager.UControls
                 IncludeSubfolders(false);
 
             // use same simple search as SongManager
-            var results = arrangementList.Where(x => x.ArtistTitleAlbum.ToLower().Contains(lowerCriteria)).ToList();
+            var results = arrangementList.Where(x => x != null && x.ArtistTitleAlbum.ToLower().Contains(lowerCriteria)).ToList();
 
             if (!chkIncludeSubfolders.Checked)
                 results = results.Where(x => Path.GetFileName(Path.GetDirectoryName(x.FilePath)) == "dlc").ToList();
